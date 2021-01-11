@@ -1,0 +1,66 @@
+@import "_setup.scss";
+
+.section-login {
+  max-width: 300px;
+  width: 95%;
+  margin: 0 auto;
+  padding: 20px 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  text-align: left;
+  background: #fff;
+  h1 {
+    margin: 0 0 20px 0;
+    padding: 0;
+    text-align: center;
+    color: $main;
+  }
+  input {
+    display: block;
+    padding: 10px 0;
+    font-size: 14px;
+    width: 90%;
+    margin: 0 auto;
+    margin-bottom: 10px;
+    font-weight: 500;
+    text-indent: .5em;
+    box-sizing: border-box;
+    border: solid 0.5px $black;
+    border-radius: 2px;
+    &::placeholder {
+      color: lightgray;
+      font-style: italic;
+    }
+    &:focus {
+      border: solid 0.5px $main;
+      outline: 0;
+    }
+  }
+  #username {
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+    margin: 0 auto;
+    input#firstname,input#lastname{
+      width: 100%;
+      margin: 0;
+      margin-bottom: 10px;
+      flex-basis: 48%;
+    }
+  }
+  input[type="submit"] {
+    margin-top: 10px;
+    font-weight: bold;
+    background: $main;
+    border: solid 2px $main;
+    color: #fff;
+    box-shadow: none;
+    box-sizing: border-box;
+  }
+  p {
+    width: 90%;
+    margin: 0 auto;
+  }
+}

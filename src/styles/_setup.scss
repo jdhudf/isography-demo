@@ -1,0 +1,42 @@
+$main: #103C8E;
+$black: #000;
+$white: #fff;
+$gray: darkgray;
+
+//media query
+$device-large-pc: 1280px;
+$device-small-pc: 960px;
+$device-tablet: 782px;
+$device-mobile: 480px;
+
+@mixin max-screen($breakpoint) {
+  @media screen and (max-width: $breakpoint) {
+    @content;
+  }
+}
+
+@mixin min-screen($breakpoint) {
+  @media screen and (min-width: $breakpoint) {
+    @content;
+  }
+}
+
+@mixin screen($breakpoint-min,$breakpoint-max) {
+  @media screen and (min-width: $breakpoint-min) and (max-width: $breakpoint-max) {
+    @content;
+  }
+}
+
+ul,ol,li {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-size: 1.4rem;
+}

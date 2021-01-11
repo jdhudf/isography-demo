@@ -1,0 +1,141 @@
+import React from 'react';
+import { Link } from 'react-router-dom'
+import '../../styles/menubar.scss';
+import icon from '../../images/logo.svg';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faChevronDown,faAdjust } from '@fortawesome/free-solid-svg-icons'
+import ReactModal from 'react-modal';
+
+class TopBar extends React.Component {
+
+  // React Modal -- Start
+  constructor () {
+    super();
+    this.state = {
+      showModal: false,
+      showExportPanel: false,
+    };
+
+    this.handleOpenModal = this.handleOpenModal.bind(this);
+    this.handleCloseModal = this.handleCloseModal.bind(this);
+  }
+
+  handleOpenModal () {
+    this.setState({ showModal: true });
+  }
+
+  handleCloseModal () {
+    this.setState({ showModal: false });
+  }
+  // React Modal -- End
+
+  openExportPanel = () => {
+    this.setState({ showExportPanel: true });
+  }
+
+  closeExportPanel = () => {
+    this.setState({ showExportPanel: false });
+  }
+
+  render() {
+
+    const styles = {
+      overlay: {
+        background: 'none',
+      },
+      content : {
+        position: 'relative',
+        width: '250px',
+        top                   : '11.4%',
+        left                  : '48%',
+        right                 : 'auto',
+        bottom                : 'auto',
+        transform             : 'translate(-50%, -10%)',
+        borderRadius: '0',
+        border: 'solid 1px #F0F0F0',
+        transition: 'ease all 1s',
+      }
+    };
+
+    return (
+      <section className="section-menubar">
+        <div>
+        <a href="http://localhost:8000" title="Home">
+          <img className="icon" src={icon} alt="Icon" />
+        </a>
+        <span onClick={this.openExportPanel}>Export</span>
+        </div>
+
+        { this.state.showExportPanel ? <div className="export-pannel" >
+          <div className="export-pannel-background" onClick={this.closeExportPanel}/>
+          <div className="export-pannel-content">
+            <div>
+              <h2>Preview</h2>
+              <svg
+                  id="svg"
+                  version="1.1"
+                  width="100%"
+                  height="auto"
+                  viewBox="0 0 600 400"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="#000"
+                  dangerouslySetInnerHTML={{__html: this.props.data.join('') }}
+              >
+              </svg>
+              <div>
+                <table>
+                <tr>
+                  <th>File Name</th>
+                  <td>Document Name</td>
+                </tr>
+                <tr>
+                  <th>Scale</th>
+                  <td>600px : 300px</td>
+                </tr>
+                <tr>
+                  <th>Size</th>
+                  <td>It'll be ... 100KB</td>
+                </tr>
+                </table>
+              </div>
+            </div>
+            <div>
+              <h2>File Name</h2>
+              <input type="text" value="Document Name"/>
+              <h2>Format</h2>
+
+              <ul>
+                <li><label><input type="radio" name="format" value="png" checked />PNG</label></li>
+                <li><label><input type="radio" name="format" value="jpg" />JPG</label></li>
+                <li><label><input type="radio" name="format" value="svg" />SVG</label></li>
+              </ul>
+
+              <h2>Size</h2>
+              <ul>
+                <li><label><input type="radio" name="size" value="x-small" checked />X-Small</label></li>
+                <li><label><input type="radio" name="size" value="small" checked />Small</label></li>
+                <li><label><input type="radio" name="size" value="medium" />Medium</label></li>
+                <li><label><input type="radio" name="size" value="large" />Large</label></li>
+                <li><label><input type="radio" name="size" value="x-large" />X-Large</label></li>
+              </ul>
+              <h2>Compression ratio</h2>
+              <ul>
+                <li><label><input type="radio" name="size" value="low" checked />Low Quality</label></li>
+                <li><label><input type="radio" name="size" value="medium" checked />Medium Quality</label></li>
+                <li><label><input type="radio" name="size" value="high" />High Quality</label></li>
+              </ul>
+              <p><span>Custom Ratio</span> <input type="range" min="0" max="200" /></p>
+              <br/>
+              <button className="cancel" onClick={this.closeExportPanel}>Cancel</button><button className="download">Download</button>
+            </div>
+          </div>
+        </div> : null }
+
+        <div className="mode-change"><FontAwesomeIcon icon={faAdjust} /></div>
+      </section>
+    );
+
+}
+}
+
+export default TopBar;
