@@ -383,7 +383,7 @@ class Artboard extends React.Component {
           width="500"
           height="400"
           xmlns="http://www.w3.org/2000/svg"
-          fill="#fff"
+          fill={this.props.background}
           dangerouslySetInnerHTML={{__html: this.state.data.join('') }}
           onMouseDown={this.onMouseDown}
           onMouseUp={this.onMouseUp}

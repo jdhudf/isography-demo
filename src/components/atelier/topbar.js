@@ -63,8 +63,8 @@ class TopBar extends React.Component {
         <a href="http://localhost:8000" title="Home">
           <img className="icon" src={icon} alt="Icon" />
         </a>
-        <span onClick={this.openExportPanel}>Export</span>
         </div>
+        <span onClick={this.openExportPanel}>Export</span>
 
         { this.state.showExportPanel ? <div className="export-pannel" >
           <div className="export-pannel-background" onClick={this.closeExportPanel}/>

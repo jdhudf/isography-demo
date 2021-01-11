@@ -36,6 +36,10 @@ class ToolsPanel extends React.Component {
             color={this.props.accentColor}
             method={(e) => this.props.changeHexOfAccent(e)}
           />
+          <ColorPicker
+            color={this.props.background}
+            method={(e) => this.props.changeHexOfBackground(e)}
+          />
             {/*ref='CPSetting' />*/}
         </div>
         <p title="Undo"><FontAwesomeIcon icon={faLongArrowAltLeft} /></p>
