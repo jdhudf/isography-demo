@@ -286,78 +286,75 @@ class Artboard extends React.Component {
 
   render() {
 
-    const style = {
-      background: "#fff",
-      position: "relative",
-      top: "50%",
-      left: "50%",
-      transform: "translate(-50%,-50%)",
-      zIndex: "-1",
-    }
-
-    const box = {
-      background: "#000",
-      color: "#fff",
-      display: "inline-block",
-      width :"190px",
-      padding: "10px 0",
-      lineHeight: "2",
-      textAlign: "left",
-      textIndent: "0.5em",
-      zIndex: "1",
-      position: "absolute",
-      top:`${this.state.mouse[1]}px`,
-      left: `${this.state.mouse[0]}px`,
-    }
-
-    const span = {
-      color: "gray",
-      fontSize: "10px",
-      textAlign: "right",
-      marginRight: "5px"
-    }
-
-    const li = {
-      display:"flex",
-      alignItems: "center",
-      justifyContent:"space-between",
-      marginRight: "20px",
-      //background: "rgba(225,225,225,0.2)",
-      width: "90%",
-      margin: "0 auto"
-    }
-
-    const cover = {
-      position: 'fixed',
-      top: '0px',
-      right: '0px',
-      bottom: '0px',
-      left: '0px',
+    const styles = {
+      artboard: {
+        position: "absolute",
+        transform: `translate(${this.state.artboardPosition[0]}px,${this.state.artboardPosition[1]}px) scale(${this.state.artboardScale})`,
+      },
+      style: {
+        background: this.props.background,
+        position: "relative",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%,-50%)",
+        zIndex: "-1",
+      },
+      box: {
+        background: "#000",
+        color: "#fff",
+        display: "inline-block",
+        width :"190px",
+        padding: "10px 0",
+        lineHeight: "2",
+        textAlign: "left",
+        textIndent: "0.5em",
+        zIndex: "1",
+        position: "absolute",
+        top:`${this.state.mouse[1]}px`,
+        left: `${this.state.mouse[0]}px`,
+      },
+      span: {
+        color: "gray",
+        fontSize: "10px",
+        textAlign: "right",
+        marginRight: "5px"
+      },
+      li: {
+        display:"flex",
+        alignItems: "center",
+        justifyContent:"space-between",
+        marginRight: "20px",
+        //background: "rgba(225,225,225,0.2)",
+        width: "90%",
+        margin: "0 auto"
+      },
+      cover: {
+        position: 'fixed',
+        top: '0px',
+        right: '0px',
+        bottom: '0px',
+        left: '0px',
+      }
     }
 
     const menu = (
-      <div style={box} className="onContextMenu">
+      <div style={styles.box} className="onContextMenu">
         <ul>
-          <li style={li} onClick={this.duplicate}>Duplicate <span style={span}>⌘V</span></li>
-          <li style={li} onClick={this.delete}>Delete <span style={span}>⌘D</span></li>
-          <li style={li}>Reflect <span style={span}>⌘R</span></li>
+          <li style={styles.li} onClick={this.duplicate}>Duplicate <span style={styles.span}>⌘V</span></li>
+          <li style={styles.li} onClick={this.delete}>Delete <span style={styles.span}>⌘D</span></li>
+          <li style={styles.li}>Reflect <span style={styles.span}>⌘R</span></li>
           <li style={{color:"gray", textIndent:"1.2em"}}>
             Arrange
             <ul style={{textIndent:"1.5em",color:"#fff"}}>
-              <li style={li}>Bring to Front <span style={span}>⇧⌘]</span></li>
-              <li style={li}>Bring Forward <span style={span}>⌘]</span></li>
-              <li style={li}>Send Backward <span style={span}>⌘[</span></li>
-              <li style={li}>Send to Back <span style={span}>⇧⌘[</span></li>
+              <li style={styles.li}>Bring to Front <span style={styles.span}>⇧⌘]</span></li>
+              <li style={styles.li}>Bring Forward <span style={styles.span}>⌘]</span></li>
+              <li style={styles.li}>Send Backward <span style={styles.span}>⌘[</span></li>
+              <li style={styles.li}>Send to Back <span style={styles.span}>⇧⌘[</span></li>
             </ul>
           </li>
         </ul>
       </div>
     )
-
-    const artboard = {
-      position: "absolute",
-      transform: `translate(${this.state.artboardPosition[0]}px,${this.state.artboardPosition[1]}px) scale(${this.state.artboardScale})`,
-    }
 
     const se = {
       border:"solid 2px skyblue",
@@ -366,18 +363,18 @@ class Artboard extends React.Component {
     }
 
     return (
-      <section style={artboard} className="section-artboard section-bottom" gestureStart={this.gestureStart} gestureChange={this.gestureChange} gestureEnd={this.gestureEnd} onWheel={/*(e) => onWheel(e)*/this.onWheel}>
+      <section style={styles.artboard} className="section-artboard section-bottom" gestureStart={this.gestureStart} gestureChange={this.gestureChange} gestureEnd={this.gestureEnd} onWheel={/*(e) => onWheel(e)*/this.onWheel}>
 
       { this.state.displayContextMenu ?
         <div>
-          <div style={cover} onClick={ this.handleClose }/>
+          <div style={styles.cover} onClick={ this.handleClose }/>
           {menu}
         </div> : null }
 
         {/*<div className="blue-wrapper" style={se}><span></span></div>*/}
 
       <svg
-          style={style}
+          style={styles.style}
           id="svg"
           version="1.1"
           width="500"
@@ -392,11 +389,6 @@ class Artboard extends React.Component {
           onContextMenu={this.onContextMenu}
       >
       </svg>
-      {/*<DraggableItem
-          mainColor={this.props.mainColor}
-          subColor={this.props.subColor}
-          accentColor={this.props.accentColor}
-      />*/}
       </section>
     );
   }
