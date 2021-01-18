@@ -24,3 +24,12 @@ export const getAccentColor = (e) => {
   return localStorage.getItem('accentColor')
 
 }
+
+export const getSVGdata = (e) => {
+
+  if (localStorage.getItem('data') === null) {
+    localStorage.setItem('data', JSON.stringify(e));
+  }
+  return  JSON.parse(localStorage.getItem('data'))
+
+}
