@@ -5,6 +5,9 @@ import GallaryPanel from '../components/atelier/gallarypanel.js';
 import ToolsPanel from '../components/atelier/toolspanel.js';
 import Artboard from '../components/atelier/artboard.js';
 
+import icon from '../images/logo.svg';
+import { getMainColor,getSubColor,getAccentColor } from '../components/handleLocalstorage'
+
 import '../styles/atelier.scss';
 
 //====================================
@@ -24,17 +27,21 @@ class Atelier extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      mainColor: "#B21313",
-      subColor: "#111184",
-      accentColor: "#C7B136",
+      mainColor: getMainColor('#B21313'),//"#B21313",
+      subColor: getSubColor('#111184'),
+      accentColor: getAccentColor('#C7B136'),
       background: "#ffffff",
-      data : this.getDataFromLocalStorage,
+      data : this.getDataFromLocalStorage(),
     }
   }
 
   componentDidMount() {
     this.isLocalStorageAvlbl()
-    this.storeDataInLocalStorage()
+
+    setTimeout(function () {
+        document.getElementById('welcomescreen').style.display='none';
+    }, 3000);
+
   }
 
   isLocalStorageAvlbl = () => {
@@ -43,7 +50,6 @@ class Atelier extends React.Component {
         localStorage.setItem('dummy', '1');
         if (localStorage.getItem('dummy') === '1') {
           localStorage.removeItem('dummy');
-          localStorage.removeItem('state');
           return true;
         } else {
           return false;
@@ -60,22 +66,29 @@ class Atelier extends React.Component {
     return localStorage.getItem('data')//this.setState({data:localStorage.getItem('data')})
   }
 
-  storeDataInLocalStorage = () =>  {
-    if (localStorage.getItem('data')) {
-      return;
-    } else {
-      localStorage.setItem('data', '[<g transform="translate(50,50) scale(1)" class="sub" style="cursor:move"><circle cx="0" cy="0" r="50"></circle></g>',
-      '<g transform="translate(100,250) scale(2)" class="main" style="cursor:move" border="solid 3px #000000"><circle cx="30" cy="30" r="20"></circle></g>',
-      '<g transform="translate(50,150) scale(1)" class="accent" style="cursor:move"><circle cx="10" cy="10" r="15"></circle><circle cx="20" cy="20" r="10"></circle></g>',
-      '<g transform="translate(50,100) scale(1)" style="cursor:move"><path class="main" d="M168.68,59.078l-70.627,40.776l-0,81.553l70.627,-40.776l-0,-81.553Z"></path><path d="M98.043,18.295l-70.627,40.777l70.637,40.782l70.627,-40.777l-70.637,-40.782Z" class="sub"></path><path d="M98.053,99.854l-70.66,-40.795l0,81.548l70.66,40.796l-0,-81.549Z" class="accent"></path></g>]');
-    }
-    //console.log(localStorage.getItem('data'))
-  }
-
   render() {
+
+    const welcomescreen = {
+      background: '#000',
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      minWidth: '100vw',
+      minHeight: '100vh',
+      zIndex: '100000',
+      display: 'none',
+    }
 
     return (
       <section className="section-atelier">
+
+          <div style={welcomescreen} id="welcomescreen">
+            <img className="icon" src={icon} alt="Icon" />
+            <h2 style={{color: '#fff',}}>Welcome to Isography</h2>
+          </div>
+
           <style jsx>{`
             .main {
               fill: ${this.state.mainColor};
@@ -92,9 +105,18 @@ class Atelier extends React.Component {
                mainColor={this.state.mainColor}
                subColor={this.state.subColor}
                accentColor={this.state.accentColor}
-               changeHexOfMain={(e) => this.setState({mainColor:e})}
-               changeHexOfSub={(e) => this.setState({subColor:e})}
-               changeHexOfAccent={(e) => this.setState({accentColor:e})}
+               changeHexOfMain={(e) => {
+                 this.setState({mainColor:e})
+                 localStorage.setItem('mainColor', e);
+               }}
+               changeHexOfSub={(e) => {
+                 this.setState({subColor:e})
+                 localStorage.setItem('subColor', e);
+               }}
+               changeHexOfAccent={(e) => {
+                 this.setState({accentColor:e})
+                 localStorage.setItem('accentColor', e);
+               }}
                changeHexOfBackground={(e) => this.setState({background:e})}
           />
           <div className="section-artboard">
