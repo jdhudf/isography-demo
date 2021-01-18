@@ -33,3 +33,21 @@ export const getSVGdata = (e) => {
   return  JSON.parse(localStorage.getItem('data'))
 
 }
+
+export const artboardScale = (e) => {
+
+  if (localStorage.getItem('artboardScale') === null) {
+    localStorage.setItem('artboardScale', e);
+  }
+  return  JSON.parse(localStorage.getItem('artboardScale'))
+
+}
+
+export const artboardPoosition = (e) => {
+
+  if (localStorage.getItem('artboardPoosition') === null) {
+    localStorage.setItem('artboardPoosition', JSON.stringify(e));
+  }
+  return  JSON.parse(localStorage.getItem('artboardPoosition'))
+
+}

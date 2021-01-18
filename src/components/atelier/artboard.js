@@ -1,7 +1,7 @@
 import React from 'react';
 import '../../styles/atelier.scss';
 
-import { getSVGdata } from '../handleLocalstorage'
+import { getSVGdata,artboardScale,artboardPoosition } from '../handleLocalstorage'
 
 //import { onWheel } from './features/pinch-gesture-wheel'
 
@@ -50,8 +50,8 @@ class Artboard extends React.Component {
       displayContextMenu: false,
       // -- below is artboard resize and pinch
       mouse: [0,0],
-      artboardPosition: [0,0],
-      artboardScale: 1,
+      artboardPosition: artboardPoosition([0,0]),
+      artboardScale: artboardScale(1),
       gestureStartScale: 0,
       startCoordinate: [0,0],
       // -- below is svg data
@@ -190,8 +190,7 @@ class Artboard extends React.Component {
     this.setState({isMouseDown:false})
     //console.log('mouseUp: ' + e.target.parentNode.outerHTML)
     localStorage.setItem('data', JSON.stringify(this.state.data));
-    const ddd = JSON.parse(localStorage.getItem('data'))
-    console.info(ddd)
+    this.props.updateState(this.state.data)
   }
 
   onMouseLeave = (e) => {
@@ -249,7 +248,9 @@ class Artboard extends React.Component {
       let scale = this.state.artboardScale;
       scale -= e.deltaY * 0.01;
       this.setState({ artboardScale: scale })
-      console.log(scale);
+
+      localStorage.setItem('artboardScale', scale);
+      //console.log(scale);
 
     } else {
       let posX = this.state.artboardPosition[0];
@@ -259,7 +260,8 @@ class Artboard extends React.Component {
       posY -= e.deltaY * 0.5;
 
       this.setState({ artboardPosition: [ posX ,posY] })
-      console.log(e.deltaX +','+e.deltaY);
+      localStorage.setItem('artboardPoosition', JSON.stringify([ posX ,posY]));
+      //console.log(e.deltaX +','+e.deltaY);
     }
 
   }
@@ -281,8 +283,11 @@ class Artboard extends React.Component {
   gestureChange = (e) => {
     e.preventDefault();
     this.setState({artboardScale: this.state.gestureStartScale * e.scale})
+    localStorage.setItem('artboardScale', this.state.gestureStartScale * e.scale);
 
     this.setState({artboardPosition:[e.pageX - this.state.startCoordinate[0],e.pageY - this.state.startCoordinate[1]]})
+
+    localStorage.setItem('artboardPoosition', JSON.stringify([e.pageX - this.state.startCoordinate[0],e.pageY - this.state.startCoordinate[1]]));
   }
   gestureEnd = (e) => {
     e.preventDefault();

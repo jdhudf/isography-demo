@@ -134,7 +134,6 @@ class Atelier extends React.Component {
                background={this.state.background}
                updateState={(e) => {
                  this.setState({data:e})
-                 localStorage.setItem('data', e);
                }}
           />
           </div>
