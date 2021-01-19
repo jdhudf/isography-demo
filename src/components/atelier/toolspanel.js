@@ -37,7 +37,7 @@ class ToolsPanel extends React.Component {
             method={(e) => this.props.changeHexOfAccent(e)}
           />
           <ColorPicker
-            color={this.props.background}
+            color={this.props.backgroundColor}
             method={(e) => this.props.changeHexOfBackground(e)}
           />
             {/*ref='CPSetting' />*/}

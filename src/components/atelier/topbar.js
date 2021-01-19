@@ -78,7 +78,7 @@ class TopBar extends React.Component {
                   height="auto"
                   viewBox="0 0 600 400"
                   xmlns="http://www.w3.org/2000/svg"
-                  fill="#000"
+                  fill={this.props.background}
                   dangerouslySetInnerHTML={{__html: this.props.data.join('') }}
               >
               </svg>

@@ -236,6 +236,42 @@ class Artboard extends React.Component {
     this.setState({ displayContextMenu: false })
   }
 
+  bringToFront = (e) => {
+    const el = this.state.data[this.state.selectedElement];
+    const data_copy = this.state.data.slice();
+    data_copy.splice(this.state.selectedElement,1);
+    data_copy.push(el);
+    this.setState({data: data_copy});
+    this.setState({ displayContextMenu: false })
+  }
+
+  bringForward = (e) => {
+    const el = this.state.data[this.state.selectedElement];
+    const data_copy = this.state.data.slice();
+    data_copy.splice(this.state.selectedElement,1);
+    data_copy.splice(this.state.selectedElement + 1 ,0,el);
+    this.setState({data: data_copy});
+    this.setState({ displayContextMenu: false })
+  }
+
+  sendBackward = (e) => {
+    const el = this.state.data[this.state.selectedElement];
+    const data_copy = this.state.data.slice();
+    data_copy.splice(this.state.selectedElement,1);
+    data_copy.splice(this.state.selectedElement - 1 ,0,el);
+    this.setState({data: data_copy});
+    this.setState({ displayContextMenu: false })
+  }
+
+  sendToBack = (e) => {
+    const el = this.state.data[this.state.selectedElement];
+    const data_copy = this.state.data.slice();
+    data_copy.splice(this.state.selectedElement,1);
+    data_copy.unshift(el);
+    this.setState({data: data_copy});
+    this.setState({ displayContextMenu: false })
+  }
+
   handleClose = () => {
     this.setState({ displayContextMenu: false })
   }
@@ -318,7 +354,7 @@ class Artboard extends React.Component {
         textAlign: "left",
         textIndent: "0.5em",
         zIndex: "1",
-        position: "absolute",
+        position: "fixed",
         top:`${this.state.mouse[1]}px`,
         left: `${this.state.mouse[0]}px`,
       },
@@ -355,10 +391,10 @@ class Artboard extends React.Component {
           <li style={{color:"gray", textIndent:"1.2em"}}>
             Arrange
             <ul style={{textIndent:"1.5em",color:"#fff"}}>
-              <li style={styles.li}>Bring to Front <span style={styles.span}>⇧⌘]</span></li>
-              <li style={styles.li}>Bring Forward <span style={styles.span}>⌘]</span></li>
-              <li style={styles.li}>Send Backward <span style={styles.span}>⌘[</span></li>
-              <li style={styles.li}>Send to Back <span style={styles.span}>⇧⌘[</span></li>
+              <li style={styles.li} onClick={this.bringToFront}>Bring to Front <span style={styles.span}>⇧⌘]</span></li>
+              <li style={styles.li} onClick={this.bringForward}>Bring Forward <span style={styles.span}>⌘]</span></li>
+              <li style={styles.li} onClick={this.sendBackward}>Send Backward <span style={styles.span}>⌘[</span></li>
+              <li style={styles.li} onClick={this.sendToBack}>Send to Back <span style={styles.span}>⇧⌘[</span></li>
             </ul>
           </li>
         </ul>

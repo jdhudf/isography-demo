@@ -6,7 +6,7 @@ import ToolsPanel from '../components/atelier/toolspanel.js';
 import Artboard from '../components/atelier/artboard.js';
 
 import icon from '../images/logo.svg';
-import { getMainColor,getSubColor,getAccentColor } from '../components/handleLocalstorage'
+import { getMainColor,getSubColor,getAccentColor,getBackgroundColor } from '../components/handleLocalstorage'
 
 import '../styles/atelier.scss';
 
@@ -30,7 +30,7 @@ class Atelier extends React.Component {
       mainColor: getMainColor('#B21313'),//"#B21313",
       subColor: getSubColor('#111184'),
       accentColor: getAccentColor('#C7B136'),
-      background: "#ffffff",
+      background: getBackgroundColor('#ffffff'),
       data : [
       '<g transform="translate(50,50) scale(1)" class="sub" style="cursor:move"><circle cx="0" cy="0" r="50"></circle></g>',
       '<g transform="translate(100,250) scale(2)" class="main" style="cursor:move" border="solid 3px #000000"><circle cx="30" cy="30" r="20"></circle></g>',
@@ -105,11 +105,15 @@ class Atelier extends React.Component {
               fill: ${this.state.accentColor};
             }
           `}</style>
-          <TopBar data={this.state.data}/>
+          <TopBar
+               data={this.state.data}
+               background={this.state.background}
+          />
           <ToolsPanel
                mainColor={this.state.mainColor}
                subColor={this.state.subColor}
                accentColor={this.state.accentColor}
+               backgroundColor={this.state.background}
                changeHexOfMain={(e) => {
                  this.setState({mainColor:e})
                  localStorage.setItem('mainColor', e);
@@ -124,6 +128,7 @@ class Atelier extends React.Component {
                }}
                changeHexOfBackground={(e) => {
                  this.setState({background:e})
+                 localStorage.setItem('backgroundColor', e);
                }}
           />
           <div className="section-artboard">

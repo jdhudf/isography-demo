@@ -25,6 +25,15 @@ export const getAccentColor = (e) => {
 
 }
 
+export const getBackgroundColor = (e) => {
+
+  if (localStorage.getItem('backgroundColor') === null) {
+    localStorage.setItem('backgroundColor', e);
+  }
+  return localStorage.getItem('backgroundColor')
+
+}
+
 export const getSVGdata = (e) => {
 
   if (localStorage.getItem('data') === null) {
