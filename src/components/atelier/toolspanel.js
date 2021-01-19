@@ -44,7 +44,6 @@ class ToolsPanel extends React.Component {
         </div>
         <p title="Undo"><FontAwesomeIcon icon={faLongArrowAltLeft} /></p>
         <p title="Redo"><FontAwesomeIcon icon={faLongArrowAltRight} /></p>
-        <p>Save</p>
 
       </section>
     );

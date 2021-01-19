@@ -31,6 +31,8 @@ class Atelier extends React.Component {
       subColor: getSubColor('#111184'),
       accentColor: getAccentColor('#C7B136'),
       background: getBackgroundColor('#ffffff'),
+      willAddElementOfSvg: null,
+      test: false,
       data : [
       '<g transform="translate(50,50) scale(1)" class="sub" style="cursor:move"><circle cx="0" cy="0" r="50"></circle></g>',
       '<g transform="translate(100,250) scale(2)" class="main" style="cursor:move" border="solid 3px #000000"><circle cx="30" cy="30" r="20"></circle></g>',
@@ -71,6 +73,57 @@ class Atelier extends React.Component {
     return localStorage.getItem('data')//this.setState({data:localStorage.getItem('data')})
   }
 
+  onMouseDown = (e) => {
+    //this.setState({isMouseDown:true})
+
+    const mouseX = e.pageX;// pageX and pageY is mouse's axis in the box.
+    const mouseY = e.pageY;
+
+    const g = e.target.parentNode.outerHTML;
+
+    if (g.startsWith('<g transform="translate')) {
+
+      this.setState({isMouseDown:true})
+
+      console.log(e.target.parentNode.outerHTML)
+
+      document.querySelector('.section-gallalypanel').style.cursor = 'copy';
+      document.querySelector('.section-artboard').style.cursor = 'copy';
+
+      this.setState({willAddElementOfSvg:e.target.parentNode.outerHTML})
+
+    } else {
+      this.setState({isMouseDown:false})
+    }
+
+  }
+
+  onMouseMove = (e) => {
+    e.preventDefault();
+
+    if (this.state.isMouseDown) {
+      document.querySelector('.section-gallalypanel').style.cursor = 'copy';
+      document.querySelector('.section-artboard').style.cursor = 'copy';
+    } else {
+      document.querySelector('.section-gallalypanel').style.cursor = 'default';
+      document.querySelector('.section-artboard').style.cursor = 'default';
+    }
+  }
+
+  onMouseUp = (e) => {
+    this.setState({isMouseDown:false})
+    //console.log('mouseUp: ' + e.target.parentNode.outerHTML)
+    document.querySelector('.section-gallalypanel').style.cursor = 'default';
+    document.querySelector('.section-artboard').style.cursor = 'default';
+  }
+
+  onMouseLeave = (e) => {
+    this.setState({isMouseDown:false})
+    //console.log('mouseUp: ' + e.target.parentNode.outerHTML)
+    document.querySelector('.section-gallalypanel').style.cursor = 'default';
+    document.querySelector('.section-artboard').style.cursor = 'default';
+  }
+
   render() {
 
     const welcomescreen = {
@@ -87,7 +140,12 @@ class Atelier extends React.Component {
     }
 
     return (
-      <section className="section-atelier">
+      <section className="section-atelier"
+          onMouseDown={this.onMouseDown}
+          onMouseMove={this.onMouseMove}
+          onMouseUp={this.onMouseUp}
+          onMouseLeave={this.onMouseLeave}
+          >
 
           <div style={welcomescreen} id="welcomescreen">
             <img className="icon" src={icon} alt="Icon" />
@@ -140,9 +198,21 @@ class Atelier extends React.Component {
                updateState={(e) => {
                  this.setState({data:e})
                }}
+               data={this.state.data}
+
+               willAddElementOfSvg={this.state.willAddElementOfSvg}
+               method={(e)=>{this.setState({test:false})}}
+               test={this.state.test}
           />
           </div>
-          <GallaryPanel />
+          <GallaryPanel
+               method={(e) => {
+                 this.setState({
+                   willAddElementOfSvg:e,
+                   test:true,
+                 })
+               }}
+          />
       </section>
     );
 

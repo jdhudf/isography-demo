@@ -121,6 +121,7 @@ class Artboard extends React.Component {
     //  * mouse clicked coordinate
     this.getTranslate(e);
     this.setState({initial:[mouseX,mouseY]});
+    this.props.updateState(this.state.data);
   }
 
   onMouseMove = (e) => {
@@ -178,6 +179,7 @@ class Artboard extends React.Component {
         const data_copy = this.state.data.slice();
         data_copy[this.state.selectedElement] = result;
         this.setState({data: data_copy});
+        this.props.updateState(this.state.data);
 
       } else {
         this.setState({isMouseDown:false})
@@ -190,7 +192,12 @@ class Artboard extends React.Component {
     this.setState({isMouseDown:false})
     //console.log('mouseUp: ' + e.target.parentNode.outerHTML)
     localStorage.setItem('data', JSON.stringify(this.state.data));
-    this.props.updateState(this.state.data)
+    console.log(this.props.test);
+    if(this.props.test) {
+      console.log('up');
+      this.addElementOfSVG(this.props.willAddElementOfSvg)
+      console.log(this.state.data);
+    }
   }
 
   onMouseLeave = (e) => {
@@ -219,6 +226,14 @@ class Artboard extends React.Component {
     }
   }
 
+  addElementOfSVG = (e) => {
+    const data_copy = this.state.data.slice();
+    data_copy.push(e);
+    this.setState({data: data_copy});
+    this.props.method()
+  }
+
+
   duplicate = (e) => {
     const el =  this.state.data[this.state.selectedElement];
 
@@ -226,6 +241,7 @@ class Artboard extends React.Component {
     data_copy.push(el);
     this.setState({data: data_copy});
     this.setState({ displayContextMenu: false })
+    this.props.updateState(this.state.data);
   }
 
   delete = (e) => {
@@ -234,7 +250,9 @@ class Artboard extends React.Component {
     data_copy.splice(this.state.selectedElement,1);
     this.setState({data: data_copy});
     this.setState({ displayContextMenu: false })
+    this.props.updateState(this.state.data);
   }
+
 
   bringToFront = (e) => {
     const el = this.state.data[this.state.selectedElement];
@@ -243,6 +261,7 @@ class Artboard extends React.Component {
     data_copy.push(el);
     this.setState({data: data_copy});
     this.setState({ displayContextMenu: false })
+    this.props.updateState(this.state.data);
   }
 
   bringForward = (e) => {
@@ -252,6 +271,7 @@ class Artboard extends React.Component {
     data_copy.splice(this.state.selectedElement + 1 ,0,el);
     this.setState({data: data_copy});
     this.setState({ displayContextMenu: false })
+    this.props.updateState(this.state.data);
   }
 
   sendBackward = (e) => {
@@ -261,6 +281,7 @@ class Artboard extends React.Component {
     data_copy.splice(this.state.selectedElement - 1 ,0,el);
     this.setState({data: data_copy});
     this.setState({ displayContextMenu: false })
+    this.props.updateState(this.state.data);
   }
 
   sendToBack = (e) => {
@@ -270,7 +291,9 @@ class Artboard extends React.Component {
     data_copy.unshift(el);
     this.setState({data: data_copy});
     this.setState({ displayContextMenu: false })
+    this.props.updateState(this.state.data);
   }
+
 
   handleClose = () => {
     this.setState({ displayContextMenu: false })
@@ -425,7 +448,6 @@ class Artboard extends React.Component {
           width="500"
           height="400"
           xmlns="http://www.w3.org/2000/svg"
-          fill={this.props.background}
           dangerouslySetInnerHTML={{__html: this.state.data.join('') }}
           onMouseDown={this.onMouseDown}
           onMouseUp={this.onMouseUp}

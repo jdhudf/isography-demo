@@ -54,6 +54,9 @@ class TopBar extends React.Component {
         borderRadius: '0',
         border: 'solid 1px #F0F0F0',
         transition: 'ease all 1s',
+      },
+      svg: {
+        background: `${this.props.background}`
       }
     };
 
@@ -78,7 +81,7 @@ class TopBar extends React.Component {
                   height="auto"
                   viewBox="0 0 600 400"
                   xmlns="http://www.w3.org/2000/svg"
-                  fill={this.props.background}
+                  style={styles.svg}
                   dangerouslySetInnerHTML={{__html: this.props.data.join('') }}
               >
               </svg>
