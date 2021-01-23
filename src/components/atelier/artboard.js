@@ -1,9 +1,9 @@
 import React from 'react';
 import '../../styles/atelier.scss';
 
-import { getSVGdata,artboardScale,artboardPoosition } from '../handleLocalstorage'
+import { getSVGdata,artboardScale,artboardPosition } from '../handleLocalstorage'
 
-//import { onWheel } from './features/pinch-gesture-wheel'
+import { onWheel } from './features/pinch-gesture-wheel'
 
 //====================================
 //  We need below functions that
@@ -50,16 +50,16 @@ class Artboard extends React.Component {
       displayContextMenu: false,
       // -- below is artboard resize and pinch
       mouse: [0,0],
-      artboardPosition: artboardPoosition([0,0]),
+      artboardPosition: artboardPosition([0,0]),
       artboardScale: artboardScale(1),
       gestureStartScale: 0,
       startCoordinate: [0,0],
       // -- below is svg data
       data : getSVGdata([
-      '<g transform="translate(50,50) scale(1)" class="sub" style="cursor:move"><circle cx="0" cy="0" r="50"></circle></g>',
-      '<g transform="translate(100,250) scale(2)" class="main" style="cursor:move" border="solid 3px #000000"><circle cx="30" cy="30" r="20"></circle></g>',
-      '<g transform="translate(50,150) scale(1)" class="accent" style="cursor:move"><circle cx="10" cy="10" r="15"></circle><circle cx="20" cy="20" r="10"></circle></g>',
-      '<g transform="translate(50,100) scale(1)" style="cursor:move"><path class="main" d="M168.68,59.078l-70.627,40.776l-0,81.553l70.627,-40.776l-0,-81.553Z"></path><path d="M98.043,18.295l-70.627,40.777l70.637,40.782l70.627,-40.777l-70.637,-40.782Z" class="sub"></path><path d="M98.053,99.854l-70.66,-40.795l0,81.548l70.66,40.796l-0,-81.549Z" class="accent"></path></g>',
+      '<g transform="translate(50,50) scale(1,1)" class="sub" style="cursor:move"><circle cx="0" cy="0" r="50"></circle></g>',
+      '<g transform="translate(100,250) scale(2,2)" class="main" style="cursor:move" border="solid 3px #000000"><circle cx="30" cy="30" r="20"></circle></g>',
+      '<g transform="translate(50,150) scale(1,1)" class="accent" style="cursor:move"><circle cx="10" cy="10" r="15"></circle><circle cx="20" cy="20" r="10"></circle></g>',
+      '<g transform="translate(50,100) scale(-1,1)" style="cursor:move"><path class="main" d="M168.68,59.078l-70.627,40.776l-0,81.553l70.627,-40.776l-0,-81.553Z"></path><path d="M98.043,18.295l-70.627,40.777l70.637,40.782l70.627,-40.777l-70.637,-40.782Z" class="sub"></path><path d="M98.053,99.854l-70.66,-40.795l0,81.548l70.66,40.796l-0,-81.549Z" class="accent"></path></g>',
     ])
     };
   }
@@ -67,10 +67,11 @@ class Artboard extends React.Component {
   // We need below code to make e.preventDefault(); valid on wheel events.
   componentDidMount(e) {
     const el = document.querySelector('.section-artboard');
-    el.addEventListener('wheel', /*(e) => onWheel(e)*/  this.onWheel, { passive: false });
+    el.addEventListener('wheel', (e) => onWheel(e)  /*this.onWheel*/, { passive: false });
     el.addEventListener('gesturestart', this.gestureStart, { passive: false });
     el.addEventListener('gesturechange', this.gestureChange, { passive: false });
     el.addEventListener('gestureend', this.gestureEnd, { passive: false });
+    //el.addEventListener('onkeydown', this.keyPress , { passive: false });
   }
 
 
@@ -131,17 +132,18 @@ class Artboard extends React.Component {
       //---  Calculate a gap  ---//
       const move = [e.pageX,e.pageY];
       const gap = [
-        move[0] - parseInt(this.state.initial[0]),
-        move[1] - parseInt(this.state.initial[1])
+        parseInt(move[0]) - parseInt(this.state.initial[0]),
+        parseInt(move[1]) - parseInt(this.state.initial[1])
       ];
 
       //console.log('gap ok : ' +  gap);
 
 
+
       //---  Calculate a translate(x,y)  ---//
       let translate = [
-        parseInt(this.state.initialTranslate[0] + gap[0]),
-        parseInt(this.state.initialTranslate[1] + gap[1])
+        parseInt(this.state.initialTranslate[0]) + parseInt(gap[0]),
+        parseInt(this.state.initialTranslate[1]) + parseInt(gap[1])
       ];
 
       //console.log('translate ok ' + translate);
@@ -155,31 +157,28 @@ class Artboard extends React.Component {
         //console.log('initialTranslate('+this.state.initialTranslate[0]+','+this.state.initialTranslate[1]+')');
 
         //---  let a string have a proper translate(x,y)  ---//
-        const regExp = /\d+/g;
+        const regExp = /-?\d+/g;
         var n = 1;
 
         const result = g.replace(regExp,
           function(match) {
             if(n === 1) {
               n--;
-              return parseInt(translate[0]);
+              return translate[0];
             } else if (n === 0) {
               n--;
-              return parseInt(translate[1]);
+              return translate[1];
             } else {
               return match;
             };
           }
         );
 
-        //console.log('g tag is ' + result)
-
         //---  Update this.state.data  ---//
 
         const data_copy = this.state.data.slice();
         data_copy[this.state.selectedElement] = result;
         this.setState({data: data_copy});
-        this.props.updateState(this.state.data);
 
       } else {
         this.setState({isMouseDown:false})
@@ -233,7 +232,6 @@ class Artboard extends React.Component {
     this.props.method()
   }
 
-
   duplicate = (e) => {
     const el =  this.state.data[this.state.selectedElement];
 
@@ -251,6 +249,48 @@ class Artboard extends React.Component {
     this.setState({data: data_copy});
     this.setState({ displayContextMenu: false })
     this.props.updateState(this.state.data);
+  }
+
+  reflect = (e) => {
+    const el = this.state.data[this.state.selectedElement];
+    const data_copy = this.state.data.slice();
+
+
+    const regExp = /-?\d+/g;
+    const scale = el.match(regExp)
+
+    console.log(-scale[2]+','+scale[3])
+
+    var n = 3;
+
+    const result = el.replace(regExp,
+      function(match) {
+        if(n === 3) {
+          n--;
+          return scale[0];
+        } else if (n === 2) {
+          n--;
+          return scale[1];
+        } else if (n === 1) {
+          n--;
+          return -scale[2];
+        } else if (n === 0) {
+          n--;
+          return scale[3];
+        } else {
+          return match;
+        };
+      }
+    );
+
+    console.log('result is '+  result)
+
+    data_copy.splice(this.state.selectedElement,1);
+    data_copy.push(result);
+
+    this.setState({data: data_copy});
+    this.setState({ displayContextMenu: false })
+
   }
 
 
@@ -319,7 +359,7 @@ class Artboard extends React.Component {
       posY -= e.deltaY * 0.5;
 
       this.setState({ artboardPosition: [ posX ,posY] })
-      localStorage.setItem('artboardPoosition', JSON.stringify([ posX ,posY]));
+      localStorage.setItem('artboardPosition', JSON.stringify([ posX ,posY]));
       //console.log(e.deltaX +','+e.deltaY);
     }
 
@@ -346,11 +386,16 @@ class Artboard extends React.Component {
 
     this.setState({artboardPosition:[e.pageX - this.state.startCoordinate[0],e.pageY - this.state.startCoordinate[1]]})
 
-    localStorage.setItem('artboardPoosition', JSON.stringify([e.pageX - this.state.startCoordinate[0],e.pageY - this.state.startCoordinate[1]]));
+    localStorage.setItem('artboardPosition', JSON.stringify([e.pageX - this.state.startCoordinate[0],e.pageY - this.state.startCoordinate[1]]));
   }
   gestureEnd = (e) => {
     e.preventDefault();
   }
+
+  /*
+  keyPress = (e) => {
+    alert('⌘' + e.key)
+  }*/
 
   render() {
 
@@ -406,11 +451,14 @@ class Artboard extends React.Component {
     }
 
     const menu = (
-      <div style={styles.box} className="onContextMenu">
+      <div style={styles.box}
+           onKeyPress={this.keyPress}
+           tabIndex='0'
+           className="onContextMenu">
         <ul>
           <li style={styles.li} onClick={this.duplicate}>Duplicate <span style={styles.span}>⌘V</span></li>
           <li style={styles.li} onClick={this.delete}>Delete <span style={styles.span}>⌘D</span></li>
-          <li style={styles.li}>Reflect <span style={styles.span}>⌘R</span></li>
+          <li style={styles.li} onClick={this.reflect}>Reflect <span style={styles.span}>⌘R</span></li>
           <li style={{color:"gray", textIndent:"1.2em"}}>
             Arrange
             <ul style={{textIndent:"1.5em",color:"#fff"}}>
@@ -431,7 +479,28 @@ class Artboard extends React.Component {
     }
 
     return (
-      <section style={styles.artboard} className="section-artboard section-bottom" gestureStart={this.gestureStart} gestureChange={this.gestureChange} gestureEnd={this.gestureEnd} onWheel={/*(e) => onWheel(e)*/this.onWheel}>
+      <section style={styles.artboard}
+               className="section-artboard section-bottom"
+
+               gestureStart={this.gestureStart}
+               gestureChange={this.gestureChange}
+               gestureEnd={this.gestureEnd}
+               onWheel={
+                 this.onWheel
+                 /*(e) => {
+                 if (e.ctrlKey) {
+                   this.setState({artboardScale:onWheel(e)})
+                 } else {
+
+                   let posX = onWheel(e)[0]
+                   let posY = onWheel(e)[1]
+
+                   this.setState({
+                     artboardPosition: [ onWheel(e)[0] ,onWheel(e)[1]]
+                   })
+                 }
+               }*/}
+               >
 
       { this.state.displayContextMenu ?
         <div>

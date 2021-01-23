@@ -6,7 +6,12 @@ import ToolsPanel from '../components/atelier/toolspanel.js';
 import Artboard from '../components/atelier/artboard.js';
 
 import icon from '../images/logo.svg';
-import { getMainColor,getSubColor,getAccentColor,getBackgroundColor } from '../components/handleLocalstorage'
+import {
+  getMainColor,
+  getSubColor,
+  getAccentColor,
+  getBackgroundColor,
+  getSVGdata } from '../components/handleLocalstorage'
 
 import '../styles/atelier.scss';
 
@@ -33,16 +38,19 @@ class Atelier extends React.Component {
       background: getBackgroundColor('#ffffff'),
       willAddElementOfSvg: null,
       test: false,
-      data : [
-      '<g transform="translate(50,50) scale(1)" class="sub" style="cursor:move"><circle cx="0" cy="0" r="50"></circle></g>',
-      '<g transform="translate(100,250) scale(2)" class="main" style="cursor:move" border="solid 3px #000000"><circle cx="30" cy="30" r="20"></circle></g>',
-      '<g transform="translate(50,150) scale(1)" class="accent" style="cursor:move"><circle cx="10" cy="10" r="15"></circle><circle cx="20" cy="20" r="10"></circle></g>',
-      '<g transform="translate(50,100) scale(1)" style="cursor:move"><path class="main" d="M168.68,59.078l-70.627,40.776l-0,81.553l70.627,-40.776l-0,-81.553Z"></path><path d="M98.043,18.295l-70.627,40.777l70.637,40.782l70.627,-40.777l-70.637,-40.782Z" class="sub"></path><path d="M98.053,99.854l-70.66,-40.795l0,81.548l70.66,40.796l-0,-81.549Z" class="accent"></path></g>',
-    ],
+      data : getSVGdata([
+      '<g transform="translate(50,50) scale(1,1)" class="sub" style="cursor:move"><circle cx="0" cy="0" r="50"></circle></g>',
+      '<g transform="translate(100,250) scale(2,2)" class="main" style="cursor:move" border="solid 3px #000000"><circle cx="30" cy="30" r="20"></circle></g>',
+      '<g transform="translate(50,150) scale(1,1)" class="accent" style="cursor:move"><circle cx="10" cy="10" r="15"></circle><circle cx="20" cy="20" r="10"></circle></g>',
+      '<g transform="translate(50,100) scale(-1,1)" style="cursor:move"><path class="main" d="M168.68,59.078l-70.627,40.776l-0,81.553l70.627,-40.776l-0,-81.553Z"></path><path d="M98.043,18.295l-70.627,40.777l70.637,40.782l70.627,-40.777l-70.637,-40.782Z" class="sub"></path><path d="M98.053,99.854l-70.66,-40.795l0,81.548l70.66,40.796l-0,-81.549Z" class="accent"></path></g>',
+    ]),
     }
   }
 
   componentDidMount() {
+    const el = document.querySelector('.section-atelier');
+
+    el.addEventListener('onkeydown', this.keyPress , { passive: false });
     this.isLocalStorageAvlbl()
 
     setTimeout(function () {
@@ -124,6 +132,41 @@ class Atelier extends React.Component {
     document.querySelector('.section-artboard').style.cursor = 'default';
   }
 
+  keyPress = (e) => {
+    e.preventDefault();
+
+    if (e.which === 83) {
+      // Save artboard data but we don't need this function in demo version.
+      alert('⌘ S')
+    } else if (e.which === 90) {
+      // undo
+      alert('⌘ Z')
+    } else if (e.which === 88) {
+      // redo
+      alert('⌘ X')
+    } else if (e.which === 67) {
+      // copy
+      alert('⌘ C')
+    } else if (e.which === 86) {
+      // paste
+      alert('⌘ V')
+    } else if (e.which === 68) {
+      //
+      alert('⌘ D')
+    } else if (e.which === 8) {
+      // delete selected element
+      alert('delete')
+    } else if (e.which === 219) {
+      // sendToBack
+      alert('⌘ [')
+    } else if (e.which === 221) {
+      //
+      alert('⌘ ]')
+    } else {
+      alert('⌘' + e.key + ' : ' + e.which)
+    }
+  }
+
   render() {
 
     const welcomescreen = {
@@ -145,6 +188,8 @@ class Atelier extends React.Component {
           onMouseMove={this.onMouseMove}
           onMouseUp={this.onMouseUp}
           onMouseLeave={this.onMouseLeave}
+          onKeyDown={this.keyPress}
+          tabIndex="0"
           >
 
           <div style={welcomescreen} id="welcomescreen">

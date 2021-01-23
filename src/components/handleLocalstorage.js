@@ -52,11 +52,11 @@ export const artboardScale = (e) => {
 
 }
 
-export const artboardPoosition = (e) => {
+export const artboardPosition = (e) => {
 
-  if (localStorage.getItem('artboardPoosition') === null) {
-    localStorage.setItem('artboardPoosition', JSON.stringify(e));
+  if (localStorage.getItem('artboardPosition') === null) {
+    localStorage.setItem('artboardPosition', JSON.stringify(e));
   }
-  return  JSON.parse(localStorage.getItem('artboardPoosition'))
+  return  JSON.parse(localStorage.getItem('artboardPosition'))
 
 }
