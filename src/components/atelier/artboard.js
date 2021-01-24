@@ -344,12 +344,16 @@ class Artboard extends React.Component {
 
 
     if (e.ctrlKey) {
-      let scale = this.state.artboardScale;
-      scale -= e.deltaY * 0.01;
-      this.setState({ artboardScale: scale })
 
-      localStorage.setItem('artboardScale', scale);
-      //console.log(scale);
+      if (0.5 < this.state.artboardScale < 1.5) {
+
+        let scale = this.state.artboardScale;
+        scale -= e.deltaY * 0.01;
+        this.setState({ artboardScale: scale })
+
+        localStorage.setItem('artboardScale', scale);
+
+      }
 
     } else {
       let posX = this.state.artboardPosition[0];
@@ -382,6 +386,7 @@ class Artboard extends React.Component {
   gestureChange = (e) => {
     e.preventDefault();
     this.setState({artboardScale: this.state.gestureStartScale * e.scale})
+
     localStorage.setItem('artboardScale', this.state.gestureStartScale * e.scale);
 
     this.setState({artboardPosition:[e.pageX - this.state.startCoordinate[0],e.pageY - this.state.startCoordinate[1]]})
@@ -401,12 +406,12 @@ class Artboard extends React.Component {
 
     const styles = {
       artboard: {
-        position: "absolute",
+        position: "relative",
         transform: `translate(${this.state.artboardPosition[0]}px,${this.state.artboardPosition[1]}px) scale(${this.state.artboardScale})`,
       },
       style: {
         background: this.props.background,
-        position: "relative",
+        position: "absolute",
         top: "50%",
         left: "50%",
         transform: "translate(-50%,-50%)",
@@ -422,9 +427,10 @@ class Artboard extends React.Component {
         textAlign: "left",
         textIndent: "0.5em",
         zIndex: "1",
-        position: "fixed",
-        top:`${this.state.mouse[1]}px`,
-        left: `${this.state.mouse[0]}px`,
+        position: "absolute",
+        top:`${this.state.mouse[0]}px`,
+        left: `${this.state.mouse[1]}px`,
+        transform: `scale(${2 - this.state.artboardScale})`
       },
       span: {
         color: "gray",
@@ -447,6 +453,22 @@ class Artboard extends React.Component {
         right: '0px',
         bottom: '0px',
         left: '0px',
+      },
+      bottompanel: {
+        width: "150px",
+        textAlign: "center",
+        position: "absolute",
+        padding: "5px 0",
+        bottom: "-10px",
+        left: "35px",
+        transform: "translate(-50%,-50%)"
+      },
+      bottompanellist: {
+        display: "inline-block",
+        background: "#fff",
+        padding: "3px 7px",
+        marginRight: "5px",
+        width: "30px"
       }
     }
 
@@ -479,6 +501,7 @@ class Artboard extends React.Component {
     }
 
     return (
+      <div style={{position: "relative"}}>
       <section style={styles.artboard}
                className="section-artboard section-bottom"
 
@@ -525,7 +548,16 @@ class Artboard extends React.Component {
           onContextMenu={this.onContextMenu}
       >
       </svg>
+
       </section>
+
+
+      <ul style={styles.bottompanel}>
+        <li style={styles.bottompanellist}>{parseInt(this.state.artboardScale*100, 10)}%</li>
+      </ul>
+
+
+      </div>
     );
   }
 }

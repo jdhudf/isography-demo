@@ -36,7 +36,7 @@ class Atelier extends React.Component {
       subColor: getSubColor('#111184'),
       accentColor: getAccentColor('#C7B136'),
       background: getBackgroundColor('#ffffff'),
-      willAddElementOfSvg: null,
+      willAddElementOfSvg: 1,
       test: false,
       data : getSVGdata([
       '<g transform="translate(50,50) scale(1,1)" class="sub" style="cursor:move"><circle cx="0" cy="0" r="50"></circle></g>',
