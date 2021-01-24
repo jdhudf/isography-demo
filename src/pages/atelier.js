@@ -39,11 +39,22 @@ class Atelier extends React.Component {
       willAddElementOfSvg: 1,
       test: false,
       data : getSVGdata([
-      '<g transform="translate(50,50) scale(1,1)" class="sub" style="cursor:move"><circle cx="0" cy="0" r="50"></circle></g>',
-      '<g transform="translate(100,250) scale(2,2)" class="main" style="cursor:move" border="solid 3px #000000"><circle cx="30" cy="30" r="20"></circle></g>',
-      '<g transform="translate(50,150) scale(1,1)" class="accent" style="cursor:move"><circle cx="10" cy="10" r="15"></circle><circle cx="20" cy="20" r="10"></circle></g>',
-      '<g transform="translate(50,100) scale(-1,1)" style="cursor:move"><path class="main" d="M168.68,59.078l-70.627,40.776l-0,81.553l70.627,-40.776l-0,-81.553Z"></path><path d="M98.043,18.295l-70.627,40.777l70.637,40.782l70.627,-40.777l-70.637,-40.782Z" class="sub"></path><path d="M98.053,99.854l-70.66,-40.795l0,81.548l70.66,40.796l-0,-81.549Z" class="accent"></path></g>',
-    ]),
+        '<g transform="translate(50,50) scale(1,1)" class="sub" style="cursor:move"><circle cx="0" cy="0" r="50"></circle></g>',
+        '<g transform="translate(100,250) scale(2,2)" class="main" style="cursor:move" border="solid 3px #000000"><circle cx="30" cy="30" r="20"></circle></g>',
+        '<g transform="translate(50,150) scale(1,1)" class="accent" style="cursor:move"><circle cx="10" cy="10" r="15"></circle><circle cx="20" cy="20" r="10"></circle></g>',
+        '<g transform="translate(50,100) scale(-1,1)" style="cursor:move"><path class="main" d="M168.68,59.078l-70.627,40.776l-0,81.553l70.627,-40.776l-0,-81.553Z"></path><path d="M98.043,18.295l-70.627,40.777l70.637,40.782l70.627,-40.777l-70.637,-40.782Z" class="sub"></path><path d="M98.053,99.854l-70.66,-40.795l0,81.548l70.66,40.796l-0,-81.549Z" class="accent"></path></g>',
+      ]),
+      history: [
+        {
+          mainColor: null,
+          subColor: null,
+          accentColor: null,
+          background: null,
+          data: null
+        },
+        //{},
+        //{},
+      ],
     }
   }
 
