@@ -148,9 +148,15 @@ class GallaryPanel extends React.Component {
              </svg>
            </div>
          </TabPanel>
-         <TabPanel></TabPanel>
-         <TabPanel></TabPanel>
-         <TabPanel></TabPanel>
+         <TabPanel>
+           <div></div>
+         </TabPanel>
+         <TabPanel>
+            <div></div>
+         </TabPanel>
+         <TabPanel>
+            <div></div>
+         </TabPanel>
        </Tabs>
 
       </section>
