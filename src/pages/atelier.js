@@ -253,6 +253,7 @@ class Atelier extends React.Component {
                background={this.state.background}
                updateState={(e) => {
                  this.setState({data:e})
+                 console.log(e)
                }}
                data={this.state.data}
 

@@ -56,7 +56,7 @@ class Artboard extends React.Component {
       startCoordinate: [0,0],
       // -- below is svg data
       data : getSVGdata([
-      '<g transform="translate(50,50) scale(1,1)" class="sub" style="cursor:move"><circle cx="0" cy="0" r="50"></circle></g>',
+      '<g transform="translate(50,50) scale(1,1)" class="sub" style="cursor:move;z-index:1000000;"><circle cx="0" cy="0" r="50"></circle></g>',
       '<g transform="translate(100,250) scale(2,2)" class="main" style="cursor:move" border="solid 3px #000000"><circle cx="30" cy="30" r="20"></circle></g>',
       '<g transform="translate(50,150) scale(1,1)" class="accent" style="cursor:move"><circle cx="10" cy="10" r="15"></circle><circle cx="20" cy="20" r="10"></circle></g>',
       '<g transform="translate(50,100) scale(-1,1)" style="cursor:move"><path class="main" d="M168.68,59.078l-70.627,40.776l-0,81.553l70.627,-40.776l-0,-81.553Z"></path><path d="M98.043,18.295l-70.627,40.777l70.637,40.782l70.627,-40.777l-70.637,-40.782Z" class="sub"></path><path d="M98.053,99.854l-70.66,-40.795l0,81.548l70.66,40.796l-0,-81.549Z" class="accent"></path></g>',
@@ -110,12 +110,82 @@ class Artboard extends React.Component {
     );
   }
 
+
   onMouseDown = (e) => {
     this.setState({isMouseDown:true})
 
     const mouseX = e.pageX;// pageX and pageY is mouse's axis in the box.
     const mouseY = e.pageY;
     this.selectElement(e);
+
+
+    //--------  scale --------//
+
+
+    const el = e.target.parentNode//.outerHTML;
+    const g = e.target.parentNode.outerHTML;
+    //console.log("! " +  el.getBoundingClientRect().width)
+    //const el = document.selece
+
+    if (g.startsWith('<g transform="translate')) {
+
+      const client_w = el.getBoundingClientRect().width;
+      const client_h = el.getBoundingClientRect().height;
+
+      const client_left = el.getBoundingClientRect().left;
+      const client_top = el.getBoundingClientRect().top;
+      const client_right = el.getBoundingClientRect().right;
+      const client_bottom = el.getBoundingClientRect().bottom;
+
+      const selector = document.getElementById('selector');
+
+      const corners = document.getElementsByClassName('corner');
+
+      console.log(el.getBoundingClientRect());
+
+      selector.style.display = "block"
+
+      selector.style.width = client_w + 'px';
+      selector.style.height = client_h +  'px';
+
+      selector.style.position = 'fixed';
+      selector.style.left = client_left + 'px';
+      selector.style.top = client_top +  'px';
+      selector.style.zIndex = 1000;
+
+      const d = client_left - 5;
+      const e =  client_top - 5;
+
+      corners[0].style.left = d + 'px';
+      corners[0].style.top = e +  'px';
+      corners[0].style.cursor = 'nwse-resize';
+
+      const x = client_left + client_w - 5;
+      const y = client_top + client_h - 5;
+
+      corners[1].style.left = x + 'px';
+      corners[1].style.top = y + 'px';
+      corners[1].style.cursor = 'nwse-resize';
+
+      const n = client_left + client_w -5;
+      const m = client_top - 5;
+
+      corners[2].style.left = n + 'px';
+      corners[2].style.top = m + 'px';
+      corners[2].style.cursor = 'nesw-resize';
+
+      const o = client_left - 5;
+      const p = client_top + client_h - 5;
+
+      corners[3].style.left = o + 'px';
+      corners[3].style.top = p + 'px';
+      corners[3].style.cursor = 'nesw-resize';
+
+
+      console.log(el,client_w + 'px ' + client_h + 'px');
+
+    }
+
 
     //  Set this.state of
     //  * initialTranslate
@@ -126,8 +196,10 @@ class Artboard extends React.Component {
   }
 
   onMouseMove = (e) => {
+
     if (this.state.isMouseDown) {
-      //console.log(this.state.selectedElement);
+
+      console.log('move!');
 
       //---  Calculate a gap  ---//
       const move = [e.pageX,e.pageY];
@@ -174,6 +246,40 @@ class Artboard extends React.Component {
           }
         );
 
+        //--- Move Selector Position ---//
+
+        const selector = document.getElementById('selector');
+
+        const el = e.target.parentNode//.outerHTML;
+        //console.log("! " +  el.getBoundingClientRect().width)
+
+        const client_w = el.getBoundingClientRect().width;
+        const client_h = el.getBoundingClientRect().height;
+
+        const client_left = el.getBoundingClientRect().left;
+        const client_top = el.getBoundingClientRect().top;
+
+        selector.style.left = client_left + 'px';
+        selector.style.top = client_top +  'px';
+
+        // -- corner -- //
+
+
+        const corners = document.getElementsByClassName('corner');
+
+        corners[0].style.left = `${client_left - 5}px`;
+        corners[0].style.top = `${client_top - 5}px`;
+
+        corners[1].style.left = `${client_left + client_w - 5}px`;
+        corners[1].style.top = `${client_top + client_h - 5}px`;
+
+        corners[2].style.left = `${client_left + client_w - 5}px`;
+        corners[2].style.top = `${client_top - 5}px`;
+
+        corners[3].style.left = `${client_left - 5}px`;
+        corners[3].style.top = `${client_top + client_h - 5}px`;
+
+
         //---  Update this.state.data  ---//
 
         const data_copy = this.state.data.slice();
@@ -188,23 +294,29 @@ class Artboard extends React.Component {
   }
 
   onMouseUp = (e) => {
+
     this.setState({isMouseDown:false})
     //console.log('mouseUp: ' + e.target.parentNode.outerHTML)
     localStorage.setItem('data', JSON.stringify(this.state.data));
-    console.log(this.props.test);
+
     if(this.props.test) {
-      console.log('up');
+
       this.addElementOfSVG(this.props.willAddElementOfSvg)
-      console.log(this.state.data);
+
     }
+
+    this.props.updateState(this.state.data);
+
   }
 
   onMouseLeave = (e) => {
     if(this.state.isMouseDown) {
       this.setState({isMouseDown:false})
       //console.log('mouseLeave: ' + e.target.outerHTML)
+      this.props.updateState(this.state.data);
     }
   }
+
 
   onContextMenu = (e) => {
     //alert(e.target.parentNode.outerHTML);
@@ -230,7 +342,10 @@ class Artboard extends React.Component {
     data_copy.push(e);
     this.setState({data: data_copy});
     this.props.method()
+
+
   }
+
 
   duplicate = (e) => {
     const el =  this.state.data[this.state.selectedElement];
@@ -239,7 +354,9 @@ class Artboard extends React.Component {
     data_copy.push(el);
     this.setState({data: data_copy});
     this.setState({ displayContextMenu: false })
-    this.props.updateState(this.state.data);
+
+    this.props.updateState(data_copy);
+    localStorage.setItem('data', JSON.stringify(data_copy));
   }
 
   delete = (e) => {
@@ -248,7 +365,9 @@ class Artboard extends React.Component {
     data_copy.splice(this.state.selectedElement,1);
     this.setState({data: data_copy});
     this.setState({ displayContextMenu: false })
-    this.props.updateState(this.state.data);
+
+    this.props.updateState(data_copy);
+    localStorage.setItem('data', JSON.stringify(data_copy));
   }
 
   reflect = (e) => {
@@ -259,7 +378,7 @@ class Artboard extends React.Component {
     const regExp = /-?\d+/g;
     const scale = el.match(regExp)
 
-    console.log(-scale[2]+','+scale[3])
+    //console.log(-scale[2]+','+scale[3])
 
     var n = 3;
 
@@ -283,7 +402,7 @@ class Artboard extends React.Component {
       }
     );
 
-    console.log('result is '+  result)
+    //console.log('result is '+  result)
 
     data_copy.splice(this.state.selectedElement,1);
     data_copy.push(result);
@@ -291,8 +410,10 @@ class Artboard extends React.Component {
     this.setState({data: data_copy});
     this.setState({ displayContextMenu: false })
 
-  }
+    this.props.updateState(data_copy);
+    localStorage.setItem('data', JSON.stringify(data_copy));
 
+  }
 
   bringToFront = (e) => {
     const el = this.state.data[this.state.selectedElement];
@@ -301,7 +422,9 @@ class Artboard extends React.Component {
     data_copy.push(el);
     this.setState({data: data_copy});
     this.setState({ displayContextMenu: false })
-    this.props.updateState(this.state.data);
+
+    this.props.updateState(data_copy);
+    localStorage.setItem('data', JSON.stringify(data_copy));
   }
 
   bringForward = (e) => {
@@ -311,7 +434,9 @@ class Artboard extends React.Component {
     data_copy.splice(this.state.selectedElement + 1 ,0,el);
     this.setState({data: data_copy});
     this.setState({ displayContextMenu: false })
-    this.props.updateState(this.state.data);
+
+    this.props.updateState(data_copy);
+    localStorage.setItem('data', JSON.stringify(data_copy));
   }
 
   sendBackward = (e) => {
@@ -321,7 +446,9 @@ class Artboard extends React.Component {
     data_copy.splice(this.state.selectedElement - 1 ,0,el);
     this.setState({data: data_copy});
     this.setState({ displayContextMenu: false })
-    this.props.updateState(this.state.data);
+
+    this.props.updateState(data_copy);
+    localStorage.setItem('data', JSON.stringify(data_copy));
   }
 
   sendToBack = (e) => {
@@ -331,7 +458,9 @@ class Artboard extends React.Component {
     data_copy.unshift(el);
     this.setState({data: data_copy});
     this.setState({ displayContextMenu: false })
-    this.props.updateState(this.state.data);
+
+    this.props.updateState(data_copy);
+    localStorage.setItem('data', JSON.stringify(data_copy));
   }
 
 
@@ -397,6 +526,22 @@ class Artboard extends React.Component {
     e.preventDefault();
   }
 
+
+  onScaleDown = (e) => {
+    console.log("scale down");
+  }
+  onScaleUp = (e) => {
+    console.log("scale up");
+  }
+  onScaleMove = (e) => {
+    console.log("scale move");
+  }
+  onScaleLeave = (e) => {
+    console.log("scale leave");
+  }
+
+
+
   /*
   keyPress = (e) => {
     alert('⌘' + e.key)
@@ -416,6 +561,20 @@ class Artboard extends React.Component {
         left: "50%",
         transform: "translate(-50%,-50%)",
         zIndex: "-1",
+      },
+      selector: {
+        border: "solid 1px deepskyblue",
+        display: "none",
+        pointerEvents: "none",
+      },
+      corner: {
+        width: "10px",
+        height: "10px",
+        borderRadius: "50%",
+        background: "#fff",
+        border: "solid 1px deepskyblue",
+        position: "fixed",
+        pointerEvents: "auto",
       },
       box: {
         background: "#000",
@@ -500,8 +659,26 @@ class Artboard extends React.Component {
       height: "100px"
     }
 
+    const selector = (
+      <div style={styles.selector}
+           id="selector"
+           >
+        <div style={styles.corner}
+             className="corner"
+             onMouseDown={this.onScaleDown}
+             onMouseUp={this.onScaleUp}
+             onMouseMove={this.onScaleMove}
+             onMouseLeave={this.onScaleLeave}>
+        </div>
+        <div style={styles.corner} className="corner"></div>
+        <div style={styles.corner} className="corner"></div>
+        <div style={styles.corner} className="corner"></div>
+      </div>
+    )
+
     return (
       <div style={{position: "relative"}}>
+      {selector}
       <section style={styles.artboard}
                className="section-artboard section-bottom"
 
