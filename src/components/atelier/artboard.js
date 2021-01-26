@@ -54,6 +54,8 @@ class Artboard extends React.Component {
       artboardScale: artboardScale(1),
       gestureStartScale: 0,
       startCoordinate: [0,0],
+      // -- below is scaling data
+      selectedScale: 1,
       // -- below is svg data
       data : getSVGdata([
       '<g transform="translate(50,50) scale(1,1)" class="sub" style="cursor:move;z-index:1000000;"><circle cx="0" cy="0" r="50"></circle></g>',
@@ -125,7 +127,6 @@ class Artboard extends React.Component {
     const el = e.target.parentNode//.outerHTML;
     const g = e.target.parentNode.outerHTML;
     //console.log("! " +  el.getBoundingClientRect().width)
-    //const el = document.selece
 
     if (g.startsWith('<g transform="translate')) {
 
@@ -528,13 +529,66 @@ class Artboard extends React.Component {
 
 
   onScaleDown = (e) => {
+    
     console.log("scale down");
+
+    const mouseX = e.pageX;// pageX and pageY is mouse's axis in the box.
+    const mouseY = e.pageY;
+    this.setState({initial:[mouseX,mouseY]});
+
+    const el = this.state.data[this.state.selectedElement];
+
+    const regExp = /-?\d+/g;
+    const scale = el.match(regExp)
+
+    console.log(scale[3]);
+    this.setState({selectedScale: scale[3]});
+
+  }
+
+  onScaleMove = (e) => {
+    console.log("scale move");
+    const move = [e.pageX,e.pageY];
+    const gap = [
+      parseInt(move[0]) - parseInt(this.state.initial[0]),
+      parseInt(move[1]) - parseInt(this.state.initial[1])
+    ];
+
+    const el = this.state.data[this.state.selectedElement];
+    const data_copy = this.state.data.slice();
+
+    const regExp = /-?\d+/g;
+    const scale = el.match(regExp)
+
+    //console.log(-scale[2]+','+scale[3])
+
+    var n = 3;
+
+    const result = el.replace(regExp,
+      function(match) {
+        if(n === 3) {
+          n--;
+          return scale[0];
+        } else if (n === 2) {
+          n--;
+          return scale[1];
+        } else if (n === 1) {
+          n--;
+          return scale[2];
+        } else if (n === 0) {
+          n--;
+          return scale[3];
+        } else {
+          return match;
+        };
+      }
+    );
+
+    console.log(gap)
+
   }
   onScaleUp = (e) => {
     console.log("scale up");
-  }
-  onScaleMove = (e) => {
-    console.log("scale move");
   }
   onScaleLeave = (e) => {
     console.log("scale leave");

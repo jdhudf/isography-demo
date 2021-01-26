@@ -53,7 +53,7 @@ class MenuBar extends React.Component {
     return (
       <section className="section-menubar">
         <Link to="/home" aria-label="Home" title="Home"><img className="icon" src={icon} alt="Icon" /></Link>
-        <div>
+        {/*<div>
         <button className="modal-botton" onClick={this.handleOpenModal}>
           <p>{Document[0].title} <span><FontAwesomeIcon icon={faChevronDown} /></span></p>
         </button>
@@ -65,7 +65,7 @@ class MenuBar extends React.Component {
           <input type="submit" value="Submit"/>
           </form>
         </ReactModal>
-      </div>
+      </div>*/}
         <div className="mode-change"><FontAwesomeIcon icon={faAdjust} /></div>
       </section>
     );
