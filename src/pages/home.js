@@ -148,7 +148,10 @@ const Dashboard = () => {
     infinite: true,
     speed: 500,
     slidesToShow: 1,
-    slidesToScroll: 1
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 20000,
+    fade: true,
   };
 
   const styles = {
@@ -188,6 +191,7 @@ const Dashboard = () => {
           <h2>Your Documents</h2>
           <ul className="document-list">
             <li>
+              <Link to="/">
               <div style={styles.test}>
                 <svg
                     version="1.1"
@@ -202,8 +206,10 @@ const Dashboard = () => {
               </div>
               <h3>{state.id_1['name']}</h3>
               <p>Last Modified at {state.id_1['last_modified']}</p>
+              </Link>
             </li>
             <li>
+             <Link to="/">
               <div style={styles.test}>
                 <svg
                     version="1.1"
@@ -218,8 +224,10 @@ const Dashboard = () => {
               </div>
               <h3>{state.id_2['name']}</h3>
               <p>Last Modified at {state.id_2['last_modified']}</p>
+              </Link>
             </li>
             <li>
+            <Link to="/">
               <div style={styles.test}>
                 <svg
                     version="1.1"
@@ -234,8 +242,10 @@ const Dashboard = () => {
               </div>
               <h3>{state.id_2['name']}</h3>
               <p>Last Modified at {state.id_2['last_modified']}</p>
+              </Link>
             </li>
             <li>
+            <Link to="/">
               <div style={styles.test}>
                 <svg
                     version="1.1"
@@ -250,10 +260,6 @@ const Dashboard = () => {
               </div>
               <h3>{state.id_2['name']}</h3>
               <p>Last Modified at {state.id_2['last_modified']}</p>
-            </li>
-            <li>
-              <Link to="/">
-              ateler
               </Link>
             </li>
           </ul>
