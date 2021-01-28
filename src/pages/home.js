@@ -111,36 +111,75 @@ class Home extends React.Component {
 }
 
 const Dashboard = () => {
-  const state = {
-    document_id: ['id_1','id_2'],
-    id_1 : {
-      name: 'Hello World',
-      created_at: '2020-01-26',
-      last_modified: '2020-01-26',
-      artboard_size: [800,600],
-      svg_data: ['<g transform="translate(50,50) scale(1,1)" class="sub" style="cursor:move"><circle cx="0" cy="0" r="50"></circle></g>',
-      '<g transform="translate(100,250) scale(2,2)" class="main" style="cursor:move" border="solid 3px #000000"><circle cx="30" cy="30" r="20"></circle></g>',
-      '<g transform="translate(50,150) scale(1,1)" class="accent" style="cursor:move"><circle cx="10" cy="10" r="15"></circle><circle cx="20" cy="20" r="10"></circle></g>'],
-      color_scheme: {
-        mainColor: '#cccccc',
-        subColor: '#000000',
-        accentColor: '#FAFAFA',
-        background: '#ffffff'
-      }
-    },
-    id_2 : {
-      name: 'Hello World 2',
-      created_at: '2020-01-27',
-      last_modified: '2020-01-27',
-      artboard_size: [800,600],
-      svg_data: [],
-      color_scheme: {
-        mainColor: '#cccccc',
-        subColor: '#000000',
-        accentColor: '#FAFAFA',
-        background: '#ffffff'
-      }
-    },
+
+  const json = {
+    list: [1,2,3,4],
+    data: [
+      {
+        artboard_id: 1,
+        artboard_name: 'Artboard Name 1',
+        created_at: '2020-01-26',
+        last_modified: '2020-01-26',
+        artboard_size: [800,600],
+        svg_data: ['<g transform="translate(50,50) scale(1,1)" class="sub" style="cursor:move"><circle cx="0" cy="0" r="50"></circle></g>',
+        '<g transform="translate(100,250) scale(2,2)" class="main" style="cursor:move" border="solid 3px #000000"><circle cx="30" cy="30" r="20"></circle></g>',
+        '<g transform="translate(50,150) scale(1,1)" class="accent" style="cursor:move"><circle cx="10" cy="10" r="15"></circle><circle cx="20" cy="20" r="10"></circle></g>'],
+        color_scheme: {
+          mainColor: '#cccccc',
+          subColor: '#000000',
+          accentColor: '#FAFAFA',
+          background: '#ffffff'
+        }
+      },
+      {
+        artboard_id: 2,
+        artboard_name: 'Artboard Name 2',
+        created_at: '2020-01-26',
+        last_modified: '2020-01-26',
+        artboard_size: [800,600],
+        svg_data: ['<g transform="translate(50,50) scale(1,1)" class="sub" style="cursor:move"><circle cx="0" cy="0" r="50"></circle></g>',
+        '<g transform="translate(100,250) scale(2,2)" class="main" style="cursor:move" border="solid 3px #000000"><circle cx="30" cy="30" r="20"></circle></g>',
+        '<g transform="translate(50,150) scale(1,1)" class="accent" style="cursor:move"><circle cx="10" cy="10" r="15"></circle><circle cx="20" cy="20" r="10"></circle></g>'],
+        color_scheme: {
+          mainColor: '#1496BA',
+          subColor: '#00607c',
+          accentColor: '#bfd9e1',
+          background: '#fff'
+        }
+      },
+      {
+        artboard_id: 3,
+        artboard_name: 'Artboard Name 3',
+        created_at: '2020-01-26',
+        last_modified: '2020-01-26',
+        artboard_size: [800,600],
+        svg_data: ['<g transform="translate(50,50) scale(1,1)" class="sub" style="cursor:move"><circle cx="0" cy="0" r="50"></circle></g>',
+        '<g transform="translate(100,250) scale(2,2)" class="main" style="cursor:move" border="solid 3px #000000"><circle cx="30" cy="30" r="20"></circle></g>',
+        '<g transform="translate(50,150) scale(1,1)" class="accent" style="cursor:move"><circle cx="10" cy="10" r="15"></circle><circle cx="20" cy="20" r="10"></circle></g>'],
+        color_scheme: {
+          mainColor: '#cccccc',
+          subColor: '#000000',
+          accentColor: '#FAFAFA',
+          background: '#F0F0F0'
+        }
+      },
+      {
+        artboard_id: 4,
+        artboard_name: 'Artboard Name 4',
+        created_at: '2020-01-26',
+        last_modified: '2020-01-26',
+        artboard_size: [800,600],
+        svg_data: ['<g transform="translate(50,50) scale(1,1)" class="sub" style="cursor:move"><circle cx="0" cy="0" r="50"></circle></g>',
+        '<g transform="translate(100,250) scale(2,2)" class="main" style="cursor:move" border="solid 3px #000000"><circle cx="30" cy="30" r="20"></circle></g>',
+        '<g transform="translate(50,150) scale(1,1)" class="accent" style="cursor:move"><circle cx="10" cy="10" r="15"></circle><circle cx="20" cy="20" r="10"></circle></g>'],
+        color_scheme: {
+          mainColor: '#cccccc',
+          subColor: '#000000',
+          accentColor: '#FAFAFA',
+          background: '#ffffff'
+        }
+      },
+    ]
   }
 
   const settings = {
@@ -164,6 +203,7 @@ const Dashboard = () => {
       background: "#fff",
     }
   }
+
 
   return (
     <section className="section-dashboard">
@@ -190,78 +230,40 @@ const Dashboard = () => {
         <div className="your-document">
           <h2>Your Documents</h2>
           <ul className="document-list">
-            <li>
-              <Link to="/">
-              <div style={styles.test}>
-                <svg
-                    version="1.1"
-                    width="100%"
-                    height="auto"
-                    viewBox="0 0 600 400"
-                    xmlns="http://www.w3.org/2000/svg"
-                    style={styles.svg}
-                    dangerouslySetInnerHTML={{__html: state.id_1['svg_data'].join('') }}
-                >
-                </svg>
-              </div>
-              <h3>{state.id_1['name']}</h3>
-              <p>Last Modified at {state.id_1['last_modified']}</p>
-              </Link>
-            </li>
-            <li>
-             <Link to="/">
-              <div style={styles.test}>
-                <svg
-                    version="1.1"
-                    width="100%"
-                    height="auto"
-                    viewBox="0 0 600 400"
-                    xmlns="http://www.w3.org/2000/svg"
-                    style={styles.svg}
-                    dangerouslySetInnerHTML={{__html: state.id_2['svg_data'].join('') }}
-                >
-                </svg>
-              </div>
-              <h3>{state.id_2['name']}</h3>
-              <p>Last Modified at {state.id_2['last_modified']}</p>
-              </Link>
-            </li>
-            <li>
-            <Link to="/">
-              <div style={styles.test}>
-                <svg
-                    version="1.1"
-                    width="100%"
-                    height="auto"
-                    viewBox="0 0 600 400"
-                    xmlns="http://www.w3.org/2000/svg"
-                    style={styles.svg}
-                    dangerouslySetInnerHTML={{__html: state.id_2['svg_data'].join('') }}
-                >
-                </svg>
-              </div>
-              <h3>{state.id_2['name']}</h3>
-              <p>Last Modified at {state.id_2['last_modified']}</p>
-              </Link>
-            </li>
-            <li>
-            <Link to="/">
-              <div style={styles.test}>
-                <svg
-                    version="1.1"
-                    width="100%"
-                    height="auto"
-                    viewBox="0 0 600 400"
-                    xmlns="http://www.w3.org/2000/svg"
-                    style={styles.svg}
-                    dangerouslySetInnerHTML={{__html: state.id_2['svg_data'].join('') }}
-                >
-                </svg>
-              </div>
-              <h3>{state.id_2['name']}</h3>
-              <p>Last Modified at {state.id_2['last_modified']}</p>
-              </Link>
-            </li>
+            {
+
+              json.data.map(item => (
+                <li>
+                  <Link to="/">
+                    <div style={styles.test}>
+                    <svg
+                        version="1.1"
+                        width="100%"
+                        height="auto"
+                        viewBox="0 0 600 400"
+                        xmlns="http://www.w3.org/2000/svg"
+                        style={styles.svg}
+                        style={{background:item.color_scheme['background']}}
+                        dangerouslySetInnerHTML={
+                          {__html: item.svg_data.join('').replace(
+                            'class="main"',
+                            `style="fill:${item.color_scheme['mainColor']}"`
+                          ).replace(
+                            'class="sub"',
+                            `style="fill:${item.color_scheme['subColor']}"`
+                          ).replace(
+                            'class="accent"',
+                            `style="fill:${item.color_scheme['accentColor']}"`
+                          )}
+                        }
+                    />
+                    </div>
+                    <h3>{item.artboard_name}</h3>
+                    <p>Last Modified at {item.last_modified}</p>
+                  </Link>
+                </li>
+              ))
+            }
           </ul>
         </div>
 
