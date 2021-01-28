@@ -16,6 +16,8 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
+import { getIsographyData } from '../components/handleLocalstorage'
+
 //import GallaryPanel from '../components/gallarypanel.js';
 //import ToolsPanel from '../components/toolspanel.js';
 //import Artboard from '../components/artboard.js';
@@ -112,75 +114,7 @@ class Home extends React.Component {
 
 const Dashboard = () => {
 
-  const json = {
-    list: [1,2,3,4],
-    data: [
-      {
-        artboard_id: 1,
-        artboard_name: 'Artboard Name 1',
-        created_at: '2020-01-26',
-        last_modified: '2020-01-26',
-        artboard_size: [800,600],
-        svg_data: ['<g transform="translate(50,50) scale(1,1)" class="sub" style="cursor:move"><circle cx="0" cy="0" r="50"></circle></g>',
-        '<g transform="translate(100,250) scale(2,2)" class="main" style="cursor:move" border="solid 3px #000000"><circle cx="30" cy="30" r="20"></circle></g>',
-        '<g transform="translate(50,150) scale(1,1)" class="accent" style="cursor:move"><circle cx="10" cy="10" r="15"></circle><circle cx="20" cy="20" r="10"></circle></g>'],
-        color_scheme: {
-          mainColor: '#cccccc',
-          subColor: '#000000',
-          accentColor: '#FAFAFA',
-          background: '#ffffff'
-        }
-      },
-      {
-        artboard_id: 2,
-        artboard_name: 'Artboard Name 2',
-        created_at: '2020-01-26',
-        last_modified: '2020-01-26',
-        artboard_size: [800,600],
-        svg_data: ['<g transform="translate(50,50) scale(1,1)" class="sub" style="cursor:move"><circle cx="0" cy="0" r="50"></circle></g>',
-        '<g transform="translate(100,250) scale(2,2)" class="main" style="cursor:move" border="solid 3px #000000"><circle cx="30" cy="30" r="20"></circle></g>',
-        '<g transform="translate(50,150) scale(1,1)" class="accent" style="cursor:move"><circle cx="10" cy="10" r="15"></circle><circle cx="20" cy="20" r="10"></circle></g>'],
-        color_scheme: {
-          mainColor: '#1496BA',
-          subColor: '#00607c',
-          accentColor: '#bfd9e1',
-          background: '#fff'
-        }
-      },
-      {
-        artboard_id: 3,
-        artboard_name: 'Artboard Name 3',
-        created_at: '2020-01-26',
-        last_modified: '2020-01-26',
-        artboard_size: [800,600],
-        svg_data: ['<g transform="translate(50,50) scale(1,1)" class="sub" style="cursor:move"><circle cx="0" cy="0" r="50"></circle></g>',
-        '<g transform="translate(100,250) scale(2,2)" class="main" style="cursor:move" border="solid 3px #000000"><circle cx="30" cy="30" r="20"></circle></g>',
-        '<g transform="translate(50,150) scale(1,1)" class="accent" style="cursor:move"><circle cx="10" cy="10" r="15"></circle><circle cx="20" cy="20" r="10"></circle></g>'],
-        color_scheme: {
-          mainColor: '#cccccc',
-          subColor: '#000000',
-          accentColor: '#FAFAFA',
-          background: '#F0F0F0'
-        }
-      },
-      {
-        artboard_id: 4,
-        artboard_name: 'Artboard Name 4',
-        created_at: '2020-01-26',
-        last_modified: '2020-01-26',
-        artboard_size: [800,600],
-        svg_data: ['<g transform="translate(50,50) scale(1,1)" class="sub" style="cursor:move"><circle cx="0" cy="0" r="50"></circle></g>',
-        '<g transform="translate(100,250) scale(2,2)" class="main" style="cursor:move" border="solid 3px #000000"><circle cx="30" cy="30" r="20"></circle></g>',
-        '<g transform="translate(50,150) scale(1,1)" class="accent" style="cursor:move"><circle cx="10" cy="10" r="15"></circle><circle cx="20" cy="20" r="10"></circle></g>'],
-        color_scheme: {
-          mainColor: '#cccccc',
-          subColor: '#000000',
-          accentColor: '#FAFAFA',
-          background: '#ffffff'
-        }
-      },
-    ]
-  }
+  const json = getIsographyData();
 
   const settings = {
     dots: true,
@@ -202,6 +136,11 @@ const Dashboard = () => {
     svg: {
       background: "#fff",
     }
+  }
+
+  const clicked = (e) => {
+    json.working = e.currentTarget.getAttribute('data-id');
+    localStorage.setItem('isography', JSON.stringify(json));
   }
 
 
@@ -228,13 +167,14 @@ const Dashboard = () => {
         </div>
 
         <div className="your-document">
+
           <h2>Your Documents</h2>
           <ul className="document-list">
             {
 
               json.data.map(item => (
                 <li>
-                  <Link to="/">
+                  <Link onClick={clicked} to="/" data-id={item.artboard_id}>
                     <div style={styles.test}>
                     <svg
                         version="1.1"

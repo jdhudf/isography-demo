@@ -60,3 +60,85 @@ export const artboardPosition = (e) => {
   return  JSON.parse(localStorage.getItem('artboardPosition'))
 
 }
+
+export const getIsographyData = (e) => {
+
+  if (localStorage.getItem('isography') === null) {
+
+    const json = {
+      working : 1,
+      data: [
+        {
+          artboard_id: 1,
+          artboard_name: 'Artboard Name 1',
+          created_at: '2020-01-26',
+          last_modified: '2020-01-26',
+          artboard_size: [800,600],
+          svg_data: ['<g transform="translate(50,50) scale(1,1)" class="sub" style="cursor:move"><circle cx="0" cy="0" r="50"></circle></g>',
+          '<g transform="translate(100,250) scale(2,2)" class="main" style="cursor:move" border="solid 3px #000000"><circle cx="30" cy="30" r="20"></circle></g>',
+          '<g transform="translate(50,150) scale(1,1)" class="accent" style="cursor:move"><circle cx="10" cy="10" r="15"></circle><circle cx="20" cy="20" r="10"></circle></g>'],
+          color_scheme: {
+            mainColor: '#cccccc',
+            subColor: '#000000',
+            accentColor: '#FAFAFA',
+            background: '#ffffff'
+          }
+        },
+        {
+          artboard_id: 2,
+          artboard_name: 'Artboard Name 2',
+          created_at: '2020-01-26',
+          last_modified: '2020-01-26',
+          artboard_size: [800,600],
+          svg_data: ['<g transform="translate(50,50) scale(1,1)" class="sub" style="cursor:move"><circle cx="0" cy="0" r="50"></circle></g>',
+          '<g transform="translate(100,250) scale(2,2)" class="main" style="cursor:move" border="solid 3px #000000"><circle cx="30" cy="30" r="20"></circle></g>',
+          '<g transform="translate(50,150) scale(1,1)" class="accent" style="cursor:move"><circle cx="10" cy="10" r="15"></circle><circle cx="20" cy="20" r="10"></circle></g>'],
+          color_scheme: {
+            mainColor: '#1496BA',
+            subColor: '#00607c',
+            accentColor: '#bfd9e1',
+            background: '#fff'
+          }
+        },
+        {
+          artboard_id: 3,
+          artboard_name: 'Artboard Name 3',
+          created_at: '2020-01-26',
+          last_modified: '2020-01-26',
+          artboard_size: [800,600],
+          svg_data: ['<g transform="translate(50,50) scale(1,1)" class="sub" style="cursor:move"><circle cx="0" cy="0" r="50"></circle></g>',
+          '<g transform="translate(100,250) scale(2,2)" class="main" style="cursor:move" border="solid 3px #000000"><circle cx="30" cy="30" r="20"></circle></g>',
+          '<g transform="translate(50,150) scale(1,1)" class="accent" style="cursor:move"><circle cx="10" cy="10" r="15"></circle><circle cx="20" cy="20" r="10"></circle></g>'],
+          color_scheme: {
+            mainColor: '#7343ec',
+            subColor: '#eccbff',
+            accentColor: '#13d9ea',
+            background: '#F0F0F0'
+          }
+        },
+        {
+          artboard_id: 4,
+          artboard_name: 'Artboard Name 4',
+          created_at: '2020-01-26',
+          last_modified: '2020-01-26',
+          artboard_size: [800,600],
+          svg_data: ['<g transform="translate(50,50) scale(1,1)" class="sub" style="cursor:move"><circle cx="0" cy="0" r="50"></circle></g>',
+          '<g transform="translate(100,250) scale(2,2)" class="main" style="cursor:move" border="solid 3px #000000"><circle cx="30" cy="30" r="20"></circle></g>',
+          '<g transform="translate(50,150) scale(1,1)" class="accent" style="cursor:move"><circle cx="10" cy="10" r="15"></circle><circle cx="20" cy="20" r="10"></circle></g>'],
+          color_scheme: {
+            mainColor: '#cccccc',
+            subColor: '#000000',
+            accentColor: '#FAFAFA',
+            background: '#ffffff'
+          }
+        },
+      ]
+    }
+
+    localStorage.setItem('isography', JSON.stringify(json));
+
+  }
+
+  return  JSON.parse(localStorage.getItem('isography'))
+
+}

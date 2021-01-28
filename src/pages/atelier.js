@@ -59,14 +59,14 @@ class Atelier extends React.Component {
   }
 
   componentDidMount() {
-    const el = document.querySelector('.section-atelier');
+    /*const el = document.querySelector('.section-atelier');
 
     el.addEventListener('onkeydown', this.keyPress , { passive: false });
     this.isLocalStorageAvlbl()
 
     setTimeout(function () {
         document.getElementById('welcomescreen').style.display='none';
-    }, 3000);
+    }, 3000);*/
 
   }
 
