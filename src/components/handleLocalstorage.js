@@ -1,46 +1,55 @@
-export const getMainColor = (e) => {
+export const getColor = (e,c) => {
+  if (localStorage.getItem('isography') !== null) {
+    const json = JSON.parse(localStorage.getItem('isography'));
 
-  if (localStorage.getItem('mainColor') === null) {
-    localStorage.setItem('mainColor', e);
+    for(var i=0;i<json.data.length;i++){
+      if(json.data[i].artboard_id == json.working){
+          return json.data[i].color_scheme[c]
+      }
+    }
   }
-  return localStorage.getItem('mainColor')
-
 }
 
-export const getSubColor = (e) => {
+export const setColor = (e,c) => {
+  if (localStorage.getItem('isography') !== null) {
+    const json = JSON.parse(localStorage.getItem('isography'));
 
-  if (localStorage.getItem('subColor') === null) {
-    localStorage.setItem('subColor', e);
+    for(var i=0;i<json.data.length;i++){
+      if(json.data[i].artboard_id == json.working){
+          json.data[i].color_scheme[c] = e
+      }
+    }
+    localStorage.setItem('isography', JSON.stringify(json));
   }
-  return localStorage.getItem('subColor')
-
 }
 
-export const getAccentColor = (e) => {
 
-  if (localStorage.getItem('accentColor') === null) {
-    localStorage.setItem('accentColor', e);
-  }
-  return localStorage.getItem('accentColor')
-
-}
-
-export const getBackgroundColor = (e) => {
-
-  if (localStorage.getItem('backgroundColor') === null) {
-    localStorage.setItem('backgroundColor', e);
-  }
-  return localStorage.getItem('backgroundColor')
-
-}
 
 export const getSVGdata = (e) => {
 
-  if (localStorage.getItem('data') === null) {
-    localStorage.setItem('data', JSON.stringify(e));
-  }
-  return  JSON.parse(localStorage.getItem('data'))
+  if (localStorage.getItem('isography') !== null) {
+    const json =  JSON.parse(localStorage.getItem('isography'))
 
+    for(var i=0;i<json.data.length;i++){
+      if(json.data[i].artboard_id == json.working){
+          return  json.data[i].svg_data
+      }
+    }
+
+  }
+}
+
+export const setSVGdata = (e) => {
+  if (localStorage.getItem('isography') !== null) {
+    const json = JSON.parse(localStorage.getItem('isography'));
+
+    for(var i=0;i<json.data.length;i++){
+      if(json.data[i].artboard_id == json.working){
+          json.data[i].svg_data = e
+      }
+    }
+    localStorage.setItem('isography', JSON.stringify(json));
+  }
 }
 
 export const artboardScale = (e) => {

@@ -7,10 +7,8 @@ import Artboard from '../components/atelier/artboard.js';
 
 import icon from '../images/logo.svg';
 import {
-  getMainColor,
-  getSubColor,
-  getAccentColor,
-  getBackgroundColor,
+  getColor,
+  setColor,
   getSVGdata } from '../components/handleLocalstorage'
 
 import '../styles/atelier.scss';
@@ -32,10 +30,10 @@ class Atelier extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      mainColor: getMainColor('#B21313'),//"#B21313",
-      subColor: getSubColor('#111184'),
-      accentColor: getAccentColor('#C7B136'),
-      background: getBackgroundColor('#ffffff'),
+      mainColor: getColor('#B21313','mainColor'),//"#B21313",
+      subColor: getColor('#111184','subColor'),
+      accentColor: getColor('#C7B136','accentColor'),
+      background: getColor('#C7B136','background'),
       willAddElementOfSvg: 1,
       test: false,
       data : getSVGdata([
@@ -230,19 +228,19 @@ class Atelier extends React.Component {
                backgroundColor={this.state.background}
                changeHexOfMain={(e) => {
                  this.setState({mainColor:e})
-                 localStorage.setItem('mainColor', e);
+                 setColor(e,'mainColor');
                }}
                changeHexOfSub={(e) => {
                  this.setState({subColor:e})
-                 localStorage.setItem('subColor', e);
+                 setColor(e,'subColor');
                }}
                changeHexOfAccent={(e) => {
                  this.setState({accentColor:e})
-                 localStorage.setItem('accentColor', e);
+                 setColor(e,'accentColor');
                }}
                changeHexOfBackground={(e) => {
                  this.setState({background:e})
-                 localStorage.setItem('backgroundColor', e);
+                 setColor(e,'background');
                }}
           />
           <div className="section-artboard">

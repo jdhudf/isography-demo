@@ -1,7 +1,12 @@
 import React from 'react';
 import '../../styles/atelier.scss';
 
-import { getSVGdata,artboardScale,artboardPosition } from '../handleLocalstorage'
+import {
+  getSVGdata,
+  setSVGdata,
+  artboardScale,
+  artboardPosition
+} from '../handleLocalstorage'
 
 import { onWheel } from './features/pinch-gesture-wheel'
 
@@ -298,7 +303,7 @@ class Artboard extends React.Component {
 
     this.setState({isMouseDown:false})
     //console.log('mouseUp: ' + e.target.parentNode.outerHTML)
-    localStorage.setItem('data', JSON.stringify(this.state.data));
+    setSVGdata(this.state.data)//localStorage.setItem('data', JSON.stringify(this.state.data));
 
     if(this.props.test) {
 
@@ -357,7 +362,8 @@ class Artboard extends React.Component {
     this.setState({ displayContextMenu: false })
 
     this.props.updateState(data_copy);
-    localStorage.setItem('data', JSON.stringify(data_copy));
+    setSVGdata(data_copy)
+    //ocalStorage.setItem('data', JSON.stringify(data_copy));
   }
 
   delete = (e) => {
@@ -368,7 +374,7 @@ class Artboard extends React.Component {
     this.setState({ displayContextMenu: false })
 
     this.props.updateState(data_copy);
-    localStorage.setItem('data', JSON.stringify(data_copy));
+    setSVGdata(data_copy)//localStorage.setItem('data', JSON.stringify(data_copy));
   }
 
   reflect = (e) => {
@@ -412,7 +418,7 @@ class Artboard extends React.Component {
     this.setState({ displayContextMenu: false })
 
     this.props.updateState(data_copy);
-    localStorage.setItem('data', JSON.stringify(data_copy));
+    setSVGdata(data_copy)//localStorage.setItem('data', JSON.stringify(data_copy));
 
   }
 
@@ -425,7 +431,7 @@ class Artboard extends React.Component {
     this.setState({ displayContextMenu: false })
 
     this.props.updateState(data_copy);
-    localStorage.setItem('data', JSON.stringify(data_copy));
+    setSVGdata(data_copy)////localStorage.setItem('data', JSON.stringify(data_copy));
   }
 
   bringForward = (e) => {
@@ -437,7 +443,7 @@ class Artboard extends React.Component {
     this.setState({ displayContextMenu: false })
 
     this.props.updateState(data_copy);
-    localStorage.setItem('data', JSON.stringify(data_copy));
+    setSVGdata(data_copy)//localStorage.setItem('data', JSON.stringify(data_copy));
   }
 
   sendBackward = (e) => {
@@ -449,7 +455,7 @@ class Artboard extends React.Component {
     this.setState({ displayContextMenu: false })
 
     this.props.updateState(data_copy);
-    localStorage.setItem('data', JSON.stringify(data_copy));
+    setSVGdata(data_copy)////localStorage.setItem('data', JSON.stringify(data_copy));
   }
 
   sendToBack = (e) => {
@@ -461,7 +467,7 @@ class Artboard extends React.Component {
     this.setState({ displayContextMenu: false })
 
     this.props.updateState(data_copy);
-    localStorage.setItem('data', JSON.stringify(data_copy));
+    setSVGdata(data_copy)//localStorage.setItem('data', JSON.stringify(data_copy));
   }
 
 
@@ -529,7 +535,7 @@ class Artboard extends React.Component {
 
 
   onScaleDown = (e) => {
-    
+
     console.log("scale down");
 
     const mouseX = e.pageX;// pageX and pageY is mouse's axis in the box.
