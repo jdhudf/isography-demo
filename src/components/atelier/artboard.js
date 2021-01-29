@@ -62,6 +62,7 @@ class Artboard extends React.Component {
       startCoordinate: [0,0],
       // -- below is scaling data
       selectedScale: 1,
+      selectedInitial: [0,0],
       // -- below is svg data
       data : getSVGdata([
       '<g transform="translate(50,50) scale(1,1)" class="sub" style="cursor:move;z-index:1000000;"><circle cx="0" cy="0" r="50"></circle></g>',
@@ -80,6 +81,7 @@ class Artboard extends React.Component {
     el.addEventListener('gesturechange', this.gestureChange, { passive: false });
     el.addEventListener('gestureend', this.gestureEnd, { passive: false });
     //el.addEventListener('onkeydown', this.keyPress , { passive: false });
+
   }
 
 
@@ -609,7 +611,56 @@ class Artboard extends React.Component {
     // [client_right,client_bottom]
     var z = Math.sqrt ( Math.pow(x, 2) + Math.pow(y, 2) );
 
-    console.log(x,y)
+    const scale = this.state.selectedScale;
+    const initialAxis = this.state.selectedInitial;
+
+    const init_x = client_right - initialAxis[0]
+    const init_y = client_bottom - initialAxis[1]
+
+    var init_z = Math.sqrt ( Math.pow(init_x, 2) + Math.pow(init_y, 2) );
+
+    //console.log(init_z,z)
+
+    console.log(this.state.selectedScale*z/init_z)
+
+    // -- code about scaling
+
+    const scaling = this.state.selectedScale * z / init_z
+
+    console.log(scaling)
+
+    const el = this.state.data[this.state.selectedElement];
+    const data_copy = this.state.data.slice();
+
+    //const regExp = /-?\d+/g;
+    const regExp = /\(([^)]+)\)/g;
+    const transform = el.match(regExp)
+
+    console.log(el)
+    console.log(transform[1])
+
+    var i = 1;
+
+    const result = el.replace(regExp,
+      function(match) {
+        if(i === 1) {
+          i--;
+          return transform[0];
+        } else if (i === 0) {
+          i--;
+          return '(' + scaling +','+ scaling + ')';
+        } else {
+          return match;
+        };
+      }
+    );
+
+    data_copy[this.state.selectedElement] = result;
+    this.setState({data: data_copy});
+
+
+    //  --- code about selecter
+
 
     const selector = document.getElementById('selector');
 
@@ -651,13 +702,15 @@ class Artboard extends React.Component {
     //corners[3].style.top = p + 'px';
     corners[3].style.cursor = 'nesw-resize';
 
-
   }
 
   onScaleDown = (e) => {
 
     console.log("scale down");
-    this.setState({isMouseDown:true})
+    this.setState({
+      isMouseDown:true,
+      selectedInitial: [e.pageX,e.pageY],
+    })
 
     const mouseX = e.pageX;// pageX and pageY is mouse's axis in the box.
     const mouseY = e.pageY;
