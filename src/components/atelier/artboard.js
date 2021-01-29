@@ -585,10 +585,79 @@ class Artboard extends React.Component {
     e.preventDefault();
   }
 
+  getDistance =  (e) => {
+    const elements = document.getElementById("svg");
+    const selectedElement = elements.children[this.state.selectedElement]
+
+    //alert(selectedElement.getBoundingClientRect().width);
+
+    const client_w = selectedElement.getBoundingClientRect().width;
+    const client_h = selectedElement.getBoundingClientRect().height;
+
+    const client_left = selectedElement.getBoundingClientRect().left;
+    const client_top = selectedElement.getBoundingClientRect().top;
+    const client_right = selectedElement.getBoundingClientRect().right;
+    const client_bottom = selectedElement.getBoundingClientRect().bottom;
+
+    const mouseX = e.pageX;// pageX and pageY is mouse's axis in the box.
+    const mouseY = e.pageY;
+
+    const x = client_right - e.pageX
+    const y = client_bottom - e.pageY
+
+    //
+    // [client_right,client_bottom]
+    var z = Math.sqrt ( Math.pow(x, 2) + Math.pow(y, 2) );
+
+    console.log(x,y)
+
+    const selector = document.getElementById('selector');
+
+    const corners = document.getElementsByClassName('corner');
+
+    selector.style.width = x + 'px';
+    selector.style.height = y +  'px';
+
+    selector.style.left = e.pageX + 'px';
+    selector.style.top = e.pageY +  'px';
+
+    //x2+y2＝z2
+
+    const d = e.pageX - 5;
+    const o =  e.pageY - 5;
+
+    corners[0].style.left = d + 'px';
+    corners[0].style.top = o +  'px';
+    corners[0].style.cursor = 'nwse-resize';
+
+    const g = e.pageX + client_w - 5;
+    const q = e.pageY + client_h - 5;
+
+    //corners[1].style.left = g + 'px';
+    //corners[1].style.top = q + 'px';
+    corners[1].style.cursor = 'nwse-resize';
+
+    const n = e.pageX + client_w -5;
+    const m = e.pageY - 5;
+
+    //corners[2].style.left = n + 'px';
+    corners[2].style.top = m + 'px';
+    corners[2].style.cursor = 'nesw-resize';
+
+    const v = e.pageX - 5;
+    const p = e.pageY + client_h - 5;
+
+    corners[3].style.left = v + 'px';
+    //corners[3].style.top = p + 'px';
+    corners[3].style.cursor = 'nesw-resize';
+
+
+  }
 
   onScaleDown = (e) => {
 
     console.log("scale down");
+    this.setState({isMouseDown:true})
 
     const mouseX = e.pageX;// pageX and pageY is mouse's axis in the box.
     const mouseY = e.pageY;
@@ -602,53 +671,80 @@ class Artboard extends React.Component {
     console.log(scale[3]);
     this.setState({selectedScale: scale[3]});
 
+    /*
+    selectedElement.getBoundingClientRect().left+selectedElement.getBoundingClientRect().width/2
+    selectedElement.getBoundingClientRect().top + selectedElement.getBoundingClientRect().height/2;
+    */
+
+    const selector = document.getElementById('selector');
+
+    const corners = document.getElementsByClassName('corner');
+
+    /*selector.style.display = "block"
+
+    selector.style.width = client_w + 'px';
+    selector.style.height = client_h +  'px';
+
+    selector.style.position = 'fixed';
+    selector.style.left = client_left + 'px';
+    selector.style.top = client_top +  'px';
+    selector.style.zIndex = 1000;*/
+
   }
 
   onScaleMove = (e) => {
-    console.log("scale move");
-    const move = [e.pageX,e.pageY];
-    const gap = [
-      parseInt(move[0]) - parseInt(this.state.initial[0]),
-      parseInt(move[1]) - parseInt(this.state.initial[1])
-    ];
 
-    const el = this.state.data[this.state.selectedElement];
-    const data_copy = this.state.data.slice();
+    if (this.state.isMouseDown) {
+      console.log("scale move");
 
-    const regExp = /-?\d+/g;
-    const scale = el.match(regExp)
+      this.getDistance(e);
 
-    //console.log(-scale[2]+','+scale[3])
+      const move = [e.pageX,e.pageY];
+      const gap = [
+        parseInt(move[0]) - parseInt(this.state.initial[0]),
+        parseInt(move[1]) - parseInt(this.state.initial[1])
+      ];
 
-    var n = 3;
+      const el = this.state.data[this.state.selectedElement];
+      const data_copy = this.state.data.slice();
 
-    const result = el.replace(regExp,
-      function(match) {
-        if(n === 3) {
-          n--;
-          return scale[0];
-        } else if (n === 2) {
-          n--;
-          return scale[1];
-        } else if (n === 1) {
-          n--;
-          return scale[2];
-        } else if (n === 0) {
-          n--;
-          return scale[3];
-        } else {
-          return match;
-        };
-      }
-    );
+      const regExp = /-?\d+/g;
+      const scale = el.match(regExp)
 
-    console.log(gap)
+      //console.log(-scale[2]+','+scale[3])
+
+      var n = 3;
+
+      const result = el.replace(regExp,
+        function(match) {
+          if(n === 3) {
+            n--;
+            return scale[0];
+          } else if (n === 2) {
+            n--;
+            return scale[1];
+          } else if (n === 1) {
+            n--;
+            return scale[2];
+          } else if (n === 0) {
+            n--;
+            return scale[3];
+          } else {
+            return match;
+          };
+        }
+      );
+
+
+    }
 
   }
   onScaleUp = (e) => {
+    this.setState({isMouseDown:false})
     console.log("scale up");
   }
   onScaleLeave = (e) => {
+    this.setState({isMouseDown:false})
     console.log("scale leave");
   }
 
