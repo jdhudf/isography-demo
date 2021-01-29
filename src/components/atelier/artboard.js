@@ -90,6 +90,7 @@ class Artboard extends React.Component {
 
     if (g.startsWith('<g transform="translate')) {
 
+
       this.setState({selectedElement: array.indexOf(g)});
 
     } else {
@@ -111,6 +112,62 @@ class Artboard extends React.Component {
     );
   }
 
+  selecterUpdate = () => {
+    const elements = document.getElementById("svg");
+    const selectedElement = elements.children[this.state.selectedElement]
+
+    //alert(selectedElement.getBoundingClientRect().width);
+
+    const client_w = selectedElement.getBoundingClientRect().width;
+    const client_h = selectedElement.getBoundingClientRect().height;
+
+    const client_left = selectedElement.getBoundingClientRect().left;
+    const client_top = selectedElement.getBoundingClientRect().top;
+    const client_right = selectedElement.getBoundingClientRect().right;
+    const client_bottom = selectedElement.getBoundingClientRect().bottom;
+
+    const selector = document.getElementById('selector');
+
+    const corners = document.getElementsByClassName('corner');
+
+    selector.style.display = "block"
+
+    selector.style.width = client_w + 'px';
+    selector.style.height = client_h +  'px';
+
+    selector.style.position = 'fixed';
+    selector.style.left = client_left + 'px';
+    selector.style.top = client_top +  'px';
+    selector.style.zIndex = 1000;
+
+    const d = client_left - 5;
+    const e =  client_top - 5;
+
+    corners[0].style.left = d + 'px';
+    corners[0].style.top = e +  'px';
+    corners[0].style.cursor = 'nwse-resize';
+
+    const x = client_left + client_w - 5;
+    const y = client_top + client_h - 5;
+
+    corners[1].style.left = x + 'px';
+    corners[1].style.top = y + 'px';
+    corners[1].style.cursor = 'nwse-resize';
+
+    const n = client_left + client_w -5;
+    const m = client_top - 5;
+
+    corners[2].style.left = n + 'px';
+    corners[2].style.top = m + 'px';
+    corners[2].style.cursor = 'nesw-resize';
+
+    const o = client_left - 5;
+    const p = client_top + client_h - 5;
+
+    corners[3].style.left = o + 'px';
+    corners[3].style.top = p + 'px';
+    corners[3].style.cursor = 'nesw-resize';
+  }
 
   onMouseDown = (e) => {
     this.setState({isMouseDown:true})
@@ -118,6 +175,7 @@ class Artboard extends React.Component {
     const mouseX = e.pageX;// pageX and pageY is mouse's axis in the box.
     const mouseY = e.pageY;
     this.selectElement(e);
+
 
 
     //--------  scale --------//
@@ -469,69 +527,9 @@ class Artboard extends React.Component {
     this.setState({ displayContextMenu: false })
   }
 
-  selecterUpdate = () => {
-    const elements = document.getElementById("svg");
-    const selectedElement = elements.children[this.state.selectedElement]
-
-    //alert(selectedElement.getBoundingClientRect().width);
-
-    const client_w = selectedElement.getBoundingClientRect().width;
-    const client_h = selectedElement.getBoundingClientRect().height;
-
-    const client_left = selectedElement.getBoundingClientRect().left;
-    const client_top = selectedElement.getBoundingClientRect().top;
-    const client_right = selectedElement.getBoundingClientRect().right;
-    const client_bottom = selectedElement.getBoundingClientRect().bottom;
-
-    const selector = document.getElementById('selector');
-
-    const corners = document.getElementsByClassName('corner');
-
-    selector.style.display = "block"
-
-    selector.style.width = client_w + 'px';
-    selector.style.height = client_h +  'px';
-
-    selector.style.position = 'fixed';
-    selector.style.left = client_left + 'px';
-    selector.style.top = client_top +  'px';
-    selector.style.zIndex = 1000;
-
-    const d = client_left - 5;
-    const e =  client_top - 5;
-
-    corners[0].style.left = d + 'px';
-    corners[0].style.top = e +  'px';
-    corners[0].style.cursor = 'nwse-resize';
-
-    const x = client_left + client_w - 5;
-    const y = client_top + client_h - 5;
-
-    corners[1].style.left = x + 'px';
-    corners[1].style.top = y + 'px';
-    corners[1].style.cursor = 'nwse-resize';
-
-    const n = client_left + client_w -5;
-    const m = client_top - 5;
-
-    corners[2].style.left = n + 'px';
-    corners[2].style.top = m + 'px';
-    corners[2].style.cursor = 'nesw-resize';
-
-    const o = client_left - 5;
-    const p = client_top + client_h - 5;
-
-    corners[3].style.left = o + 'px';
-    corners[3].style.top = p + 'px';
-    corners[3].style.cursor = 'nesw-resize';
-  }
-
   onWheel = (e) => {
     e.preventDefault();
-
     this.selecterUpdate();
-
-
     if (e.ctrlKey) {
 
       if (0.5 < this.state.artboardScale < 1.5) {
@@ -575,7 +573,6 @@ class Artboard extends React.Component {
   gestureChange = (e) => {
     e.preventDefault();
     this.selecterUpdate();
-
     this.setState({artboardScale: this.state.gestureStartScale * e.scale})
 
     localStorage.setItem('artboardScale', this.state.gestureStartScale * e.scale);
