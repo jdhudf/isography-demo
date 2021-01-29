@@ -4,6 +4,7 @@ import '../../styles/atelier.scss';
 import {
   getSVGdata,
   setSVGdata,
+  getCanvasScale,
   artboardScale,
   artboardPosition
 } from '../handleLocalstorage'
@@ -85,18 +86,11 @@ class Artboard extends React.Component {
   //--- Choose which element we should edit ---//
   selectElement = (e) => {
     var array = this.state.data;
-    const g = e.target.parentNode.outerHTML;
+    let g = e.target.parentNode.outerHTML;
 
     if (g.startsWith('<g transform="translate')) {
 
-      //console.log(array[3]);
-      //console.log(g);
-
-      this.setState(
-        {
-          selectedElement: array.indexOf(g)
-        }
-      );
+      this.setState({selectedElement: array.indexOf(g)});
 
     } else {
       this.setState({isMouseDown:false})
@@ -147,7 +141,7 @@ class Artboard extends React.Component {
 
       const corners = document.getElementsByClassName('corner');
 
-      console.log(el.getBoundingClientRect());
+      //console.log(el.getBoundingClientRect());
 
       selector.style.display = "block"
 
@@ -188,7 +182,7 @@ class Artboard extends React.Component {
       corners[3].style.cursor = 'nesw-resize';
 
 
-      console.log(el,client_w + 'px ' + client_h + 'px');
+      //console.log(el,client_w + 'px ' + client_h + 'px');
 
     }
 
@@ -205,7 +199,7 @@ class Artboard extends React.Component {
 
     if (this.state.isMouseDown) {
 
-      console.log('move!');
+      //console.log('move!');
 
       //---  Calculate a gap  ---//
       const move = [e.pageX,e.pageY];
@@ -475,8 +469,67 @@ class Artboard extends React.Component {
     this.setState({ displayContextMenu: false })
   }
 
+  selecterUpdate = () => {
+    const elements = document.getElementById("svg");
+    const selectedElement = elements.children[this.state.selectedElement]
+
+    //alert(selectedElement.getBoundingClientRect().width);
+
+    const client_w = selectedElement.getBoundingClientRect().width;
+    const client_h = selectedElement.getBoundingClientRect().height;
+
+    const client_left = selectedElement.getBoundingClientRect().left;
+    const client_top = selectedElement.getBoundingClientRect().top;
+    const client_right = selectedElement.getBoundingClientRect().right;
+    const client_bottom = selectedElement.getBoundingClientRect().bottom;
+
+    const selector = document.getElementById('selector');
+
+    const corners = document.getElementsByClassName('corner');
+
+    selector.style.display = "block"
+
+    selector.style.width = client_w + 'px';
+    selector.style.height = client_h +  'px';
+
+    selector.style.position = 'fixed';
+    selector.style.left = client_left + 'px';
+    selector.style.top = client_top +  'px';
+    selector.style.zIndex = 1000;
+
+    const d = client_left - 5;
+    const e =  client_top - 5;
+
+    corners[0].style.left = d + 'px';
+    corners[0].style.top = e +  'px';
+    corners[0].style.cursor = 'nwse-resize';
+
+    const x = client_left + client_w - 5;
+    const y = client_top + client_h - 5;
+
+    corners[1].style.left = x + 'px';
+    corners[1].style.top = y + 'px';
+    corners[1].style.cursor = 'nwse-resize';
+
+    const n = client_left + client_w -5;
+    const m = client_top - 5;
+
+    corners[2].style.left = n + 'px';
+    corners[2].style.top = m + 'px';
+    corners[2].style.cursor = 'nesw-resize';
+
+    const o = client_left - 5;
+    const p = client_top + client_h - 5;
+
+    corners[3].style.left = o + 'px';
+    corners[3].style.top = p + 'px';
+    corners[3].style.cursor = 'nesw-resize';
+  }
+
   onWheel = (e) => {
     e.preventDefault();
+
+    this.selecterUpdate();
 
 
     if (e.ctrlKey) {
@@ -521,6 +574,8 @@ class Artboard extends React.Component {
   }
   gestureChange = (e) => {
     e.preventDefault();
+    this.selecterUpdate();
+
     this.setState({artboardScale: this.state.gestureStartScale * e.scale})
 
     localStorage.setItem('artboardScale', this.state.gestureStartScale * e.scale);
@@ -774,8 +829,9 @@ class Artboard extends React.Component {
           style={styles.style}
           id="svg"
           version="1.1"
-          width="500"
-          height="400"
+          viewBox={`0 0 ${getCanvasScale()[0]} ${getCanvasScale()[1]}`}
+          width={getCanvasScale[0]}
+          height={getCanvasScale[1]}
           xmlns="http://www.w3.org/2000/svg"
           dangerouslySetInnerHTML={{__html: this.state.data.join('') }}
           onMouseDown={this.onMouseDown}

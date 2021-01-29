@@ -52,6 +52,18 @@ export const setSVGdata = (e) => {
   }
 }
 
+export const getCanvasScale = (e) => {
+  if (localStorage.getItem('isography') !== null) {
+    const json = JSON.parse(localStorage.getItem('isography'));
+
+    for(var i=0;i<json.data.length;i++){
+      if(json.data[i].artboard_id == json.working){
+          return json.data[i].artboard_size
+      }
+    }
+  }
+}
+
 export const artboardScale = (e) => {
 
   if (localStorage.getItem('artboardScale') === null) {

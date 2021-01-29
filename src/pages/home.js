@@ -176,14 +176,18 @@ const Dashboard = () => {
                 <li>
                   <Link onClick={clicked} to="/" data-id={item.artboard_id}>
                     <div style={styles.test}>
+                    {/* x=y*item.artboard_size[0]/item.artboard_size[1] */}
+                    {/* y=x*item.artboard_size[1]/item.artboard_size[0] */}
                     <svg
                         version="1.1"
-                        width="100%"
-                        height="auto"
-                        viewBox="0 0 600 400"
+                        viewBox={`0 0 ${item.artboard_size[0]} ${item.artboard_size[1]}`}
                         xmlns="http://www.w3.org/2000/svg"
                         style={styles.svg}
-                        style={{background:item.color_scheme['background']}}
+                        style={{
+                          background:item.color_scheme['background'],
+                          width: "90%",
+                          //height: `calc(${item.artboard_size[0]} / ${item.artboard_size[1]} * 90%)`
+                        }}
                         dangerouslySetInnerHTML={
                           {__html: item.svg_data.join('').replace(
                             'class="main"',

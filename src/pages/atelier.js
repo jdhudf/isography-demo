@@ -102,7 +102,7 @@ class Atelier extends React.Component {
 
       this.setState({isMouseDown:true})
 
-      console.log(e.target.parentNode.outerHTML)
+      //console.log(e.target.parentNode.outerHTML)
 
       document.querySelector('.section-gallalypanel').style.cursor = 'copy';
       document.querySelector('.section-artboard').style.cursor = 'copy';
@@ -251,7 +251,7 @@ class Atelier extends React.Component {
                background={this.state.background}
                updateState={(e) => {
                  this.setState({data:e})
-                 console.log(e)
+                 //console.log(e)
                }}
                data={this.state.data}
 
