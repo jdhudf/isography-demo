@@ -619,16 +619,9 @@ class Artboard extends React.Component {
 
     var init_z = Math.sqrt ( Math.pow(init_x, 2) + Math.pow(init_y, 2) );
 
-    //console.log(init_z,z)
-
-    //console.log(this.state.selectedScale*z/init_z)
-
     // -- code about scaling
 
     const scaling = this.state.selectedScale[0] * z / init_z
-
-    console.info(this.state.selectedScale)
-    console.info(scaling)
 
     const el = this.state.data[this.state.selectedElement];
     const data_copy = this.state.data.slice();
@@ -636,9 +629,6 @@ class Artboard extends React.Component {
     //const regExp = /-?\d+/g;
     const regExp = /\(([^)]+)\)/g;
     const transform = el.match(regExp)
-
-    //console.log(el)
-    //console.log(transform[1])
 
     if (scaling < 4){
       var i = 1;
@@ -660,6 +650,46 @@ class Artboard extends React.Component {
       data_copy[this.state.selectedElement] = result;
 
       this.setState({data: data_copy});
+    }
+
+    //  --- code about translating el while scaling
+
+    const gap = [
+      e.pageX - initialAxis[0],
+      e.pageY - initialAxis[1]
+    ];
+
+    let translate = [
+      parseInt(this.state.initialTranslate[0]) + parseInt(gap[0]),
+      parseInt(this.state.initialTranslate[1]) + parseInt(gap[1])
+    ];
+
+    console.info('translate is ' +  translate)
+
+    const g = selectedElement.outerHTML;//e.target.parentNode.outerHTML;
+
+    console.info('g tag is... ' + selectedElement.outerHTML);
+
+    if (g === this.state.data[this.state.selectedElement] && g.startsWith('<g transform="translate')) {
+
+      const regExp = /-?\d+/g;
+      var n = 1;
+
+      console.info('g tag is ' + g);
+
+      const result = g.replace(regExp,
+        function(match) {
+          if(n === 1) {
+            n--;
+            return translate[0];
+          } else if (n === 0) {
+            n--;
+            return translate[1];
+          } else {
+            return match;
+          };
+        }
+      );
     }
 
 
@@ -685,17 +715,17 @@ class Artboard extends React.Component {
     corners[0].style.top = o +  'px';
     corners[0].style.cursor = 'nwse-resize';
 
-    const g = e.pageX + client_w - 5;
+    const gg = e.pageX + client_w - 5;
     const q = e.pageY + client_h - 5;
 
-    //corners[1].style.left = g + 'px';
+    //corners[1].style.left = gg + 'px';
     //corners[1].style.top = q + 'px';
     corners[1].style.cursor = 'nwse-resize';
 
-    const n = e.pageX + client_w -5;
+    const nn = e.pageX + client_w -5;
     const m = e.pageY - 5;
 
-    //corners[2].style.left = n + 'px';
+    //corners[2].style.left = nn + 'px';
     corners[2].style.top = m + 'px';
     corners[2].style.cursor = 'nesw-resize';
 
@@ -707,6 +737,7 @@ class Artboard extends React.Component {
     corners[3].style.cursor = 'nesw-resize';
 
   }
+
 
   onScaleDown = (e) => {
 
@@ -729,28 +760,8 @@ class Artboard extends React.Component {
     const regExp_2 = /-?\d+\.\d+/g;
     const scale_2 = scale[1].match(regExp_2)
 
-    console.log('ddddd! ' +  scale[1]);
-    console.log('ddd! ' +  scale_2[0]);
     this.setState({selectedScale: scale_2});
-
-    /*
-    selectedElement.getBoundingClientRect().left+selectedElement.getBoundingClientRect().width/2
-    selectedElement.getBoundingClientRect().top + selectedElement.getBoundingClientRect().height/2;
-    */
-
-    const selector = document.getElementById('selector');
-
-    const corners = document.getElementsByClassName('corner');
-
-    /*selector.style.display = "block"
-
-    selector.style.width = client_w + 'px';
-    selector.style.height = client_h +  'px';
-
-    selector.style.position = 'fixed';
-    selector.style.left = client_left + 'px';
-    selector.style.top = client_top +  'px';
-    selector.style.zIndex = 1000;*/
+    this.getTranslate(e);
 
   }
 
