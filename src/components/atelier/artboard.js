@@ -621,13 +621,14 @@ class Artboard extends React.Component {
 
     //console.log(init_z,z)
 
-    console.log(this.state.selectedScale*z/init_z)
+    //console.log(this.state.selectedScale*z/init_z)
 
     // -- code about scaling
 
-    const scaling = this.state.selectedScale * z / init_z
+    const scaling = this.state.selectedScale[0] * z / init_z
 
-    console.log(scaling)
+    console.info(this.state.selectedScale)
+    console.info(scaling)
 
     const el = this.state.data[this.state.selectedElement];
     const data_copy = this.state.data.slice();
@@ -636,27 +637,30 @@ class Artboard extends React.Component {
     const regExp = /\(([^)]+)\)/g;
     const transform = el.match(regExp)
 
-    console.log(el)
-    console.log(transform[1])
+    //console.log(el)
+    //console.log(transform[1])
 
-    var i = 1;
+    if (scaling < 4){
+      var i = 1;
 
-    const result = el.replace(regExp,
-      function(match) {
-        if(i === 1) {
-          i--;
-          return transform[0];
-        } else if (i === 0) {
-          i--;
-          return '(' + scaling +','+ scaling + ')';
-        } else {
-          return match;
-        };
-      }
-    );
+      const result = el.replace(regExp,
+        function(match) {
+          if(i === 1) {
+            i--;
+            return transform[0];
+          } else if (i === 0) {
+            i--;
+            return '(' + scaling +','+ scaling + ')';
+          } else {
+            return match;
+          };
+        }
+      );
 
-    data_copy[this.state.selectedElement] = result;
-    this.setState({data: data_copy});
+      data_copy[this.state.selectedElement] = result;
+
+      this.setState({data: data_copy});
+    }
 
 
     //  --- code about selecter
@@ -718,11 +722,16 @@ class Artboard extends React.Component {
 
     const el = this.state.data[this.state.selectedElement];
 
-    const regExp = /-?\d+/g;
+    //const regExp = /-?\d+/g;
+    const regExp = /\(([^)]+)\)/g;
     const scale = el.match(regExp)
 
-    console.log(scale[3]);
-    this.setState({selectedScale: scale[3]});
+    const regExp_2 = /-?\d+\.\d+/g;
+    const scale_2 = scale[1].match(regExp_2)
+
+    console.log('ddddd! ' +  scale[1]);
+    console.log('ddd! ' +  scale_2[0]);
+    this.setState({selectedScale: scale_2});
 
     /*
     selectedElement.getBoundingClientRect().left+selectedElement.getBoundingClientRect().width/2
