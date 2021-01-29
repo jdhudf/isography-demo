@@ -102,7 +102,12 @@ class Artboard extends React.Component {
 
   //--- get initial translate of selected elements ---//
   getTranslate = (e) => {
-    const g = e.target.parentNode.outerHTML;
+    //const g = e.target.parentNode.outerHTML;
+
+    const elements = document.getElementById("svg");
+    const selectedElement = elements.children[this.state.selectedElement]
+
+    const g = selectedElement.outerHTML;
 
     const regExp = /\d+/g;
     const translate = g.match(regExp)
@@ -619,7 +624,7 @@ class Artboard extends React.Component {
 
     var init_z = Math.sqrt ( Math.pow(init_x, 2) + Math.pow(init_y, 2) );
 
-    // -- code about scaling
+    // -- code about scaling & code about translating el while scaling
 
     const scaling = this.state.selectedScale[0] * z / init_z
 
@@ -630,16 +635,36 @@ class Artboard extends React.Component {
     const regExp = /\(([^)]+)\)/g;
     const transform = el.match(regExp)
 
-    if (scaling < 4){
-      var i = 1;
+    const gap = [
+      e.pageX - initialAxis[0],
+      e.pageY - initialAxis[1]
+    ];
 
-      const result = el.replace(regExp,
+    let translate = [
+      parseInt(this.state.initialTranslate[0]) + parseInt(gap[0]),
+      parseInt(this.state.initialTranslate[1]) + parseInt(gap[1])
+    ];
+
+    //console.info('translate is ' +  translate)
+
+    const g = selectedElement.outerHTML;//e.target.parentNode.outerHTML;
+
+    console.info('g tag is... ' + selectedElement.outerHTML);
+
+    if (g === this.state.data[this.state.selectedElement] && g.startsWith('<g transform="translate') && scaling < 4) {
+
+      console.info('translate is ' + translate);
+
+      const regExp = /\(([^)]+)\)/g;
+      var n = 1;
+
+      const result = g.replace(regExp,
         function(match) {
-          if(i === 1) {
-            i--;
-            return transform[0];
-          } else if (i === 0) {
-            i--;
+          if(n === 1) {
+            n--;
+            return '(' + translate[0] +','+ translate[1] + ')';
+          } else if (n === 0) {
+            n--;
             return '(' + scaling +','+ scaling + ')';
           } else {
             return match;
@@ -652,45 +677,6 @@ class Artboard extends React.Component {
       this.setState({data: data_copy});
     }
 
-    //  --- code about translating el while scaling
-
-    const gap = [
-      e.pageX - initialAxis[0],
-      e.pageY - initialAxis[1]
-    ];
-
-    let translate = [
-      parseInt(this.state.initialTranslate[0]) + parseInt(gap[0]),
-      parseInt(this.state.initialTranslate[1]) + parseInt(gap[1])
-    ];
-
-    console.info('translate is ' +  translate)
-
-    const g = selectedElement.outerHTML;//e.target.parentNode.outerHTML;
-
-    console.info('g tag is... ' + selectedElement.outerHTML);
-
-    if (g === this.state.data[this.state.selectedElement] && g.startsWith('<g transform="translate')) {
-
-      const regExp = /-?\d+/g;
-      var n = 1;
-
-      console.info('g tag is ' + g);
-
-      const result = g.replace(regExp,
-        function(match) {
-          if(n === 1) {
-            n--;
-            return translate[0];
-          } else if (n === 0) {
-            n--;
-            return translate[1];
-          } else {
-            return match;
-          };
-        }
-      );
-    }
 
 
     //  --- code about selecter
@@ -742,10 +728,14 @@ class Artboard extends React.Component {
   onScaleDown = (e) => {
 
     console.log("scale down");
+
     this.setState({
       isMouseDown:true,
       selectedInitial: [e.pageX,e.pageY],
     })
+
+    console.info('initial translate is ' + this.state.initialTranslate);
+
 
     const mouseX = e.pageX;// pageX and pageY is mouse's axis in the box.
     const mouseY = e.pageY;
