@@ -190,13 +190,13 @@ const Dashboard = () => {
                         }}
                         dangerouslySetInnerHTML={
                           {__html: item.svg_data.join('').replace(
-                            'class="main"',
+                            /class="main"/g,
                             `style="fill:${item.color_scheme['mainColor']}"`
                           ).replace(
-                            'class="sub"',
+                            /class="sub"/g,
                             `style="fill:${item.color_scheme['subColor']}"`
                           ).replace(
-                            'class="accent"',
+                            /class="accent"/g,
                             `style="fill:${item.color_scheme['accentColor']}"`
                           )}
                         }
