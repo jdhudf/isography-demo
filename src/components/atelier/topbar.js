@@ -6,6 +6,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronDown,faAdjust } from '@fortawesome/free-solid-svg-icons'
 import ReactModal from 'react-modal';
 
+import {
+  getCanvasScale
+} from '../handleLocalstorage'
+
 class TopBar extends React.Component {
 
   // React Modal -- Start
@@ -63,9 +67,8 @@ class TopBar extends React.Component {
     return (
       <section className="section-menubar">
         <div>
-        <a href="http://localhost:8000" title="Home">
-          <img className="icon" src={icon} alt="Icon" />
-        </a>
+        <Link to="/home" aria-label="Home" title="Home"><img className="icon" src={icon} alt="Icon" />
+        </Link>
         </div>
         <span onClick={this.openExportPanel}>Export</span>
 
@@ -79,7 +82,7 @@ class TopBar extends React.Component {
                   version="1.1"
                   width="100%"
                   height="auto"
-                  viewBox="0 0 600 400"
+                  viewBox={`0 0 ${getCanvasScale()[0]} ${getCanvasScale()[1]}`}
                   xmlns="http://www.w3.org/2000/svg"
                   style={styles.svg}
                   dangerouslySetInnerHTML={{__html: this.props.data.join('') }}

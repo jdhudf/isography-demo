@@ -6,18 +6,19 @@ import {
   setSVGdata,
   getCanvasScale,
   artboardScale,
-  artboardPosition
+  artboardPosition,
+  setLastModified
 } from '../handleLocalstorage'
 
 import { onWheel } from './features/pinch-gesture-wheel'
 
 //====================================
 //  We need below functions that
-//  -[△] drag items
+//  -[x] drag items
 //  -[x] duplicate items
 //  -[x] change items' color
-//  -[ ] resize items
-//  -[ ] reflect items
+//  -[x] resize items
+//  -[x] reflect items
 //  -[x] delete items
 //  -[ ] group items
 //  -[x] pinch-in & pinch-out
@@ -81,6 +82,10 @@ class Artboard extends React.Component {
     el.addEventListener('gesturechange', this.gestureChange, { passive: false });
     el.addEventListener('gestureend', this.gestureEnd, { passive: false });
     //el.addEventListener('onkeydown', this.keyPress , { passive: false });
+
+    const today = new Date();
+    setLastModified(today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate())
+
 
   }
 
@@ -592,6 +597,8 @@ class Artboard extends React.Component {
     e.preventDefault();
   }
 
+  //--- Below is code about scaling elements ---//
+
   getDistance =  (e) => {
     const elements = document.getElementById("svg");
     const selectedElement = elements.children[this.state.selectedElement]
@@ -626,7 +633,10 @@ class Artboard extends React.Component {
 
     // -- code about scaling & code about translating el while scaling
 
-    const scaling = this.state.selectedScale[0] * z / init_z
+    const scaling = this.state.selectedScale * z / init_z
+
+    console.log(this.state.selectedScale,this.state.selectedInitial);
+    console.log(this.state.selectedScale,scaling,z,init_z)
 
     const el = this.state.data[this.state.selectedElement];
     const data_copy = this.state.data.slice();
@@ -724,7 +734,6 @@ class Artboard extends React.Component {
 
   }
 
-
   onScaleDown = (e) => {
 
     console.log("scale down");
@@ -743,18 +752,25 @@ class Artboard extends React.Component {
 
     const el = this.state.data[this.state.selectedElement];
 
-    //const regExp = /-?\d+/g;
     const regExp = /\(([^)]+)\)/g;
-    const scale = el.match(regExp)
+    const scale = el.match(regExp) // ex.["(342,147)","(1,1)"]
+
+    console.log('scale ...' + scale[0],scale[1],scale[2])
 
     const regExp_2 = /-?\d+\.\d+/g;
-    const scale_2 = scale[1].match(regExp_2)
+    let scale_2 = scale[1].match(regExp_2)
 
-    this.setState({selectedScale: scale_2});
+
+    if (JSON.stringify(scale_2) === "null") {
+      const regExp_3 = /-?\d+/g;
+      scale_2 = scale[1].match(regExp_3)
+    }
+
+
+    this.setState({selectedScale: scale_2[0]});
     this.getTranslate(e);
 
   }
-
   onScaleMove = (e) => {
 
     if (this.state.isMouseDown) {

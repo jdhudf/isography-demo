@@ -1,5 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
+import ColorPicker from '../components/ColorPicker.js';
+
+
 //import {
 //  BrowserRouter as Router,
 //  Switch,
@@ -16,7 +19,10 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-import { getIsographyData } from '../components/handleLocalstorage'
+import {
+  getIsographyData,
+  addNewArtboard
+ } from '../components/handleLocalstorage'
 
 //import GallaryPanel from '../components/gallarypanel.js';
 //import ToolsPanel from '../components/toolspanel.js';
@@ -135,6 +141,27 @@ const Dashboard = () => {
     },
     svg: {
       background: "#fff",
+    },
+    modalContent: {
+      width: '90%',
+      maxWidth: '700px',
+      position: 'fixed',
+      top: '50%',
+      left: '50%',
+      background: '#fff',
+      transform: 'translate(-50%,-50%)',
+      zIndex: '100000',
+    },
+    modalBackground: {
+      width: '100%',
+      minWidth: '100vw',
+      minHeight: '100vh',
+      position: 'fixed',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%,-50%)',
+      background: 'rgba(0,0,0,0.3)',
+      zIndex: '10000'
     }
   }
 
@@ -143,15 +170,29 @@ const Dashboard = () => {
     localStorage.setItem('isography', JSON.stringify(json));
   }
 
+  const createNewArtboard = (e) => {
+    addNewArtboard(e,'new artboard','#272727','#d9d7e1','#a59fcc','#514C6E')
+    window.location.reload(false);
+  }
+
 
   return (
     <section className="section-dashboard">
       <div>
+        <div className="modal-background" style={styles.modalBackground}>
+          <div className="modal-content" style={styles.modalContent}>
+            <p>Artboard Name <input type="text" value="Artboard Name"/></p>
+            <ColorPicker color="#000000"/>
+            <ColorPicker color="#000000"/>
+            <ColorPicker color="#000000"/>
+            <button>Cancel</button><button>Create!</button>
+          </div>
+        </div>
 
         <div className="section-new">
           <h2>Create A New Document</h2>
           <ul className="template-list">
-            <li>
+            <li onClick={createNewArtboard}>
               <div style={{width:"100px", height:"80px"}} />
               <p>Custom  <span>__px × __px</span></p>
             </li>

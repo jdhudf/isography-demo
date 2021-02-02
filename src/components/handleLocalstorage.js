@@ -64,6 +64,31 @@ export const getCanvasScale = (e) => {
   }
 }
 
+export const getLastModified = (e) => {
+  if (localStorage.getItem('isography') !== null) {
+    const json = JSON.parse(localStorage.getItem('isography'));
+
+    for(var i=0;i<json.data.length;i++){
+      if(json.data[i].artboard_id == json.working){
+          return json.data[i].last_modified
+      }
+    }
+  }
+}
+
+export const setLastModified = (e) => {
+  if (localStorage.getItem('isography') !== null) {
+    const json = JSON.parse(localStorage.getItem('isography'));
+
+    for(var i=0;i<json.data.length;i++){
+      if(json.data[i].artboard_id == json.working){
+          json.data[i].last_modified = e
+      }
+    }
+    localStorage.setItem('isography', JSON.stringify(json));
+  }
+}
+
 export const artboardScale = (e) => {
 
   if (localStorage.getItem('artboardScale') === null) {
@@ -71,6 +96,40 @@ export const artboardScale = (e) => {
   }
   return  JSON.parse(localStorage.getItem('artboardScale'))
 
+}
+
+export const addNewArtboard = (e,
+                               artboard_name,
+                               mainColor,
+                               subColor,
+                               accentColor,
+                               background) => {
+  if (localStorage.getItem('isography') !== null) {
+    const json = JSON.parse(localStorage.getItem('isography'));
+
+    const today = new Date();
+    const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()
+
+    const newData = {
+      artboard_id: json.data.length + 1,
+      artboard_name: artboard_name,
+      created_at: date,
+      last_modified: date,
+      artboard_size: [800,600],
+      svg_data: ['<g transform="translate(50,50) scale(1,1)" class="sub"><circle cx="0" cy="0" r="50"></circle></g>',
+      '<g transform="translate(100,250) scale(2,2)" class="main" border="solid 3px #000000"><circle cx="30" cy="30" r="20"></circle></g>',
+      '<g transform="translate(50,150) scale(1,1)" style="cursor:move"><circle cx="10" cy="10" r="15"></circle><circle cx="20" cy="20" r="10"></circle></g>'],
+      color_scheme: {
+        mainColor: mainColor,
+        subColor: subColor,
+        accentColor: accentColor,
+        background: background
+      }
+    }
+
+    json.data.push(newData)
+    localStorage.setItem('isography', JSON.stringify(json));
+  }
 }
 
 export const artboardPosition = (e) => {
