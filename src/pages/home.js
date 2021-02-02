@@ -123,7 +123,9 @@ const Dashboard = () => {
   const [mainColor, setMainColor] = useState("#B21313");
   const [subColor, setSubColor] = useState("#C7B136");
   const [accentColor, setAccentColor] = useState("#111184");
-  const [background, setBackground] = useState("#ffffff");
+  const [background, setBackground] = useState("#FFFFFF");
+
+  const [showModal, toggleModal] = useState(false);
 
   const json = getIsographyData();
 
@@ -167,7 +169,8 @@ const Dashboard = () => {
       left: '50%',
       transform: 'translate(-50%,-50%)',
       background: 'rgba(0,0,0,0.3)',
-      zIndex: '10000'
+      zIndex: '10000',
+      display: `${showModal? 'block' : 'none'}`
     }
   }
 
@@ -198,10 +201,12 @@ const Dashboard = () => {
             </div>
             <div className="setting">
               <p>Artboard Name <input type="text" value="Artboard Name"/></p>
-              <ColorPicker color="#000000"/>
-              <ColorPicker color="#000000"/>
-              <ColorPicker color="#000000"/>
-              <button>Cancel</button><button onClick={createNewArtboard}>Create!</button>
+              <ColorPicker color={mainColor} onChange={(e)=> setMainColor(e.color)}/>
+              <ColorPicker color={subColor} onChange={(e)=> setSubColor(e.color)}/>
+              <ColorPicker color={accentColor} onChange={(e)=> setAccentColor(e.color)}/>
+              <ColorPicker color={background} onChange={(e)=> setBackground(e.color)}/>
+              <button onClick={ ()=>toggleModal(false) }>Cancel</button>
+              <button onClick={createNewArtboard}>Create!</button>
             </div>
           </div>
         </div>
@@ -209,7 +214,7 @@ const Dashboard = () => {
         <div className="section-new">
           <h2>Create A New Document</h2>
           <ul className="template-list">
-            <li>
+            <li onClick={ ()=>toggleModal(true) }>
               <div style={{width:"100px", height:"80px"}} />
               <p>Custom  <span>__px × __px</span></p>
             </li>
