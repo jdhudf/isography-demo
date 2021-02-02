@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState }  from 'react';
 import { Link } from 'react-router-dom'
 import ColorPicker from '../components/ColorPicker.js';
 
@@ -120,6 +120,11 @@ class Home extends React.Component {
 
 const Dashboard = () => {
 
+  const [mainColor, setMainColor] = useState("#B21313");
+  const [subColor, setSubColor] = useState("#C7B136");
+  const [accentColor, setAccentColor] = useState("#111184");
+  const [background, setBackground] = useState("#ffffff");
+
   const json = getIsographyData();
 
   const settings = {
@@ -151,6 +156,7 @@ const Dashboard = () => {
       background: '#fff',
       transform: 'translate(-50%,-50%)',
       zIndex: '100000',
+      display: 'flex',
     },
     modalBackground: {
       width: '100%',
@@ -171,7 +177,7 @@ const Dashboard = () => {
   }
 
   const createNewArtboard = (e) => {
-    addNewArtboard(e,'new artboard','#272727','#d9d7e1','#a59fcc','#514C6E')
+    addNewArtboard(e,'new artboard',mainColor,subColor,accentColor,background)
     window.location.reload(false);
   }
 
@@ -181,18 +187,29 @@ const Dashboard = () => {
       <div>
         <div className="modal-background" style={styles.modalBackground}>
           <div className="modal-content" style={styles.modalContent}>
-            <p>Artboard Name <input type="text" value="Artboard Name"/></p>
-            <ColorPicker color="#000000"/>
-            <ColorPicker color="#000000"/>
-            <ColorPicker color="#000000"/>
-            <button>Cancel</button><button>Create!</button>
+            <div className="preview">
+              <svg style={{background: background,border:'solid 10px #F0F0F0',boxSizing:'border-box'}} className="svg-item" viewBox="0 0 200 200" width="100%" height="240.411">
+                 <g transform="translate(0,0) scale(1,1)">
+                   <path className="main" style={{fill:mainColor}} d="M168.68,59.078l-70.627,40.776l-0,81.553l70.627,-40.776l-0,-81.553Z"/>
+                   <path className="sub" style={{fill:subColor}} d="M98.043,18.295l-70.627,40.777l70.637,40.782l70.627,-40.777l-70.637,-40.782Z"/>
+                   <path className="accent" style={{fill:accentColor}} d="M98.053,99.854l-70.66,-40.795l0,81.548l70.66,40.796l-0,-81.549Z"/>
+                 </g>
+              </svg>
+            </div>
+            <div className="setting">
+              <p>Artboard Name <input type="text" value="Artboard Name"/></p>
+              <ColorPicker color="#000000"/>
+              <ColorPicker color="#000000"/>
+              <ColorPicker color="#000000"/>
+              <button>Cancel</button><button onClick={createNewArtboard}>Create!</button>
+            </div>
           </div>
         </div>
 
         <div className="section-new">
           <h2>Create A New Document</h2>
           <ul className="template-list">
-            <li onClick={createNewArtboard}>
+            <li>
               <div style={{width:"100px", height:"80px"}} />
               <p>Custom  <span>__px × __px</span></p>
             </li>
