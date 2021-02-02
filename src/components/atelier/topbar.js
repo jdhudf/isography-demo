@@ -7,7 +7,8 @@ import { faChevronDown,faAdjust } from '@fortawesome/free-solid-svg-icons'
 import ReactModal from 'react-modal';
 
 import {
-  getCanvasScale
+  getCanvasScale,
+  getArtboardName
 } from '../handleLocalstorage'
 
 class TopBar extends React.Component {
@@ -67,9 +68,9 @@ class TopBar extends React.Component {
     return (
       <section className="section-menubar">
         <div>
-        <Link to="/home" aria-label="Home" title="Home"><img className="icon" src={icon} alt="Icon" />
-        </Link>
+        <Link to="/home" aria-label="Home" title="Home"><img className="icon" src={icon} alt="Icon" /></Link>
         </div>
+        <p>{getArtboardName()}</p>
         <span onClick={this.openExportPanel}>Export</span>
 
         { this.state.showExportPanel ? <div className="export-pannel" >

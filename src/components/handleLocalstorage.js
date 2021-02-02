@@ -89,6 +89,31 @@ export const setLastModified = (e) => {
   }
 }
 
+export const setArtboardName = (e) => {
+  if (localStorage.getItem('isography') !== null) {
+    const json = JSON.parse(localStorage.getItem('isography'));
+
+    for(var i=0;i<json.data.length;i++){
+      if(json.data[i].artboard_id == json.working){
+          json.data[i].artboard_name = e
+      }
+    }
+    localStorage.setItem('isography', JSON.stringify(json));
+  }
+}
+
+export const getArtboardName = (e) => {
+  if (localStorage.getItem('isography') !== null) {
+    const json = JSON.parse(localStorage.getItem('isography'));
+
+    for(var i=0;i<json.data.length;i++){
+      if(json.data[i].artboard_id == json.working){
+          return json.data[i].artboard_name
+      }
+    }
+  }
+}
+
 export const artboardScale = (e) => {
 
   if (localStorage.getItem('artboardScale') === null) {
