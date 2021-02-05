@@ -96,26 +96,8 @@ class Home extends React.Component {
 }
 
 const Dashboard = () => {
-
-  const [mainColor, setMainColor] = useState("#B21313");
-  const [subColor, setSubColor] = useState("#C7B136");
-  const [accentColor, setAccentColor] = useState("#111184");
-  const [background, setBackground] = useState("#FFFFFF");
-
-  const [showModal, toggleModal] = useState(false);
-
-  const json = getIsographyData();
-
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 20000,
-    fade: true,
-  };
+  
+  const json = useSelector(selectHex).json//getIsographyData();
 
   const styles = {
     test: {
@@ -126,29 +108,6 @@ const Dashboard = () => {
     svg: {
       background: "#fff",
     },
-    modalContent: {
-      width: '90%',
-      maxWidth: '700px',
-      position: 'fixed',
-      top: '50%',
-      left: '50%',
-      background: '#fff',
-      transform: 'translate(-50%,-50%)',
-      zIndex: '100000',
-      display: 'flex',
-    },
-    modalBackground: {
-      width: '100%',
-      minWidth: '100vw',
-      minHeight: '100vh',
-      position: 'fixed',
-      top: '50%',
-      left: '50%',
-      transform: 'translate(-50%,-50%)',
-      background: 'rgba(0,0,0,0.3)',
-      zIndex: '10000',
-      display: `${showModal? 'block' : 'none'}`
-    }
   }
 
   const clicked = (e) => {
@@ -156,74 +115,25 @@ const Dashboard = () => {
     localStorage.setItem('isography', JSON.stringify(json));
   }
 
-  const createNewArtboard = (e) => {
-    addNewArtboard(e,'new artboard',mainColor,subColor,accentColor,background)
-    window.location.reload(false);
-  }
-
   const color = useSelector(selectHex)
-
 
   return (
     <section className="section-dashboard">
       <div>
-        <div className="modal-background" style={styles.modalBackground}>
-          <div className="modal-content" style={styles.modalContent}>
-            <div className="preview">
-              <svg style={{background: background,border:'solid 10px #F0F0F0',boxSizing:'border-box'}} className="svg-item" viewBox="0 0 200 200" width="100%" height="240.411">
-                 <g transform="translate(0,0) scale(1,1)">
-                   <path className="main" style={{fill:mainColor}} d="M168.68,59.078l-70.627,40.776l-0,81.553l70.627,-40.776l-0,-81.553Z"/>
-                   <path className="sub" style={{fill:subColor}} d="M98.043,18.295l-70.627,40.777l70.637,40.782l70.627,-40.777l-70.637,-40.782Z"/>
-                   <path className="accent" style={{fill:accentColor}} d="M98.053,99.854l-70.66,-40.795l0,81.548l70.66,40.796l-0,-81.549Z"/>
-                 </g>
-              </svg>
-            </div>
-            <div className="setting">
-              <p>Artboard Name <input type="text" value="Artboard Name"/></p>
-              <ColorPicker color={mainColor} onChange={(e)=> setMainColor(e.color)}/>
-              <ColorPicker color={subColor} onChange={(e)=> setSubColor(e.color)}/>
-              <ColorPicker color={accentColor} onChange={(e)=> setAccentColor(e.color)}/>
-              <ColorPicker color={background} onChange={(e)=> setBackground(e.color)}/>
-              <button onClick={ ()=>toggleModal(false) }>Cancel</button>
-              <button onClick={createNewArtboard}>Create!</button>
-            </div>
-          </div>
-        </div>
-
-        <div className="section-new">
-          <HexInput/>
-          {color.hex}
-          <h2>Create A New Document</h2>
-          <ul className="template-list">
-            <li onClick={ ()=>toggleModal(true) }>
-              <div style={{width:"100px", height:"80px"}} />
-              <p>Custom  <span>__px × __px</span></p>
-            </li>
-            <li>
-              <div style={{width:"100px", height:"100px"}} />
-              <p>Square  <span>100px × 100px</span></p>
-            </li>
-            <li>
-              <div style={{width:"80px", height:"100px"}} />
-              <p>Portlait  <span>80px × 100px</span></p>
-            </li>
-          </ul>
-        </div>
-        <div>
-          <ul>
-            <li>Open</li>
-            <li>Duplicate</li>
-            <li>Rename</li>
-            <li>Delete</li>
-          </ul>
-        </div>
-
+        <NewArtboard/>
+        <NewsFeed/>
         <div className="your-document">
-
+          <div>
+            <ul>
+              <li>Open</li>
+              <li>Duplicate</li>
+              <li>Rename</li>
+              <li>Delete</li>
+            </ul>
+          </div>
           <h2>Your Documents</h2>
           <ul className="document-list">
             {
-
               json.data.map(item => (
                 <li>
                   <Link onClick={clicked} to="/" data-id={item.artboard_id}>
@@ -262,26 +172,127 @@ const Dashboard = () => {
             }
           </ul>
         </div>
-
-        <div className="new-feed">
-          <Slider {...settings}>
-          <div className="article">
-            <img src={img} alt=""/>
-            <h3>New Features !! 🎉</h3>
-          </div>
-          <div className="article">
-            <img src={img} alt=""/>
-            <h3>New Release !! 🎉</h3>
-          </div>
-          <div className="article">
-            <img src={img} alt=""/>
-            <h3>Demo Released !! 🎉</h3>
-          </div>
-          </Slider>
-        </div>
-
       </div>
     </section>
   );
 }
+
+const NewArtboard = () => {
+  const [mainColor, setMainColor] = useState("#B21313");
+  const [subColor, setSubColor] = useState("#C7B136");
+  const [accentColor, setAccentColor] = useState("#111184");
+  const [background, setBackground] = useState("#FFFFFF");
+
+  const [showModal, toggleModal] = useState(false);
+
+  const createNewArtboard = (e) => {
+    addNewArtboard(e,'new artboard',mainColor,subColor,accentColor,background)
+    window.location.reload(false);
+  }
+
+  const styles = {
+    modalContent: {
+      width: '90%',
+      maxWidth: '700px',
+      position: 'fixed',
+      top: '50%',
+      left: '50%',
+      background: '#fff',
+      transform: 'translate(-50%,-50%)',
+      zIndex: '100000',
+      display: 'flex',
+    },
+    modalBackground: {
+      width: '100%',
+      minWidth: '100vw',
+      minHeight: '100vh',
+      position: 'fixed',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%,-50%)',
+      background: 'rgba(0,0,0,0.3)',
+      zIndex: '10000',
+      display: `${showModal? 'block' : 'none'}`
+    }
+  }
+
+  return (
+    <div>
+      <div className="modal-background" style={styles.modalBackground}>
+        <div className="modal-content" style={styles.modalContent}>
+          <div className="preview">
+            <svg style={{background: background,border:'solid 10px #F0F0F0',boxSizing:'border-box'}} className="svg-item" viewBox="0 0 200 200" width="100%" height="240.411">
+               <g transform="translate(0,0) scale(1,1)">
+                 <path className="main" style={{fill:mainColor}} d="M168.68,59.078l-70.627,40.776l-0,81.553l70.627,-40.776l-0,-81.553Z"/>
+                 <path className="sub" style={{fill:subColor}} d="M98.043,18.295l-70.627,40.777l70.637,40.782l70.627,-40.777l-70.637,-40.782Z"/>
+                 <path className="accent" style={{fill:accentColor}} d="M98.053,99.854l-70.66,-40.795l0,81.548l70.66,40.796l-0,-81.549Z"/>
+               </g>
+            </svg>
+          </div>
+          <div className="setting">
+            <p>Artboard Name <input type="text" value="Artboard Name"/></p>
+            <ColorPicker color={mainColor} onChange={(e)=> setMainColor(e.color)}/>
+            <ColorPicker color={subColor} onChange={(e)=> setSubColor(e.color)}/>
+            <ColorPicker color={accentColor} onChange={(e)=> setAccentColor(e.color)}/>
+            <ColorPicker color={background} onChange={(e)=> setBackground(e.color)}/>
+            <button onClick={ ()=>toggleModal(false) }>Cancel</button>
+            <button onClick={createNewArtboard}>Create!</button>
+          </div>
+        </div>
+      </div>
+
+      <div className="section-new">
+        <h2>Create A New Document</h2>
+        <ul className="template-list">
+          <li onClick={ ()=>toggleModal(true) }>
+            <div style={{width:"100px", height:"80px"}} />
+            <p>Custom  <span>__px × __px</span></p>
+          </li>
+          <li>
+            <div style={{width:"100px", height:"100px"}} />
+            <p>Square  <span>100px × 100px</span></p>
+          </li>
+          <li>
+            <div style={{width:"80px", height:"100px"}} />
+            <p>Portlait  <span>80px × 100px</span></p>
+          </li>
+        </ul>
+      </div>
+    </div>
+  )
+}
+
+const NewsFeed = () => {
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 20000,
+    fade: true,
+  };
+
+  return (
+    <div className="new-feed">
+      <Slider {...settings}>
+      <div className="article">
+        <img src={img} alt=""/>
+        <h3>New Features !! 🎉</h3>
+      </div>
+      <div className="article">
+        <img src={img} alt=""/>
+        <h3>New Release !! 🎉</h3>
+      </div>
+      <div className="article">
+        <img src={img} alt=""/>
+        <h3>Demo Released !! 🎉</h3>
+      </div>
+      </Slider>
+    </div>
+  )
+}
+
+
 export default Home;
