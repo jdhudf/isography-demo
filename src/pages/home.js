@@ -19,10 +19,15 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
+import HexInput from '../redux/hexinput'
+
 import {
   getIsographyData,
   addNewArtboard
  } from '../components/handleLocalstorage'
+
+import { useSelector, useDispatch } from 'react-redux'
+const selectHex = state => state.json
 
 //import GallaryPanel from '../components/gallarypanel.js';
 //import ToolsPanel from '../components/toolspanel.js';
@@ -37,35 +42,7 @@ import {
 // * svg data
 // * color_scheme
 // * documents are limited to 9
-/****
-id: [0001,0002,0003,0004,0005,0006]
-working: [
-  id: id123...,
-  name: string,
-  created_at: date,
-  last_modified: date,
-  artboard_size: array,
-  svg_data: string,
-  color_scheme: array
-]
 
-0001.: {,
-  name: test 1,
-  created_at: date,
-  last_modified: date,
-  artboard_size: array,
-  svg_data: string,
-  color_scheme: array
-},
-0002: {,
-  name: string,
-  created_at: date,
-  last_modified: date,
-  artboard_size: array,
-  svg_data: string,
-  color_scheme: array
-}
-****/
 
 class Home extends React.Component {
   constructor(props) {
@@ -184,6 +161,8 @@ const Dashboard = () => {
     window.location.reload(false);
   }
 
+  const color = useSelector(selectHex)
+
 
   return (
     <section className="section-dashboard">
@@ -212,6 +191,8 @@ const Dashboard = () => {
         </div>
 
         <div className="section-new">
+          <HexInput/>
+          {color.hex}
           <h2>Create A New Document</h2>
           <ul className="template-list">
             <li onClick={ ()=>toggleModal(true) }>
@@ -226,6 +207,14 @@ const Dashboard = () => {
               <div style={{width:"80px", height:"100px"}} />
               <p>Portlait  <span>80px × 100px</span></p>
             </li>
+          </ul>
+        </div>
+        <div>
+          <ul>
+            <li>Open</li>
+            <li>Duplicate</li>
+            <li>Rename</li>
+            <li>Delete</li>
           </ul>
         </div>
 

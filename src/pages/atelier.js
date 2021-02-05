@@ -48,7 +48,7 @@ class Atelier extends React.Component {
           subColor: null,
           accentColor: null,
           background: null,
-          data: null
+          data: [],
         },
         //{},
         //{},

@@ -70,7 +70,17 @@ class TopBar extends React.Component {
         <div>
         <Link to="/home" aria-label="Home" title="Home"><img className="icon" src={icon} alt="Icon" /></Link>
         </div>
-        <p>{getArtboardName()}</p>
+        <button className="modal-botton" onClick={this.handleOpenModal}>
+          <p>{getArtboardName()}</p>
+        </button>
+        <ReactModal style={styles} isOpen={this.state.showModal} contentLabel="Change Document Information">
+          <form className="form-document" action="">
+          <p>Change a document name.</p>
+          <input type="text" value={getArtboardName()}/>
+          <button onClick={this.handleCloseModal}>Cancel</button>
+          <input type="submit" value="Submit"/>
+          </form>
+        </ReactModal>
         <span onClick={this.openExportPanel}>Export</span>
 
         { this.state.showExportPanel ? <div className="export-pannel" >
@@ -137,6 +147,8 @@ class TopBar extends React.Component {
             </div>
           </div>
         </div> : null }
+        <div>
+      </div>
 
         <div className="mode-change"><FontAwesomeIcon icon={faAdjust} /></div>
       </section>
