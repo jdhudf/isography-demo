@@ -157,6 +157,20 @@ export const addNewArtboard = (e,
   }
 }
 
+export const removeArtboard = (e) => {
+  if (localStorage.getItem('isography') !== null) {
+    const json = JSON.parse(localStorage.getItem('isography'));
+
+    for(var i=0;i<json.data.length;i++){
+      if(json.data[i].artboard_id == json.working){
+          //json.data[i].artboard_name = e
+          json.data.splice(i,1);
+      }
+    }
+    localStorage.setItem('isography', JSON.stringify(json));
+  }
+}
+
 export const artboardPosition = (e) => {
 
   if (localStorage.getItem('artboardPosition') === null) {

@@ -22,7 +22,7 @@ import "slick-carousel/slick/slick-theme.css";
 import HexInput from '../redux/hexinput'
 
 import {
-  getIsographyData,
+  //getIsographyData,
   addNewArtboard
  } from '../components/handleLocalstorage'
 
@@ -47,37 +47,6 @@ const selectHex = state => state.json
 class Home extends React.Component {
   constructor(props) {
     super(props);
-    /*
-    this.state = {
-      document_id: ['id_1','id_2'],
-      id_1 : {
-        name: 'Hello World',
-        created_at: '2020-01-26',
-        last_modified: '2020-01-26',
-        artboard_size: [800,600],
-        svg_data: [],
-        color_scheme: {
-          mainColor: '#cccccc',
-          subColor: '#000000',
-          accentColor: '#FAFAFA',
-          background: '#ffffff'
-        }
-      },
-      id_2 : {
-        name: 'Hello World 2',
-        created_at: '2020-01-27',
-        last_modified: '2020-01-27',
-        artboard_size: [800,600],
-        svg_data: [],
-        color_scheme: {
-          mainColor: '#cccccc',
-          subColor: '#000000',
-          accentColor: '#FAFAFA',
-          background: '#ffffff'
-        }
-      },
-      history: [],
-    }*/
   }
 
   render() {
@@ -96,7 +65,9 @@ class Home extends React.Component {
 }
 
 const Dashboard = () => {
-  
+
+  const [showModal, toggleModal] = useState(false);
+
   const json = useSelector(selectHex).json//getIsographyData();
 
   const styles = {
@@ -108,6 +79,14 @@ const Dashboard = () => {
     svg: {
       background: "#fff",
     },
+    box: {
+      background: "#000",
+      posotion: "fixed",
+      top: "10px",
+      right: "10px",
+      color: "#fff",
+      display: showModal? "block":"none"
+    }
   }
 
   const clicked = (e) => {
@@ -123,7 +102,7 @@ const Dashboard = () => {
         <NewArtboard/>
         <NewsFeed/>
         <div className="your-document">
-          <div>
+          <div style={styles.box}>
             <ul>
               <li>Open</li>
               <li>Duplicate</li>
@@ -184,10 +163,15 @@ const NewArtboard = () => {
   const [background, setBackground] = useState("#FFFFFF");
 
   const [showModal, toggleModal] = useState(false);
+  const [value, updateValue] = useState("Artboard Name");
 
   const createNewArtboard = (e) => {
-    addNewArtboard(e,'new artboard',mainColor,subColor,accentColor,background)
+    addNewArtboard(e,value,mainColor,subColor,accentColor,background)
     window.location.reload(false);
+  }
+
+  const updateInputValue = (e) => {
+    updateValue(e)
   }
 
   const styles = {
@@ -230,7 +214,7 @@ const NewArtboard = () => {
             </svg>
           </div>
           <div className="setting">
-            <p>Artboard Name <input type="text" value="Artboard Name"/></p>
+            <p>Artboard Name <input type="text" value={value} onChange={(e) => updateInputValue()}/></p>
             <ColorPicker color={mainColor} onChange={(e)=> setMainColor(e.color)}/>
             <ColorPicker color={subColor} onChange={(e)=> setSubColor(e.color)}/>
             <ColorPicker color={accentColor} onChange={(e)=> setAccentColor(e.color)}/>

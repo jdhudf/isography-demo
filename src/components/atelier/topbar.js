@@ -8,7 +8,8 @@ import ReactModal from 'react-modal';
 
 import {
   getCanvasScale,
-  getArtboardName
+  getArtboardName,
+  setArtboardName
 } from '../handleLocalstorage'
 
 class TopBar extends React.Component {
@@ -19,6 +20,7 @@ class TopBar extends React.Component {
     this.state = {
       showModal: false,
       showExportPanel: false,
+      value: getArtboardName(),
     };
 
     this.handleOpenModal = this.handleOpenModal.bind(this);
@@ -41,6 +43,17 @@ class TopBar extends React.Component {
   closeExportPanel = () => {
     this.setState({ showExportPanel: false });
   }
+
+  changeArtboardName = (e) => {
+    this.setState({value: e.target.value});
+  }
+
+  submitArtboardName = (e) => {
+    setArtboardName(this.state.value)
+    this.setState({ showModal: false })
+    e.preventDefault();
+  }
+
 
   render() {
 
@@ -74,11 +87,11 @@ class TopBar extends React.Component {
           <p>{getArtboardName()}</p>
         </button>
         <ReactModal style={styles} isOpen={this.state.showModal} contentLabel="Change Document Information">
-          <form className="form-document" action="">
-          <p>Change a document name.</p>
-          <input type="text" value={getArtboardName()}/>
-          <button onClick={this.handleCloseModal}>Cancel</button>
-          <input type="submit" value="Submit"/>
+          <form className="form-document" onSubmit={this.submitArtboardName}>
+            <p>Change a document name.</p>
+            <input type="text" value={this.state.value} onChange={this.changeArtboardName}/>
+            <button onClick={this.handleCloseModal}>Cancel</button>
+            <input type="submit" value="Submit"/>
           </form>
         </ReactModal>
         <span onClick={this.openExportPanel}>Export</span>

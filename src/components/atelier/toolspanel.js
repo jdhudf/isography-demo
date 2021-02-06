@@ -1,7 +1,20 @@
 import React from 'react';
 //import reactCSS from 'reactcss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSortAmountUp,faSortAmountDown,faLongArrowAltRight,faLongArrowAltLeft ,faFont } from '@fortawesome/free-solid-svg-icons'
+
+import {
+  faSortAmountUp,
+  faSortAmountDown,
+  faLongArrowAltRight,
+  faLongArrowAltLeft ,
+  faFont,
+  faTrashAlt,
+} from '@fortawesome/free-solid-svg-icons'
+
+import {
+  removeArtboard
+} from '../handleLocalstorage'
+
 import ColorPicker from "./toolspanel_ColorPicker";
 
 class ToolsPanel extends React.Component {
@@ -44,6 +57,8 @@ class ToolsPanel extends React.Component {
         </div>
         <p title="Undo"><FontAwesomeIcon icon={faLongArrowAltLeft} /></p>
         <p title="Redo"><FontAwesomeIcon icon={faLongArrowAltRight} /></p>
+
+        <p onClick={(e) =>removeArtboard()} title="Remove Artboard"><FontAwesomeIcon icon={faTrashAlt} /></p>
 
       </section>
     );

@@ -9,7 +9,8 @@ import icon from '../images/logo.svg';
 import {
   getColor,
   setColor,
-  getSVGdata } from '../components/handleLocalstorage'
+  getSVGdata,
+} from '../components/handleLocalstorage'
 
 import '../styles/atelier.scss';
 
@@ -197,7 +198,7 @@ class Atelier extends React.Component {
           onMouseMove={this.onMouseMove}
           onMouseUp={this.onMouseUp}
           onMouseLeave={this.onMouseLeave}
-          onKeyDown={this.keyPress}
+          //onKeyDown={this.keyPress}
           tabIndex="0"
           >
 
