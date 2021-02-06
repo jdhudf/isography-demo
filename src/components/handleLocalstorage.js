@@ -90,6 +90,7 @@ export const setLastModified = (e) => {
 }
 
 export const setArtboardName = (e) => {
+
   if (localStorage.getItem('isography') !== null) {
     const json = JSON.parse(localStorage.getItem('isography'));
 
