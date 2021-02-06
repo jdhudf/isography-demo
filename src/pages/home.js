@@ -10,6 +10,8 @@ import ColorPicker from '../components/ColorPicker.js';
 //  Link
 //} from "react-router-dom";
 
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+
 import MenuBar from '../components/menubar.js';
 import Navigation from '../components/navigation.js';
 import '../styles/home.scss';
@@ -20,6 +22,12 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 import HexInput from '../redux/hexinput'
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {
+  faGripHorizontal,
+  faList
+} from '@fortawesome/free-solid-svg-icons'
 
 import {
   //getIsographyData,
@@ -111,6 +119,10 @@ const Dashboard = () => {
             </ul>
           </div>
           <h2>Your Documents</h2>
+          {/*<ul style={{textAlign: "center"}}>
+            <li style={{display:"inline-block"}}><FontAwesomeIcon icon={faGripHorizontal} /></li>
+            <li style={{display:"inline-block"}}><FontAwesomeIcon icon={faList} /></li>
+          </ul>*/}
           <ul className="document-list">
             {
               json.data.map(item => (
@@ -171,7 +183,8 @@ const NewArtboard = () => {
   }
 
   const updateInputValue = (e) => {
-    updateValue(e)
+    updateValue(e.target.value)
+    console.log(value);
   }
 
   const styles = {
@@ -214,7 +227,7 @@ const NewArtboard = () => {
             </svg>
           </div>
           <div className="setting">
-            <p>Artboard Name <input type="text" value={value} onChange={(e) => updateInputValue()}/></p>
+            <p>Artboard Name <input type="text" value={value} onChange={(e) => updateInputValue(e)}/></p>
             <ColorPicker color={mainColor} onChange={(e)=> setMainColor(e.color)}/>
             <ColorPicker color={subColor} onChange={(e)=> setSubColor(e.color)}/>
             <ColorPicker color={accentColor} onChange={(e)=> setAccentColor(e.color)}/>

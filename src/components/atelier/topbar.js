@@ -20,7 +20,7 @@ class TopBar extends React.Component {
     this.state = {
       showModal: false,
       showExportPanel: false,
-      value: getArtboardName(),
+      artboardName: getArtboardName(),
     };
 
     this.handleOpenModal = this.handleOpenModal.bind(this);
@@ -45,11 +45,11 @@ class TopBar extends React.Component {
   }
 
   changeArtboardName = (e) => {
-    this.setState({value: e.target.value});
+    this.setState({artboardName: e.target.value});
   }
 
   submitArtboardName = (e) => {
-    setArtboardName(this.state.value)
+    setArtboardName(this.state.artboardName)
     this.setState({ showModal: false })
     e.preventDefault();
   }
@@ -84,12 +84,12 @@ class TopBar extends React.Component {
         <Link to="/home" aria-label="Home" title="Home"><img className="icon" src={icon} alt="Icon" /></Link>
         </div>
         <button className="modal-botton" onClick={this.handleOpenModal}>
-          <p>{getArtboardName()}</p>
+          <p>{this.state.artboardName}</p>
         </button>
         <ReactModal style={styles} isOpen={this.state.showModal} contentLabel="Change Document Information">
           <form className="form-document" onSubmit={this.submitArtboardName}>
             <p>Change a document name.</p>
-            <input type="text" value={this.state.value} onChange={this.changeArtboardName}/>
+            <input type="text" value={this.state.artboardName} onChange={this.changeArtboardName}/>
             <button onClick={this.handleCloseModal}>Cancel</button>
             <input type="submit" value="Submit"/>
           </form>
@@ -116,7 +116,7 @@ class TopBar extends React.Component {
                 <table>
                 <tr>
                   <th>File Name</th>
-                  <td>Document Name</td>
+                  <td>{this.state.artboardName}</td>
                 </tr>
                 <tr>
                   <th>Scale</th>
@@ -131,13 +131,12 @@ class TopBar extends React.Component {
             </div>
             <div>
               <h2>File Name</h2>
-              <input type="text" value="Document Name"/>
+              <input type="text" value={this.state.artboardName}/>
               <h2>Format</h2>
 
               <ul>
                 <li><label><input type="radio" name="format" value="png" checked />PNG</label></li>
                 <li><label><input type="radio" name="format" value="jpg" />JPG</label></li>
-                <li><label><input type="radio" name="format" value="svg" />SVG</label></li>
               </ul>
 
               <h2>Size</h2>
@@ -150,11 +149,11 @@ class TopBar extends React.Component {
               </ul>
               <h2>Compression ratio</h2>
               <ul>
-                <li><label><input type="radio" name="size" value="low" checked />Low Quality</label></li>
-                <li><label><input type="radio" name="size" value="medium" checked />Medium Quality</label></li>
-                <li><label><input type="radio" name="size" value="high" />High Quality</label></li>
+                <li><label><input type="radio" name="quality" value="low" checked />Low Quality</label></li>
+                <li><label><input type="radio" name="quality" value="medium" checked />Medium Quality</label></li>
+                <li><label><input type="radio" name="quality" value="high" />High Quality</label></li>
               </ul>
-              <p><span>Custom Ratio</span> <input type="range" min="0" max="200" /></p>
+              <p><span>Custom Ratio</span> <input name="quality" type="range" min="0" max="200" /></p>
               <br/>
               <button className="cancel" onClick={this.closeExportPanel}>Cancel</button><button className="download">Download</button>
             </div>
