@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState }  from 'react';
 import { Link } from 'react-router-dom'
 import '../../styles/menubar.scss';
 import icon from '../../images/logo.svg';
@@ -11,6 +11,8 @@ import {
   getArtboardName,
   setArtboardName
 } from '../handleLocalstorage'
+
+import { useSelector, useDispatch } from 'react-redux'
 
 class TopBar extends React.Component {
 
@@ -49,6 +51,7 @@ class TopBar extends React.Component {
   }
 
   submitArtboardName = (e) => {
+
     setArtboardName(this.state.artboardName)
     this.setState({ showModal: false })
     e.preventDefault();
@@ -83,7 +86,8 @@ class TopBar extends React.Component {
         <div>
         <Link to="/home" aria-label="Home" title="Home"><img className="icon" src={icon} alt="Icon" /></Link>
         </div>
-        <button className="modal-botton" onClick={this.handleOpenModal}>
+        <InputArtboardName/>
+        {/*<button className="modal-botton" onClick={this.handleOpenModal}>
           <p>{this.state.artboardName}</p>
         </button>
         <ReactModal style={styles} isOpen={this.state.showModal} contentLabel="Change Document Information">
@@ -93,7 +97,7 @@ class TopBar extends React.Component {
             <button onClick={this.handleCloseModal}>Cancel</button>
             <input type="submit" value="Submit"/>
           </form>
-        </ReactModal>
+        </ReactModal>*/}
         <span onClick={this.openExportPanel}>Export</span>
 
         { this.state.showExportPanel ? <div className="export-pannel" >
@@ -166,7 +170,52 @@ class TopBar extends React.Component {
       </section>
     );
 
+  }
 }
+
+const InputArtboardName = () => {
+
+  const [artboardName, changeStateArtboardName] = useState(getArtboardName());
+  const [showModal, changeStateModal] = useState(false);
+
+  const dispatch = useDispatch()
+
+  const handleOpenModal = () => {
+    changeStateModal(true)
+  }
+
+  const handleCloseModal = () => {
+    changeStateModal(false)
+  }
+
+  const changeArtboardName = (e) => {
+    changeStateArtboardName(e.target.value)
+    console.log(artboardName)
+  }
+
+  const submitArtboardName = (e) => {
+
+    setArtboardName(artboardName)
+    changeStateModal(false)
+    e.preventDefault();
+
+  }
+
+  return (
+    <div>
+      <button className="modal-botton" onClick={handleOpenModal}>
+        <p>{artboardName}</p>
+      </button>
+      <ReactModal isOpen={showModal} contentLabel="Change Document Information">
+        <form className="form-document" onSubmit={submitArtboardName}>
+          <p>Change a document name.</p>
+          <input type="text" value={artboardName} onChange={changeArtboardName}/>
+          <button onClick={handleCloseModal}>Cancel</button>
+          <input type="submit" value="Submit"/>
+        </form>
+      </ReactModal>
+    </div>
+  )
 }
 
 export default TopBar;
