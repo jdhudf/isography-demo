@@ -1,9 +1,9 @@
 import React, { useState }  from 'react';
 import { Link } from 'react-router-dom'
-import '../../styles/menubar.scss';
+import '../../styles/topbar.scss';
 import icon from '../../images/logo.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChevronDown,faAdjust } from '@fortawesome/free-solid-svg-icons'
+import { faChevronDown,faAdjust,faHome } from '@fortawesome/free-solid-svg-icons'
 import ReactModal from 'react-modal';
 
 import {
@@ -84,29 +84,32 @@ class TopBar extends React.Component {
     return (
       <section className="section-menubar">
         <div>
-          <Link to="/home" aria-label="Home" title="Home"><img className="icon" src={icon} alt="Icon" /></Link>
+          <Link to="/home" aria-label="Home" title="Home"><FontAwesomeIcon icon={faHome}/></Link>
         </div>
-        <ExportComponent data={this.props.data} background={this.props.background}/>
-        <InputArtboardName/>
-        {/*<button className="modal-botton" onClick={this.handleOpenModal}>
-          <p>{this.state.artboardName}</p>
-        </button>
-        <ReactModal style={styles} isOpen={this.state.showModal} contentLabel="Change Document Information">
-          <form className="form-document" onSubmit={this.submitArtboardName}>
-            <p>Change a document name.</p>
-            <input type="text" value={this.state.artboardName} onChange={this.changeArtboardName}/>
-            <button onClick={this.handleCloseModal}>Cancel</button>
-            <input type="submit" value="Submit"/>
-          </form>
-        </ReactModal>*/}
         <div>
-      </div>
+          <ArtboardSetting />
+          <ExportComponent data={this.props.data} background={this.props.background}/>
+        </div>
+        <div>
+          <InputArtboardName/>
+        </div>
+        <div>
+          <p>FREE DEMO</p>
+        </div>
 
         {/*<div className="mode-change"><FontAwesomeIcon icon={faAdjust} /></div>*/}
       </section>
     );
 
   }
+}
+
+function ArtboardSetting (props) {
+  return (
+    <div>
+      <p>Artboard</p>
+    </div>
+  )
 }
 
 function ExportComponent (props) {
@@ -146,7 +149,7 @@ function ExportComponent (props) {
 
   return (
     <div>
-      <span onClick={openExportPanel}>Export</span>
+      <p onClick={openExportPanel}>Export</p>
       { showExportPanel ? <div className="export-pannel" >
         <div className="export-pannel-background" onClick={closeExportPanel}/>
         <div className="export-pannel-content">
