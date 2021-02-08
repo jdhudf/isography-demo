@@ -108,6 +108,14 @@ function ArtboardSetting (props) {
   return (
     <div>
       <p>Artboard</p>
+      <div>
+        <ul>
+          <li>Ratio setting</li>
+          <li>Rename artboard</li>
+          <li>Duplicate artboard</li>
+          <li>Delete artboard</li>
+        </ul>
+      </div>
     </div>
   )
 }
