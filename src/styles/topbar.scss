@@ -24,6 +24,29 @@
       color: gray;
       &>div:nth-child(1){
         flex-basis: 55%;
+        div {
+          position: absolute;
+          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
+          background: rgba(0,0,0,0.7);
+          width: 200px;
+          ul {
+            text-align: left;
+            width: 90%;
+            margin: 10px auto;
+            li {
+              color: #fff;
+              padding: 10px 0;
+              text-indent: .5rem;
+              transition: all ease .3s;
+              border-radius: 5px;
+              &:hover {
+                background: deepskyblue;
+                transition: all ease .3s;
+              }
+            }
+          }
+        }
       }
       &>div:nth-child(2){
         flex-basis: 45%;
