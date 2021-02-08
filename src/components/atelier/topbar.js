@@ -84,8 +84,9 @@ class TopBar extends React.Component {
     return (
       <section className="section-menubar">
         <div>
-        <Link to="/home" aria-label="Home" title="Home"><img className="icon" src={icon} alt="Icon" /></Link>
+          <Link to="/home" aria-label="Home" title="Home"><img className="icon" src={icon} alt="Icon" /></Link>
         </div>
+        <ExportComponent data={this.props.data} background={this.props.background}/>
         <InputArtboardName/>
         {/*<button className="modal-botton" onClick={this.handleOpenModal}>
           <p>{this.state.artboardName}</p>
@@ -98,79 +99,119 @@ class TopBar extends React.Component {
             <input type="submit" value="Submit"/>
           </form>
         </ReactModal>*/}
-        <span onClick={this.openExportPanel}>Export</span>
-
-        { this.state.showExportPanel ? <div className="export-pannel" >
-          <div className="export-pannel-background" onClick={this.closeExportPanel}/>
-          <div className="export-pannel-content">
-            <div>
-              <h2>Preview</h2>
-              <svg
-                  id="svg"
-                  version="1.1"
-                  width="100%"
-                  height="auto"
-                  viewBox={`0 0 ${getCanvasScale()[0]} ${getCanvasScale()[1]}`}
-                  xmlns="http://www.w3.org/2000/svg"
-                  style={styles.svg}
-                  dangerouslySetInnerHTML={{__html: this.props.data.join('') }}
-              >
-              </svg>
-              <div>
-                <table>
-                <tr>
-                  <th>File Name</th>
-                  <td>{this.state.artboardName}</td>
-                </tr>
-                <tr>
-                  <th>Scale</th>
-                  <td>600px : 300px</td>
-                </tr>
-                <tr>
-                  <th>Size</th>
-                  <td>It'll be ... 100KB</td>
-                </tr>
-                </table>
-              </div>
-            </div>
-            <div>
-              <h2>File Name</h2>
-              <input type="text" value={this.state.artboardName}/>
-              <h2>Format</h2>
-
-              <ul>
-                <li><label><input type="radio" name="format" value="png" checked />PNG</label></li>
-                <li><label><input type="radio" name="format" value="jpg" />JPG</label></li>
-              </ul>
-
-              <h2>Size</h2>
-              <ul>
-                <li><label><input type="radio" name="size" value="x-small" checked />X-Small</label></li>
-                <li><label><input type="radio" name="size" value="small" checked />Small</label></li>
-                <li><label><input type="radio" name="size" value="medium" />Medium</label></li>
-                <li><label><input type="radio" name="size" value="large" />Large</label></li>
-                <li><label><input type="radio" name="size" value="x-large" />X-Large</label></li>
-              </ul>
-              <h2>Compression ratio</h2>
-              <ul>
-                <li><label><input type="radio" name="quality" value="low" checked />Low Quality</label></li>
-                <li><label><input type="radio" name="quality" value="medium" checked />Medium Quality</label></li>
-                <li><label><input type="radio" name="quality" value="high" />High Quality</label></li>
-              </ul>
-              <p><span>Custom Ratio</span> <input name="quality" type="range" min="0" max="200" /></p>
-              <br/>
-              <button className="cancel" onClick={this.closeExportPanel}>Cancel</button><button className="download">Download</button>
-            </div>
-          </div>
-        </div> : null }
         <div>
       </div>
 
-        <div className="mode-change"><FontAwesomeIcon icon={faAdjust} /></div>
+        {/*<div className="mode-change"><FontAwesomeIcon icon={faAdjust} /></div>*/}
       </section>
     );
 
   }
+}
+
+function ExportComponent (props) {
+//const ExportComponent = (props) => {
+
+  const [showExportPanel, changeStateExportPanel] = useState(false);
+  const [artboardName, changeStateArtboardName] = useState(getArtboardName());
+
+  const openExportPanel = () => {
+    changeStateExportPanel(true)
+  }
+
+  const closeExportPanel = () => {
+    changeStateExportPanel(false)
+  }
+
+  const styles = {
+    overlay: {
+      background: 'none',
+    },
+    content : {
+      position: 'relative',
+      width: '250px',
+      top                   : '11.4%',
+      left                  : '48%',
+      right                 : 'auto',
+      bottom                : 'auto',
+      transform             : 'translate(-50%, -10%)',
+      borderRadius: '0',
+      border: 'solid 1px #F0F0F0',
+      transition: 'ease all 1s',
+    },
+    svg: {
+      background: `${props.background}`
+    }
+  };
+
+  return (
+    <div>
+      <span onClick={openExportPanel}>Export</span>
+      { showExportPanel ? <div className="export-pannel" >
+        <div className="export-pannel-background" onClick={closeExportPanel}/>
+        <div className="export-pannel-content">
+          <div>
+            <h2>Preview</h2>
+            <svg
+                id="svg"
+                version="1.1"
+                width="100%"
+                height="auto"
+                viewBox={`0 0 ${getCanvasScale()[0]} ${getCanvasScale()[1]}`}
+                xmlns="http://www.w3.org/2000/svg"
+                style={styles.svg}
+                dangerouslySetInnerHTML={{__html: props.data.join('') }}
+            >
+            </svg>
+            <div>
+              <table>
+              <tr>
+                <th>File Name</th>
+                <td>{artboardName}</td>
+              </tr>
+              <tr>
+                <th>Scale</th>
+                <td>600px : 300px</td>
+              </tr>
+              <tr>
+                <th>Size</th>
+                <td>It'll be ... 100KB</td>
+              </tr>
+              </table>
+            </div>
+          </div>
+          <div>
+            <h2>File Name</h2>
+            <input type="text" value={artboardName}/>
+            <h2>Format</h2>
+
+            <ul>
+              <li><label><input type="radio" name="format" value="png" checked />PNG</label></li>
+              <li><label><input type="radio" name="format" value="jpg" />JPG</label></li>
+            </ul>
+
+            <h2>Size</h2>
+            <ul>
+              <li><label><input type="radio" name="size" value="x-small" checked />X-Small</label></li>
+              <li><label><input type="radio" name="size" value="small" checked />Small</label></li>
+              <li><label><input type="radio" name="size" value="medium" />Medium</label></li>
+              <li><label><input type="radio" name="size" value="large" />Large</label></li>
+              <li><label><input type="radio" name="size" value="x-large" />X-Large</label></li>
+            </ul>
+            <h2>Compression ratio</h2>
+            <ul>
+              <li><label><input type="radio" name="quality" value="low" checked />Low Quality</label></li>
+              <li><label><input type="radio" name="quality" value="medium" checked />Medium Quality</label></li>
+              <li><label><input type="radio" name="quality" value="high" />High Quality</label></li>
+            </ul>
+            <p><span>Custom Ratio</span> <input name="quality" type="range" min="0" max="200" /></p>
+            <br/>
+            <button className="cancel" onClick={closeExportPanel}>Cancel</button><button className="download">Download</button>
+          </div>
+        </div>
+      </div> : null }
+    </div>
+  )
 }
 
 const InputArtboardName = () => {
