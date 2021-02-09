@@ -105,16 +105,51 @@ class TopBar extends React.Component {
 }
 
 function ArtboardSetting (props) {
+
+  const [showRatioWindow, changeStateRatio] = useState(false);
+  const [showRenameWindow, changeStateRename] = useState(false);
+  const [showDuplicateWindow, changeStateDuplicate] = useState(false);
+  const [showDeleteWindow, changeStateDelete] = useState(false);
+
+  const ratioSetting = (e) => {
+    e.preventDefault();
+    changeStateRatio(true)
+  }
+
+  const styles = {
+    noActive: {
+      display: "none"
+    }
+  }
+
   return (
     <div>
       <p>Artboard</p>
       <div>
         <ul>
-          <li>Ratio setting</li>
+          <li onClick={ratioSetting}>Ratio setting</li>
           <li>Rename artboard</li>
           <li>Duplicate artboard</li>
           <li>Delete artboard</li>
         </ul>
+      </div>
+      <div
+         className={showRatioWindow ? "artboardSettingsBackground active": "artboardSettingsBackground"}
+         style={showRatioWindow ? null:styles.noActive
+         }
+      >
+        <div className="artboardSettings">
+          <p>Change the artboard ratio</p>
+          <form action="">
+            <label htmlFor="">Width:<input type="number" max="3000" />px</label>
+            <label htmlFor="">Height:<input type="number" max="3000" />px</label>
+            <button onClick={(e)=>{
+              changeStateRatio(false)
+              e.preventDefault();
+            }}>Cancel</button>
+            <button>Change</button>
+          </form>
+        </div>
       </div>
     </div>
   )
