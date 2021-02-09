@@ -169,8 +169,8 @@ const Dashboard = () => {
             <button>Install App</button>
           </div>
           <ul>
-            <li><a href="#">User Guide</a></li>
-            <li><a href="#">Official HP</a></li>
+            <li><a href="https://www.isography.app/test">User Guide</a></li>
+            <li><a href="https://www.isography.app" target="_blank">Official HP</a></li>
             <li><a href="#">Use of Terms & Lisences</a></li>
           </ul>
           <div className="sendFeedback">

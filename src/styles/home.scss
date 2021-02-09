@@ -47,6 +47,12 @@ aside {
       margin: 5px 0;
       list-style-type: disc;
       list-style-position: inside;
+      a {
+        color: deepskyblue;
+      }
+      a:visited{
+        color: slateblue;
+      }
     }
   }
   .message {
