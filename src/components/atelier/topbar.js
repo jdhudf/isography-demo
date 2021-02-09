@@ -111,13 +111,59 @@ function ArtboardSetting (props) {
   const [showDuplicateWindow, changeStateDuplicate] = useState(false);
   const [showDeleteWindow, changeStateDelete] = useState(false);
 
+  const [artboardName, changeStateArtboardName] = useState(getArtboardName());
+
+
   const ratioSetting = (e) => {
-    e.preventDefault();
     changeStateRatio(true)
+    window.setTimeout(
+      function(){
+        document.getElementsByClassName("artboardSettingsBackground")[0].classList.add("active");
+      },[300]
+    )
+  }
+
+  const renameSetting = (e) => {
+    changeStateRename(true)
+
+    window.setTimeout(
+      function(){
+        document.getElementsByClassName("artboardSettingsBackground")[1].classList.add("active");
+      },[300]
+    )
+  }
+
+  const duplicateSetting = (e) => {
+    changeStateDuplicate(true)
+
+    window.setTimeout(
+      function(){
+        document.getElementsByClassName("artboardSettingsBackground")[2].classList.add("active");
+      },[300]
+    )
+  }
+
+  const deleteSetting = (e) => {
+    changeStateDelete(true)
+
+    window.setTimeout(
+      function(){
+        document.getElementsByClassName("artboardSettingsBackground")[3].classList.add("active");
+      },[300]
+    )
   }
 
   const styles = {
     noActive: {
+      display: "none"
+    },
+    noActiveRename: {
+      display: "none"
+    },
+    noActiveDuplicate: {
+      display: "none"
+    },
+    noActiveDelete: {
       display: "none"
     }
   }
@@ -128,13 +174,15 @@ function ArtboardSetting (props) {
       <div>
         <ul>
           <li onClick={ratioSetting}>Ratio setting</li>
-          <li>Rename artboard</li>
-          <li>Duplicate artboard</li>
-          <li>Delete artboard</li>
+          <li onClick={renameSetting}>Rename artboard</li>
+          <li onClick={duplicateSetting}>Duplicate artboard</li>
+          <li onClick={deleteSetting}>Delete artboard</li>
         </ul>
       </div>
+
+      {/* artboard ratio setting */}
       <div
-         className={showRatioWindow ? "artboardSettingsBackground active": "artboardSettingsBackground"}
+         className="artboardSettingsBackground"
          style={showRatioWindow ? null:styles.noActive
          }
       >
@@ -143,14 +191,101 @@ function ArtboardSetting (props) {
           <form action="">
             <label htmlFor="">Width:<input type="number" max="3000" />px</label>
             <label htmlFor="">Height:<input type="number" max="3000" />px</label>
-            <button onClick={(e)=>{
-              changeStateRatio(false)
-              e.preventDefault();
+            <button onClick={
+              (e)=>{
+                e.preventDefault()
+                console.log('click')
+                document.getElementsByClassName("artboardSettingsBackground")[0].classList.remove("active");
+                window.setTimeout(
+                  function(){
+                    e.preventDefault()
+                    changeStateRatio(false)
+                  },[500]
+                )
             }}>Cancel</button>
             <button>Change</button>
           </form>
         </div>
       </div>
+
+      {/* artboard rename setting */}
+
+      <div className="artboardSettingsBackground"
+           style={showRenameWindow ? null:styles.noActiveRename
+         }>
+        <div className="artboardSettings">
+          <p>Rename the artboard</p>
+          <form action="">
+            <label htmlFor=""><input id="artboardNameInput" type="text" value={artboardName}/></label>
+            <button onClick={
+              (e)=>{
+                e.preventDefault()
+                document.getElementsByClassName("artboardSettingsBackground")[1].classList.remove("active");
+                window.setTimeout(
+                  function(){
+                    e.preventDefault()
+                    changeStateRename(false)
+                  },[500]
+                )
+            }}>Cancel</button>
+            <button>Change</button>
+          </form>
+        </div>
+      </div>
+
+      {/* artboard duplicate setting */}
+      <div
+         className="artboardSettingsBackground"
+         style={showDuplicateWindow ? null:styles.noActiveDuplicate
+         }
+      >
+        <div className="artboardSettings">
+          <p>Duplicate the artboard</p>
+          <form action="">
+            <label htmlFor=""><input type="text" value={artboardName + "_copy"}/></label>
+            <button onClick={
+              (e)=>{
+                e.preventDefault()
+                console.log('click')
+                document.getElementsByClassName("artboardSettingsBackground")[2].classList.remove("active");
+                window.setTimeout(
+                  function(){
+                    e.preventDefault()
+                    changeStateDuplicate(false)
+                  },[500]
+                )
+            }}>Cancel</button>
+            <button>Change</button>
+          </form>
+        </div>
+      </div>
+
+      {/* artboard delete setting */}
+      <div
+         className="artboardSettingsBackground"
+         style={showDeleteWindow ? null:styles.noActiveDelete
+         }
+      >
+        <div className="artboardSettings">
+          <p>Are you sure to delete this artboard?</p>
+          <form action="">
+            <button onClick={
+              (e)=>{
+                e.preventDefault()
+                console.log('click')
+                document.getElementsByClassName("artboardSettingsBackground")[3].classList.remove("active");
+                window.setTimeout(
+                  function(){
+                    e.preventDefault()
+                    changeStateDelete(false)
+                  },[500]
+                )
+            }}>Cancel</button>
+            <button>Delete</button>
+          </form>
+        </div>
+      </div>
+
     </div>
   )
 }
