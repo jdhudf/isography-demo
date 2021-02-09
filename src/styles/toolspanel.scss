@@ -1,0 +1,35 @@
+@import "_setup.scss";
+
+.toggle {
+  background: lightgray;
+  width: 38px;
+  height: 21px;
+  border-radius: 100px;
+  margin: 0 auto;
+  padding: 3px 0 0;
+  box-shadow: inset 0 0 2px 0 rgba(0, 0, 0, .1);
+  transition: ease all .3s;
+  .button {
+    background: gray;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    margin-left: 2px;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, .3);
+    transition: ease all .3s;
+  }
+}
+
+.toggle.active {
+  background: #bbe2f1;
+  transition: ease all .3s;
+  .button {
+    box-shadow: inset 0 0 5px 0 rgba(255, 255, 255, .5);
+    background: deepskyblue;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    margin-left: 18px;
+    transition: ease all .3s;
+  }
+}
