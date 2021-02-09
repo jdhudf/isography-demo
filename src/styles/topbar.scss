@@ -24,7 +24,7 @@
       color: gray;
       &>div:nth-child(1){
         flex-basis: 55%;
-        div {
+        &>div {
           position: absolute;
           backdrop-filter: blur(10px);
           -webkit-backdrop-filter: blur(10px);
@@ -105,6 +105,65 @@
     margin-right: 20px;
     text-align: center;
   }
+}
+
+.artboardSettingsBackground {
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  right: 0%;
+  bottom: 0%;
+  width: 100vw!important;
+  background: rgba(180,180,180,0.3)!important;
+  opacity: 0.1;
+  z-index: -1000px;
+  .artboardSettings {
+    position: fixed;
+    background: #fff;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 300px;
+    padding-bottom: 15px;
+    p {
+      color: #000;
+    }
+    label {
+      display: block;
+      input {
+        border: none;
+        border-bottom: solid 2px lightblue;
+        width: 50px;
+        margin-left: 10px;
+        margin-right: 5px;
+        &::-webkit-outer-spin-button,&::-webkit-inner-spin-button {
+          appearance: none;
+          -webkit-appearance: none;
+          margin: 0;
+        }
+      }
+      input[type=number] {
+        -moz-appearance:textfield; /* Firefox */
+      }
+    }
+    button {
+      border: solid 1.5px #000;
+      border-radius: 1000px;
+      font-weight: 500;
+      background: #fff;
+      &:last-child {
+        background: deepskyblue;
+        color: #fff;
+        border-color: deepskyblue;
+        margin-top: 10px;
+      }
+    }
+  }
+}
+
+.active {
+  opacity: 1;
+  z-index: 1000px;
 }
 
 .form-document {
