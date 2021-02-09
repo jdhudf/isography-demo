@@ -216,7 +216,11 @@ function ArtboardSetting (props) {
         <div className="artboardSettings">
           <p>Rename the artboard</p>
           <form action="">
-            <label htmlFor=""><input id="artboardNameInput" type="text" value={artboardName}/></label>
+            <label htmlFor="">
+              <input id="artboardNameInput" type="text" value={artboardName} onChange={(e)=>{
+                changeStateArtboardName(e.target.value)
+              }}/>
+            </label>
             <button onClick={
               (e)=>{
                 e.preventDefault()
@@ -228,7 +232,11 @@ function ArtboardSetting (props) {
                   },[500]
                 )
             }}>Cancel</button>
-            <button>Change</button>
+            <button onClick={(e)=>{
+              setArtboardName(artboardName)
+              changeStateRename(false)
+              //e.preventDefault();
+            }}>Change</button>
           </form>
         </div>
       </div>
@@ -255,7 +263,7 @@ function ArtboardSetting (props) {
                   },[500]
                 )
             }}>Cancel</button>
-            <button>Change</button>
+            <button>Duplicate</button>
           </form>
         </div>
       </div>
@@ -423,10 +431,23 @@ const InputArtboardName = () => {
 
   }
 
+  const styles = {
+    i: {
+      fontWeight: "600",
+      color: "gray",
+      background:"#F0F0F0",
+      padding: "3px 15px",
+      borderRadius: "3px",
+      display: "inline-block",
+      fontSize: "12px"
+    }
+  }
+
   return (
     <div>
-      <button className="modal-botton" onClick={handleOpenModal}>
-        <p style={{fontWeight: "600",color: "gray"}}>{artboardName}</p>
+      <p style={styles.i}>{artboardName}</p>
+      {/*<button className="modal-botton" onClick={handleOpenModal}>
+        <p style={styles.i}>{artboardName}</p>
       </button>
       <ReactModal isOpen={showModal} contentLabel="Change Document Information">
         <form className="form-document" onSubmit={submitArtboardName}>
@@ -435,7 +456,7 @@ const InputArtboardName = () => {
           <button onClick={handleCloseModal}>Cancel</button>
           <input type="submit" value="Submit"/>
         </form>
-      </ReactModal>
+      </ReactModal>*/}
     </div>
   )
 }

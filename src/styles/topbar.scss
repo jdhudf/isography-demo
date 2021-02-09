@@ -176,6 +176,9 @@
         -moz-appearance:textfield; /* Firefox */
         width: 50px;
       }
+      input:focus {
+        outline: none;
+      }
     }
     button {
       border: solid 1.5px gray;
