@@ -26,7 +26,7 @@ import HexInput from '../redux/hexinput'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faGripHorizontal,
-  faList
+  faList,
 } from '@fortawesome/free-solid-svg-icons'
 
 import {
@@ -72,6 +72,7 @@ class Home extends React.Component {
 const Dashboard = () => {
 
   const [showModal, toggleModal] = useState(false);
+  const [documentList, toggleDocumentList] = useState(false);
 
   const json = useSelector(selectHex).json//getIsographyData();
 
@@ -120,7 +121,11 @@ const Dashboard = () => {
               <li style={{display:"inline-block"}}><FontAwesomeIcon icon={faGripHorizontal} /></li>
               <li style={{display:"inline-block"}}><FontAwesomeIcon icon={faList} /></li>
             </ul>*/}
-            <ul className="document-list">
+            <ul className="toggle-document-list">
+              <li onClick={()=>toggleDocumentList(false)} class={documentList?null:"display"}><FontAwesomeIcon icon={faGripHorizontal} /></li>
+              <li onClick={()=>toggleDocumentList(true)} class={documentList?"display":null}><FontAwesomeIcon icon={faList} /></li>
+            </ul>
+            <ul className={documentList?"document-list":"document-list-column"}>
               {
                 json.data.map(item => (
                   <li>
@@ -152,8 +157,10 @@ const Dashboard = () => {
                           }
                       />
                       </div>
-                      <h3>{item.artboard_name}</h3>
-                      <p>Last Modified at {item.last_modified}</p>
+                      <div>
+                        <h3>{item.artboard_name}</h3>
+                        <p>Last Modified at {item.last_modified}</p>
+                      </div>
                     </Link>
                   </li>
                 ))
