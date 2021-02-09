@@ -62,10 +62,7 @@ class Home extends React.Component {
     return (
       <section className="section-home">
         <MenuBar />
-        <div className="flexbox">
-          <Navigation />
-          <Dashboard />
-        </div>
+        <Dashboard />
       </section>
     );
 
@@ -106,63 +103,80 @@ const Dashboard = () => {
 
   return (
     <section className="section-dashboard">
-      <div>
-        <NewArtboard/>
-        <NewsFeed/>
-        <div className="your-document">
-          <div style={styles.box}>
-            <ul>
-              <li>Open</li>
-              <li>Duplicate</li>
-              <li>Rename</li>
-              <li>Delete</li>
+      <div className="flexbox">
+        <main>
+          <NewArtboard/>
+          <div className="your-document">
+            <div style={styles.box}>
+              <ul>
+                <li>Open</li>
+                <li>Duplicate</li>
+                <li>Rename</li>
+                <li>Delete</li>
+              </ul>
+            </div>
+            <h2>Your Documents</h2>
+            {/*<ul style={{textAlign: "center"}}>
+              <li style={{display:"inline-block"}}><FontAwesomeIcon icon={faGripHorizontal} /></li>
+              <li style={{display:"inline-block"}}><FontAwesomeIcon icon={faList} /></li>
+            </ul>*/}
+            <ul className="document-list">
+              {
+                json.data.map(item => (
+                  <li>
+                    <Link onClick={clicked} to="/" data-id={item.artboard_id}>
+                      <div style={styles.test}>
+                      {/* x=y*item.artboard_size[0]/item.artboard_size[1] */}
+                      {/* y=x*item.artboard_size[1]/item.artboard_size[0] */}
+                      <svg
+                          version="1.1"
+                          viewBox={`0 0 ${item.artboard_size[0]} ${item.artboard_size[1]}`}
+                          xmlns="http://www.w3.org/2000/svg"
+                          style={styles.svg}
+                          style={{
+                            background:item.color_scheme['background'],
+                            width: "90%",
+                            //height: `calc(${item.artboard_size[0]} / ${item.artboard_size[1]} * 90%)`
+                          }}
+                          dangerouslySetInnerHTML={
+                            {__html: item.svg_data.join('').replace(
+                              /class="main"/g,
+                              `style="fill:${item.color_scheme['mainColor']}"`
+                            ).replace(
+                              /class="sub"/g,
+                              `style="fill:${item.color_scheme['subColor']}"`
+                            ).replace(
+                              /class="accent"/g,
+                              `style="fill:${item.color_scheme['accentColor']}"`
+                            )}
+                          }
+                      />
+                      </div>
+                      <h3>{item.artboard_name}</h3>
+                      <p>Last Modified at {item.last_modified}</p>
+                    </Link>
+                  </li>
+                ))
+              }
             </ul>
           </div>
-          <h2>Your Documents</h2>
-          {/*<ul style={{textAlign: "center"}}>
-            <li style={{display:"inline-block"}}><FontAwesomeIcon icon={faGripHorizontal} /></li>
-            <li style={{display:"inline-block"}}><FontAwesomeIcon icon={faList} /></li>
-          </ul>*/}
-          <ul className="document-list">
-            {
-              json.data.map(item => (
-                <li>
-                  <Link onClick={clicked} to="/" data-id={item.artboard_id}>
-                    <div style={styles.test}>
-                    {/* x=y*item.artboard_size[0]/item.artboard_size[1] */}
-                    {/* y=x*item.artboard_size[1]/item.artboard_size[0] */}
-                    <svg
-                        version="1.1"
-                        viewBox={`0 0 ${item.artboard_size[0]} ${item.artboard_size[1]}`}
-                        xmlns="http://www.w3.org/2000/svg"
-                        style={styles.svg}
-                        style={{
-                          background:item.color_scheme['background'],
-                          width: "90%",
-                          //height: `calc(${item.artboard_size[0]} / ${item.artboard_size[1]} * 90%)`
-                        }}
-                        dangerouslySetInnerHTML={
-                          {__html: item.svg_data.join('').replace(
-                            /class="main"/g,
-                            `style="fill:${item.color_scheme['mainColor']}"`
-                          ).replace(
-                            /class="sub"/g,
-                            `style="fill:${item.color_scheme['subColor']}"`
-                          ).replace(
-                            /class="accent"/g,
-                            `style="fill:${item.color_scheme['accentColor']}"`
-                          )}
-                        }
-                    />
-                    </div>
-                    <h3>{item.artboard_name}</h3>
-                    <p>Last Modified at {item.last_modified}</p>
-                  </Link>
-                </li>
-              ))
-            }
+        </main>
+        <aside>
+          <NewsFeed/>
+          <div className="message">
+            <h2>Some Tip!</h2>
+            <p>You can install Isography your desktop and tablet!</p>
+            <button>Install App</button>
+          </div>
+          <ul>
+            <li><a href="#">User Guide</a></li>
+            <li><a href="#">Official HP</a></li>
+            <li><a href="#">Use of Terms & Lisences</a></li>
           </ul>
-        </div>
+          <div className="sendFeedback">
+            <a href="#">Send Bug report or Feedback<span>Powered by Google From</span></a>
+          </div>
+        </aside>
       </div>
     </section>
   );
@@ -240,20 +254,37 @@ const NewArtboard = () => {
 
       <div className="section-new">
         <h2>Create A New Document</h2>
-        <ul className="template-list">
-          <li onClick={ ()=>toggleModal(true) }>
-            <div style={{width:"100px", height:"80px"}} />
-            <p>Custom  <span>__px × __px</span></p>
-          </li>
-          <li>
-            <div style={{width:"100px", height:"100px"}} />
-            <p>Square  <span>100px × 100px</span></p>
-          </li>
-          <li>
-            <div style={{width:"80px", height:"100px"}} />
-            <p>Portlait  <span>80px × 100px</span></p>
-          </li>
-        </ul>
+        <div className="template-list">
+          <div>
+            <ul>
+              <li onClick={ ()=>toggleModal(true) }>
+                <div style={{width:"80px", height:"60px"}} />
+                <p>Custom  <span>__px × __px</span></p>
+              </li>
+              <li>
+                <div style={{width:"60px", height:"60px"}} />
+                <p>Square  <span>1.00 : 1.00</span></p>
+              </li>
+              <li>
+                <div style={{width:"85px", height:"60px"}} />
+                <p>Twitter Card Ratio  <span>80px × 100px</span></p>
+              </li>
+              <li>
+                <div style={{width:"90px", height:"60px"}} />
+                <p>OGP Card Ratio  <span>80px × 100px</span></p>
+              </li>
+              <li>
+                <div style={{width:"50px", height:"60px"}} />
+                <p>Portlait  <span>80px × 100px</span></p>
+              </li>
+              <li>
+                <div style={{width:"90px", height:"60px"}} />
+                <p>Silver Ratio <span>80px × 100px</span></p>
+              </li>
+            </ul>
+          </div>
+          <p className="edit-templates">Edit templates</p>
+        </div>
       </div>
     </div>
   )
