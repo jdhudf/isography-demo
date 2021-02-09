@@ -94,7 +94,7 @@ class TopBar extends React.Component {
           <InputArtboardName/>
         </div>
         <div>
-          <p>FREE DEMO</p>
+          <p style={{fontWeight: "600",fontSize:"12px"}}>FREE DEMO</p>
         </div>
 
         {/*<div className="mode-change"><FontAwesomeIcon icon={faAdjust} /></div>*/}
@@ -171,7 +171,7 @@ function ArtboardSetting (props) {
   return (
     <div>
       <p>Artboard</p>
-      <div>
+      <div className="artboardSettingWindow">
         <ul>
           <li onClick={ratioSetting}>Ratio setting</li>
           <li onClick={renameSetting}>Rename artboard</li>
@@ -267,7 +267,7 @@ function ArtboardSetting (props) {
          }
       >
         <div className="artboardSettings">
-          <p>Are you sure to delete this artboard?</p>
+          <p style={{fontWeight:"600",marginBottom: "-5px"}}>Are you sure to delete this artboard?</p>
           <form action="">
             <button onClick={
               (e)=>{
@@ -426,7 +426,7 @@ const InputArtboardName = () => {
   return (
     <div>
       <button className="modal-botton" onClick={handleOpenModal}>
-        <p>{artboardName}</p>
+        <p style={{fontWeight: "600",color: "gray"}}>{artboardName}</p>
       </button>
       <ReactModal isOpen={showModal} contentLabel="Change Document Information">
         <form className="form-document" onSubmit={submitArtboardName}>

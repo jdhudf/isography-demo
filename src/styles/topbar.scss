@@ -30,11 +30,6 @@
           -webkit-backdrop-filter: blur(10px);
           background: rgba(0,0,0,0.7);
           width: 200px;
-          animation: fadeOut .2s linear 0s;
-          transform:translateY(-1000px);
-          //transition: ease all .5s;
-          transition-delay: .1s;
-          //display: none;
           ul {
             text-align: left;
             width: 90%;
@@ -52,10 +47,13 @@
             }
           }
         }
+        .artboardSettingWindow{
+          transform:translateY(-1000px);
+          transition-delay: .1s;
+        }
         &:hover {
-          &>div {
+          .artboardSettingWindow{
             animation: fadeIn .2s linear 0s;
-            //display: block;
             transform:translateY(0px);
             transition-delay: 0s;
           }
@@ -180,7 +178,8 @@
       }
     }
     button {
-      border: solid 1.5px #000;
+      border: solid 1.5px gray;
+      color: gray;
       border-radius: 1000px;
       font-weight: 500;
       background: #fff;
