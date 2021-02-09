@@ -114,17 +114,19 @@
   right: 0%;
   bottom: 0%;
   width: 100vw!important;
-  background: rgba(180,180,180,0.3)!important;
-  opacity: 0.1;
+  background: rgba(180,180,180,0.5)!important;
+  opacity: 0;
   z-index: -1000px;
+  transition: all ease .5s;
   .artboardSettings {
-    position: fixed;
+    position: absolute;
     background: #fff;
-    top: 50%;
+    top: 45%;
     left: 50%;
     transform: translate(-50%,-50%);
     width: 300px;
     padding-bottom: 15px;
+    transition: all ease .5s;
     p {
       color: #000;
     }
@@ -133,7 +135,6 @@
       input {
         border: none;
         border-bottom: solid 2px lightblue;
-        width: 50px;
         margin-left: 10px;
         margin-right: 5px;
         &::-webkit-outer-spin-button,&::-webkit-inner-spin-button {
@@ -144,6 +145,7 @@
       }
       input[type=number] {
         -moz-appearance:textfield; /* Firefox */
+        width: 50px;
       }
     }
     button {
@@ -164,6 +166,11 @@
 .active {
   opacity: 1;
   z-index: 1000px;
+  transition: all ease .3s;
+  .artboardSettings {
+    top: 50%;
+    transition: all ease .3s;
+  }
 }
 
 .form-document {
