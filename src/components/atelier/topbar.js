@@ -299,10 +299,13 @@ function ArtboardSetting (props) {
 }
 
 function ExportComponent (props) {
-//const ExportComponent = (props) => {
 
   const [showExportPanel, changeStateExportPanel] = useState(false);
   const [artboardName, changeStateArtboardName] = useState(getArtboardName());
+
+  const [radioFormat, changeStateRadioFormat] = useState("png");
+  const [radioSize, changeStateRadioSize] = useState("x-small");
+  const [radioCompression, changeStateRadioCompression] = useState("low");
 
   const openExportPanel = () => {
     changeStateExportPanel(true)
@@ -310,6 +313,17 @@ function ExportComponent (props) {
 
   const closeExportPanel = () => {
     changeStateExportPanel(false)
+  }
+
+  const handleRadioFormat = (e) => {
+    changeStateRadioFormat(e.target.value)
+  }
+
+  const handleRadioSize = (e) => {
+    changeStateRadioSize(e.target.value)
+  }
+  const handleRadioCompression = (e) => {
+    changeStateRadioCompression(e.target.value)
   }
 
   const styles = {
@@ -371,29 +385,118 @@ function ExportComponent (props) {
           </div>
           <div>
             <h2>File Name</h2>
-            <input type="text" value={artboardName}/>
+            <input type="text" value={artboardName} onChange={(e)=>changeStateArtboardName(e.target.value)}/>
             <h2>Format</h2>
 
             <ul>
-              <li><label><input type="radio" name="format" value="png" checked />PNG</label></li>
-              <li><label><input type="radio" name="format" value="jpg" />JPG</label></li>
+              <li>
+                <label>
+                  <input
+                    type="radio"
+                    name="format"
+                    value="png"
+                    checked={radioFormat === "png"}
+                    onChange={handleRadioFormat} />PNG
+                </label>
+              </li>
+              <li>
+                <label>
+                  <input
+                    type="radio"
+                    name="format"
+                    value="jpg"
+                    checked={radioFormat === "jpg"}
+                    onChange={handleRadioFormat} />JPG
+                </label>
+              </li>
             </ul>
 
             <h2>Size</h2>
             <ul>
-              <li><label><input type="radio" name="size" value="x-small" checked />X-Small</label></li>
-              <li><label><input type="radio" name="size" value="small" checked />Small</label></li>
-              <li><label><input type="radio" name="size" value="medium" />Medium</label></li>
-              <li><label><input type="radio" name="size" value="large" />Large</label></li>
-              <li><label><input type="radio" name="size" value="x-large" />X-Large</label></li>
+              <li>
+                <label>
+                  <input
+                    type="radio"
+                    name="size"
+                    value="x-small"
+                    checked={radioSize === "x-small"}
+                    onChange={handleRadioSize} />X-Small
+                </label>
+              </li>
+              <li>
+                <label>
+                  <input
+                    type="radio"
+                    name="size"
+                    value="small"
+                    checked={radioSize === "small"}
+                    onChange={handleRadioSize} />Small
+                </label>
+              </li>
+              <li>
+                <label>
+                  <input
+                    type="radio"
+                    name="size"
+                    value="medium"
+                    checked={radioSize === "medium"}
+                    onChange={handleRadioSize} />Medium
+                </label>
+              </li>
+              <li>
+                <label>
+                  <input
+                    type="radio"
+                    name="size"
+                    value="large"
+                    checked={radioSize === "large"}
+                    onChange={handleRadioSize} />Large
+                </label>
+              </li>
+              <li>
+                <label>
+                  <input
+                    type="radio"
+                    name="size"
+                    value="x-large"
+                    checked={radioSize === "x-large"}
+                    onChange={handleRadioSize} />X-Large
+                </label>
+              </li>
             </ul>
             <h2>Compression ratio</h2>
             <ul>
-              <li><label><input type="radio" name="quality" value="low" checked />Low Quality</label></li>
-              <li><label><input type="radio" name="quality" value="medium" checked />Medium Quality</label></li>
-              <li><label><input type="radio" name="quality" value="high" />High Quality</label></li>
+              <li>
+                <label>
+                  <input
+                    type="radio"
+                    name="quality"
+                    value="low"
+                    checked={radioCompression === "low"}
+                    onChange={handleRadioCompression} />Low Quality
+                </label>
+              </li>
+              <li>
+                <label>
+                  <input
+                    type="radio"
+                    name="quality"
+                    value="medium"
+                    checked={radioCompression === "medium"}
+                    onChange={handleRadioCompression} />Medium Quality
+                </label>
+              </li>
+              <li>
+                <label>
+                  <input
+                    type="radio"
+                    name="quality"
+                    value="high"
+                    checked={radioCompression==="high"}
+                    onChange={handleRadioCompression} />High Quality
+                </label>
+              </li>
             </ul>
-            <p><span>Custom Ratio</span> <input name="quality" type="range" min="0" max="200" /></p>
             <br/>
             <button className="cancel" onClick={closeExportPanel}>Cancel</button><button className="download">Download</button>
           </div>

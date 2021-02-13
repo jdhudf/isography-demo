@@ -262,7 +262,7 @@
   }
   .export-pannel-content {
     z-index: 10000;
-    max-width: 900px;
+    max-width: 950px;
     width: 90%;
     position: absolute;
     top: 50%;
@@ -272,9 +272,15 @@
     display: flex;
     justify-content: space-around;
     padding: 30px 0 50px;
+    h2 {
+      font-weight: 600;
+      color: #000;
+      font-size: 1.8rem;
+    }
     div {
       text-align: left;
-      flex-basis: 45%;
+      flex-basis: 40%;
+      width: 100%;
       svg {
         border: solid 3px #F0F0F0;
       }
@@ -301,6 +307,7 @@
     p {
       align-items: center;
       display: flex;
+      color: #000;
       span {
         margin-right: 20px;
         font-weight: bold;
@@ -309,6 +316,10 @@
         width: 200px;
         margin-top: 10px;
       }
+    }
+    input[type="text"] {
+      border: none;
+      border-bottom: solid 1.5px lightblue;
     }
     .cancel {
       background: #fff;
