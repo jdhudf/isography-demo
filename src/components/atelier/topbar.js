@@ -9,7 +9,7 @@ import ReactModal from 'react-modal';
 import {
   getCanvasScale,
   getArtboardName,
-  setArtboardName
+  setArtboardName,
 } from '../handleLocalstorage'
 
 import { useSelector, useDispatch } from 'react-redux'
@@ -374,7 +374,7 @@ function ExportComponent (props) {
               </tr>
               <tr>
                 <th>Scale</th>
-                <td>600px : 300px</td>
+                <td>{getCanvasScale()[0]}px : {getCanvasScale()[1]}px</td>
               </tr>
               <tr>
                 <th>Size</th>
