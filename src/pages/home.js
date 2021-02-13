@@ -102,6 +102,9 @@ const Dashboard = () => {
 
   const color = useSelector(selectHex)
 
+  const today = new Date();
+  const dated = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+
   return (
     <section className="section-dashboard">
       <div className="flexbox">
@@ -126,45 +129,63 @@ const Dashboard = () => {
               <li onClick={()=>toggleDocumentList(true)} class={documentList?"display":null}><FontAwesomeIcon icon={faList} /></li>
             </ul>
             <ul className={documentList?"document-list":"document-list-column"}>
-              {
-                json.data.map(item => (
-                  <li>
-                    <Link onClick={clicked} to="/" data-id={item.artboard_id}>
-                      <div style={styles.test}>
-                      {/* x=y*item.artboard_size[0]/item.artboard_size[1] */}
-                      {/* y=x*item.artboard_size[1]/item.artboard_size[0] */}
-                      <svg
-                          version="1.1"
-                          viewBox={`0 0 ${item.artboard_size[0]} ${item.artboard_size[1]}`}
-                          xmlns="http://www.w3.org/2000/svg"
-                          style={styles.svg}
-                          style={{
-                            background:item.color_scheme['background'],
-                            width: "90%",
-                            //height: `calc(${item.artboard_size[0]} / ${item.artboard_size[1]} * 90%)`
-                          }}
-                          dangerouslySetInnerHTML={
-                            {__html: item.svg_data.join('').replace(
-                              /class="main"/g,
-                              `style="fill:${item.color_scheme['mainColor']}"`
-                            ).replace(
-                              /class="sub"/g,
-                              `style="fill:${item.color_scheme['subColor']}"`
-                            ).replace(
-                              /class="accent"/g,
-                              `style="fill:${item.color_scheme['accentColor']}"`
-                            )}
-                          }
-                      />
-                      </div>
-                      <div>
-                        <h3>{item.artboard_name}</h3>
-                        <p>Last Modified at {item.last_modified}</p>
-                      </div>
-                    </Link>
-                  </li>
-                ))
-              }
+            {(()=>{
+              const list = json.data;
+
+              const arranged = list.sort(function(a, b){
+                //return new Date(a.last_modified) - new Date(b.last_modified)
+                return new Date(b.last_modified) - new Date(a.last_modified)
+              })
+
+              return arranged.map(item => (
+                <li>
+                  <Link onClick={clicked} to="/" data-id={item.artboard_id}>
+                    <div style={styles.test}>
+                    {/* x=y*item.artboard_size[0]/item.artboard_size[1] */}
+                    {/* y=x*item.artboard_size[1]/item.artboard_size[0] */}
+                    <svg
+                        version="1.1"
+                        viewBox={`0 0 ${item.artboard_size[0]} ${item.artboard_size[1]}`}
+                        xmlns="http://www.w3.org/2000/svg"
+                        style={styles.svg}
+                        style={{
+                          background:item.color_scheme['background'],
+                          width: "90%",
+                          //height: `calc(${item.artboard_size[0]} / ${item.artboard_size[1]} * 90%)`
+                        }}
+                        dangerouslySetInnerHTML={
+                          {__html: item.svg_data.join('').replace(
+                            /class="main"/g,
+                            `style="fill:${item.color_scheme['mainColor']}"`
+                          ).replace(
+                            /class="sub"/g,
+                            `style="fill:${item.color_scheme['subColor']}"`
+                          ).replace(
+                            /class="accent"/g,
+                            `style="fill:${item.color_scheme['accentColor']}"`
+                          )}
+                        }
+                    />
+                    </div>
+                    <div>
+                      <h3>{item.artboard_name}</h3>
+                      <p>Last Modified at
+                      {(()=>{
+                        const today = new Date(item.last_modified);
+                        const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+
+                        if (today !== null) {
+                            return <span> {date}</span>;
+                        }
+                        return <span> No Data</span>;
+                      })()}
+                      </p>
+                    </div>
+                  </Link>
+                </li>
+              ))
+
+            })()}
             </ul>
           </div>
         </main>

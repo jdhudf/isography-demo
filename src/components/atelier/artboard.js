@@ -84,7 +84,8 @@ class Artboard extends React.Component {
     //el.addEventListener('onkeydown', this.keyPress , { passive: false });
 
     const today = new Date();
-    setLastModified(today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate())
+    //setLastModified(today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate())
+    setLastModified(new Date())
 
 
   }
