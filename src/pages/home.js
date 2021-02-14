@@ -37,6 +37,7 @@ import {
 import { useSelector, useDispatch } from 'react-redux'
 const selectHex = state => state.json
 
+
 //import GallaryPanel from '../components/gallarypanel.js';
 //import ToolsPanel from '../components/toolspanel.js';
 //import Artboard from '../components/artboard.js';
@@ -101,6 +102,7 @@ const Dashboard = () => {
   }
 
   const color = useSelector(selectHex)
+  const dispatch = useDispatch()
 
   const today = new Date();
   const dated = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
@@ -218,9 +220,11 @@ const NewArtboard = () => {
 
   const [showModal, toggleModal] = useState(false);
   const [value, updateValue] = useState("Artboard Name");
+  const [width, updateWidth] = useState("800");
+  const [height, updateHeight] = useState("600");
 
   const createNewArtboard = (e) => {
-    addNewArtboard(e,value,mainColor,subColor,accentColor,background)
+    addNewArtboard(e,value,mainColor,subColor,accentColor,background,width,height)
     window.location.reload(false);
   }
 
@@ -255,11 +259,35 @@ const NewArtboard = () => {
     }
   }
 
+  const templatesJson = [
+    {
+      name: "Square",
+      ratio: [1,1],
+    },
+    {
+      name: "Twitter Card Ratio",
+      ratio: [1,0.75],
+    },
+    {
+      name: "OGP Card Ratio",
+      ratio: [1,0.75],
+    },
+    {
+      name: "Golden Ratio",
+      ratio: [1,0.75],
+    },
+    {
+      name: "Silver Ratio",
+      ratio: [1,0.65],
+    },
+  ]
+
   return (
     <div>
       <div className="modal-background" style={styles.modalBackground}>
         <div className="modal-content" style={styles.modalContent}>
           <div className="preview">
+            <h2>Preview</h2>
             <svg style={{background: background,border:'solid 10px #F0F0F0',boxSizing:'border-box'}} className="svg-item" viewBox="0 0 200 200" width="100%" height="240.411">
                <g transform="translate(0,0) scale(1,1)">
                  <path className="main" style={{fill:mainColor}} d="M168.68,59.078l-70.627,40.776l-0,81.553l70.627,-40.776l-0,-81.553Z"/>
@@ -269,7 +297,12 @@ const NewArtboard = () => {
             </svg>
           </div>
           <div className="setting">
-            <p>Artboard Name <input type="text" value={value} onChange={(e) => updateInputValue(e)}/></p>
+            <h2>Artboard Name</h2>
+            <p><input type="text" value={value} onChange={(e) => updateInputValue(e)}/></p>
+            <h2>Template <span>Ratio is </span></h2>
+            <label htmlFor="">Width : <input type="number" min="300" max="3000" value={width} onChange={(e)=>updateWidth(e.target.value)}/></label>
+            <label htmlFor="">Height : <input type="number" min="300" max="3000" value={height} onChange={(e)=>updateHeight(e.target.value)}/></label>
+            <h2>Color Scheme</h2>
             <ColorPicker color={mainColor} onChange={(e)=> setMainColor(e.color)}/>
             <ColorPicker color={subColor} onChange={(e)=> setSubColor(e.color)}/>
             <ColorPicker color={accentColor} onChange={(e)=> setAccentColor(e.color)}/>
@@ -279,7 +312,6 @@ const NewArtboard = () => {
           </div>
         </div>
       </div>
-
       <div className="section-new">
         <h2>Create A New Document</h2>
         <div className="template-list">
@@ -289,26 +321,20 @@ const NewArtboard = () => {
                 <div style={{width:"80px", height:"60px"}} />
                 <p>Custom  <span>__px × __px</span></p>
               </li>
-              <li>
-                <div style={{width:"60px", height:"60px"}} />
-                <p>Square  <span>1.00 : 1.00</span></p>
-              </li>
-              <li>
-                <div style={{width:"85px", height:"60px"}} />
-                <p>Twitter Card Ratio  <span>80px × 100px</span></p>
-              </li>
-              <li>
-                <div style={{width:"90px", height:"60px"}} />
-                <p>OGP Card Ratio  <span>80px × 100px</span></p>
-              </li>
-              <li>
-                <div style={{width:"50px", height:"60px"}} />
-                <p>Portlait  <span>80px × 100px</span></p>
-              </li>
-              <li>
-                <div style={{width:"90px", height:"60px"}} />
-                <p>Silver Ratio <span>80px × 100px</span></p>
-              </li>
+              {templatesJson.map(item => (
+                <li onClick={ ()=>toggleModal(true) }>
+                  {(()=>{
+                    if (item.ratio[0]>item.ratio[1]) {
+                      return <p>TET</p>
+                    }
+                  })()}
+                  <div style={{
+                    width:`${item.ratio[0]*80}px`,
+                    height:`${item.ratio[1]*80}px`
+                  }}/>
+                  <p>{item.name} <span>{item.ratio[0]} : {item.ratio[1]}</span></p>
+                </li>
+              ))}
             </ul>
           </div>
           <p className="edit-templates">Edit templates</p>
