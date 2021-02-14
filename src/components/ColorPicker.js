@@ -72,7 +72,7 @@ class ColorPicker extends React.Component {
 
 
     return (
-      <div>
+      <div className="color-picker">
 
         <div style={ styles.swatch } onClick={ this.handleClick }>
           <div style={ styles.color } /> <span>{this.state.color}</span>

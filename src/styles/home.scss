@@ -328,12 +328,20 @@ aside {
     border-radius: 5px;
     margin-bottom: 30px;
     flex-basis: 30%;
-    div {
+    div.thumb {
       padding: 10px 0;
       border-radius: 5px 5px 0 0;
+      height: 150px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       svg {
         display: block;
         margin: 0 auto;
+        object-fit: contain;
+        width: 100%;
+        max-height: 150px;
+        vertical-align: middle;
       }
     }
     h3,p {
@@ -460,27 +468,54 @@ aside {
 }
 
 .modal-content {
-  max-width: 700px;
+  max-width: 750px;
   justify-content: space-around;
-  align-items: center;
-  padding: 30px 0;
+  align-items: stretch;
   border-radius: 10px;
+  .preview,.setting {
+    padding: 30px 0;
+  }
   .preview {
+    border-radius: 10px 0 0 10px;
+    flex-basis: 50%;
+    background: #000;
+    height: auto;
+    padding: 30px 0;
+    position: relative;
     h2 {
       font-weight: 600;
       font-size: 1.6rem;
-      color: gray;
+      color: lightgray;
       margin-top: 0;
+      width: 90%;
+      margin: 0 auto;
+      margin-top: -15px;
     }
-    flex-basis: 45%;
+    svg {
+      width: 90%;
+      margin: 0 auto;
+      display: block;
+      //border:solid 10px #F0F0F0;
+      box-sizing:border-box;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+    }
   }
   .setting {
-    flex-basis: 45%;
+    flex-basis: 50%;
+    padding: 20px 0;
+    h2,label,p,.color-picker,div.flex {
+      width: 90%;
+      margin: 0 auto;
+    }
     h2 {
       font-weight: 600;
       font-size: 1.6rem;
       color: gray;
       margin-top: 0;
+      margin-bottom: 10px;
       span {
         font-size: 1.2rem;
         margin-left: 10px;
@@ -496,27 +531,39 @@ aside {
         outline: none;
       }
     }
+    input[type=text] {
+      margin-bottom: 10px;
+    }
     label {
       display: block;
-      margin-bottom: 20px;
+      margin-bottom: 5px;
     }
     input[type=number] {
       -moz-appearance: textfield;
     }
-    button {
-      border: solid 2px darkgray;
-      border-radius: 1000px;
-      margin: 30px 5px 0;
-      width: 45%;
-      font-size: 1.4rem;
-      padding: 5px 0;
-      font-weight: bold;
-      color: darkgray;
-      background: #fff;
-      &:last-child {
-        background: deepskyblue;
-        border: solid 2px deepskyblue;
-        color: #fff;
+    input[type=number]:last-child {
+      margin-bottom: 5px;
+    }
+    div.flex {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 10px;
+      button {
+        border: solid 2px darkgray;
+        border-radius: 1000px;
+        margin-top: 10px;
+        width: 45%;
+        flex-basis: 45%;;
+        font-size: 1.4rem;
+        padding: 5px 0;
+        font-weight: bold;
+        color: darkgray;
+        background: #fff;
+        &:last-child {
+          background: deepskyblue;
+          border: solid 2px deepskyblue;
+          color: #fff;
+        }
       }
     }
   }

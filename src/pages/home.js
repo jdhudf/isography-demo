@@ -142,7 +142,7 @@ const Dashboard = () => {
               return arranged.map(item => (
                 <li>
                   <Link onClick={clicked} to="/" data-id={item.artboard_id}>
-                    <div style={styles.test}>
+                    <div className="thumb" style={styles.test}>
                     {/* x=y*item.artboard_size[0]/item.artboard_size[1] */}
                     {/* y=x*item.artboard_size[1]/item.artboard_size[0] */}
                     <svg
@@ -222,6 +222,7 @@ const NewArtboard = () => {
   const [value, updateValue] = useState("Artboard Name");
   const [width, updateWidth] = useState("800");
   const [height, updateHeight] = useState("600");
+  const [ratioName, updateRatioName] = useState("");
 
   const createNewArtboard = (e) => {
     addNewArtboard(e,value,mainColor,subColor,accentColor,background,width,height)
@@ -253,7 +254,7 @@ const NewArtboard = () => {
       top: '50%',
       left: '50%',
       transform: 'translate(-50%,-50%)',
-      background: 'rgba(0,0,0,0.3)',
+      background: 'rgba(180,180,180,0.5)',
       zIndex: '10000',
       display: `${showModal? 'block' : 'none'}`
     }
@@ -288,7 +289,7 @@ const NewArtboard = () => {
         <div className="modal-content" style={styles.modalContent}>
           <div className="preview">
             <h2>Preview</h2>
-            <svg style={{background: background,border:'solid 10px #F0F0F0',boxSizing:'border-box'}} className="svg-item" viewBox="0 0 200 200" width="100%" height="240.411">
+            <svg style={{background: background}} className="svg-item" viewBox="0 0 200 200" width="100%" height="240.411">
                <g transform="translate(0,0) scale(1,1)">
                  <path className="main" style={{fill:mainColor}} d="M168.68,59.078l-70.627,40.776l-0,81.553l70.627,-40.776l-0,-81.553Z"/>
                  <path className="sub" style={{fill:subColor}} d="M98.043,18.295l-70.627,40.777l70.637,40.782l70.627,-40.777l-70.637,-40.782Z"/>
@@ -299,7 +300,7 @@ const NewArtboard = () => {
           <div className="setting">
             <h2>Artboard Name</h2>
             <p><input type="text" value={value} onChange={(e) => updateInputValue(e)}/></p>
-            <h2>Template <span>Ratio is </span></h2>
+            <h2>Template <span>{ratioName}</span></h2>
             <label htmlFor="">Width : <input type="number" min="300" max="3000" value={width} onChange={(e)=>updateWidth(e.target.value)}/></label>
             <label htmlFor="">Height : <input type="number" min="300" max="3000" value={height} onChange={(e)=>updateHeight(e.target.value)}/></label>
             <h2>Color Scheme</h2>
@@ -307,8 +308,10 @@ const NewArtboard = () => {
             <ColorPicker color={subColor} onChange={(e)=> setSubColor(e.color)}/>
             <ColorPicker color={accentColor} onChange={(e)=> setAccentColor(e.color)}/>
             <ColorPicker color={background} onChange={(e)=> setBackground(e.color)}/>
-            <button onClick={ ()=>toggleModal(false) }>Cancel</button>
-            <button onClick={createNewArtboard}>Create!</button>
+            <div className="flex">
+              <button onClick={ ()=>toggleModal(false) }>Cancel</button>
+              <button onClick={createNewArtboard}>Create!</button>
+            </div>
           </div>
         </div>
       </div>
@@ -317,12 +320,22 @@ const NewArtboard = () => {
         <div className="template-list">
           <div>
             <ul>
-              <li onClick={ ()=>toggleModal(true) }>
+              <li onClick={ ()=>{
+                toggleModal(true)
+                updateWidth(800)
+                updateHeight(600)
+                updateRatioName("800:600")
+              } }>
                 <div style={{width:"80px", height:"60px"}} />
                 <p>Custom  <span>__px × __px</span></p>
               </li>
               {templatesJson.map(item => (
-                <li onClick={ ()=>toggleModal(true) }>
+                <li onClick={ ()=>{
+                  toggleModal(true)
+                  updateWidth(item.ratio[0]*500)
+                  updateHeight(item.ratio[1]*500)
+                  updateRatioName(item.name)
+                } }>
                   {(()=>{
 
                     // item.ratio[0] : item.ratio[1] = x : y
