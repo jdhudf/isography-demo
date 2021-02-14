@@ -270,11 +270,11 @@ const NewArtboard = () => {
     },
     {
       name: "OGP Card Ratio",
-      ratio: [1,0.75],
+      ratio: [1,0.55],
     },
     {
       name: "Golden Ratio",
-      ratio: [1,0.75],
+      ratio: [1,1.25],
     },
     {
       name: "Silver Ratio",
@@ -324,14 +324,30 @@ const NewArtboard = () => {
               {templatesJson.map(item => (
                 <li onClick={ ()=>toggleModal(true) }>
                   {(()=>{
-                    if (item.ratio[0]>item.ratio[1]) {
-                      return <p>TET</p>
+
+                    // item.ratio[0] : item.ratio[1] = x : y
+                    // item.ratio[0] * y = item.ratio[1] * x
+
+                    const x =  item.ratio[0] / item.ratio[1]
+                    const y =  item.ratio[1] / item.ratio[0]
+
+                    if (item.ratio[0]>=item.ratio[1]) {
+                      return <div style={{
+                                  width: "75px",
+                                  height:`${y*75}px`,
+                                  margin: `${(75 - y*75)/2}px auto`
+                             }}/>//<p>1:{y}</p>
+                    } else {
+                      return <div style={{
+                                  width: `${x*75}px`,
+                                  height: "75px"
+                             }}/>//<p>{x}:1</p>
                     }
                   })()}
-                  <div style={{
+                  {/*<div style={{
                     width:`${item.ratio[0]*80}px`,
                     height:`${item.ratio[1]*80}px`
-                  }}/>
+                  }}/>*/}
                   <p>{item.name} <span>{item.ratio[0]} : {item.ratio[1]}</span></p>
                 </li>
               ))}
