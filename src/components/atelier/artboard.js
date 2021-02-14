@@ -12,6 +12,8 @@ import {
 
 import { onWheel } from './features/pinch-gesture-wheel'
 
+import { useSelector, useDispatch } from 'react-redux'
+
 //====================================
 //  We need below functions that
 //  -[x] drag items
@@ -1027,5 +1029,6 @@ class Artboard extends React.Component {
     );
   }
 }
+
 
 export default Artboard;
