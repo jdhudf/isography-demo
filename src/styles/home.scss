@@ -262,10 +262,13 @@ aside {
   &>div {
     width: 750px;
     overflow-x: scroll;
+    //sscrollbar-width: thin!important;
   }
   ul {
     width: 900px;
     margin-bottom: 15px;
+    display: flex;
+    align-items: flex-end;
     li {
       background: #F0F0F0;
       display: inline-block;
@@ -407,6 +410,7 @@ aside {
   }
 }
 
+
 @keyframes FromRight{
     from{
         width: 0;
@@ -451,6 +455,69 @@ aside {
       padding-bottom: 10px;
       color: $gray;
       font-weight: 600;
+    }
+  }
+}
+
+.modal-content {
+  max-width: 700px;
+  justify-content: space-around;
+  align-items: center;
+  padding: 30px 0;
+  border-radius: 10px;
+  .preview {
+    h2 {
+      font-weight: 600;
+      font-size: 1.6rem;
+      color: gray;
+      margin-top: 0;
+    }
+    flex-basis: 45%;
+  }
+  .setting {
+    flex-basis: 45%;
+    h2 {
+      font-weight: 600;
+      font-size: 1.6rem;
+      color: gray;
+      margin-top: 0;
+      span {
+        font-size: 1.2rem;
+        margin-left: 10px;
+      }
+    }
+    input {
+      border: none;
+      border-bottom: solid 1.5px lightblue;
+      appearance: none;
+      -webkit-appearance: none;
+      margin: 0;
+      &:focus {
+        outline: none;
+      }
+    }
+    label {
+      display: block;
+      margin-bottom: 20px;
+    }
+    input[type=number] {
+      -moz-appearance: textfield;
+    }
+    button {
+      border: solid 2px darkgray;
+      border-radius: 1000px;
+      margin: 30px 5px 0;
+      width: 45%;
+      font-size: 1.4rem;
+      padding: 5px 0;
+      font-weight: bold;
+      color: darkgray;
+      background: #fff;
+      &:last-child {
+        background: deepskyblue;
+        border: solid 2px deepskyblue;
+        color: #fff;
+      }
     }
   }
 }
