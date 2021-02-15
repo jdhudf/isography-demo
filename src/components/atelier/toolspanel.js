@@ -65,7 +65,7 @@ class ToolsPanel extends React.Component {
 
 
 
-        <p onClick={(e) =>removeArtboard()} title="Remove Artboard"><FontAwesomeIcon icon={faTrashAlt} /></p>
+        <p onClick={(e) =>this.props.removeElement()} title="Remove Element"><FontAwesomeIcon icon={faTrashAlt} /></p>
 
       </section>
     );

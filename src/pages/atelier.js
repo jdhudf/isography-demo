@@ -10,6 +10,7 @@ import {
   getColor,
   setColor,
   getSVGdata,
+  setSVGdata,
 } from '../components/handleLocalstorage'
 
 import '../styles/atelier.scss';
@@ -142,6 +143,17 @@ class Atelier extends React.Component {
     document.querySelector('.section-artboard').style.cursor = 'default';
   }
 
+  removeElement = (e) => {
+    alert(this.state.data[0])
+    const data_copy = this.state.data.slice();
+
+    data_copy.splice(0,1);
+
+    this.setState({data: data_copy});
+
+    setSVGdata(data_copy)//localStorage.setItem('data', JSON.stringify(data_copy));
+  }
+
   keyPress = (e) => {
     e.preventDefault();
 
@@ -243,6 +255,7 @@ class Atelier extends React.Component {
                  this.setState({background:e})
                  setColor(e,'background');
                }}
+               removeElement={this.removeElement}
           />
           <div className="section-artboard">
           <Artboard
