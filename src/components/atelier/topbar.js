@@ -1,5 +1,5 @@
 import React, { useState }  from 'react';
-import { Link } from 'react-router-dom'
+import { Link,Redirect } from 'react-router-dom'
 import '../../styles/topbar.scss';
 import icon from '../../images/logo.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -10,6 +10,7 @@ import {
   getCanvasScale,
   getArtboardName,
   setArtboardName,
+  removeArtboard,
 } from '../handleLocalstorage'
 
 import { useSelector, useDispatch } from 'react-redux'
@@ -110,6 +111,7 @@ function ArtboardSetting (props) {
   const [showRenameWindow, changeStateRename] = useState(false);
   const [showDuplicateWindow, changeStateDuplicate] = useState(false);
   const [showDeleteWindow, changeStateDelete] = useState(false);
+  const [redirect, changeStateRedirect] = useState(false);
 
   const [artboardName, changeStateArtboardName] = useState(getArtboardName());
 
@@ -280,7 +282,6 @@ function ArtboardSetting (props) {
             <button onClick={
               (e)=>{
                 e.preventDefault()
-                console.log('click')
                 document.getElementsByClassName("artboardSettingsBackground")[3].classList.remove("active");
                 window.setTimeout(
                   function(){
@@ -289,7 +290,15 @@ function ArtboardSetting (props) {
                   },[500]
                 )
             }}>Cancel</button>
-            <button>Delete</button>
+            <button onClick={
+              (e)=>{
+                e.preventDefault()
+                document.getElementsByClassName("artboardSettingsBackground")[3].classList.remove("active");
+                removeArtboard();
+                changeStateRedirect(true);
+              }
+            }>Delete</button>
+            {redirect? <Redirect to="/home"/>:null}
           </form>
         </div>
       </div>
