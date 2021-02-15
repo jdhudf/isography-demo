@@ -7,7 +7,7 @@ import {
   getCanvasScale,
   artboardScale,
   artboardPosition,
-  setLastModified
+  setLastModified,
 } from '../handleLocalstorage'
 
 import { onWheel } from './features/pinch-gesture-wheel'
@@ -115,16 +115,18 @@ class Artboard extends React.Component {
     const elements = document.getElementById("svg");
     const selectedElement = elements.children[this.state.selectedElement]
 
-    const g = selectedElement.outerHTML;
+    if ( selectedElement ){
+      const g = selectedElement.outerHTML;
 
-    const regExp = /\d+/g;
-    const translate = g.match(regExp)
+      const regExp = /\d+/g;
+      const translate = g.match(regExp)
 
-    this.setState(
-      {
-        initialTranslate:[parseInt(translate[0]),parseInt(translate[1])]
-      }
-    );
+      this.setState(
+        {
+          initialTranslate:[parseInt(translate[0]),parseInt(translate[1])]
+        }
+      );
+    }
   }
 
   selecterUpdate = () => {
@@ -133,55 +135,58 @@ class Artboard extends React.Component {
 
     //alert(selectedElement.getBoundingClientRect().width);
 
-    const client_w = selectedElement.getBoundingClientRect().width;
-    const client_h = selectedElement.getBoundingClientRect().height;
+    if ( selectedElement ){
+      const client_w = selectedElement.getBoundingClientRect().width;
+      const client_h = selectedElement.getBoundingClientRect().height;
 
-    const client_left = selectedElement.getBoundingClientRect().left;
-    const client_top = selectedElement.getBoundingClientRect().top;
-    const client_right = selectedElement.getBoundingClientRect().right;
-    const client_bottom = selectedElement.getBoundingClientRect().bottom;
+      const client_left = selectedElement.getBoundingClientRect().left;
+      const client_top = selectedElement.getBoundingClientRect().top;
+      const client_right = selectedElement.getBoundingClientRect().right;
+      const client_bottom = selectedElement.getBoundingClientRect().bottom;
 
-    const selector = document.getElementById('selector');
+      const selector = document.getElementById('selector');
 
-    const corners = document.getElementsByClassName('corner');
+      const corners = document.getElementsByClassName('corner');
 
-    selector.style.display = "block"
+      selector.style.display = "block"
 
-    selector.style.width = client_w + 'px';
-    selector.style.height = client_h +  'px';
+      selector.style.width = client_w + 'px';
+      selector.style.height = client_h +  'px';
 
-    selector.style.position = 'fixed';
-    selector.style.left = client_left + 'px';
-    selector.style.top = client_top +  'px';
-    selector.style.zIndex = 1000;
+      selector.style.position = 'fixed';
+      selector.style.left = client_left + 'px';
+      selector.style.top = client_top +  'px';
+      selector.style.zIndex = 1000;
 
-    const d = client_left - 5;
-    const e =  client_top - 5;
+      const d = client_left - 5;
+      const e =  client_top - 5;
 
-    corners[0].style.left = d + 'px';
-    corners[0].style.top = e +  'px';
-    corners[0].style.cursor = 'nwse-resize';
+      corners[0].style.left = d + 'px';
+      corners[0].style.top = e +  'px';
+      corners[0].style.cursor = 'nwse-resize';
 
-    const x = client_left + client_w - 5;
-    const y = client_top + client_h - 5;
+      const x = client_left + client_w - 5;
+      const y = client_top + client_h - 5;
 
-    corners[1].style.left = x + 'px';
-    corners[1].style.top = y + 'px';
-    corners[1].style.cursor = 'nwse-resize';
+      corners[1].style.left = x + 'px';
+      corners[1].style.top = y + 'px';
+      corners[1].style.cursor = 'nwse-resize';
 
-    const n = client_left + client_w -5;
-    const m = client_top - 5;
+      const n = client_left + client_w -5;
+      const m = client_top - 5;
 
-    corners[2].style.left = n + 'px';
-    corners[2].style.top = m + 'px';
-    corners[2].style.cursor = 'nesw-resize';
+      corners[2].style.left = n + 'px';
+      corners[2].style.top = m + 'px';
+      corners[2].style.cursor = 'nesw-resize';
 
-    const o = client_left - 5;
-    const p = client_top + client_h - 5;
+      const o = client_left - 5;
+      const p = client_top + client_h - 5;
 
-    corners[3].style.left = o + 'px';
-    corners[3].style.top = p + 'px';
-    corners[3].style.cursor = 'nesw-resize';
+      corners[3].style.left = o + 'px';
+      corners[3].style.top = p + 'px';
+      corners[3].style.cursor = 'nesw-resize';
+    }
+
   }
 
   onMouseDown = (e) => {
@@ -1008,7 +1013,16 @@ class Artboard extends React.Component {
           width={getCanvasScale[0]}
           height={getCanvasScale[1]}
           xmlns="http://www.w3.org/2000/svg"
-          dangerouslySetInnerHTML={{__html: this.state.data.join('') }}
+          dangerouslySetInnerHTML={
+            (()=>{
+              if (this.state.isMouseDown) {
+                return {__html: this.state.data.join('') }
+              } else {
+                return {__html: this.props.data.join('')}
+              }
+            })()
+          }
+          //dangerouslySetInnerHTML={{__html: this.props.data.join('') }}
           onMouseDown={this.onMouseDown}
           onMouseUp={this.onMouseUp}
           onMouseMove={this.onMouseMove}
