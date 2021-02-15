@@ -130,7 +130,9 @@ export const addNewArtboard = (e,
                                subColor,
                                accentColor,
                                background,
-                               width,height
+                               width,
+                               height,
+                               svg
                              ) => {
   if (localStorage.getItem('isography') !== null) {
     const json = JSON.parse(localStorage.getItem('isography'));
@@ -144,7 +146,7 @@ export const addNewArtboard = (e,
       created_at: today,
       last_modified: today,
       artboard_size: [width,height],
-      svg_data: [],
+      svg_data: svg,
       color_scheme: {
         mainColor: mainColor,
         subColor: subColor,

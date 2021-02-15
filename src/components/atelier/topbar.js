@@ -10,7 +10,10 @@ import {
   getCanvasScale,
   getArtboardName,
   setArtboardName,
+  getColor,
   removeArtboard,
+  addNewArtboard,
+  getSVGdata,
 } from '../handleLocalstorage'
 
 import { useSelector, useDispatch } from 'react-redux'
@@ -265,7 +268,21 @@ function ArtboardSetting (props) {
                   },[500]
                 )
             }}>Cancel</button>
-            <button>Duplicate</button>
+            <button onClick={(e)=>{
+              const name = artboardName + '_copy'
+              addNewArtboard(
+                e,
+                name,
+                getColor('#ffffff','mainColor'),
+                getColor('#ffffff','subColor'),
+                getColor('#ffffff','accentColor'),
+                getColor('#ffffff','background'),
+                500,500,
+                getSVGdata([])
+              )
+                //alert(artboardName + ',' + getColor('#ffffff','mainColor') + ',' + getColor('#ffffff','subColor')+ ',' + getColor('#ffffff','accentColor') + ',' + getColor('#ffffff','background'));
+
+            }}>Duplicate</button>
           </form>
         </div>
       </div>
@@ -292,7 +309,6 @@ function ArtboardSetting (props) {
             }}>Cancel</button>
             <button onClick={
               (e)=>{
-                e.preventDefault()
                 document.getElementsByClassName("artboardSettingsBackground")[3].classList.remove("active");
                 removeArtboard();
                 changeStateRedirect(true);
