@@ -67,12 +67,7 @@ class Artboard extends React.Component {
       selectedScale: 1,
       selectedInitial: [0,0],
       // -- below is svg data
-      data : getSVGdata([
-      '<g transform="translate(50,50) scale(1,1)" class="sub" style="cursor:move;z-index:1000000;"><circle cx="0" cy="0" r="50"></circle></g>',
-      '<g transform="translate(100,250) scale(2,2)" class="main" style="cursor:move" border="solid 3px #000000"><circle cx="30" cy="30" r="20"></circle></g>',
-      '<g transform="translate(50,150) scale(1,1)" class="accent" style="cursor:move"><circle cx="10" cy="10" r="15"></circle><circle cx="20" cy="20" r="10"></circle></g>',
-      '<g transform="translate(50,100) scale(-1,1)" style="cursor:move"><path class="main" d="M168.68,59.078l-70.627,40.776l-0,81.553l70.627,-40.776l-0,-81.553Z"></path><path d="M98.043,18.295l-70.627,40.777l70.637,40.782l70.627,-40.777l-70.637,-40.782Z" class="sub"></path><path d="M98.053,99.854l-70.66,-40.795l0,81.548l70.66,40.796l-0,-81.549Z" class="accent"></path></g>',
-    ])
+      data : this.props.data,
     };
   }
 
@@ -126,9 +121,10 @@ class Artboard extends React.Component {
     }
   }
 
-  selecterUpdate = () => {
+  updateSelecter = () => {
     const elements = document.getElementById("svg");
     const selectedElement = elements.children[this.state.selectedElement]
+    const selector = document.getElementById('selector');
 
     //alert(selectedElement.getBoundingClientRect().width);
 
@@ -141,7 +137,6 @@ class Artboard extends React.Component {
       const client_right = selectedElement.getBoundingClientRect().right;
       const client_bottom = selectedElement.getBoundingClientRect().bottom;
 
-      const selector = document.getElementById('selector');
 
       const corners = document.getElementsByClassName('corner');
 
@@ -182,11 +177,19 @@ class Artboard extends React.Component {
       corners[3].style.left = o + 'px';
       corners[3].style.top = p + 'px';
       corners[3].style.cursor = 'nesw-resize';
+    } else {
+      selector.style.display = "none"
     }
+
 
   }
 
   onMouseDown = (e) => {
+
+    if (this.props.data !== this.state.data) {
+      this.setState({data:this.props.data})
+    }
+
     this.setState({isMouseDown:true})
 
     const mouseX = e.pageX;// pageX and pageY is mouse's axis in the box.
@@ -204,60 +207,7 @@ class Artboard extends React.Component {
 
     if (g.startsWith('<g transform="translate')) {
 
-      const client_w = el.getBoundingClientRect().width;
-      const client_h = el.getBoundingClientRect().height;
-
-      const client_left = el.getBoundingClientRect().left;
-      const client_top = el.getBoundingClientRect().top;
-      const client_right = el.getBoundingClientRect().right;
-      const client_bottom = el.getBoundingClientRect().bottom;
-
-      const selector = document.getElementById('selector');
-
-      const corners = document.getElementsByClassName('corner');
-
-      //console.log(el.getBoundingClientRect());
-
-      selector.style.display = "block"
-
-      selector.style.width = client_w + 'px';
-      selector.style.height = client_h +  'px';
-
-      selector.style.position = 'fixed';
-      selector.style.left = client_left + 'px';
-      selector.style.top = client_top +  'px';
-      selector.style.zIndex = 1000;
-
-      const d = client_left - 5;
-      const e =  client_top - 5;
-
-      corners[0].style.left = d + 'px';
-      corners[0].style.top = e +  'px';
-      corners[0].style.cursor = 'nwse-resize';
-
-      const x = client_left + client_w - 5;
-      const y = client_top + client_h - 5;
-
-      corners[1].style.left = x + 'px';
-      corners[1].style.top = y + 'px';
-      corners[1].style.cursor = 'nwse-resize';
-
-      const n = client_left + client_w -5;
-      const m = client_top - 5;
-
-      corners[2].style.left = n + 'px';
-      corners[2].style.top = m + 'px';
-      corners[2].style.cursor = 'nesw-resize';
-
-      const o = client_left - 5;
-      const p = client_top + client_h - 5;
-
-      corners[3].style.left = o + 'px';
-      corners[3].style.top = p + 'px';
-      corners[3].style.cursor = 'nesw-resize';
-
-
-      //console.log(el,client_w + 'px ' + client_h + 'px');
+      this.updateSelecter();
 
     }
 
@@ -323,36 +273,7 @@ class Artboard extends React.Component {
 
         //--- Move Selector Position ---//
 
-        const selector = document.getElementById('selector');
-
-        const el = e.target.parentNode//.outerHTML;
-        //console.log("! " +  el.getBoundingClientRect().width)
-
-        const client_w = el.getBoundingClientRect().width;
-        const client_h = el.getBoundingClientRect().height;
-
-        const client_left = el.getBoundingClientRect().left;
-        const client_top = el.getBoundingClientRect().top;
-
-        selector.style.left = client_left + 'px';
-        selector.style.top = client_top +  'px';
-
-        // -- corner -- //
-
-
-        const corners = document.getElementsByClassName('corner');
-
-        corners[0].style.left = `${client_left - 5}px`;
-        corners[0].style.top = `${client_top - 5}px`;
-
-        corners[1].style.left = `${client_left + client_w - 5}px`;
-        corners[1].style.top = `${client_top + client_h - 5}px`;
-
-        corners[2].style.left = `${client_left + client_w - 5}px`;
-        corners[2].style.top = `${client_top - 5}px`;
-
-        corners[3].style.left = `${client_left - 5}px`;
-        corners[3].style.top = `${client_top + client_h - 5}px`;
+        this.updateSelecter();
 
 
         //---  Update this.state.data  ---//
@@ -390,6 +311,7 @@ class Artboard extends React.Component {
       this.setState({isMouseDown:false})
       //console.log('mouseLeave: ' + e.target.outerHTML)
       this.props.updateState(this.state.data);
+      this.props.sendSelectEl(this.state.selectedElement);
     }
   }
 
@@ -422,32 +344,56 @@ class Artboard extends React.Component {
 
   }
 
+  handleElement = (action) => {
 
-  duplicate = (e) => {
-    const el =  this.state.data[this.state.selectedElement];
-
+    const el = this.state.data[this.state.selectedElement];
     const data_copy = this.state.data.slice();
-    data_copy.push(el);
+
+    switch (action){
+      case 'Duplicate':
+        console.log('duplicate');
+        data_copy.push(el);
+        break;
+      case 'Delete':
+        console.log('delete');
+        data_copy.splice(this.state.selectedElement,1);
+        break;
+      case 'Reflect':
+        console.log('Reflect');
+        break;
+      case 'bringToFront':
+        console.log('bringToFront');
+        data_copy.splice(this.state.selectedElement,1);
+        data_copy.push(el);
+        break;
+      case 'bringForward':
+        console.log('bringForward');
+        data_copy.splice(this.state.selectedElement,1);
+        data_copy.splice(this.state.selectedElement + 1 ,0,el);
+        break;
+      case 'sendBackward':
+        console.log('sendBackward');
+        data_copy.splice(this.state.selectedElement,1);
+        data_copy.splice(this.state.selectedElement - 1 ,0,el);
+        break;
+      case 'sendToBack':
+        console.log('sendToBack');
+        data_copy.splice(this.state.selectedElement,1);
+        data_copy.unshift(el);
+        break;
+      default:
+        break;
+    }
+
     this.setState({data: data_copy});
     this.setState({ displayContextMenu: false })
 
     this.props.updateState(data_copy);
     setSVGdata(data_copy)
-    //ocalStorage.setItem('data', JSON.stringify(data_copy));
+
   }
 
-  delete = (e) => {
-    const el = this.state.data[this.state.selectedElement];
-    const data_copy = this.state.data.slice();
-    data_copy.splice(this.state.selectedElement,1);
-    this.setState({data: data_copy});
-    this.setState({ displayContextMenu: false })
-
-    this.props.updateState(data_copy);
-    setSVGdata(data_copy)//localStorage.setItem('data', JSON.stringify(data_copy));
-  }
-
-  reflect = (e) => {
+  reflect = () => {
     const el = this.state.data[this.state.selectedElement];
     const data_copy = this.state.data.slice();
 
@@ -492,62 +438,13 @@ class Artboard extends React.Component {
 
   }
 
-  bringToFront = (e) => {
-    const el = this.state.data[this.state.selectedElement];
-    const data_copy = this.state.data.slice();
-    data_copy.splice(this.state.selectedElement,1);
-    data_copy.push(el);
-    this.setState({data: data_copy});
-    this.setState({ displayContextMenu: false })
-
-    this.props.updateState(data_copy);
-    setSVGdata(data_copy)////localStorage.setItem('data', JSON.stringify(data_copy));
-  }
-
-  bringForward = (e) => {
-    const el = this.state.data[this.state.selectedElement];
-    const data_copy = this.state.data.slice();
-    data_copy.splice(this.state.selectedElement,1);
-    data_copy.splice(this.state.selectedElement + 1 ,0,el);
-    this.setState({data: data_copy});
-    this.setState({ displayContextMenu: false })
-
-    this.props.updateState(data_copy);
-    setSVGdata(data_copy)//localStorage.setItem('data', JSON.stringify(data_copy));
-  }
-
-  sendBackward = (e) => {
-    const el = this.state.data[this.state.selectedElement];
-    const data_copy = this.state.data.slice();
-    data_copy.splice(this.state.selectedElement,1);
-    data_copy.splice(this.state.selectedElement - 1 ,0,el);
-    this.setState({data: data_copy});
-    this.setState({ displayContextMenu: false })
-
-    this.props.updateState(data_copy);
-    setSVGdata(data_copy)////localStorage.setItem('data', JSON.stringify(data_copy));
-  }
-
-  sendToBack = (e) => {
-    const el = this.state.data[this.state.selectedElement];
-    const data_copy = this.state.data.slice();
-    data_copy.splice(this.state.selectedElement,1);
-    data_copy.unshift(el);
-    this.setState({data: data_copy});
-    this.setState({ displayContextMenu: false })
-
-    this.props.updateState(data_copy);
-    setSVGdata(data_copy)//localStorage.setItem('data', JSON.stringify(data_copy));
-  }
-
-
   handleClose = () => {
     this.setState({ displayContextMenu: false })
   }
 
   onWheel = (e) => {
     e.preventDefault();
-    this.selecterUpdate();
+    this.updateSelecter();
     if (e.ctrlKey) {
 
       if (0.5 < this.state.artboardScale < 1.5) {
@@ -590,7 +487,7 @@ class Artboard extends React.Component {
   }
   gestureChange = (e) => {
     e.preventDefault();
-    this.selecterUpdate();
+    this.updateSelecter();
     this.setState({artboardScale: this.state.gestureStartScale * e.scale})
 
     localStorage.setItem('artboardScale', this.state.gestureStartScale * e.scale);
@@ -930,16 +827,16 @@ class Artboard extends React.Component {
            tabIndex='0'
            className="onContextMenu">
         <ul>
-          <li style={styles.li} onClick={this.duplicate}>Duplicate <span style={styles.span}>⌘V</span></li>
-          <li style={styles.li} onClick={this.delete}>Delete <span style={styles.span}>⌘D</span></li>
-          <li style={styles.li} onClick={this.reflect}>Reflect <span style={styles.span}>⌘R</span></li>
+          <li style={styles.li} onClick={()=>this.handleElement("Duplicate")}>Duplicate <span style={styles.span}>⌘V</span></li>
+          <li style={styles.li} onClick={()=>this.handleElement("Delete")}>Delete <span style={styles.span}>⌘D</span></li>
+          <li style={styles.li} onClick={()=>this.handleElement("Reflect")}>Reflect <span style={styles.span}>⌘R</span></li>
           <li style={{color:"gray", textIndent:"1.2em"}}>
             Arrange
             <ul style={{textIndent:"1.5em",color:"#fff"}}>
-              <li style={styles.li} onClick={this.bringToFront}>Bring to Front <span style={styles.span}>⇧⌘]</span></li>
-              <li style={styles.li} onClick={this.bringForward}>Bring Forward <span style={styles.span}>⌘]</span></li>
-              <li style={styles.li} onClick={this.sendBackward}>Send Backward <span style={styles.span}>⌘[</span></li>
-              <li style={styles.li} onClick={this.sendToBack}>Send to Back <span style={styles.span}>⇧⌘[</span></li>
+              <li style={styles.li} onClick={()=>this.handleElement("bringToFront")}>Bring to Front <span style={styles.span}>⇧⌘]</span></li>
+              <li style={styles.li} onClick={()=>this.handleElement("bringForward")}>Bring Forward <span style={styles.span}>⌘]</span></li>
+              <li style={styles.li} onClick={()=>this.handleElement("sendBackward")}>Send Backward <span style={styles.span}>⌘[</span></li>
+              <li style={styles.li} onClick={()=>this.handleElement("sendToBack")}>Send to Back <span style={styles.span}>⇧⌘[</span></li>
             </ul>
           </li>
         </ul>
@@ -979,6 +876,7 @@ class Artboard extends React.Component {
                gestureChange={this.gestureChange}
                gestureEnd={this.gestureEnd}
                onWheel={
+                 //(e) => onWheel(e)
                  this.onWheel
                  /*(e) => {
                  if (e.ctrlKey) {
