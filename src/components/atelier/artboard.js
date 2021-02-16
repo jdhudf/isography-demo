@@ -78,6 +78,7 @@ class Artboard extends React.Component {
 
   // We need below code to make e.preventDefault(); valid on wheel events.
   componentDidMount(e) {
+
     const el = document.querySelector('.section-artboard');
     el.addEventListener('wheel', (e) => onWheel(e)  /*this.onWheel*/, { passive: false });
     el.addEventListener('gesturestart', this.gestureStart, { passive: false });
@@ -85,10 +86,7 @@ class Artboard extends React.Component {
     el.addEventListener('gestureend', this.gestureEnd, { passive: false });
     //el.addEventListener('onkeydown', this.keyPress , { passive: false });
 
-    const today = new Date();
-    //setLastModified(today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate())
     setLastModified(new Date())
-
 
   }
 
@@ -99,7 +97,6 @@ class Artboard extends React.Component {
     let g = e.target.parentNode.outerHTML;
 
     if (g.startsWith('<g transform="translate')) {
-
 
       this.setState({selectedElement: array.indexOf(g)});
 
@@ -384,6 +381,7 @@ class Artboard extends React.Component {
     }
 
     this.props.updateState(this.state.data);
+    this.props.sendSelectEl(this.state.selectedElement);
 
   }
 
