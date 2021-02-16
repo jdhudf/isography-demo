@@ -23,6 +23,31 @@ export const setColor = (e,c) => {
   }
 }
 
+export const getArtboardSize = (e) => {
+  if (localStorage.getItem('isography') !== null) {
+    const json = JSON.parse(localStorage.getItem('isography'));
+
+    for(var i=0;i<json.data.length;i++){
+      if(json.data[i].artboard_id == json.working){
+          return json.data[i].artboard_size
+      }
+    }
+  }
+}
+
+export const setArtboardSize = (width,height) => {
+  if (localStorage.getItem('isography') !== null) {
+    const json = JSON.parse(localStorage.getItem('isography'));
+
+    for(var i=0;i<json.data.length;i++){
+      if(json.data[i].artboard_id == json.working){
+          json.data[i].artboard_size = [width,height]
+      }
+    }
+    localStorage.setItem('isography', JSON.stringify(json));
+  }
+}
+
 
 
 export const getSVGdata = (e) => {

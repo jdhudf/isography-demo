@@ -14,6 +14,8 @@ import {
   removeArtboard,
   addNewArtboard,
   getSVGdata,
+  getArtboardSize,
+  setArtboardSize,
 } from '../handleLocalstorage'
 
 import { useSelector, useDispatch } from 'react-redux'
@@ -116,6 +118,8 @@ function ArtboardSetting (props) {
   const [showDeleteWindow, changeStateDelete] = useState(false);
   const [redirect, changeStateRedirect] = useState(false);
 
+  const [artboardSize,changeStateArtboardSize] = useState(getArtboardSize());
+
   const [artboardName, changeStateArtboardName] = useState(getArtboardName());
 
 
@@ -194,8 +198,8 @@ function ArtboardSetting (props) {
         <div className="artboardSettings">
           <p>Change the artboard ratio</p>
           <form action="">
-            <label htmlFor="">Width:<input type="number" max="3000" />px</label>
-            <label htmlFor="">Height:<input type="number" max="3000" />px</label>
+            <label htmlFor="">Width:<input type="number" max="3000" value={artboardSize[0]} onChange={(e)=>{changeStateArtboardSize([e.target.value,artboardSize[1]])}}/>px</label>
+            <label htmlFor="">Height:<input type="number" max="3000" value={artboardSize[1]} onChange={(e)=>{changeStateArtboardSize([artboardSize[0],e.target.value])}}/>px</label>
             <button onClick={
               (e)=>{
                 e.preventDefault()
@@ -208,7 +212,9 @@ function ArtboardSetting (props) {
                   },[500]
                 )
             }}>Cancel</button>
-            <button>Change</button>
+            <button onClick={()=>{
+              setArtboardSize(artboardSize[0],artboardSize[1])
+            }}>Change</button>
           </form>
         </div>
       </div>
