@@ -88,7 +88,7 @@ class Artboard extends React.Component {
   }
 
 
-  //--- Choose which element we should edit ---//
+  //--- Choose which element we should edit &  send it to parent component ---//
   selectElement = (e) => {
     var array = this.state.data;
     let g = e.target.parentNode.outerHTML;
@@ -97,8 +97,6 @@ class Artboard extends React.Component {
 
       this.setState({selectedElement: array.indexOf(g)});
       this.props.sendSelectEl(array.indexOf(g));
-
-      console.log("trigger in selectElement : " + array.indexOf(g))
 
       return array.indexOf(g)
 
@@ -130,13 +128,13 @@ class Artboard extends React.Component {
     }
   }
 
-  // Selector is lightblue line.
   updateSelecter = () => {
+
+    // Selector is lightblue line.
     const elements = document.getElementById("svg");
     const selectedElement = elements.children[this.state.selectedElement]
     const selector = document.getElementById('selector');
 
-    //alert(selectedElement.getBoundingClientRect().width);
 
     if ( selectedElement ){
       const client_w = selectedElement.getBoundingClientRect().width;
@@ -222,8 +220,6 @@ class Artboard extends React.Component {
     this.setState({initial:[mouseX,mouseY]});
     this.props.updateState(this.state.data);
 
-    console.log('onMouseDown : ' + this.state.selectedElement);
-    console.log('onMouseDown2 : ' + this.selectElement(e));
   }
 
   onMouseMove = (e) => {
@@ -287,7 +283,6 @@ class Artboard extends React.Component {
         data_copy[selected] = result;
         this.setState({data: data_copy});
 
-        console.log('onMouseMove : ' + selected);
 
       } else {
         this.setState({isMouseDown:false})
@@ -340,12 +335,12 @@ class Artboard extends React.Component {
   }
 
   addElementOfSVG = (e) => {
+
     const data_copy = this.state.data.slice();
     data_copy.push(e);
     this.setState({data: data_copy});
     this.props.method()
-
-
+    
   }
 
   handleElement = (action) => {
@@ -363,7 +358,33 @@ class Artboard extends React.Component {
         data_copy.splice(this.state.selectedElement,1);
         break;
       case 'Reflect':
-        console.log('Reflect');
+        const regExp = /-?\d+/g;
+        const scale = el.match(regExp)
+
+        var n = 3;
+
+        const result = el.replace(regExp,
+          function(match) {
+            if(n === 3) {
+              n--;
+              return scale[0];
+            } else if (n === 2) {
+              n--;
+              return scale[1];
+            } else if (n === 1) {
+              n--;
+              return -scale[2];
+            } else if (n === 0) {
+              n--;
+              return scale[3];
+            } else {
+              return match;
+            };
+          }
+        );
+
+        data_copy.splice(this.state.selectedElement,1);
+        data_copy.push(result);
         break;
       case 'bringToFront':
         console.log('bringToFront');
@@ -397,54 +418,7 @@ class Artboard extends React.Component {
 
   }
 
-  reflect = () => {
-    const el = this.state.data[this.state.selectedElement];
-    const data_copy = this.state.data.slice();
-
-
-    const regExp = /-?\d+/g;
-    const scale = el.match(regExp)
-
-    //console.log(-scale[2]+','+scale[3])
-
-    var n = 3;
-
-    const result = el.replace(regExp,
-      function(match) {
-        if(n === 3) {
-          n--;
-          return scale[0];
-        } else if (n === 2) {
-          n--;
-          return scale[1];
-        } else if (n === 1) {
-          n--;
-          return -scale[2];
-        } else if (n === 0) {
-          n--;
-          return scale[3];
-        } else {
-          return match;
-        };
-      }
-    );
-
-    //console.log('result is '+  result)
-
-    data_copy.splice(this.state.selectedElement,1);
-    data_copy.push(result);
-
-    this.setState({data: data_copy});
-    this.setState({ displayContextMenu: false })
-
-    this.props.updateState(data_copy);
-    setSVGdata(data_copy)//localStorage.setItem('data', JSON.stringify(data_copy));
-
-  }
-
-  handleClose = () => {
-    this.setState({ displayContextMenu: false })
-  }
+  //--- Below is code about handling artboard position and scale ---//
 
   onWheel = (e) => {
     e.preventDefault();
@@ -506,7 +480,7 @@ class Artboard extends React.Component {
 
   //--- Below is code about scaling elements ---//
 
-  /*getDistance =  (e) => {
+  getDistance =  (e) => {
     const elements = document.getElementById("svg");
     const selectedElement = elements.children[this.state.selectedElement]
 
@@ -650,16 +624,16 @@ class Artboard extends React.Component {
 
     switch (position){
       case 'topLeft':
-        console.log('duplicate');
+        console.log('topLeft');
         break;
       case 'topRight':
-        console.log('delete');
+        console.log('topRight');
         break;
       case 'bottomRight':
-        console.log('Reflect');
+        console.log('bottomRight');
         break;
       case 'bottomLeft':
-        console.log('bringToFront');
+        console.log('bottomLeft');
         break;
       default:
         break;
@@ -693,9 +667,25 @@ class Artboard extends React.Component {
   onScaleMove = (e, position) => {
 
     if (this.state.isScaleMouseDown) {
-      console.log("scale move");
 
       this.getDistance(e);
+
+      switch (position){
+        case 'topLeft':
+          console.log('topLeft');
+          break;
+        case 'topRight':
+          console.log('topRight');
+          break;
+        case 'bottomRight':
+          console.log('bottomRight');
+          break;
+        case 'bottomLeft':
+          console.log('bottomLeft');
+          break;
+        default:
+          break;
+      }
 
       const move = [e.pageX,e.pageY];
       const gap = [
@@ -739,12 +729,12 @@ class Artboard extends React.Component {
   }
   onScaleUp = (e, position) => {
     this.setState({isScaleMouseDown:false})
-    console.log("scale up");
+    this.props.updateState(this.state.data);
   }
   onScaleLeave = (e, position) => {
     this.setState({isScaleMouseDown:false})
-    console.log("scale leave");
-  }*/
+    this.props.updateState(this.state.data);
+  }
 
   render() {
 
@@ -818,15 +808,29 @@ class Artboard extends React.Component {
     const selector = (
       <div id="selector">
         <div className="corner"
-             //onMouseDown={(e) => this.onScaleDown(e,"topLeft")}
-             //onMouseUp={this.onScaleUp}
-             //onMouseMove={this.onScaleMove}
-             //onMouseLeave={this.onScaleLeave}
-             >
-        </div>
-        <div className="corner"></div>
-        <div className="corner"></div>
-        <div className="corner"></div>
+             onMouseDown={(e) => this.onScaleDown(e,"topLeft")}
+             onMouseMove={(e) => this.onScaleMove(e,"topLeft")}
+             onMouseUp={this.onScaleUp}
+             onMouseLeave={this.onScaleLeave}
+             />
+        <div className="corner"
+             onMouseDown={(e) => this.onScaleDown(e,"topRight")}
+             onMouseMove={(e) => this.onScaleMove(e,"topRight")}
+             onMouseUp={this.onScaleUp}
+             onMouseLeave={this.onScaleLeave}
+             />
+        <div className="corner"
+             onMouseDown={(e) => this.onScaleDown(e,"bottomRight")}
+             onMouseMove={(e) => this.onScaleMove(e,"bottomRight")}
+             onMouseUp={this.onScaleUp}
+             onMouseLeave={this.onScaleLeave}
+             />
+        <div className="corner"
+             onMouseDown={(e) => this.onScaleDown(e,"bottomLeft")}
+             onMouseMove={(e) => this.onScaleMove(e,"bottomLeft")}
+             onMouseUp={this.onScaleUp}
+             onMouseLeave={this.onScaleLeave}
+             />
       </div>
     )
 
@@ -859,7 +863,8 @@ class Artboard extends React.Component {
 
       { this.state.displayContextMenu ?
         <div>
-          <div style={styles.cover} onClick={ this.handleClose }/>
+          <div style={styles.cover}
+               onClick={ ()=> this.setState({ displayContextMenu: false }) }/>
           {menu}
         </div> : null }
 
@@ -900,7 +905,9 @@ class Artboard extends React.Component {
 
 
       <ul style={styles.bottompanel}>
-        <li style={styles.bottompanellist}>{parseInt(this.state.artboardScale*100, 10)}%</li>
+        <li style={styles.bottompanellist}>
+          {parseInt(this.state.artboardScale*100, 10)}%
+        </li>
       </ul>
 
 
