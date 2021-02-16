@@ -20,7 +20,7 @@ aside {
   flex-basis: 260px;
   .sendFeedback {
     text-align: center;
-    margin-top: 25px;
+    margin-top: 40px;
     a {
       display: block;
       color: $gray;
@@ -314,7 +314,7 @@ aside {
   flex-wrap: wrap;
   overflow-y: scroll;
   justify-content: space-between;
-  height: 260px;
+  height: 280px;
   width: 750px;
   margin-top: 30px;
   &:after {
@@ -363,18 +363,22 @@ aside {
 
 .document-list {
   overflow-y: scroll;
-  height: 260px;
+  height: 280px;
   margin-top: 30px;
   li {
     padding: 7px 0;
-    border-bottom: solid 1px $gray;
+    border-bottom: solid 1px lightgray;
     a {
       display: flex;
+    }
+    .thumb {
+      border-radius: 5px;
+      height: 80px;
     }
     svg {
       margin: 5px;
       width: 70px!important;
-      height: 70px;
+      height: 70px!important;
     }
     div:first-child {
       margin-right: 10px;
@@ -384,6 +388,7 @@ aside {
       p {
         color: $gray;
         font-size: 1.2rem;
+        margin-top: -10px;
       }
     }
   }
