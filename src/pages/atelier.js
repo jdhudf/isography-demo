@@ -59,18 +59,6 @@ class Atelier extends React.Component {
     }
   }
 
-  componentDidMount() {
-    /*const el = document.querySelector('.section-atelier');
-
-    el.addEventListener('onkeydown', this.keyPress , { passive: false });
-    this.isLocalStorageAvlbl()
-
-    setTimeout(function () {
-        document.getElementById('welcomescreen').style.display='none';
-    }, 3000);*/
-
-  }
-
   isLocalStorageAvlbl = () => {
     if (typeof localStorage !== 'undefined') {
       try {
@@ -145,7 +133,7 @@ class Atelier extends React.Component {
   }
 
   removeElement = (e) => {
-    alert(this.state.data[this.state.selectEl])
+
     const data_copy = this.state.data.slice();
 
     data_copy.splice(this.state.selectEl,1);
@@ -189,6 +177,27 @@ class Atelier extends React.Component {
       alert('⌘' + e.key + ' : ' + e.which)
     }
   }
+
+  bringForward = (e) => {
+    const el = this.state.data[this.state.selectEl];
+    const data_copy = this.state.data.slice();
+    data_copy.splice(this.state.selectEl,1);
+    data_copy.splice(this.state.selectEl + 1 ,0,el);
+    this.setState({data: data_copy});
+
+    setSVGdata(data_copy)//localStorage.setItem('data', JSON.stringify(data_copy));
+  }
+
+  sendBackward = (e) => {
+    const el = this.state.data[this.state.selectEl];
+    const data_copy = this.state.data.slice();
+    data_copy.splice(this.state.selectEl,1);
+    data_copy.splice(this.state.selectEl - 1 ,0,el);
+    this.setState({data: data_copy});
+
+    setSVGdata(data_copy)////localStorage.setItem('data', JSON.stringify(data_copy));
+  }
+
 
   render() {
 
@@ -259,6 +268,8 @@ class Atelier extends React.Component {
                removeElement={this.removeElement}
                selectEl={this.state.selectEl}
                length={this.state.data.length}
+               bringForward={this.bringForward}
+               sendBackward={this.sendBackward}
           />
           <div className="section-artboard">
           <Artboard
@@ -268,7 +279,6 @@ class Atelier extends React.Component {
                background={this.state.background}
                updateState={(e) => {
                  this.setState({data:e})
-                 //console.log(e)
                }}
                data={this.state.data}
 
