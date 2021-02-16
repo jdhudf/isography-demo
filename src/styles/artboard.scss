@@ -1,7 +1,5 @@
 @import "_setup.scss";
 
-
-
 .onContextMenu {
   color: #fff;
   display: inline-block;
@@ -21,6 +19,7 @@
       justify-content:space-between;
       width: 90%;
       margin: 0 auto;
+      transition: all ease .2s;
       span {
         color: gray;
         font-size: 10px;
@@ -34,6 +33,7 @@
       &:hover {
         background: deepskyblue;
         border-radius: 5px;
+        transition: all ease .2s;
       }
     }
   }
@@ -42,5 +42,20 @@
     &:hover {
       background: none;
     }
+  }
+}
+
+#selector {
+  border: solid 1px deepskyblue;
+  display: none;
+  pointer-events: none;
+  .corner {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #fff;
+    border: solid 1px deepskyblue;
+    position: fixed;
+    pointer-events: auto;
   }
 }

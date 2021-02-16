@@ -67,6 +67,7 @@ class Artboard extends React.Component {
       // -- below is scaling data
       selectedScale: 1,
       selectedInitial: [0,0],
+      isScaleMouseDown: false,
       // -- below is svg data
       data : this.props.data,
     };
@@ -95,6 +96,11 @@ class Artboard extends React.Component {
     if (g.startsWith('<g transform="translate')) {
 
       this.setState({selectedElement: array.indexOf(g)});
+      this.props.sendSelectEl(array.indexOf(g));
+
+      console.log("trigger in selectElement : " + array.indexOf(g))
+
+      return array.indexOf(g)
 
     } else {
 
@@ -108,7 +114,7 @@ class Artboard extends React.Component {
     //const g = e.target.parentNode.outerHTML;
 
     const elements = document.getElementById("svg");
-    const selectedElement = elements.children[this.state.selectedElement]
+    const selectedElement = elements.children[this.selectElement(e)]
 
     if ( selectedElement ){
       const g = selectedElement.outerHTML;
@@ -198,20 +204,13 @@ class Artboard extends React.Component {
 
     const mouseX = e.pageX;// pageX and pageY is mouse's axis in the box.
     const mouseY = e.pageY;
-    this.selectElement(e);
 
-
-
-    //--------  scale --------//
-
-
-    const el = e.target.parentNode//.outerHTML;
+    const el = e.target.parentNode;
     const g = e.target.parentNode.outerHTML;
-    //console.log("! " +  el.getBoundingClientRect().width)
 
     if (g.startsWith('<g transform="translate')) {
 
-      this.updateSelecter();
+      //this.selectElement(e);
 
     }
 
@@ -222,13 +221,17 @@ class Artboard extends React.Component {
     this.getTranslate(e);
     this.setState({initial:[mouseX,mouseY]});
     this.props.updateState(this.state.data);
+
+    console.log('onMouseDown : ' + this.state.selectedElement);
+    console.log('onMouseDown2 : ' + this.selectElement(e));
   }
 
   onMouseMove = (e) => {
 
     if (this.state.isMouseDown) {
 
-      //console.log('move!');
+      const selected = this.selectElement(e);//this.state.selectedElement
+
 
       //---  Calculate a gap  ---//
       const move = [e.pageX,e.pageY];
@@ -238,8 +241,6 @@ class Artboard extends React.Component {
       ];
 
       //console.log('gap ok : ' +  gap);
-
-
 
       //---  Calculate a translate(x,y)  ---//
       let translate = [
@@ -254,7 +255,7 @@ class Artboard extends React.Component {
       //console.log('same? ' + g);
       //console.log('same? ' + this.state.data[this.state.selectedElement]);
 
-      if (g === this.state.data[this.state.selectedElement] && g.startsWith('<g transform="translate')) {
+      if (g === this.state.data[selected] && g.startsWith('<g transform="translate')) {
         //console.log('initialTranslate('+this.state.initialTranslate[0]+','+this.state.initialTranslate[1]+')');
 
         //---  let a string have a proper translate(x,y)  ---//
@@ -283,8 +284,10 @@ class Artboard extends React.Component {
         //---  Update this.state.data  ---//
 
         const data_copy = this.state.data.slice();
-        data_copy[this.state.selectedElement] = result;
+        data_copy[selected] = result;
         this.setState({data: data_copy});
+
+        console.log('onMouseMove : ' + selected);
 
       } else {
         this.setState({isMouseDown:false})
@@ -305,8 +308,9 @@ class Artboard extends React.Component {
 
     }
 
+    this.updateSelecter();
+
     this.props.updateState(this.state.data);
-    this.props.sendSelectEl(this.state.selectedElement);
 
   }
 
@@ -315,18 +319,13 @@ class Artboard extends React.Component {
       this.setState({isMouseDown:false})
       //console.log('mouseLeave: ' + e.target.outerHTML)
       this.props.updateState(this.state.data);
-      this.props.sendSelectEl(this.state.selectedElement);
     }
   }
 
 
   onContextMenu = (e) => {
-    //alert(e.target.parentNode.outerHTML);
+
     const g = e.target.parentNode.outerHTML;
-
-    //console.log('same? ' + g);
-    //console.log('same? ' + this.state.data[this.state.selectedElement]);
-
 
     // only when users click svg element, this event'll trigger.
     if (g.startsWith('<g transform="translate')) {
@@ -337,6 +336,7 @@ class Artboard extends React.Component {
       this.setState({displayContextMenu: true});
       e.preventDefault();
     }
+
   }
 
   addElementOfSVG = (e) => {
@@ -506,7 +506,7 @@ class Artboard extends React.Component {
 
   //--- Below is code about scaling elements ---//
 
-  getDistance =  (e) => {
+  /*getDistance =  (e) => {
     const elements = document.getElementById("svg");
     const selectedElement = elements.children[this.state.selectedElement]
 
@@ -641,17 +641,29 @@ class Artboard extends React.Component {
 
   }
 
-  onScaleDown = (e) => {
-
-    console.log("scale down");
+  onScaleDown = (e, position) => {
 
     this.setState({
-      isMouseDown:true,
+      isScaleMouseDown:true,
       selectedInitial: [e.pageX,e.pageY],
     })
 
-    console.info('initial translate is ' + this.state.initialTranslate);
-
+    switch (position){
+      case 'topLeft':
+        console.log('duplicate');
+        break;
+      case 'topRight':
+        console.log('delete');
+        break;
+      case 'bottomRight':
+        console.log('Reflect');
+        break;
+      case 'bottomLeft':
+        console.log('bringToFront');
+        break;
+      default:
+        break;
+    }
 
     const mouseX = e.pageX;// pageX and pageY is mouse's axis in the box.
     const mouseY = e.pageY;
@@ -678,9 +690,9 @@ class Artboard extends React.Component {
     this.getTranslate(e);
 
   }
-  onScaleMove = (e) => {
+  onScaleMove = (e, position) => {
 
-    if (this.state.isMouseDown) {
+    if (this.state.isScaleMouseDown) {
       console.log("scale move");
 
       this.getDistance(e);
@@ -725,20 +737,13 @@ class Artboard extends React.Component {
     }
 
   }
-  onScaleUp = (e) => {
-    this.setState({isMouseDown:false})
+  onScaleUp = (e, position) => {
+    this.setState({isScaleMouseDown:false})
     console.log("scale up");
   }
-  onScaleLeave = (e) => {
-    this.setState({isMouseDown:false})
+  onScaleLeave = (e, position) => {
+    this.setState({isScaleMouseDown:false})
     console.log("scale leave");
-  }
-
-
-
-  /*
-  keyPress = (e) => {
-    alert('⌘' + e.key)
   }*/
 
   render() {
@@ -746,7 +751,11 @@ class Artboard extends React.Component {
     const styles = {
       artboard: {
         position: "relative",
-        transform: `translate(${this.state.artboardPosition[0]}px,${this.state.artboardPosition[1]}px) scale(${this.state.artboardScale})`,
+        transform: `translate(
+                      ${this.state.artboardPosition[0]}px,
+                      ${this.state.artboardPosition[1]}px
+                    )
+                    scale(${this.state.artboardScale})`,
       },
       style: {
         background: this.props.background,
@@ -755,20 +764,6 @@ class Artboard extends React.Component {
         left: "50%",
         transform: "translate(-50%,-50%)",
         zIndex: "-1",
-      },
-      selector: {
-        border: "solid 1px deepskyblue",
-        display: "none",
-        pointerEvents: "none",
-      },
-      corner: {
-        width: "10px",
-        height: "10px",
-        borderRadius: "50%",
-        background: "#fff",
-        border: "solid 1px deepskyblue",
-        position: "fixed",
-        pointerEvents: "auto",
       },
       box: {
         top:`${this.state.mouse[0]}px`,
@@ -820,26 +815,18 @@ class Artboard extends React.Component {
       </div>
     )
 
-    const se = {
-      border:"solid 2px skyblue",
-      width:"100px",
-      height: "100px"
-    }
-
     const selector = (
-      <div style={styles.selector}
-           id="selector"
-           >
-        <div style={styles.corner}
-             className="corner"
-             onMouseDown={this.onScaleDown}
-             onMouseUp={this.onScaleUp}
-             onMouseMove={this.onScaleMove}
-             onMouseLeave={this.onScaleLeave}>
+      <div id="selector">
+        <div className="corner"
+             //onMouseDown={(e) => this.onScaleDown(e,"topLeft")}
+             //onMouseUp={this.onScaleUp}
+             //onMouseMove={this.onScaleMove}
+             //onMouseLeave={this.onScaleLeave}
+             >
         </div>
-        <div style={styles.corner} className="corner"></div>
-        <div style={styles.corner} className="corner"></div>
-        <div style={styles.corner} className="corner"></div>
+        <div className="corner"></div>
+        <div className="corner"></div>
+        <div className="corner"></div>
       </div>
     )
 
@@ -876,8 +863,6 @@ class Artboard extends React.Component {
           {menu}
         </div> : null }
 
-        {/*<div className="blue-wrapper" style={se}><span></span></div>*/}
-
       <svg
           style={styles.style}
           id="svg"
@@ -888,10 +873,17 @@ class Artboard extends React.Component {
           xmlns="http://www.w3.org/2000/svg"
           dangerouslySetInnerHTML={
             (()=>{
+              const data = this.props.data.join('')
               if (this.state.isMouseDown) {
                 return {__html: this.state.data.join('') }
               } else {
-                return {__html: this.props.data.join('')}
+
+                return {__html: this.state.data.join('')}
+
+                setTimeout(function(){
+                  return {__html: data}
+                }, 2000);
+
               }
             })()
           }
