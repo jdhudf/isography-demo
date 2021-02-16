@@ -105,21 +105,3 @@
     }
   }
 }
-
-.onContextMenu {
-  ul {
-    li {
-      &:hover {
-        background: rgba(225,225,225,0.2);
-      }
-      &:last-child:hover {
-        background: #000;
-        ul {
-          li:hover {
-            background: rgba(225,225,225,0.2);
-          }
-        }
-      }
-    }
-  }
-}

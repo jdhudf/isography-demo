@@ -1,0 +1,46 @@
+@import "_setup.scss";
+
+
+
+.onContextMenu {
+  color: #fff;
+  display: inline-block;
+  width : 190px;
+  padding: 10px 0;
+  line-height: 2;
+  text-align: left;
+  text-indent: 0.5em;
+  z-index: 1;
+  position: absolute;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  background: rgba(0,0,0,0.7);
+  ul {
+    li {
+      align-items: center;
+      justify-content:space-between;
+      width: 90%;
+      margin: 0 auto;
+      span {
+        color: gray;
+        font-size: 10px;
+        text-align: right;
+        margin-right: 5px;
+      }
+      ul {
+        text-indent: 1.5em;
+        color: #fff;
+      }
+      &:hover {
+        background: deepskyblue;
+        border-radius: 5px;
+      }
+    }
+  }
+  &>ul>li:last-child {
+    color: gray;
+    &:hover {
+      background: none;
+    }
+  }
+}

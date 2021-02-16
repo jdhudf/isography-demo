@@ -1,5 +1,6 @@
 import React from 'react';
 import '../../styles/atelier.scss';
+import '../../styles/artboard.scss';
 
 import {
   getSVGdata,
@@ -71,7 +72,7 @@ class Artboard extends React.Component {
     };
   }
 
-  // We need below code to make e.preventDefault(); valid on wheel events.
+  // We need below code to make  e.preventDefault();  valid on wheel events.
   componentDidMount(e) {
 
     const el = document.querySelector('.section-artboard');
@@ -96,7 +97,9 @@ class Artboard extends React.Component {
       this.setState({selectedElement: array.indexOf(g)});
 
     } else {
+
       this.setState({isMouseDown:false})
+
     }
   }
 
@@ -121,6 +124,7 @@ class Artboard extends React.Component {
     }
   }
 
+  // Selector is lightblue line.
   updateSelecter = () => {
     const elements = document.getElementById("svg");
     const selectedElement = elements.children[this.state.selectedElement]
@@ -767,34 +771,9 @@ class Artboard extends React.Component {
         pointerEvents: "auto",
       },
       box: {
-        background: "#000",
-        color: "#fff",
-        display: "inline-block",
-        width :"190px",
-        padding: "10px 0",
-        lineHeight: "2",
-        textAlign: "left",
-        textIndent: "0.5em",
-        zIndex: "1",
-        position: "absolute",
         top:`${this.state.mouse[0]}px`,
         left: `${this.state.mouse[1]}px`,
         transform: `scale(${2 - this.state.artboardScale})`
-      },
-      span: {
-        color: "gray",
-        fontSize: "10px",
-        textAlign: "right",
-        marginRight: "5px"
-      },
-      li: {
-        display:"flex",
-        alignItems: "center",
-        justifyContent:"space-between",
-        marginRight: "20px",
-        //background: "rgba(225,225,225,0.2)",
-        width: "90%",
-        margin: "0 auto"
       },
       cover: {
         position: 'fixed',
@@ -823,20 +802,18 @@ class Artboard extends React.Component {
 
     const menu = (
       <div style={styles.box}
-           onKeyPress={this.keyPress}
-           tabIndex='0'
            className="onContextMenu">
         <ul>
-          <li style={styles.li} onClick={()=>this.handleElement("Duplicate")}>Duplicate <span style={styles.span}>⌘V</span></li>
-          <li style={styles.li} onClick={()=>this.handleElement("Delete")}>Delete <span style={styles.span}>⌘D</span></li>
-          <li style={styles.li} onClick={()=>this.handleElement("Reflect")}>Reflect <span style={styles.span}>⌘R</span></li>
-          <li style={{color:"gray", textIndent:"1.2em"}}>
+          <li onClick={()=>this.handleElement("Duplicate")}>Duplicate <span>⌘V</span></li>
+          <li onClick={()=>this.handleElement("Delete")}>Delete <span>⌘D</span></li>
+          <li onClick={()=>this.handleElement("Reflect")}>Reflect <span>⌘R</span></li>
+          <li>
             Arrange
-            <ul style={{textIndent:"1.5em",color:"#fff"}}>
-              <li style={styles.li} onClick={()=>this.handleElement("bringToFront")}>Bring to Front <span style={styles.span}>⇧⌘]</span></li>
-              <li style={styles.li} onClick={()=>this.handleElement("bringForward")}>Bring Forward <span style={styles.span}>⌘]</span></li>
-              <li style={styles.li} onClick={()=>this.handleElement("sendBackward")}>Send Backward <span style={styles.span}>⌘[</span></li>
-              <li style={styles.li} onClick={()=>this.handleElement("sendToBack")}>Send to Back <span style={styles.span}>⇧⌘[</span></li>
+            <ul>
+              <li onClick={()=>this.handleElement("bringToFront")}>Bring to Front <span>⇧⌘]</span></li>
+              <li onClick={()=>this.handleElement("bringForward")}>Bring Forward <span>⌘]</span></li>
+              <li onClick={()=>this.handleElement("sendBackward")}>Send Backward <span>⌘[</span></li>
+              <li onClick={()=>this.handleElement("sendToBack")}>Send to Back <span>⇧⌘[</span></li>
             </ul>
           </li>
         </ul>
