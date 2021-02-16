@@ -38,7 +38,7 @@ class ToolsPanel extends React.Component {
           if(this.props.selectEl === 0){
             return (
               <span>
-                <p title="Bring Forward"><FontAwesomeIcon icon={faSortAmountUp} /></p>
+                <p title="Bring Forward" onClick={this.props.bringForward}><FontAwesomeIcon icon={faSortAmountUp} /></p>
                 <p title="Send Backward" style={{color: "lightgray"}}><FontAwesomeIcon icon={faSortAmountDown} /></p>
               </span>
             )
@@ -46,14 +46,14 @@ class ToolsPanel extends React.Component {
             return (
               <span>
                 <p title="Bring Forward" style={{color: "lightgray"}}><FontAwesomeIcon icon={faSortAmountUp} /></p>
-                <p title="Send Backward"><FontAwesomeIcon icon={faSortAmountDown} /></p>
+                <p title="Send Backward" onClick={this.props.sendBackward}><FontAwesomeIcon icon={faSortAmountDown} /></p>
               </span>
             )
           } else {
             return (
               <span>
-                <p title="Bring Forward"><FontAwesomeIcon icon={faSortAmountUp} /></p>
-                <p title="Send Backward"><FontAwesomeIcon icon={faSortAmountDown} /></p>
+                <p title="Bring Forward" onClick={this.props.bringForward}><FontAwesomeIcon icon={faSortAmountUp} /></p>
+                <p title="Send Backward" onClick={this.props.sendBackward}><FontAwesomeIcon icon={faSortAmountDown} /></p>
               </span>
             )
           }
