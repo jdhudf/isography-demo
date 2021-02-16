@@ -198,6 +198,21 @@ class Atelier extends React.Component {
     setSVGdata(data_copy)////localStorage.setItem('data', JSON.stringify(data_copy));
   }
 
+  immute = () => {
+    const hisJson = {
+      mainColor: this.state.mainColor,
+      subColor: this.state.subColor,
+      accentColor: this.state.accentColor,
+      background: this.state.background,
+      data: this.state.data
+    }
+
+    const history_copy = this.state.data.slice();
+    history_copy.push(hisJson);
+    this.setState({history: history_copy});
+
+  }
+
 
   render() {
 
