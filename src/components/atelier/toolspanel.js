@@ -34,8 +34,30 @@ class ToolsPanel extends React.Component {
         <li><FontAwesomeIcon icon={faSortAmountUp} /></li>
         <li><FontAwesomeIcon icon={faSortAmountDown} /></li>
       </ul>*/}
-        <p><FontAwesomeIcon icon={faSortAmountUp} /></p>
-        <p><FontAwesomeIcon icon={faSortAmountDown} /></p>
+        <p>{(()=>{
+          if(this.props.selectEl === 0){
+            return (
+              <span>
+                <p style={{color: "lightgray"}}><FontAwesomeIcon icon={faSortAmountUp} /></p>
+                <p><FontAwesomeIcon icon={faSortAmountDown} /></p>
+              </span>
+            )
+          } else if (this.props.selectEl === (this.props.length - 1)) {
+            return (
+              <span>
+                <p><FontAwesomeIcon icon={faSortAmountUp} /></p>
+                <p style={{color: "lightgray"}}><FontAwesomeIcon icon={faSortAmountDown} /></p>
+              </span>
+            )
+          } else {
+            return (
+              <span>
+                <p><FontAwesomeIcon icon={faSortAmountUp} /></p>
+                <p><FontAwesomeIcon icon={faSortAmountDown} /></p>
+              </span>
+            )
+          }
+        })()}</p>
         <p><FontAwesomeIcon icon={faFont} /></p>
         <div className="color-scheme">
           <ColorPicker

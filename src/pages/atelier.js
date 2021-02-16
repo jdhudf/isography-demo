@@ -37,6 +37,7 @@ class Atelier extends React.Component {
       accentColor: getColor('#C7B136','accentColor'),
       background: getColor('#C7B136','background'),
       willAddElementOfSvg: 1,
+      selectEl:null,
       test: false,
       data : getSVGdata([
         '<g transform="translate(50,50) scale(1,1)" class="sub" style="cursor:move"><circle cx="0" cy="0" r="50"></circle></g>',
@@ -144,10 +145,10 @@ class Atelier extends React.Component {
   }
 
   removeElement = (e) => {
-    alert(this.state.data[0])
+    alert(this.state.data[this.state.selectEl])
     const data_copy = this.state.data.slice();
 
-    data_copy.splice(0,1);
+    data_copy.splice(this.state.selectEl,1);
 
     this.setState({data: data_copy});
 
@@ -256,6 +257,8 @@ class Atelier extends React.Component {
                  setColor(e,'background');
                }}
                removeElement={this.removeElement}
+               selectEl={this.state.selectEl}
+               length={this.state.data.length}
           />
           <div className="section-artboard">
           <Artboard
@@ -272,6 +275,9 @@ class Atelier extends React.Component {
                willAddElementOfSvg={this.state.willAddElementOfSvg}
                method={(e)=>{this.setState({test:false})}}
                test={this.state.test}
+               sendSelectEl={(e) => {
+                 this.setState({selectEl:e})
+               }}
           />
           </div>
           <GallaryPanel
