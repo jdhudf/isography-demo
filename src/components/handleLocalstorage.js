@@ -3,7 +3,7 @@ export const getColor = (e,c) => {
     const json = JSON.parse(localStorage.getItem('isography'));
 
     for(var i=0;i<json.data.length;i++){
-      if(json.data[i].artboard_id == json.working){
+      if(json.data[i].artboard_id === json.working){
           return json.data[i].color_scheme[c]
       }
     }
@@ -15,7 +15,7 @@ export const setColor = (e,c) => {
     const json = JSON.parse(localStorage.getItem('isography'));
 
     for(var i=0;i<json.data.length;i++){
-      if(json.data[i].artboard_id == json.working){
+      if(json.data[i].artboard_id === json.working){
           json.data[i].color_scheme[c] = e
       }
     }
@@ -28,7 +28,7 @@ export const getArtboardSize = (e) => {
     const json = JSON.parse(localStorage.getItem('isography'));
 
     for(var i=0;i<json.data.length;i++){
-      if(json.data[i].artboard_id == json.working){
+      if(json.data[i].artboard_id === json.working){
           return json.data[i].artboard_size
       }
     }
@@ -40,7 +40,7 @@ export const setArtboardSize = (width,height) => {
     const json = JSON.parse(localStorage.getItem('isography'));
 
     for(var i=0;i<json.data.length;i++){
-      if(json.data[i].artboard_id == json.working){
+      if(json.data[i].artboard_id === json.working){
           json.data[i].artboard_size = [width,height]
       }
     }
@@ -56,7 +56,7 @@ export const getSVGdata = (e) => {
     const json =  JSON.parse(localStorage.getItem('isography'))
 
     for(var i=0;i<json.data.length;i++){
-      if(json.data[i].artboard_id == json.working){
+      if(json.data[i].artboard_id === json.working){
           return  json.data[i].svg_data
       }
     }
@@ -69,7 +69,7 @@ export const setSVGdata = (e) => {
     const json = JSON.parse(localStorage.getItem('isography'));
 
     for(var i=0;i<json.data.length;i++){
-      if(json.data[i].artboard_id == json.working){
+      if(json.data[i].artboard_id === json.working){
           json.data[i].svg_data = e
       }
     }
@@ -82,7 +82,7 @@ export const getCanvasScale = (e) => {
     const json = JSON.parse(localStorage.getItem('isography'));
 
     for(var i=0;i<json.data.length;i++){
-      if(json.data[i].artboard_id == json.working){
+      if(json.data[i].artboard_id === json.working){
           return json.data[i].artboard_size
       }
     }
@@ -94,7 +94,7 @@ export const getLastModified = (e) => {
     const json = JSON.parse(localStorage.getItem('isography'));
 
     for(var i=0;i<json.data.length;i++){
-      if(json.data[i].artboard_id == json.working){
+      if(json.data[i].artboard_id === json.working){
           return json.data[i].last_modified
       }
     }
@@ -106,7 +106,7 @@ export const setLastModified = (e) => {
     const json = JSON.parse(localStorage.getItem('isography'));
 
     for(var i=0;i<json.data.length;i++){
-      if(json.data[i].artboard_id == json.working){
+      if(json.data[i].artboard_id === json.working){
           json.data[i].last_modified = e
       }
     }
@@ -120,7 +120,7 @@ export const setArtboardName = (e) => {
     const json = JSON.parse(localStorage.getItem('isography'));
 
     for(var i=0;i<json.data.length;i++){
-      if(json.data[i].artboard_id == json.working){
+      if(json.data[i].artboard_id === json.working){
           json.data[i].artboard_name = e
       }
     }
@@ -133,7 +133,7 @@ export const getArtboardName = (e) => {
     const json = JSON.parse(localStorage.getItem('isography'));
 
     for(var i=0;i<json.data.length;i++){
-      if(json.data[i].artboard_id == json.working){
+      if(json.data[i].artboard_id === json.working){
           return json.data[i].artboard_name
       }
     }
@@ -190,7 +190,7 @@ export const removeArtboard = (e) => {
     const json = JSON.parse(localStorage.getItem('isography'));
 
     for(var i=0;i<json.data.length;i++){
-      if(json.data[i].artboard_id == json.working){
+      if(json.data[i].artboard_id === json.working){
           //json.data[i].artboard_name = e
           json.data.splice(i,1);
       }
