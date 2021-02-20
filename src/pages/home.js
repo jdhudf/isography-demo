@@ -97,7 +97,7 @@ const Dashboard = () => {
   }
 
   const clicked = (e) => {
-    json.working = e.currentTarget.getAttribute('data-id');
+    json.working = parseInt(e.currentTarget.getAttribute('data-id'));
     localStorage.setItem('isography', JSON.stringify(json));
   }
 
