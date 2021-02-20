@@ -13,7 +13,7 @@ import {
 import '../../styles/toolspanel.scss';
 
 import {
-  removeArtboard
+  //removeArtboard
 } from '../handleLocalstorage'
 
 import ColorPicker from "./toolspanel_ColorPicker";
@@ -34,7 +34,7 @@ class ToolsPanel extends React.Component {
         <li><FontAwesomeIcon icon={faSortAmountUp} /></li>
         <li><FontAwesomeIcon icon={faSortAmountDown} /></li>
       </ul>*/}
-        <p>{(()=>{
+        {(()=>{
           if(this.props.selectEl === 0){
             return (
               <span>
@@ -57,7 +57,7 @@ class ToolsPanel extends React.Component {
               </span>
             )
           }
-        })()}</p>
+        })()}
         <p><FontAwesomeIcon icon={faFont} /></p>
         <div className="color-scheme">
           <ColorPicker
