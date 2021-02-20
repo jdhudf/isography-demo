@@ -1,10 +1,15 @@
 import React, { useState }  from 'react';
 import { Link,Redirect } from 'react-router-dom'
 import '../../styles/topbar.scss';
-import icon from '../../images/logo.svg';
+//import icon from '../../images/logo.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChevronDown,faAdjust,faHome } from '@fortawesome/free-solid-svg-icons'
-import ReactModal from 'react-modal';
+import {
+  //faChevronDown,
+  //faAdjust,
+  faHome
+} from '@fortawesome/free-solid-svg-icons'
+
+//import ReactModal from 'react-modal';
 
 import {
   getCanvasScale,
@@ -18,7 +23,7 @@ import {
   setArtboardSize,
 } from '../handleLocalstorage'
 
-import { useSelector, useDispatch } from 'react-redux'
+//import { useSelector, useDispatch } from 'react-redux'
 
 class TopBar extends React.Component {
 
@@ -131,6 +136,7 @@ function ArtboardSetting (props) {
       },[300]
     )
   }
+
 
   const renameSetting = (e) => {
     changeStateRename(true)
@@ -261,7 +267,7 @@ function ArtboardSetting (props) {
         <div className="artboardSettings">
           <p>Duplicate the artboard</p>
           <form action="">
-            <label htmlFor=""><input type="text" value={artboardName + "_copy"}/></label>
+            <label htmlFor=""><input type="text" value={artboardName + "_copy"} onChange={(e)=>{changeStateArtboardName(e.target.value)}}/></label>
             <button onClick={
               (e)=>{
                 e.preventDefault()
@@ -540,11 +546,11 @@ function ExportComponent (props) {
 const InputArtboardName = () => {
 
   const [artboardName, changeStateArtboardName] = useState(getArtboardName());
-  const [showModal, changeStateModal] = useState(false);
+  //const [showModal, changeStateModal] = useState(false);
 
-  const dispatch = useDispatch()
+  //const dispatch = useDispatch()
 
-  const handleOpenModal = () => {
+  /*const handleOpenModal = () => {
     changeStateModal(true)
   }
 
@@ -563,7 +569,7 @@ const InputArtboardName = () => {
     changeStateModal(false)
     e.preventDefault();
 
-  }
+  }*/
 
   const styles = {
     i: {
