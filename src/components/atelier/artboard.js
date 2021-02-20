@@ -3,7 +3,7 @@ import '../../styles/atelier.scss';
 import '../../styles/artboard.scss';
 
 import {
-  getSVGdata,
+  //getSVGdata,
   setSVGdata,
   getCanvasScale,
   artboardScale,
@@ -13,7 +13,7 @@ import {
 
 import { onWheel } from './features/pinch-gesture-wheel'
 
-import { useSelector, useDispatch } from 'react-redux'
+//import { useSelector, useDispatch } from 'react-redux'
 
 //====================================
 //  We need below functions that
@@ -107,27 +107,6 @@ class Artboard extends React.Component {
     }
   }
 
-  //--- get initial translate of selected elements ---//
-  getTranslate = (e) => {
-    //const g = e.target.parentNode.outerHTML;
-
-    const elements = document.getElementById("svg");
-    const selectedElement = elements.children[this.selectElement(e)]
-
-    if ( selectedElement ){
-      const g = selectedElement.outerHTML;
-
-      const regExp = /\d+/g;
-      const translate = g.match(regExp)
-
-      this.setState(
-        {
-          initialTranslate:[parseInt(translate[0]),parseInt(translate[1])]
-        }
-      );
-    }
-  }
-
   updateSelecter = () => {
 
     // Selector is lightblue line.
@@ -142,8 +121,8 @@ class Artboard extends React.Component {
 
       const client_left = selectedElement.getBoundingClientRect().left;
       const client_top = selectedElement.getBoundingClientRect().top;
-      const client_right = selectedElement.getBoundingClientRect().right;
-      const client_bottom = selectedElement.getBoundingClientRect().bottom;
+      //const client_right = selectedElement.getBoundingClientRect().right;
+      //const client_bottom = selectedElement.getBoundingClientRect().bottom;
 
 
       const corners = document.getElementsByClassName('corner');
@@ -192,6 +171,27 @@ class Artboard extends React.Component {
 
   }
 
+  //--- get initial translate of selected elements ---//
+  getTranslate = (e) => {
+    //const g = e.target.parentNode.outerHTML;
+
+    const elements = document.getElementById("svg");
+    const selectedElement = elements.children[this.selectElement(e)]
+
+    if ( selectedElement ){
+      const g = selectedElement.outerHTML;
+
+      const regExp = /\d+/g;
+      const translate = g.match(regExp)
+
+      this.setState(
+        {
+          initialTranslate:[parseInt(translate[0]),parseInt(translate[1])]
+        }
+      );
+    }
+  }
+
   onMouseDown = (e) => {
 
     if (this.props.data !== this.state.data) {
@@ -203,7 +203,7 @@ class Artboard extends React.Component {
     const mouseX = e.pageX;// pageX and pageY is mouse's axis in the box.
     const mouseY = e.pageY;
 
-    const el = e.target.parentNode;
+    //const el = e.target.parentNode;
     const g = e.target.parentNode.outerHTML;
 
     if (g.startsWith('<g transform="translate')) {
@@ -317,7 +317,7 @@ class Artboard extends React.Component {
     }
   }
 
-
+  //--- Below is functions triggered in the artboard ---//
   onContextMenu = (e) => {
 
     const g = e.target.parentNode.outerHTML;
@@ -340,7 +340,8 @@ class Artboard extends React.Component {
     data_copy.push(e);
     this.setState({data: data_copy});
     this.props.method()
-    
+    this.props.updateState(data_copy)
+
   }
 
   handleElement = (action) => {
@@ -439,8 +440,8 @@ class Artboard extends React.Component {
       let posX = this.state.artboardPosition[0];
       let posY = this.state.artboardPosition[1];
 
-      posX -= e.deltaX * 0.5;
-      posY -= e.deltaY * 0.5;
+      posX -= e.deltaX * 1;
+      posY -= e.deltaY * 1;
 
       this.setState({ artboardPosition: [ posX ,posY] })
       localStorage.setItem('artboardPosition', JSON.stringify([ posX ,posY]));
@@ -486,25 +487,25 @@ class Artboard extends React.Component {
 
     //alert(selectedElement.getBoundingClientRect().width);
 
-    const client_w = selectedElement.getBoundingClientRect().width;
-    const client_h = selectedElement.getBoundingClientRect().height;
+    //const client_w = selectedElement.getBoundingClientRect().width;
+    //const client_h = selectedElement.getBoundingClientRect().height;
 
-    const client_left = selectedElement.getBoundingClientRect().left;
-    const client_top = selectedElement.getBoundingClientRect().top;
+    //const client_left = selectedElement.getBoundingClientRect().left;
+    //const client_top = selectedElement.getBoundingClientRect().top;
     const client_right = selectedElement.getBoundingClientRect().right;
     const client_bottom = selectedElement.getBoundingClientRect().bottom;
 
-    const mouseX = e.pageX;// pageX and pageY is mouse's axis in the box.
-    const mouseY = e.pageY;
+    //const mouseX = e.pageX;// pageX and pageY is mouse's axis in the box.
+    //const mouseY = e.pageY;
 
     const x = client_right - e.pageX
     const y = client_bottom - e.pageY
 
-    //
+
     // [client_right,client_bottom]
     var z = Math.sqrt ( Math.pow(x, 2) + Math.pow(y, 2) );
 
-    const scale = this.state.selectedScale;
+    //const scale = this.state.selectedScale;
     const initialAxis = this.state.selectedInitial;
 
     const init_x = client_right - initialAxis[0]
@@ -519,12 +520,12 @@ class Artboard extends React.Component {
     console.log(this.state.selectedScale,this.state.selectedInitial);
     console.log(this.state.selectedScale,scaling,z,init_z)
 
-    const el = this.state.data[this.state.selectedElement];
+    //const el = this.state.data[this.state.selectedElement];
     const data_copy = this.state.data.slice();
 
     //const regExp = /-?\d+/g;
-    const regExp = /\(([^)]+)\)/g;
-    const transform = el.match(regExp)
+    //const regExp = /\(([^)]+)\)/g;
+    //const transform = el.match(regExp)
 
     const gap = [
       e.pageX - initialAxis[0],
@@ -568,107 +569,51 @@ class Artboard extends React.Component {
       this.setState({data: data_copy});
     }
 
-
-
-    //  --- code about selecter
-
-
-    const selector = document.getElementById('selector');
-
-    const corners = document.getElementsByClassName('corner');
-
-    selector.style.width = x + 'px';
-    selector.style.height = y +  'px';
-
-    selector.style.left = e.pageX + 'px';
-    selector.style.top = e.pageY +  'px';
-
-    //x2+y2＝z2
-
-    const d = e.pageX - 5;
-    const o =  e.pageY - 5;
-
-    corners[0].style.left = d + 'px';
-    corners[0].style.top = o +  'px';
-    corners[0].style.cursor = 'nwse-resize';
-
-    const gg = e.pageX + client_w - 5;
-    const q = e.pageY + client_h - 5;
-
-    //corners[1].style.left = gg + 'px';
-    //corners[1].style.top = q + 'px';
-    corners[1].style.cursor = 'nwse-resize';
-
-    const nn = e.pageX + client_w -5;
-    const m = e.pageY - 5;
-
-    //corners[2].style.left = nn + 'px';
-    corners[2].style.top = m + 'px';
-    corners[2].style.cursor = 'nesw-resize';
-
-    const v = e.pageX - 5;
-    const p = e.pageY + client_h - 5;
-
-    corners[3].style.left = v + 'px';
-    //corners[3].style.top = p + 'px';
-    corners[3].style.cursor = 'nesw-resize';
-
   }
 
-  onScaleDown = (e, position) => {
+  onScaleDown = (e) => {
+
+    // set value as Below
+    // * where mouse down
+    // * get selected element
+
+    // pageX and pageY is mouse's axis in one element.
+    const mouseX = e.pageX;
+    const mouseY = e.pageY;
+    const el = this.state.data[this.state.selectedElement];
+
+    const getValueOfTransformScale = () => {
+
+      const regExp = /\(([^)]+)\)/g;
+      const transform = el.match(regExp)// ex.["(342,147)","(1,1)"]
+
+      const regExp_2 = /-?\d+\.\d+/g; // if (1.00,1.00)
+      let scale = transform[1].match(regExp_2)
+
+      if (JSON.stringify(scale) === "null") {
+        const regExp_3 = /-?\d+/g;
+        scale = transform[1].match(regExp_3)
+      }
+
+      return scale[0]
+
+    }
 
     this.setState({
       isScaleMouseDown:true,
-      selectedInitial: [e.pageX,e.pageY],
+      selectedInitial: [mouseX,mouseY],
+      initial: [mouseX,mouseY],
+      selectedScale: getValueOfTransformScale(),
     })
 
-    switch (position){
-      case 'topLeft':
-        console.log('topLeft');
-        break;
-      case 'topRight':
-        console.log('topRight');
-        break;
-      case 'bottomRight':
-        console.log('bottomRight');
-        break;
-      case 'bottomLeft':
-        console.log('bottomLeft');
-        break;
-      default:
-        break;
-    }
-
-    const mouseX = e.pageX;// pageX and pageY is mouse's axis in the box.
-    const mouseY = e.pageY;
-    this.setState({initial:[mouseX,mouseY]});
-
-    const el = this.state.data[this.state.selectedElement];
-
-    const regExp = /\(([^)]+)\)/g;
-    const scale = el.match(regExp) // ex.["(342,147)","(1,1)"]
-
-    console.log('scale ...' + scale[0],scale[1],scale[2])
-
-    const regExp_2 = /-?\d+\.\d+/g;
-    let scale_2 = scale[1].match(regExp_2)
-
-
-    if (JSON.stringify(scale_2) === "null") {
-      const regExp_3 = /-?\d+/g;
-      scale_2 = scale[1].match(regExp_3)
-    }
-
-
-    this.setState({selectedScale: scale_2[0]});
-    this.getTranslate(e);
-
   }
+
   onScaleMove = (e, position) => {
 
     if (this.state.isScaleMouseDown) {
 
       this.getDistance(e);
+      this.updateSelecter()
 
       switch (position){
         case 'topLeft':
@@ -687,50 +632,15 @@ class Artboard extends React.Component {
           break;
       }
 
-      const move = [e.pageX,e.pageY];
-      const gap = [
-        parseInt(move[0]) - parseInt(this.state.initial[0]),
-        parseInt(move[1]) - parseInt(this.state.initial[1])
-      ];
-
-      const el = this.state.data[this.state.selectedElement];
-      const data_copy = this.state.data.slice();
-
-      const regExp = /-?\d+/g;
-      const scale = el.match(regExp)
-
-      //console.log(-scale[2]+','+scale[3])
-
-      var n = 3;
-
-      const result = el.replace(regExp,
-        function(match) {
-          if(n === 3) {
-            n--;
-            return scale[0];
-          } else if (n === 2) {
-            n--;
-            return scale[1];
-          } else if (n === 1) {
-            n--;
-            return scale[2];
-          } else if (n === 0) {
-            n--;
-            return scale[3];
-          } else {
-            return match;
-          };
-        }
-      );
-
-
     }
 
   }
+
   onScaleUp = (e, position) => {
     this.setState({isScaleMouseDown:false})
     this.props.updateState(this.state.data);
   }
+
   onScaleLeave = (e, position) => {
     this.setState({isScaleMouseDown:false})
     this.props.updateState(this.state.data);
@@ -806,31 +716,22 @@ class Artboard extends React.Component {
     )
 
     const selector = (
+
       <div id="selector">
-        <div className="corner"
-             onMouseDown={(e) => this.onScaleDown(e,"topLeft")}
-             onMouseMove={(e) => this.onScaleMove(e,"topLeft")}
-             onMouseUp={this.onScaleUp}
-             onMouseLeave={this.onScaleLeave}
-             />
-        <div className="corner"
-             onMouseDown={(e) => this.onScaleDown(e,"topRight")}
-             onMouseMove={(e) => this.onScaleMove(e,"topRight")}
-             onMouseUp={this.onScaleUp}
-             onMouseLeave={this.onScaleLeave}
-             />
-        <div className="corner"
-             onMouseDown={(e) => this.onScaleDown(e,"bottomRight")}
-             onMouseMove={(e) => this.onScaleMove(e,"bottomRight")}
-             onMouseUp={this.onScaleUp}
-             onMouseLeave={this.onScaleLeave}
-             />
-        <div className="corner"
-             onMouseDown={(e) => this.onScaleDown(e,"bottomLeft")}
-             onMouseMove={(e) => this.onScaleMove(e,"bottomLeft")}
-             onMouseUp={this.onScaleUp}
-             onMouseLeave={this.onScaleLeave}
-             />
+        {(()=>{
+          const corners = ["topLeft","topRight","bottomRight","bottomLeft"]
+
+          const cornersDiv = corners.map((corner)=>
+
+            <div className="corner"
+                 onMouseDown={this.onScaleDown}
+                 onMouseMove={(e) => this.onScaleMove(e,corner)}
+                 onMouseUp={this.onScaleUp}
+                 onMouseLeave={this.onScaleLeave}
+                 />
+          )
+          return cornersDiv
+        })()}
       </div>
     )
 
@@ -843,23 +744,7 @@ class Artboard extends React.Component {
                gestureStart={this.gestureStart}
                gestureChange={this.gestureChange}
                gestureEnd={this.gestureEnd}
-               onWheel={
-                 //(e) => onWheel(e)
-                 this.onWheel
-                 /*(e) => {
-                 if (e.ctrlKey) {
-                   this.setState({artboardScale:onWheel(e)})
-                 } else {
-
-                   let posX = onWheel(e)[0]
-                   let posY = onWheel(e)[1]
-
-                   this.setState({
-                     artboardPosition: [ onWheel(e)[0] ,onWheel(e)[1]]
-                   })
-                 }
-               }*/}
-               >
+               onWheel={this.onWheel}>
 
       { this.state.displayContextMenu ?
         <div>
@@ -877,6 +762,8 @@ class Artboard extends React.Component {
           height={getCanvasScale[1]}
           xmlns="http://www.w3.org/2000/svg"
           dangerouslySetInnerHTML={
+            // we should display state while updating state cuz we update props in realtime, the performance will be bad.
+            //
             (()=>{
               const data = this.props.data.join('')
               if (this.state.isMouseDown) {
