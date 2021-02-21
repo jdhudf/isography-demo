@@ -149,7 +149,7 @@ export const artboardScale = (e) => {
 
 }
 
-export const addNewArtboard = (e,
+export const addNewArtboard = ({
                                artboard_name,
                                mainColor,
                                subColor,
@@ -158,7 +158,7 @@ export const addNewArtboard = (e,
                                width,
                                height,
                                svg
-                             ) => {
+                             }) => {
   if (localStorage.getItem('isography') !== null) {
     const json = JSON.parse(localStorage.getItem('isography'));
 
