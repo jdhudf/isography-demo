@@ -6,11 +6,10 @@ import ToolsPanel from '../components/atelier/toolspanel.js';
 import Artboard from '../components/atelier/artboard.js';
 
 import icon from '../images/logo.svg';
+
 import {
-  getColor,
-  setColor,
-  getSVGdata,
-  setSVGdata,
+  getArtboardData,
+  setArtboardData,
 } from '../components/handleLocalstorage'
 
 import '../styles/atelier.scss';
@@ -32,19 +31,14 @@ class Atelier extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      mainColor: getColor('#B21313','mainColor'),//"#B21313",
-      subColor: getColor('#111184','subColor'),
-      accentColor: getColor('#C7B136','accentColor'),
-      background: getColor('#C7B136','background'),
+      mainColor: getArtboardData('color_scheme')['mainColor'],//getColor('#B21313','mainColor'),//"#B21313",
+      subColor: getArtboardData('color_scheme')['subColor'],//getColor('#111184','subColor'),
+      accentColor: getArtboardData('color_scheme')['accentColor'],//getColor('#C7B136','accentColor'),
+      background: getArtboardData('color_scheme')['background'],//getColor('#C7B136','background'),
       willAddElementOfSvg: 1,
       selectEl:null,
       test: false,
-      data : getSVGdata([
-        '<g transform="translate(50,50) scale(1,1)" class="sub" style="cursor:move"><circle cx="0" cy="0" r="50"></circle></g>',
-        '<g transform="translate(100,250) scale(2,2)" class="main" style="cursor:move" border="solid 3px #000000"><circle cx="30" cy="30" r="20"></circle></g>',
-        '<g transform="translate(50,150) scale(1,1)" class="accent" style="cursor:move"><circle cx="10" cy="10" r="15"></circle><circle cx="20" cy="20" r="10"></circle></g>',
-        '<g transform="translate(50,100) scale(-1,1)" style="cursor:move"><path class="main" d="M168.68,59.078l-70.627,40.776l-0,81.553l70.627,-40.776l-0,-81.553Z"></path><path d="M98.043,18.295l-70.627,40.777l70.637,40.782l70.627,-40.777l-70.637,-40.782Z" class="sub"></path><path d="M98.053,99.854l-70.66,-40.795l0,81.548l70.66,40.796l-0,-81.549Z" class="accent"></path></g>',
-      ]),
+      data : getArtboardData('svg_data'),
       history: [
         {
           mainColor: null,
@@ -140,7 +134,10 @@ class Atelier extends React.Component {
 
     this.setState({data: data_copy});
 
-    setSVGdata(data_copy)//localStorage.setItem('data', JSON.stringify(data_copy));
+    setArtboardData({
+      type: 'svg_data',
+      value: data_copy,
+    })
   }
 
   keyPress = (e) => {
@@ -185,7 +182,10 @@ class Atelier extends React.Component {
     data_copy.splice(this.state.selectEl + 1 ,0,el);
     this.setState({data: data_copy});
 
-    setSVGdata(data_copy)//localStorage.setItem('data', JSON.stringify(data_copy));
+    setArtboardData({
+      type: 'svg_data',
+      value: data_copy,
+    })
   }
 
   sendBackward = (e) => {
@@ -195,7 +195,10 @@ class Atelier extends React.Component {
     data_copy.splice(this.state.selectEl - 1 ,0,el);
     this.setState({data: data_copy});
 
-    setSVGdata(data_copy)////localStorage.setItem('data', JSON.stringify(data_copy));
+    setArtboardData({
+      type: 'svg_data',
+      value: data_copy,
+    })
   }
 
   immute = () => {
@@ -266,19 +269,31 @@ class Atelier extends React.Component {
                backgroundColor={this.state.background}
                changeHexOfMain={(e) => {
                  this.setState({mainColor:e})
-                 setColor(e,'mainColor');
+                 setArtboardData({
+                   type: 'mainColor',
+                   value: e,
+                 })
                }}
                changeHexOfSub={(e) => {
                  this.setState({subColor:e})
-                 setColor(e,'subColor');
+                 setArtboardData({
+                   type: 'subColor',
+                   value: e,
+                 })
                }}
                changeHexOfAccent={(e) => {
                  this.setState({accentColor:e})
-                 setColor(e,'accentColor');
+                 setArtboardData({
+                   type: 'accentColor',
+                   value: e,
+                 })
                }}
                changeHexOfBackground={(e) => {
                  this.setState({background:e})
-                 setColor(e,'background');
+                 setArtboardData({
+                   type: 'background',
+                   value: e,
+                 })
                }}
                removeElement={this.removeElement}
                selectEl={this.state.selectEl}
