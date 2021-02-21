@@ -9,18 +9,11 @@ import {
   faHome
 } from '@fortawesome/free-solid-svg-icons'
 
-//import ReactModal from 'react-modal';
-
 import {
-  getCanvasScale,
-  getArtboardName,
-  setArtboardName,
-  getColor,
+  getArtboardData,
+  setArtboardData,
   removeArtboard,
   addNewArtboard,
-  getSVGdata,
-  getArtboardSize,
-  setArtboardSize,
 } from '../handleLocalstorage'
 
 //import { useSelector, useDispatch } from 'react-redux'
@@ -33,7 +26,7 @@ class TopBar extends React.Component {
     this.state = {
       showModal: false,
       showExportPanel: false,
-      artboardName: getArtboardName(),
+      artboardName: getArtboardData('artboard_name'),
     };
 
     this.handleOpenModal = this.handleOpenModal.bind(this);
@@ -63,7 +56,11 @@ class TopBar extends React.Component {
 
   submitArtboardName = (e) => {
 
-    setArtboardName(this.state.artboardName)
+    setArtboardData({
+      type: 'artboard_name',
+      value: this.state.artboardName,
+    })
+
     this.setState({ showModal: false })
     e.preventDefault();
   }
@@ -123,9 +120,9 @@ function ArtboardSetting (props) {
   const [showDeleteWindow, changeStateDelete] = useState(false);
   const [redirect, changeStateRedirect] = useState(false);
 
-  const [artboardSize,changeStateArtboardSize] = useState(getArtboardSize());
+  const [artboardSize,changeStateArtboardSize] = useState(getArtboardData('artboard_size'));
 
-  const [artboardName, changeStateArtboardName] = useState(getArtboardName());
+  const [artboardName, changeStateArtboardName] = useState(getArtboardData('artboard_name'));
 
 
   const ratioSetting = (e) => {
@@ -219,7 +216,12 @@ function ArtboardSetting (props) {
                 )
             }}>Cancel</button>
             <button onClick={()=>{
-              setArtboardSize(artboardSize[0],artboardSize[1])
+
+              setArtboardData({
+                type: 'artboard_size',
+                value: [artboardSize[0],artboardSize[1]],
+              })
+
             }}>Change</button>
           </form>
         </div>
@@ -250,7 +252,12 @@ function ArtboardSetting (props) {
                 )
             }}>Cancel</button>
             <button onClick={(e)=>{
-              setArtboardName(artboardName)
+
+              setArtboardData({
+                type: 'artboard_name',
+                value: artboardName,
+              })
+
               changeStateRename(false)
               //e.preventDefault();
             }}>Change</button>
@@ -285,13 +292,13 @@ function ArtboardSetting (props) {
 
               addNewArtboard({
                 artboard_name: name,
-                mainColor: getColor('#ffffff','mainColor'),
-                subColor: getColor('#ffffff','subColor'),
-                accentColor: getColor('#ffffff','accentColor'),
-                background: getColor('#ffffff','background'),
+                mainColor: getArtboardData('color_scheme')['mainColor'],
+                subColor: getArtboardData('color_scheme')['subColor'],
+                accentColor: getArtboardData('color_scheme')['accentColor'],
+                background: getArtboardData('color_scheme')['background'],
                 width: artboardSize[0],
                 height: artboardSize[1],
-                svg: getSVGdata([]),
+                svg: getArtboardData('svg_data'),
               });
 
             }}>Duplicate</button>
@@ -338,7 +345,7 @@ function ArtboardSetting (props) {
 function ExportComponent (props) {
 
   const [showExportPanel, changeStateExportPanel] = useState(false);
-  const [artboardName, changeStateArtboardName] = useState(getArtboardName());
+  const [artboardName, changeStateArtboardName] = useState(getArtboardData('artboard_name'));
 
   const [radioFormat, changeStateRadioFormat] = useState("png");
   const [radioSize, changeStateRadioSize] = useState("x-small");
@@ -397,7 +404,7 @@ function ExportComponent (props) {
                 version="1.1"
                 width="100%"
                 height="auto"
-                viewBox={`0 0 ${getCanvasScale()[0]} ${getCanvasScale()[1]}`}
+                viewBox={`0 0 ${getArtboardData('artboard_size')[0]} ${getArtboardData('artboard_size')[1]}`}
                 xmlns="http://www.w3.org/2000/svg"
                 style={styles.svg}
                 dangerouslySetInnerHTML={{__html: props.data.join('') }}
@@ -411,7 +418,7 @@ function ExportComponent (props) {
               </tr>
               <tr>
                 <th>Scale</th>
-                <td>{getCanvasScale()[0]}px : {getCanvasScale()[1]}px</td>
+                <td>{getArtboardData('artboard_size')[0]}px : {getArtboardData('artboard_size')[1]}px</td>
               </tr>
               <tr>
                 <th>Size</th>
@@ -545,31 +552,7 @@ function ExportComponent (props) {
 
 const InputArtboardName = () => {
 
-  const [artboardName, changeStateArtboardName] = useState(getArtboardName());
-  //const [showModal, changeStateModal] = useState(false);
-
-  //const dispatch = useDispatch()
-
-  /*const handleOpenModal = () => {
-    changeStateModal(true)
-  }
-
-  const handleCloseModal = () => {
-    changeStateModal(false)
-  }
-
-  const changeArtboardName = (e) => {
-    changeStateArtboardName(e.target.value)
-    console.log(artboardName)
-  }
-
-  const submitArtboardName = (e) => {
-
-    setArtboardName(artboardName)
-    changeStateModal(false)
-    e.preventDefault();
-
-  }*/
+  const [artboardName, changeStateArtboardName] = useState(getArtboardData('artboard_name'));
 
   const styles = {
     i: {
@@ -586,17 +569,6 @@ const InputArtboardName = () => {
   return (
     <div>
       <p style={styles.i}>{artboardName}</p>
-      {/*<button className="modal-botton" onClick={handleOpenModal}>
-        <p style={styles.i}>{artboardName}</p>
-      </button>
-      <ReactModal isOpen={showModal} contentLabel="Change Document Information">
-        <form className="form-document" onSubmit={submitArtboardName}>
-          <p>Change a document name.</p>
-          <input type="text" value={artboardName} onChange={changeArtboardName}/>
-          <button onClick={handleCloseModal}>Cancel</button>
-          <input type="submit" value="Submit"/>
-        </form>
-      </ReactModal>*/}
     </div>
   )
 }
