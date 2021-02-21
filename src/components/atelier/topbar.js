@@ -280,19 +280,19 @@ function ArtboardSetting (props) {
                   },[500]
                 )
             }}>Cancel</button>
-            <button onClick={(e)=>{
+            <button onClick={()=>{
               const name = artboardName + '_copy'
-              addNewArtboard(
-                e,
-                name,
-                getColor('#ffffff','mainColor'),
-                getColor('#ffffff','subColor'),
-                getColor('#ffffff','accentColor'),
-                getColor('#ffffff','background'),
-                500,500,
-                getSVGdata([])
-              )
-                //alert(artboardName + ',' + getColor('#ffffff','mainColor') + ',' + getColor('#ffffff','subColor')+ ',' + getColor('#ffffff','accentColor') + ',' + getColor('#ffffff','background'));
+
+              addNewArtboard({
+                artboard_name: name,
+                mainColor: getColor('#ffffff','mainColor'),
+                subColor: getColor('#ffffff','subColor'),
+                accentColor: getColor('#ffffff','accentColor'),
+                background: getColor('#ffffff','background'),
+                width: artboardSize[0],
+                height: artboardSize[1],
+                svg: getSVGdata([]),
+              });
 
             }}>Duplicate</button>
           </form>
