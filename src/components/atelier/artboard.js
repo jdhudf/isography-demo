@@ -3,12 +3,10 @@ import '../../styles/atelier.scss';
 import '../../styles/artboard.scss';
 
 import {
-  //getSVGdata,
-  setSVGdata,
-  getCanvasScale,
+  getArtboardData,
+  setArtboardData,
   artboardScale,
   artboardPosition,
-  setLastModified,
 } from '../handleLocalstorage'
 
 import { onWheel } from './features/pinch-gesture-wheel'
@@ -81,9 +79,13 @@ class Artboard extends React.Component {
     el.addEventListener('gesturestart', this.gestureStart, { passive: false });
     el.addEventListener('gesturechange', this.gestureChange, { passive: false });
     el.addEventListener('gestureend', this.gestureEnd, { passive: false });
+
     //el.addEventListener('onkeydown', this.keyPress , { passive: false });
 
-    setLastModified(new Date())
+    setArtboardData({
+      type: 'last_modified',
+      value: new Date(),
+    })
 
   }
 
@@ -295,7 +297,11 @@ class Artboard extends React.Component {
 
     this.setState({isMouseDown:false})
     //console.log('mouseUp: ' + e.target.parentNode.outerHTML)
-    setSVGdata(this.state.data)//localStorage.setItem('data', JSON.stringify(this.state.data));
+
+    setArtboardData({
+      type: 'svg_data',
+      value: this.state.data,
+    })
 
     if(this.props.test) {
 
@@ -415,7 +421,11 @@ class Artboard extends React.Component {
     this.setState({ displayContextMenu: false })
 
     this.props.updateState(data_copy);
-    setSVGdata(data_copy)
+
+    setArtboardData({
+      type: 'svg_data',
+      value: data_copy,
+    })
 
   }
 
@@ -757,9 +767,9 @@ class Artboard extends React.Component {
           style={styles.style}
           id="svg"
           version="1.1"
-          viewBox={`0 0 ${getCanvasScale()[0]} ${getCanvasScale()[1]}`}
-          width={getCanvasScale[0]}
-          height={getCanvasScale[1]}
+          viewBox={`0 0 ${getArtboardData('artboard_size')[0]} ${getArtboardData('artboard_size')[1]}`}
+          width={getArtboardData('artboard_size')[0]}
+          height={getArtboardData('artboard_size')[1]}
           xmlns="http://www.w3.org/2000/svg"
           dangerouslySetInnerHTML={
             // we should display state while updating state cuz we update props in realtime, the performance will be bad.
@@ -790,18 +800,15 @@ class Artboard extends React.Component {
 
       </section>
 
-
       <ul style={styles.bottompanel}>
         <li style={styles.bottompanellist}>
           {parseInt(this.state.artboardScale*100, 10)}%
         </li>
       </ul>
 
-
       </div>
     );
   }
 }
-
 
 export default Artboard;
