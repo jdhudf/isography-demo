@@ -225,7 +225,18 @@ const NewArtboard = () => {
   const [ratioName, updateRatioName] = useState("");
 
   const createNewArtboard = (e) => {
-    addNewArtboard(e,value,mainColor,subColor,accentColor,background,width,height,[])
+
+    addNewArtboard({
+      artboard_name: value,
+      mainColor: mainColor,
+      subColor: subColor,
+      accentColor: accentColor,
+      background: background,
+      width: width,
+      height: height,
+      svg: [],
+    });
+
     window.location.reload(false);
   }
 
