@@ -149,13 +149,13 @@ class GallaryPanel extends React.Component {
            </div>
          </TabPanel>
          <TabPanel>
-           <div></div>
+           <div>test</div>
          </TabPanel>
          <TabPanel>
-            <div></div>
+            <div>test</div>
          </TabPanel>
          <TabPanel>
-            <div></div>
+            <div>test</div>
          </TabPanel>
        </Tabs>
 
