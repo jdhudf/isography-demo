@@ -3,10 +3,11 @@ import { Link } from 'react-router-dom'
 import '../styles/menubar.scss';
 import icon from '../images/logo.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChevronDown,faAdjust } from '@fortawesome/free-solid-svg-icons'
-import ReactModal from 'react-modal';
-
-import Document from "../document";
+import {
+  //faChevronDown,
+  faAdjust
+} from '@fortawesome/free-solid-svg-icons'
+//import ReactModal from 'react-modal';
 
 class MenuBar extends React.Component {
 
@@ -32,7 +33,7 @@ class MenuBar extends React.Component {
 
   render() {
 
-    const styles = {
+    /*const styles = {
       overlay: {
         background: 'none',
       },
@@ -48,7 +49,7 @@ class MenuBar extends React.Component {
         border: 'solid 1px #F0F0F0',
         transition: 'ease all 1s',
       }
-    };
+    };*/
 
     return (
       <section className="section-menubar">
