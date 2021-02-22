@@ -68,7 +68,7 @@ class TopBar extends React.Component {
 
   render() {
 
-    const styles = {
+    /*const styles = {
       overlay: {
         background: 'none',
       },
@@ -87,7 +87,7 @@ class TopBar extends React.Component {
       svg: {
         background: `${this.props.background}`
       }
-    };
+    };*/
 
     return (
       <section className="section-menubar">
@@ -552,7 +552,7 @@ function ExportComponent (props) {
 
 const InputArtboardName = () => {
 
-  const [artboardName, changeStateArtboardName] = useState(getArtboardData('artboard_name'));
+  const artboardName = getArtboardData('artboard_name')
 
   const styles = {
     i: {
