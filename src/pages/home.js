@@ -10,10 +10,10 @@ import ColorPicker from '../components/ColorPicker.js';
 //  Link
 //} from "react-router-dom";
 
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+//import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 import MenuBar from '../components/menubar.js';
-import Navigation from '../components/navigation.js';
+//import Navigation from '../components/navigation.js';
 import '../styles/home.scss';
 import img from '../images/default.png';
 
@@ -21,7 +21,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-import HexInput from '../redux/hexinput'
+//import HexInput from '../redux/hexinput'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
@@ -34,7 +34,7 @@ import {
   addNewArtboard
  } from '../components/handleLocalstorage'
 
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 const selectHex = state => state.json
 
 
@@ -54,9 +54,9 @@ const selectHex = state => state.json
 
 
 class Home extends React.Component {
-  constructor(props) {
+  /*constructor(props) {
     super(props);
-  }
+  }*/
 
   render() {
 
@@ -72,7 +72,7 @@ class Home extends React.Component {
 
 const Dashboard = () => {
 
-  const [showModal, toggleModal] = useState(false);
+  //const [showModal, toggleModal] = useState(false);
   const [documentList, toggleDocumentList] = useState(false);
 
   const json = useSelector(selectHex).json//getIsographyData();
@@ -83,17 +83,14 @@ const Dashboard = () => {
       maxWidth: "300px",
       position: "relative"
     },
-    svg: {
-      background: "#fff",
-    },
-    box: {
+    /*box: {
       background: "#000",
       posotion: "fixed",
       top: "10px",
       right: "10px",
       color: "#fff",
       display: showModal? "block":"none"
-    }
+    }*/
   }
 
   const clicked = (e) => {
@@ -101,11 +98,11 @@ const Dashboard = () => {
     localStorage.setItem('isography', JSON.stringify(json));
   }
 
-  const color = useSelector(selectHex)
-  const dispatch = useDispatch()
+  //const color = useSelector(selectHex)
+  //const dispatch = useDispatch()
 
-  const today = new Date();
-  const dated = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+  //const today = new Date();
+  //const dated = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
 
   return (
     <section className="section-dashboard">
@@ -113,14 +110,14 @@ const Dashboard = () => {
         <main>
           <NewArtboard/>
           <div className="your-document">
-            <div style={styles.box}>
+            {/*<div style={styles.box}>
               <ul>
                 <li>Open</li>
                 <li>Duplicate</li>
                 <li>Rename</li>
                 <li>Delete</li>
               </ul>
-            </div>
+            </div>*/}
             <h2>Your Documents</h2>
             {/*<ul style={{textAlign: "center"}}>
               <li style={{display:"inline-block"}}><FontAwesomeIcon icon={faGripHorizontal} /></li>
@@ -149,7 +146,6 @@ const Dashboard = () => {
                         version="1.1"
                         viewBox={`0 0 ${item.artboard_size[0]} ${item.artboard_size[1]}`}
                         xmlns="http://www.w3.org/2000/svg"
-                        style={styles.svg}
                         style={{
                           background:item.color_scheme['background'],
                           width: "90%",
@@ -199,12 +195,12 @@ const Dashboard = () => {
             <button>Install App</button>
           </div>
           <ul>
-            <li><a href="https://www.isography.app/test">User Guide</a></li>
-            <li><a href="https://www.isography.app" target="_blank">Official HP</a></li>
-            <li><a href="#">Use of Terms & Lisences</a></li>
+            <li><a href="https://www.isography.app/test" target="_blank" rel="noreferrer">User Guide</a></li>
+            <li><a href="https://www.isography.app" target="_blank" rel="noreferrer">Official HP</a></li>
+            <li><a href="https://www.isography.app/lisence" target="_blank" rel="noreferrer">Use of Terms & Lisences</a></li>
           </ul>
           <div className="sendFeedback">
-            <a href="#">Send Bug report or Feedback<span>Powered by Google From</span></a>
+            <a href="https://forms.gle/pNbptjqrGctWzJS77" target="_blank" rel="noreferrer">Send Bug report or Feedback<span>Powered by Google From</span></a>
           </div>
         </aside>
       </div>
