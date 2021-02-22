@@ -1,6 +1,7 @@
-export function downloadImages () {
+export function downloadImages ({filename}) {
 
   var userAgent = window.navigator.userAgent.toLowerCase();
+
 
   if(userAgent.indexOf('msie') !== -1 || userAgent.indexOf('trident') !== -1) { // For IE
 
@@ -10,7 +11,7 @@ export function downloadImages () {
 
      svg2imageData(document.getElementById('svg'), function(data) {
 
-       window.navigator.msSaveOrOpenBlob(data, 'ULOCO.png');
+       window.navigator.msSaveOrOpenBlob(data, filename + '.png');
 
      },  function(error) {
             console.log(error);
@@ -30,7 +31,7 @@ export function downloadImages () {
 　　　　　// Set the HREF to a Blob representation of the data to be downloaded
 　　　　　a.href = data;
 　　　　　// Use download attribute to set set desired file name
-　　　　　a.setAttribute("download", "ULOCO");
+　　　　　a.setAttribute("download", filename);
 　　　　　// Trigger the download by simulating click
 　　　　　a.click();
 　　　　　// Cleanup
