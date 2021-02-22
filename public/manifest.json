@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Isography",
+  "name": "Create Isometric Drawing App",
   "icons": [
     {
       "src": "favicon.ico",
