@@ -15,7 +15,7 @@ import '../styles/home.scss';
 
 import icon from '../images/logo.png';
 import Template from "../template";
-import ColorPicker from '../components/ColorPicker.js';
+//import ColorPicker from '../components/ColorPicker.js';
 import ColorSchemes from '../components/colorSchemes.js';
 
 //import GallaryPanel from '../components/gallarypanel.js';
