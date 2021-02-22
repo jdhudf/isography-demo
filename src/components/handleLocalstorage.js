@@ -7,23 +7,24 @@ export const getArtboardData = (type) => {
 
         switch (type) {
           case "color_scheme":
-            return json.data[i].color_scheme
-            break;
+            return json.data[i].color_scheme;
+            //break;
           case "artboard_size":
-            return json.data[i].artboard_size
-            break;
+            return json.data[i].artboard_size;
+            //break;
           case "svg_data":
             return  json.data[i].svg_data
-            break;
+            //break;
           case "last_modified":
             return json.data[i].last_modified
-            break;
+            //break;
           case "artboard_name":
             return json.data[i].artboard_name
-            break;
-          case "last_modified":
-            return json.data[i].last_modified
-            break;
+            //break;
+          //case "last_modified":
+            //return json.data[i].last_modified
+            //break;
+          default:
         }
 
       }
@@ -64,6 +65,7 @@ export const setArtboardData = ({type, value}) => {
             case "svg_data":
               json.data[i].svg_data = value
               break;
+            default:
           }
 
       }
@@ -87,7 +89,7 @@ export const addNewArtboard = ({
     const json = JSON.parse(localStorage.getItem('isography'));
 
     const today = new Date();
-    const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()
+    //const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()
 
     const newData = {
       artboard_id: json.data.length + 1,
