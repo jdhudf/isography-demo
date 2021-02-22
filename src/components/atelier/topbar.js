@@ -549,7 +549,7 @@ function ExportComponent (props) {
             </ul>
             <br/>
             <button className="cancel" onClick={closeExportPanel}>Cancel</button>
-            <button className="download" onClick={()=>downloadImages()}>Download</button>
+            <button className="download" onClick={()=>downloadImages({filename:artboardName})}>Download</button>
           </div>
         </div>
       </div> : null }
