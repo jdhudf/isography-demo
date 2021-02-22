@@ -78,8 +78,8 @@ class Atelier extends React.Component {
   onMouseDown = (e) => {
     //this.setState({isMouseDown:true})
 
-    const mouseX = e.pageX;// pageX and pageY is mouse's axis in the box.
-    const mouseY = e.pageY;
+    //const mouseX = e.pageX;// pageX and pageY is mouse's axis in the box.
+    //const mouseY = e.pageY;
 
     const g = e.target.parentNode.outerHTML;
 
