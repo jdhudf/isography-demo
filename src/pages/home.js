@@ -189,11 +189,11 @@ const Dashboard = () => {
         </main>
         <aside>
           <NewsFeed/>
-          <div className="message">
+          {/*<div className="message">
             <h2>Some Tip!</h2>
             <p>You can install Isography your desktop and tablet!</p>
             <button>Install App</button>
-          </div>
+          </div>*/}
           <ul>
             <li><a href="https://www.isography.app/test" target="_blank" rel="noreferrer">User Guide</a></li>
             <li><a href="https://www.isography.app" target="_blank" rel="noreferrer">Official HP</a></li>
