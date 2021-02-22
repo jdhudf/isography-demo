@@ -1,6 +1,5 @@
 import {
   getIsographyData,
-  addNewArtboard
  } from '../components/handleLocalstorage'
 
 const initialState = {
