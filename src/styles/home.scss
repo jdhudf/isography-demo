@@ -281,8 +281,6 @@ aside {
         border: solid 1px gray;
         background: #fff;
         margin: 0 auto;
-        //width: 80px;
-        //height:100px;
       }
       p {
         color: gray;
@@ -569,6 +567,86 @@ aside {
         &:last-child {
           background: deepskyblue;
           border: solid 2px deepskyblue;
+          color: #fff;
+        }
+      }
+    }
+  }
+}
+
+
+
+.dark-mode {
+  background: #21252B;
+  .section-menubar {
+    background: #282C34;
+    border-bottom: solid 1px #373D47;
+    .mode-change {
+      color: deepskyblue;
+    }
+  }
+  .section-dashboard {
+    h2 {
+      color: #fff;
+    }
+    .template-list {
+      background: #282C34;
+      border: solid 1px #373D47;
+      ul {
+        li {
+          background: #373D47;
+          div {
+            background: #373D47;
+            border: solid 0.8px #797F8A;
+          }
+          p, span {
+            color: #9EA3B2;
+          }
+        }
+      }
+    }
+    .document-list-column {
+      li {
+        background: #282C34;
+        border: solid 1px #373D47;
+        p {
+          color: #9EA3B2;
+        }
+      }
+    }
+  }
+  aside {
+    ul.url {
+      li {
+        list-style-type: none;
+        display: flex;
+        align-items: center;
+        a {
+          color: deepskyblue;
+        }
+        a:visited{
+          color: #9EA3B2;
+        }
+      }
+      li:before {
+        content: "";
+        display: inline-block;
+        margin-right: 5px;
+        width: 5px;
+        height: 5px;
+        background: #9EA3B2;
+        border-radius: 50%;
+      }
+    }
+    .sendFeedback {
+      a {
+        color: #9EA3B2;
+        border: solid 1px #9EA3B2;
+        span {
+          color: lightgray;
+        }
+        &:hover {
+          background: #000;
           color: #fff;
         }
       }

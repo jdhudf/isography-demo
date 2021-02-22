@@ -184,7 +184,8 @@ export const getIsographyData = (e) => {
             background: '#fff'
           }
         },
-      ]
+      ],
+      darkMode: false,
     }
 
     localStorage.setItem('isography', JSON.stringify(json));

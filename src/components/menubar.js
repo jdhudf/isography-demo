@@ -67,7 +67,7 @@ class MenuBar extends React.Component {
           </form>
         </ReactModal>
       </div>*/}
-        <div className="mode-change"><FontAwesomeIcon icon={faAdjust} /></div>
+        <div className="mode-change" onClick={this.props.toggleDarkMode}><FontAwesomeIcon icon={faAdjust} /></div>
       </section>
     );
 

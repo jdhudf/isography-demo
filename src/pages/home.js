@@ -54,15 +54,27 @@ const selectHex = state => state.json
 
 
 class Home extends React.Component {
-  /*constructor(props) {
+  constructor(props) {
     super(props);
-  }*/
+    this.state = {
+      darkMode: false,
+    }
+  }
+
+  toggleDarkMode = () => {
+    alert(this.state.darkMode)
+    if (this.state.darkMode) {
+      this.setState({darkMode: false})
+    } else {
+      this.setState({darkMode: true})
+    }
+  }
 
   render() {
 
     return (
-      <section className="section-home">
-        <MenuBar />
+      <section className={this.state.darkMode? "section-home dark-mode": "section-home"}>
+        <MenuBar toggleDarkMode={this.toggleDarkMode}/>
         <Dashboard />
       </section>
     );
@@ -194,7 +206,7 @@ const Dashboard = () => {
             <p>You can install Isography your desktop and tablet!</p>
             <button>Install App</button>
           </div>*/}
-          <ul>
+          <ul className="url">
             <li><a href="https://www.isography.app/test" target="_blank" rel="noreferrer">User Guide</a></li>
             <li><a href="https://www.isography.app" target="_blank" rel="noreferrer">Official HP</a></li>
             <li><a href="https://www.isography.app/lisence" target="_blank" rel="noreferrer">Use of Terms & Lisences</a></li>
