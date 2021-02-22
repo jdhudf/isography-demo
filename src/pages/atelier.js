@@ -39,6 +39,7 @@ class Atelier extends React.Component {
       selectEl:null,
       test: false,
       data : getArtboardData('svg_data'),
+      darkMode: false,
       history: [
         {
           mainColor: null,
