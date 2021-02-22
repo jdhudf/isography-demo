@@ -52,6 +52,7 @@ class Artboard extends React.Component {
     super(props);
     this.state = {
       isMouseDown : false,
+      propsOrState: false,
       initialTranslate: [0,0], // to change translate(x,y)
       initial: [0,0], // to calculate a gap
       selectedElement: 0, // to make it clear which el should edit
@@ -331,7 +332,7 @@ class Artboard extends React.Component {
     // only when users click svg element, this event'll trigger.
     if (g.startsWith('<g transform="translate')) {
 
-      this.setState({mouse:[e.pageX,,e.pageY]})
+      this.setState({mouse:[e.pageX,e.pageY]})
 
       this.selectElement(e);
       this.setState({displayContextMenu: true});
@@ -771,24 +772,14 @@ class Artboard extends React.Component {
           width={getArtboardData('artboard_size')[0]}
           height={getArtboardData('artboard_size')[1]}
           xmlns="http://www.w3.org/2000/svg"
-          dangerouslySetInnerHTML={
-            // we should display state while updating state cuz we update props in realtime, the performance will be bad.
+          dangerouslySetInnerHTML={{__html:
+
+            this.state.data.join('')
+
+          }}
+            // we should display state while updating state, cuz we update props in realtime, the performance will be bad.
             //
-            (()=>{
-              const data = this.props.data.join('')
-              if (this.state.isMouseDown) {
-                return {__html: this.state.data.join('') }
-              } else {
 
-                return {__html: this.state.data.join('')}
-
-                setTimeout(function(){
-                  return {__html: data}
-                }, 2000);
-
-              }
-            })()
-          }
           //dangerouslySetInnerHTML={{__html: this.props.data.join('') }}
           onMouseDown={this.onMouseDown}
           onMouseUp={this.onMouseUp}
