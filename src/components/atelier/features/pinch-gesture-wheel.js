@@ -1,5 +1,5 @@
 
-import { getSVGdata,artboardScale,artboardPosition } from '../../handleLocalstorage'
+import { artboardScale,artboardPosition } from '../../handleLocalstorage'
 
 export function onWheel(e) {
 
