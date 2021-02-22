@@ -16,6 +16,10 @@ import {
   addNewArtboard,
 } from '../handleLocalstorage'
 
+import {
+  downloadImages
+} from './download'
+
 //import { useSelector, useDispatch } from 'react-redux'
 
 class TopBar extends React.Component {
@@ -404,6 +408,8 @@ function ExportComponent (props) {
                 version="1.1"
                 width="100%"
                 height="auto"
+                data-width={getArtboardData('artboard_size')[0]}
+                data-height={getArtboardData('artboard_size')[1]}
                 viewBox={`0 0 ${getArtboardData('artboard_size')[0]} ${getArtboardData('artboard_size')[1]}`}
                 xmlns="http://www.w3.org/2000/svg"
                 style={styles.svg}
@@ -542,7 +548,8 @@ function ExportComponent (props) {
               </li>
             </ul>
             <br/>
-            <button className="cancel" onClick={closeExportPanel}>Cancel</button><button className="download">Download</button>
+            <button className="cancel" onClick={closeExportPanel}>Cancel</button>
+            <button className="download" onClick={()=>downloadImages()}>Download</button>
           </div>
         </div>
       </div> : null }
