@@ -1,4 +1,10 @@
 const Actions = {
+  switchDarkmode(value) {
+    return {
+      type: 'switchDarkmode',
+      value,
+    }
+  },
   addTodo(value) {
     return {
       type: 'ADDTASK',
