@@ -7,7 +7,7 @@ import {
   //faChevronDown,
   faAdjust
 } from '@fortawesome/free-solid-svg-icons'
-//import ReactModal from 'react-modal';
+
 import DarkmodeButton from '../redux/hexinput'
 
 class MenuBar extends React.Component {
@@ -68,7 +68,6 @@ class MenuBar extends React.Component {
           </form>
         </ReactModal>
       </div>*/}
-        <div className="mode-change" onClick={this.props.toggleDarkMode}><FontAwesomeIcon icon={faAdjust} /></div>
         <DarkmodeButton/>
       </section>
     );
