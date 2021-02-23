@@ -1,28 +1,26 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
-const selectHex = state => state.json
+const selectDarkmode = state => state.json
 
-const HexInput = () => {
+const DarkmodeButton = () => {
   const dispatch = useDispatch()
 
-  const color = useSelector(selectHex)
+  const mode = useSelector(selectDarkmode)
 
-  const hex = color.hex
-
-  console.log('color is ' + color);
+  const value = mode.darkmode
 
   const handleChange = e => {
-    dispatch({type: 'hex/changeHex', payload: e.target.value})
+    if (value) {
+      dispatch({type: 'darkmode/switch', payload: false})
+    } else {
+      dispatch({type: 'darkmode/switch', payload: true})
+    }
   }
 
   return (
-    <input
-       type="color"
-       value={hex}
-       onChange={handleChange}
-    />
+    <button onClick={handleChange}>Mode is {value ? "true":"false"} now</button>
   )
 }
 
-export default HexInput
+export default DarkmodeButton
