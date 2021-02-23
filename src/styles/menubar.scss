@@ -26,6 +26,11 @@
     margin-right: 20px;
     text-align: center;
   }
+  div:nth-child(3) {
+    div p {
+      background: #F0F0F0;
+    }
+  }
 }
 
 .form-document {

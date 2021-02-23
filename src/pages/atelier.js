@@ -14,6 +14,8 @@ import {
 
 import '../styles/atelier.scss';
 
+import { connect } from 'react-redux'
+
 //====================================
 //  We manage data such as
 //  * mainColor's Hex
@@ -39,7 +41,6 @@ class Atelier extends React.Component {
       selectEl:null,
       test: false,
       data : getArtboardData('svg_data'),
-      darkMode: false,
       history: [
         {
           mainColor: null,
@@ -233,8 +234,12 @@ class Atelier extends React.Component {
       display: 'none',
     }
 
+    const { json } = this.props.json
+
+    const darkmode = json.darkmode
+
     return (
-      <section className="section-atelier"
+      <section className={darkmode? "section-atelier dark-mode": "section-atelier"}
           onMouseDown={this.onMouseDown}
           onMouseMove={this.onMouseMove}
           onMouseUp={this.onMouseUp}
@@ -335,4 +340,9 @@ class Atelier extends React.Component {
   }
 }
 
-export default Atelier;
+
+const mapStateToProps = state => ({
+  json: state,
+})
+
+export default connect(mapStateToProps, null)(Atelier)

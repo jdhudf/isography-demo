@@ -105,3 +105,41 @@
     }
   }
 }
+
+.dark-mode {
+  .section-menubar {
+    div a, div p {
+      color: $c3;
+    }
+    div:nth-child(3) {
+      div p {
+        background: $c2;
+      }
+    }
+  }
+  .section-toolspanel {
+    background: $c1;
+    border-right: solid 1px $c4;
+    color: $c3;
+  }
+  .section-artboard {
+    background: $c2;
+  }
+  .section-gallalypanel {
+    background: $c1;
+    border-left: solid 1px $c4;
+    .react-tabs {
+      background: $c1;
+      .react-tabs__tab-list {
+        .react-tabs__tab {
+          border: solid 1px $c2;
+          color: $c3;
+        }
+        .react-tabs__tab--selected {
+          background: $c4;
+          color: $c3;
+        }
+      }
+    }
+  }
+}
