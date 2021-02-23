@@ -21,8 +21,6 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-//import HexInput from '../redux/hexinput'
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faGripHorizontal,
@@ -62,7 +60,6 @@ class Home extends React.Component {
   }
 
   toggleDarkMode = () => {
-    alert(this.state.darkMode)
     if (this.state.darkMode) {
       this.setState({darkMode: false})
     } else {
