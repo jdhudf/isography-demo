@@ -1,6 +1,11 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {
+  faAdjust
+} from '@fortawesome/free-solid-svg-icons'
+
 const selectDarkmode = state => state.json
 
 const DarkmodeButton = () => {
@@ -19,7 +24,7 @@ const DarkmodeButton = () => {
   }
 
   return (
-    <button onClick={handleChange}>Mode is {value ? "true":"false"} now</button>
+    <div className="mode-change" onClick={handleChange}><FontAwesomeIcon icon={faAdjust} /></div>
   )
 }
 
