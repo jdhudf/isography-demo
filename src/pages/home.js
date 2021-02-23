@@ -2,18 +2,8 @@ import React, { useState }  from 'react';
 import { Link } from 'react-router-dom'
 import ColorPicker from '../components/ColorPicker.js';
 
-
-//import {
-//  BrowserRouter as Router,
-//  Switch,
-//  Route,
-//  Link
-//} from "react-router-dom";
-
-//import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-
 import MenuBar from '../components/menubar.js';
-//import Navigation from '../components/navigation.js';
+
 import '../styles/home.scss';
 import img from '../images/default.png';
 
@@ -32,9 +22,8 @@ import {
   addNewArtboard
  } from '../components/handleLocalstorage'
 
-import { useSelector } from 'react-redux'
+import { useSelector, connect } from 'react-redux'
 const selectHex = state => state.json
-
 
 //import GallaryPanel from '../components/gallarypanel.js';
 //import ToolsPanel from '../components/toolspanel.js';
@@ -59,19 +48,15 @@ class Home extends React.Component {
     }
   }
 
-  toggleDarkMode = () => {
-    if (this.state.darkMode) {
-      this.setState({darkMode: false})
-    } else {
-      this.setState({darkMode: true})
-    }
-  }
-
   render() {
 
+    const { json } = this.props.json
+
+    const darkmode = json.darkmode
+
     return (
-      <section className={this.state.darkMode? "section-home dark-mode": "section-home"}>
-        <MenuBar toggleDarkMode={this.toggleDarkMode}/>
+      <section className={darkmode? "section-home dark-mode": "section-home"}>
+        <MenuBar />
         <Dashboard />
       </section>
     );
@@ -421,5 +406,10 @@ const NewsFeed = () => {
   )
 }
 
+const mapStateToProps = state => ({
+  json: state,
+})
 
-export default Home;
+export default connect(mapStateToProps, null)(Home)
+
+//export default Home;
