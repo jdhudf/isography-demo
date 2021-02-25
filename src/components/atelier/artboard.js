@@ -93,6 +93,7 @@ class Artboard extends React.Component {
 
   //--- Choose which element we should edit &  send it to parent component ---//
   selectElement = (e) => {
+
     var array = this.state.data;
     let g = e.target.parentNode.outerHTML;
 
@@ -788,6 +789,7 @@ class Artboard extends React.Component {
           onContextMenu={this.onContextMenu}
       >
       </svg>
+      {/*<Svg background={this.props.background} data={this.props.data}/>*/}
 
       </section>
 
@@ -800,6 +802,211 @@ class Artboard extends React.Component {
       </div>
     );
   }
+}
+
+function Svg (props) {
+
+  const state = {
+    isMouseDown : false,
+    propsOrState: false,
+    initialTranslate: [0,0], // to change translate(x,y)
+    initial: [0,0], // to calculate a gap
+    selectedElement: 0, // to make it clear which el should edit
+    displayContextMenu: false,
+    // -- below is artboard resize and pinch
+    mouse: [0,0],
+    artboardPosition: artboardPosition([0,0]),
+    artboardScale: artboardScale(1),
+    gestureStartScale: 0,
+    startCoordinate: [0,0],
+    // -- below is scaling data
+    selectedScale: 1,
+    selectedInitial: [0,0],
+    isScaleMouseDown: false,
+    // -- below is svg data
+    data: props.data,
+  }
+
+  const onMouseDown = (e) => {
+
+    if (props.data !== state.data) {
+      this.setState({data:this.props.data})
+    }
+
+    this.setState({isMouseDown:true})
+
+    const mouseX = e.pageX;// pageX and pageY is mouse's axis in the box.
+    const mouseY = e.pageY;
+
+    //const el = e.target.parentNode;
+    const g = e.target.parentNode.outerHTML;
+
+    if (g.startsWith('<g transform="translate')) {
+
+      //this.selectElement(e);
+
+    }
+
+
+    //  Set this.state of
+    //  * initialTranslate
+    //  * mouse clicked coordinate
+    this.getTranslate(e);
+    this.setState({initial:[mouseX,mouseY]});
+    this.props.updateState(this.state.data);
+
+  }
+
+  const onMouseMove = (e) => {
+
+    if (this.state.isMouseDown) {
+
+      const selected = this.selectElement(e);//this.state.selectedElement
+
+
+      //---  Calculate a gap  ---//
+      const move = [e.pageX,e.pageY];
+      const gap = [
+        parseInt(move[0]) - parseInt(this.state.initial[0]),
+        parseInt(move[1]) - parseInt(this.state.initial[1])
+      ];
+
+      //console.log('gap ok : ' +  gap);
+
+      //---  Calculate a translate(x,y)  ---//
+      let translate = [
+        parseInt(this.state.initialTranslate[0]) + parseInt(gap[0]),
+        parseInt(this.state.initialTranslate[1]) + parseInt(gap[1])
+      ];
+
+      //console.log('translate ok ' + translate);
+
+      const g = e.target.parentNode.outerHTML;
+
+      //console.log('same? ' + g);
+      //console.log('same? ' + this.state.data[this.state.selectedElement]);
+
+      if (g === this.state.data[selected] && g.startsWith('<g transform="translate')) {
+        //console.log('initialTranslate('+this.state.initialTranslate[0]+','+this.state.initialTranslate[1]+')');
+
+        //---  let a string have a proper translate(x,y)  ---//
+        const regExp = /-?\d+/g;
+        var n = 1;
+
+        const result = g.replace(regExp,
+          function(match) {
+            if(n === 1) {
+              n--;
+              return translate[0];
+            } else if (n === 0) {
+              n--;
+              return translate[1];
+            } else {
+              return match;
+            };
+          }
+        );
+
+        //--- Move Selector Position ---//
+
+        this.updateSelecter();
+
+
+        //---  Update this.state.data  ---//
+
+        const data_copy = this.state.data.slice();
+        data_copy[selected] = result;
+        this.setState({data: data_copy});
+
+
+      } else {
+        this.setState({isMouseDown:false})
+      }
+
+    }
+  }
+
+  const onMouseUp = (e) => {
+
+    this.setState({isMouseDown:false})
+    //console.log('mouseUp: ' + e.target.parentNode.outerHTML)
+
+    setArtboardData({
+      type: 'svg_data',
+      value: this.state.data,
+    })
+
+    if(this.props.test) {
+
+      this.addElementOfSVG(this.props.willAddElementOfSvg)
+
+    }
+
+    this.updateSelecter();
+
+    this.props.updateState(this.state.data);
+
+  }
+
+  const onMouseLeave = (e) => {
+    if(this.state.isMouseDown) {
+      this.setState({isMouseDown:false})
+      //console.log('mouseLeave: ' + e.target.outerHTML)
+      this.props.updateState(this.state.data);
+    }
+  }
+
+  /**/
+
+  const onContextMenu = (e) => {
+
+    const g = e.target.parentNode.outerHTML;
+
+    // only when users click svg element, this event'll trigger.
+    if (g.startsWith('<g transform="translate')) {
+
+      this.setState({mouse:[e.pageX,e.pageY]})
+
+      this.selectElement(e);
+      this.setState({displayContextMenu: true});
+      e.preventDefault();
+    }
+
+  }
+
+  return (
+    <svg
+        style={{
+          background: props.background,
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%,-50%)",
+          zIndex: "-1",
+        }}
+        id="svg"
+        version="1.1"
+        viewBox={`0 0 ${getArtboardData('artboard_size')[0]} ${getArtboardData('artboard_size')[1]}`}
+        width={getArtboardData('artboard_size')[0]}
+        height={getArtboardData('artboard_size')[1]}
+        xmlns="http://www.w3.org/2000/svg"
+        dangerouslySetInnerHTML={{__html:
+
+          state.data.join('')
+
+        }}
+          // we should display state while updating state, cuz we update props in realtime, the performance will be bad.
+          //
+
+        //dangerouslySetInnerHTML={{__html: this.props.data.join('') }}
+        onMouseDown={onMouseDown}
+        onMouseUp={onMouseUp}
+        onMouseMove={onMouseMove}
+        onMouseLeave={onMouseLeave}
+        onContextMenu={onContextMenu}
+    >
+    </svg>
+  )
 }
 
 export default Artboard;
