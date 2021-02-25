@@ -2,6 +2,8 @@ import {
   getIsographyData,
  } from '../components/handleLocalstorage'
 
+import { switchDarkmode } from './actions';
+
 const initialState = {
   hex: '#9ACFE1',
   json: getIsographyData(),
@@ -86,6 +88,7 @@ export default function jsonReducer(state = initialState, action) {
         json: action.payload
       }
     default:
+      console.log("problem in reducer")
       return state
 
   }
