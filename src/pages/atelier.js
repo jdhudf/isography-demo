@@ -240,6 +240,19 @@ class Atelier extends React.Component {
 
     const darkmode = json.json.darkmode
 
+    const artboard_array = json.json.json.data
+
+    const working = json.json.json.working
+
+    for (var i=0;i<artboard_array.length;i++){
+      if (working === artboard_array[i].artboard_id) {
+
+        console.log(artboard_array[i],artboard_array[i].color_scheme)
+      } else {
+        console.log(working,artboard_array[i].artboard_id)
+      }
+    }
+
     return (
       <section className={darkmode? "section-atelier dark-mode": "section-atelier"}
           onMouseDown={this.onMouseDown}
@@ -255,12 +268,8 @@ class Atelier extends React.Component {
             <h2 style={{color: '#fff',}}>Welcome to Isography</h2>
             <button onClick={()=> {
               if (darkmode) {
-                console.log(darkmode)
-                console.log(switchDarkmode)
                 switchDarkmode(false)
               } else {
-                console.log(darkmode)
-                console.log(switchDarkmode)
                 switchDarkmode(true)
               }
             }}> Mode is {darkmode? "true":"false"} </button>
