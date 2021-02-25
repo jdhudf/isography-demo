@@ -15,6 +15,8 @@ import {
 import '../styles/atelier.scss';
 
 import { connect } from 'react-redux'
+import { switchDarkmode,actions } from '../redux/actions';
+
 
 //====================================
 //  We manage data such as
@@ -234,9 +236,9 @@ class Atelier extends React.Component {
       display: 'none',
     }
 
-    const { json } = this.props.json
+    const { json, switchDarkmode } = this.props
 
-    const darkmode = json.darkmode
+    const darkmode = json.json.darkmode
 
     return (
       <section className={darkmode? "section-atelier dark-mode": "section-atelier"}
@@ -251,6 +253,17 @@ class Atelier extends React.Component {
           <div style={welcomescreen} id="welcomescreen">
             <img className="icon" src={icon} alt="Icon" />
             <h2 style={{color: '#fff',}}>Welcome to Isography</h2>
+            <button onClick={()=> {
+              if (darkmode) {
+                console.log(darkmode)
+                console.log(switchDarkmode)
+                switchDarkmode(false)
+              } else {
+                console.log(darkmode)
+                console.log(switchDarkmode)
+                switchDarkmode(true)
+              }
+            }}> Mode is {darkmode? "true":"false"} </button>
           </div>
 
           <style jsx>{`
@@ -345,4 +358,9 @@ const mapStateToProps = state => ({
   json: state,
 })
 
-export default connect(mapStateToProps, null)(Atelier)
+
+export default connect(
+  mapStateToProps,
+  dispatch => ({ switchDarkmode: value => dispatch(actions.switchDarkmode(value)) })
+  //dispatch => ({ switchDarkmode: value => dispatch(switchDarkmode(value)) })
+)(Atelier)
