@@ -1,20 +1,29 @@
-const Actions = {
+
+//export const switchDarkmode = value => ({type: 'darkmode/switch', payload: value});
+
+export const switchDarkmode = value => {
+  console.log("action ~~~")
+  return {type: 'darkmode/switch', payload: value}
+}
+
+export const actions = {
   switchDarkmode(value) {
+    console.log("action!")
     return {
-      type: 'switchDarkmode',
-      value,
+      type: 'darkmode/switch',
+      payload: value
     }
   },
   addTodo(value) {
     return {
       type: 'ADDTASK',
-      value,
+      payload: value
     }
   },
   fixTodo(value) {
     return {
       type: 'FIXTASK',
-      value,
+      payload: value
     }
   },
   updTodo(value) {
@@ -30,5 +39,3 @@ const Actions = {
     }
   },
 }
-
-export default Actions
