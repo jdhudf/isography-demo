@@ -8,7 +8,9 @@ import {
   faAdjust
 } from '@fortawesome/free-solid-svg-icons'
 
-import DarkmodeButton from '../redux/hexinput'
+import { useSelector, useDispatch } from 'react-redux'
+
+const selectDarkmode = state => state.json
 
 class MenuBar extends React.Component {
 
@@ -68,11 +70,31 @@ class MenuBar extends React.Component {
           </form>
         </ReactModal>
       </div>*/}
-        <DarkmodeButton/>
+        <Darkmode/>
       </section>
     );
-
+  }
 }
+
+
+const Darkmode = () => {
+  const dispatch = useDispatch()
+
+  const mode = useSelector(selectDarkmode)
+
+  const value = mode.darkmode
+
+  const handleChange = e => {
+    if (value) {
+      dispatch({type: 'darkmode/switch', payload: false})
+    } else {
+      dispatch({type: 'darkmode/switch', payload: true})
+    }
+  }
+
+  return (
+    <div className="mode-change" onClick={handleChange}><FontAwesomeIcon icon={faAdjust} /></div>
+  )
 }
 
 export default MenuBar;
