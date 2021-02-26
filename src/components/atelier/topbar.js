@@ -564,7 +564,6 @@ const InputArtboardName = () => {
   const styles = {
     i: {
       fontWeight: "600",
-      color: "gray",
       padding: "3px 15px",
       borderRadius: "3px",
       display: "inline-block",
