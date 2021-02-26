@@ -247,9 +247,9 @@ class Atelier extends React.Component {
     for (var i=0;i<artboard_array.length;i++){
       if (working === artboard_array[i].artboard_id) {
 
-        console.log(artboard_array[i],artboard_array[i].color_scheme)
+        //console.log(artboard_array[i],artboard_array[i].color_scheme)
       } else {
-        console.log(working,artboard_array[i].artboard_id)
+        //console.log(working,artboard_array[i].artboard_id)
       }
     }
 
