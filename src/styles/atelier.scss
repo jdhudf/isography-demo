@@ -121,6 +121,9 @@
     background: $c1;
     border-right: solid 1px $c4;
     color: $c3;
+    span {
+      color: $c3;
+    }
   }
   .section-artboard {
     background: $c2;
