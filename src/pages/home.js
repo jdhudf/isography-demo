@@ -18,27 +18,11 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 
 import {
-  //getIsographyData,
   addNewArtboard
  } from '../components/handleLocalstorage'
 
 import { useSelector, connect } from 'react-redux'
 const selectHex = state => state.json
-
-//import GallaryPanel from '../components/gallarypanel.js';
-//import ToolsPanel from '../components/toolspanel.js';
-//import Artboard from '../components/artboard.js';
-
-// document data in localStorage
-// * document id
-// * document name
-// * created at
-// * last modified at
-// * artboard size [width,height]
-// * svg data
-// * color_scheme
-// * documents are limited to 9
-
 
 class Home extends React.Component {
   constructor(props) {
@@ -70,6 +54,12 @@ const Dashboard = () => {
   const [documentList, toggleDocumentList] = useState(false);
 
   const json = useSelector(selectHex).json//getIsographyData();
+  const state = useSelector(selectHex)
+
+  console.log(state)
+
+
+  console.log(json)
 
   const styles = {
     test: {
@@ -113,10 +103,6 @@ const Dashboard = () => {
               </ul>
             </div>*/}
             <h2>Your Documents</h2>
-            {/*<ul style={{textAlign: "center"}}>
-              <li style={{display:"inline-block"}}><FontAwesomeIcon icon={faGripHorizontal} /></li>
-              <li style={{display:"inline-block"}}><FontAwesomeIcon icon={faList} /></li>
-            </ul>*/}
             <ul className="toggle-document-list">
               <li onClick={()=>toggleDocumentList(false)} class={documentList?null:"display"}><FontAwesomeIcon icon={faGripHorizontal} /></li>
               <li onClick={()=>toggleDocumentList(true)} class={documentList?"display":null}><FontAwesomeIcon icon={faList} /></li>
@@ -232,7 +218,6 @@ const NewArtboard = () => {
 
   const updateInputValue = (e) => {
     updateValue(e.target.value)
-    console.log(value);
   }
 
   const styles = {
@@ -261,7 +246,11 @@ const NewArtboard = () => {
     }
   }
 
-  const templatesJson = [
+  const state = useSelector(selectHex).templates
+
+  console.log(state)
+
+  const templatesJson = useSelector(selectHex).templates/*[
     {
       name: "Square",
       ratio: [1,1],
@@ -282,7 +271,7 @@ const NewArtboard = () => {
       name: "Silver Ratio",
       ratio: [1,0.65],
     },
-  ]
+  ]*/
 
   return (
     <div>
