@@ -66,7 +66,7 @@ function ToolsPanel (props) {
       <p title="Undo"><FontAwesomeIcon icon={faLongArrowAltLeft} /></p>
       <p title="Redo"><FontAwesomeIcon icon={faLongArrowAltRight} /></p>
 
-      <p style={{margin: "0",color:"gray"}}>BG</p>
+      <p style={{margin: "0"}}>BG</p>
       <ColorPicker
         color={props.backgroundColor}
         method={(e) => props.changeHexOfBackground(e)}
@@ -98,7 +98,7 @@ function ToggleGrid() {
 
   return (
     <div style={{marginBottom: "30px"}}>
-      <p style={{marginBottom: "0px",color:"gray"}}>Grid</p>
+      <p style={{marginBottom: "0px"}}>Grid</p>
       <div id="toggle" onClick={toggleGrid} className="toggle">
         <div className="button"></div>
       </div>
