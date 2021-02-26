@@ -14,12 +14,6 @@ export const actions = {
       payload: value
     }
   },
-  addTodo(value) {
-    return {
-      type: 'ADDTASK',
-      payload: value
-    }
-  },
   fixTodo(value) {
     return {
       type: 'FIXTASK',
@@ -38,4 +32,27 @@ export const actions = {
       value,
     }
   },
+}
+
+const setCanvasData = ({
+  working:working_id,
+  type: data_type,
+  data: svg_data}) => {
+
+  const { json, switchDarkmode } = this.props
+
+  const darkmode = json.json.darkmode
+
+  const artboard_array = json.json.json.data
+
+  const working = json.json.json.working
+
+  for (var i=0;i<artboard_array.length;i++){
+    if (working === artboard_array[i].artboard_id) {
+
+      console.log(artboard_array[i],artboard_array[i].color_scheme)
+    } else {
+      console.log(working,artboard_array[i].artboard_id)
+    }
+  }
 }
