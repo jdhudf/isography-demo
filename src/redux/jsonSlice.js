@@ -8,6 +8,7 @@ const initialState = {
   hex: '#9ACFE1',
   json: getIsographyData(),
   darkmode: false,
+  working: null,
   artboards: [
     {
       artboard_id: 1,
