@@ -14,7 +14,7 @@ export const actions = {
       payload: value
     }
   },
-  fixTodo(value) {
+  set(value) {
     return {
       type: 'FIXTASK',
       payload: value

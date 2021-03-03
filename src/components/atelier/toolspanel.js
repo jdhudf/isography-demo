@@ -12,74 +12,92 @@ import {
 
 import '../../styles/toolspanel.scss';
 
-import {
-  //removeArtboard
-} from '../handleLocalstorage'
-
 import ColorPicker from "./toolspanel_ColorPicker";
+import { connect } from 'react-redux'
+import { actions } from '../../redux/actions';
 
-function ToolsPanel (props) {
-//class ToolsPanel extends React.Component {
+class ToolsPanel extends React.Component {
 
-  return (
-    <section className="section-toolspanel section-bottom">
-      {(()=>{
-        if(props.selectEl === 0){
-          return (
-            <span>
-              <p title="Bring Forward" onClick={props.bringForward}><FontAwesomeIcon icon={faSortAmountUp} /></p>
-              <p title="Send Backward" style={{color: "lightgray"}}><FontAwesomeIcon icon={faSortAmountDown} /></p>
-            </span>
-          )
-        } else if (props.selectEl === (props.length - 1)) {
-          return (
-            <span>
-              <p title="Bring Forward" style={{color: "lightgray"}}><FontAwesomeIcon icon={faSortAmountUp} /></p>
-              <p title="Send Backward" onClick={props.sendBackward}><FontAwesomeIcon icon={faSortAmountDown} /></p>
-            </span>
-          )
-        } else {
-          return (
-            <span>
-              <p title="Bring Forward" onClick={props.bringForward}><FontAwesomeIcon icon={faSortAmountUp} /></p>
-              <p title="Send Backward" onClick={props.sendBackward}><FontAwesomeIcon icon={faSortAmountDown} /></p>
-            </span>
-          )
-        }
-      })()}
-      <p><FontAwesomeIcon icon={faFont} /></p>
-      <div className="color-scheme">
+  constructor(props){
+    super(props);
+    this.state = {
+      color: null,
+    }
+  }
+
+  render() {
+
+    const { state, switchDarkmode } = this.props
+
+    //console.log(state)
+
+    const artboard_array = state.json.artboards
+
+    const working = state.json.working
+
+    //console.log(artboard_array[working])
+
+    return (
+      <section className="section-toolspanel section-bottom">
+        {(()=>{
+          if(this.props.selectEl === 0){
+            return (
+              <span>
+                <p title="Bring Forward" onClick={this.props.bringForward}><FontAwesomeIcon icon={faSortAmountUp} /></p>
+                <p title="Send Backward" style={{color: "lightgray"}}><FontAwesomeIcon icon={faSortAmountDown} /></p>
+              </span>
+            )
+          } else if (this.props.selectEl === (this.props.length - 1)) {
+            return (
+              <span>
+                <p title="Bring Forward" style={{color: "lightgray"}}><FontAwesomeIcon icon={faSortAmountUp} /></p>
+                <p title="Send Backward" onClick={this.props.sendBackward}><FontAwesomeIcon icon={faSortAmountDown} /></p>
+              </span>
+            )
+          } else {
+            return (
+              <span>
+                <p title="Bring Forward" onClick={this.props.bringForward}><FontAwesomeIcon icon={faSortAmountUp} /></p>
+                <p title="Send Backward" onClick={this.props.sendBackward}><FontAwesomeIcon icon={faSortAmountDown} /></p>
+              </span>
+            )
+          }
+        })()}
+        <p><FontAwesomeIcon icon={faFont} /></p>
+        <div className="color-scheme">
+          <ColorPicker
+             color={this.props.mainColor}
+             method={(e) => this.props.changeHexOfMain(e)}
+          />
+          <ColorPicker
+             color={this.props.subColor}
+             method={(e) => this.props.changeHexOfSub(e)}
+          />
+          <ColorPicker
+            color={this.props.accentColor}
+            method={(e) => this.props.changeHexOfAccent(e)}
+          />
+            {/*ref='CPSetting' />*/}
+        </div>
+        <p title="Undo"><FontAwesomeIcon icon={faLongArrowAltLeft} /></p>
+        <p title="Redo"><FontAwesomeIcon icon={faLongArrowAltRight} /></p>
+
+        <p style={{margin: "0",color:"gray"}}>BG</p>
         <ColorPicker
-           color={props.mainColor}
-           method={(e) => props.changeHexOfMain(e)}
+          color={this.props.backgroundColor}
+          method={(e) => this.props.changeHexOfBackground(e)}
         />
-        <ColorPicker
-           color={props.subColor}
-           method={(e) => props.changeHexOfSub(e)}
-        />
-        <ColorPicker
-          color={props.accentColor}
-          method={(e) => props.changeHexOfAccent(e)}
-        />
-          {/*ref='CPSetting' />*/}
-      </div>
-      <p title="Undo"><FontAwesomeIcon icon={faLongArrowAltLeft} /></p>
-      <p title="Redo"><FontAwesomeIcon icon={faLongArrowAltRight} /></p>
 
-      <p style={{margin: "0"}}>BG</p>
-      <ColorPicker
-        color={props.backgroundColor}
-        method={(e) => props.changeHexOfBackground(e)}
-      />
-
-      <ToggleGrid/>
+        <ToggleGrid/>
 
 
 
-      <p onClick={(e) =>props.removeElement()} title="Remove Element"><FontAwesomeIcon icon={faTrashAlt} /></p>
+        <p onClick={(e) =>this.props.removeElement()} title="Remove Element"><FontAwesomeIcon icon={faTrashAlt} /></p>
 
-    </section>
-  );
+      </section>
+    );
+
+  }
 }
 
 function ToggleGrid() {
@@ -98,7 +116,7 @@ function ToggleGrid() {
 
   return (
     <div style={{marginBottom: "30px"}}>
-      <p style={{marginBottom: "0px"}}>Grid</p>
+      <p style={{marginBottom: "0px",color:"gray"}}>Grid</p>
       <div id="toggle" onClick={toggleGrid} className="toggle">
         <div className="button"></div>
       </div>
@@ -106,4 +124,13 @@ function ToggleGrid() {
   )
 }
 
-export default ToolsPanel;
+
+const mapStateToProps = state => ({
+  state: state,
+})
+
+export default connect(
+  mapStateToProps,
+  dispatch => ({ switchDarkmode: value => dispatch(actions.switchDarkmode(value)) })
+  //dispatch => ({ switchDarkmode: value => dispatch(switchDarkmode(value)) })
+)(ToolsPanel)

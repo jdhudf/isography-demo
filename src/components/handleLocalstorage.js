@@ -2,24 +2,24 @@ export const getArtboardData = (type) => {
   if (localStorage.getItem('isography') !== null) {
     const json = JSON.parse(localStorage.getItem('isography'));
 
-    for(var i=0;i<json.data.length;i++){
-      if(json.data[i].artboard_id === json.working){
+    for(var i=0;i<json.length;i++){
+      if(json[i].artboard_id === json[i].working){
 
         switch (type) {
           case "color_scheme":
-            return json.data[i].color_scheme;
+            return json[i].canvas.color_scheme;
             //break;
           case "artboard_size":
-            return json.data[i].artboard_size;
+            return json[i].canvas.artboard_size;
             //break;
           case "svg_data":
-            return  json.data[i].svg_data
+            return  json[i].canvas.svg_data
             //break;
           case "last_modified":
-            return json.data[i].last_modified
+            return json[i].last_modified
             //break;
           case "artboard_name":
-            return json.data[i].artboard_name
+            return json[i].artboard_name
             //break;
           //case "last_modified":
             //return json.data[i].last_modified
@@ -34,6 +34,49 @@ export const getArtboardData = (type) => {
 }
 
 export const setArtboardData = ({type, value}) => {
+  if (localStorage.getItem('isography') !== null) {
+    const json = JSON.parse(localStorage.getItem('isography'));
+
+    console.log(json)
+
+    for(var i=0;i<json.length;i++){
+      if(json[i].artboard_id === json.working){
+
+          switch (type) {
+            case "mainColor":
+              json[i].canvas.color_scheme["mainColor"] = value
+              break;
+            case "subColor":
+              json[i].canvas.color_scheme["subColor"] = value
+              break;
+            case "accentColor":
+              json[i].canvas.color_scheme["accentColor"] = value
+              break;
+            case "background":
+              json[i].canvas.color_scheme["background"] = value
+              break;
+            case "artboard_size":
+              json[i].canvas.artboard_size = value
+              break;
+            case "last_modified":
+              json[i].last_modified = value
+              break;
+            case "artboard_name":
+              json[i].artboard_name = value
+              break;
+            case "svg_data":
+              json[i].canvas.svg_data = value
+              break;
+            default:
+          }
+
+      }
+    }
+    localStorage.setItem('isography', JSON.stringify(json));
+  }
+}
+
+export const updateJson = ({type, value}) => {
   if (localStorage.getItem('isography') !== null) {
     const json = JSON.parse(localStorage.getItem('isography'));
 
@@ -70,7 +113,7 @@ export const setArtboardData = ({type, value}) => {
 
       }
     }
-    localStorage.setItem('isography', JSON.stringify(json));
+    return json
   }
 }
 
@@ -150,22 +193,25 @@ export const getIsographyData = (e) => {
   if (localStorage.getItem('isography') === null) {
 
     const json = {
-      working : 1,
-      data: [
+      darkmode: false,
+      working: 1,
+      artboards: [
         {
           artboard_id: 1,
           artboard_name: 'Artboard Name 1',
           created_at: 'Tue, 22 May 2018 13:20:00 GMT',
           last_modified: 'Tue, 22 May 2018 13:20:00 GMT',
-          artboard_size: [800,600],
-          svg_data: ['<g transform="translate(50,50) scale(1,1)" class="sub"><circle cx="0" cy="0" r="50"></circle></g>',
-          '<g transform="translate(100,250) scale(2,2)" class="main" border="solid 3px #000000"><circle cx="30" cy="30" r="20"></circle></g>',
-          '<g transform="translate(50,150) scale(1,1)" style="cursor:move"><circle cx="10" cy="10" r="15"></circle><circle cx="20" cy="20" r="10"></circle></g>'],
-          color_scheme: {
-            mainColor: '#cccccc',
-            subColor: '#000000',
-            accentColor: '#FAFAFA',
-            background: '#ffffff'
+          canvas: {
+            artboard_size: [800,600],
+            svg_data: ['<g transform="translate(50,50) scale(1,1)" class="sub"><circle cx="0" cy="0" r="50"></circle></g>',
+            '<g transform="translate(100,250) scale(2,2)" class="main" border="solid 3px #000000"><circle cx="30" cy="30" r="20"></circle></g>',
+            '<g transform="translate(50,150) scale(1,1)" style="cursor:move"><circle cx="10" cy="10" r="15"></circle><circle cx="20" cy="20" r="10"></circle></g>'],
+            color_scheme: {
+              mainColor: '#cccccc',
+              subColor: '#000000',
+              accentColor: '#FAFAFA',
+              background: '#ffffff'
+            }
           }
         },
         {
@@ -173,19 +219,42 @@ export const getIsographyData = (e) => {
           artboard_name: 'Artboard Name 2',
           created_at: 'Tue, 22 May 2018 13:20:00 GMT',
           last_modified: 'Tue, 22 May 2018 13:20:00 GMT',
-          artboard_size: [800,600],
-          svg_data: ['<g transform="translate(50,50) scale(1,1)" class="sub"><circle cx="0" cy="0" r="50"></circle></g>',
-          '<g transform="translate(100,250) scale(2,2)" class="main" border="solid 3px #000000"><circle cx="30" cy="30" r="20"></circle></g>',
-          '<g transform="translate(50,150) scale(1,1)" style="cursor:move"><circle cx="10" cy="10" r="15"></circle><circle cx="20" cy="20" r="10"></circle></g>'],
-          color_scheme: {
-            mainColor: '#1496BA',
-            subColor: '#00607c',
-            accentColor: '#bfd9e1',
-            background: '#fff'
+          canvas: {
+            artboard_size: [800,600],
+            svg_data: ['<g transform="translate(50,50) scale(1,1)" class="sub"><circle cx="0" cy="0" r="50"></circle></g>',
+            '<g transform="translate(100,250) scale(2,2)" class="main" border="solid 3px #000000"><circle cx="30" cy="30" r="20"></circle></g>',
+            '<g transform="translate(50,150) scale(1,1)" style="cursor:move"><circle cx="10" cy="10" r="15"></circle><circle cx="20" cy="20" r="10"></circle></g>'],
+            color_scheme: {
+              mainColor: '#cccccc',
+              subColor: '#000000',
+              accentColor: '#FAFAFA',
+              background: '#ffffff'
+            }
           }
         },
       ],
-      darkMode: false,
+      templates: [
+        {
+          name: "Square",
+          ratio: [1,1],
+        },
+        {
+          name: "Twitter Card Ratio",
+          ratio: [1,0.75],
+        },
+        {
+          name: "OGP Card Ratio",
+          ratio: [1,0.55],
+        },
+        {
+          name: "Golden Ratio",
+          ratio: [1,1.25],
+        },
+        {
+          name: "Silver Ratio",
+          ratio: [1,0.65],
+        },
+      ],
     }
 
     localStorage.setItem('isography', JSON.stringify(json));

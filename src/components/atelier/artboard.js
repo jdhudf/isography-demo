@@ -11,6 +11,9 @@ import {
 
 import { onWheel } from './features/pinch-gesture-wheel'
 
+import { connect } from 'react-redux'
+import { switchDarkmode,actions } from '../../redux/actions';
+
 //import { useSelector, useDispatch } from 'react-redux'
 
 //====================================
@@ -747,6 +750,23 @@ class Artboard extends React.Component {
       </div>
     )
 
+    const { json } = this.props.json
+
+    let artboard;
+
+    console.log(json)
+
+    for (var i = 0; i < json.artboards.length; i++) {
+      if (json.artboards[i].artboard_id == json.working) {
+        artboard = json.artboards[i];
+      }
+    }
+
+    console.log(artboard)
+
+    const artboardSize = artboard.canvas.artboard_size;
+    console.log(artboardSize)
+
     return (
       <div style={{position: "relative"}}>
       {selector}
@@ -769,9 +789,9 @@ class Artboard extends React.Component {
           style={styles.style}
           id="svg"
           version="1.1"
-          viewBox={`0 0 ${getArtboardData('artboard_size')[0]} ${getArtboardData('artboard_size')[1]}`}
-          width={getArtboardData('artboard_size')[0]}
-          height={getArtboardData('artboard_size')[1]}
+          viewBox={`0 0 ${artboardSize[0]} ${artboardSize[1]}`}
+          width={artboardSize[0]}
+          height={artboardSize[1]}
           xmlns="http://www.w3.org/2000/svg"
           dangerouslySetInnerHTML={{__html:
 
@@ -1009,4 +1029,12 @@ function Svg (props) {
   )
 }
 
-export default Artboard;
+const mapStateToProps = state => ({
+  json: state,
+})
+
+export default connect(
+  mapStateToProps,
+  dispatch => ({ switchDarkmode: value => dispatch(actions.switchDarkmode(value)) })
+  //dispatch => ({ switchDarkmode: value => dispatch(switchDarkmode(value)) })
+)(Artboard)

@@ -35,14 +35,14 @@ class Atelier extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      mainColor: getArtboardData('color_scheme')['mainColor'],//getColor('#B21313','mainColor'),//"#B21313",
-      subColor: getArtboardData('color_scheme')['subColor'],//getColor('#111184','subColor'),
-      accentColor: getArtboardData('color_scheme')['accentColor'],//getColor('#C7B136','accentColor'),
-      background: getArtboardData('color_scheme')['background'],//getColor('#C7B136','background'),
+      mainColor: "#fff",//getArtboardData('color_scheme')['mainColor'],//getColor('#B21313','mainColor'),//"#B21313",
+      subColor: "#fff",//getArtboardData('color_scheme')['subColor'],//getColor('#111184','subColor'),
+      accentColor: "#fff",//getArtboardData('color_scheme')['accentColor'],//getColor('#C7B136','accentColor'),
+      background: "#fff",//getArtboardData('color_scheme')['background'],//getColor('#C7B136','background'),
       willAddElementOfSvg: 1,
       selectEl:null,
       test: false,
-      data : getArtboardData('svg_data'),
+      data : [],//this.props.json,//getArtboardData('svg_data'),
       history: [
         {
           mainColor: null,
@@ -57,7 +57,7 @@ class Atelier extends React.Component {
     }
   }
 
-  isLocalStorageAvlbl = () => {
+  /*isLocalStorageAvlbl = () => {
     if (typeof localStorage !== 'undefined') {
       try {
         localStorage.setItem('dummy', '1');
@@ -73,11 +73,11 @@ class Atelier extends React.Component {
     } else {
       return false;
     }
-  }
+  }*/
 
-  getDataFromLocalStorage = () => {
+  /*getDataFromLocalStorage = () => {
     return localStorage.getItem('data')//this.setState({data:localStorage.getItem('data')})
-  }
+  }*/
 
   onMouseDown = (e) => {
     //this.setState({isMouseDown:true})
@@ -240,9 +240,18 @@ class Atelier extends React.Component {
 
     const darkmode = json.json.darkmode
 
-    const artboard_array = json.json.json.data
+    console.log(json)
 
-    const working = json.json.json.working
+    const artboard_array = json.json.artboards
+
+    const working = json.json.working
+
+    const artboard = artboard_array[working]
+    const canvas = artboard['canvas']
+
+
+
+    console.log(canvas.artboard_size)
 
     for (var i=0;i<artboard_array.length;i++){
       if (working === artboard_array[i].artboard_id) {
@@ -297,31 +306,31 @@ class Atelier extends React.Component {
                backgroundColor={this.state.background}
                changeHexOfMain={(e) => {
                  this.setState({mainColor:e})
-                 setArtboardData({
+                 /*setArtboardData({
                    type: 'mainColor',
                    value: e,
-                 })
+                 })*/
                }}
                changeHexOfSub={(e) => {
                  this.setState({subColor:e})
-                 setArtboardData({
+                 /*setArtboardData({
                    type: 'subColor',
                    value: e,
-                 })
+                 })*/
                }}
                changeHexOfAccent={(e) => {
                  this.setState({accentColor:e})
-                 setArtboardData({
+                 /*setArtboardData({
                    type: 'accentColor',
                    value: e,
-                 })
+                 })*/
                }}
                changeHexOfBackground={(e) => {
                  this.setState({background:e})
-                 setArtboardData({
+                 /*setArtboardData({
                    type: 'background',
                    value: e,
-                 })
+                 })*/
                }}
                removeElement={this.removeElement}
                selectEl={this.state.selectEl}

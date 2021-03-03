@@ -14,13 +14,16 @@ import {
   setArtboardData,
   removeArtboard,
   addNewArtboard,
+  updateJson
 } from '../handleLocalstorage'
 
 import {
   downloadImages
 } from './download'
 
-//import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+
+const getState = state => state.json
 
 class TopBar extends React.Component {
 
@@ -118,15 +121,30 @@ class TopBar extends React.Component {
 
 function ArtboardSetting (props) {
 
+  const state = useSelector(getState)
+  const dispatch = useDispatch()
+  //
+  let artboard;
+
+  for (var i = 0; i < state.artboards.length; i++) {
+    if (state.artboards[i].artboard_id == state.working) {
+      artboard = state.artboards[i];
+    }
+  }
+
+  console.log(artboard)
+
+  const artboardSize = artboard.canvas.artboard_size;
+
   const [showRatioWindow, changeStateRatio] = useState(false);
   const [showRenameWindow, changeStateRename] = useState(false);
   const [showDuplicateWindow, changeStateDuplicate] = useState(false);
   const [showDeleteWindow, changeStateDelete] = useState(false);
   const [redirect, changeStateRedirect] = useState(false);
 
-  const [artboardSize,changeStateArtboardSize] = useState(getArtboardData('artboard_size'));
-
   const [artboardName, changeStateArtboardName] = useState(getArtboardData('artboard_name'));
+
+  console.log(artboardSize)
 
 
   const ratioSetting = (e) => {
@@ -205,8 +223,19 @@ function ArtboardSetting (props) {
         <div className="artboardSettings">
           <p>Change the artboard ratio</p>
           <form action="">
-            <label htmlFor="">Width:<input type="number" max="3000" value={artboardSize[0]} onChange={(e)=>{changeStateArtboardSize([e.target.value,artboardSize[1]])}}/>px</label>
-            <label htmlFor="">Height:<input type="number" max="3000" value={artboardSize[1]} onChange={(e)=>{changeStateArtboardSize([artboardSize[0],e.target.value])}}/>px</label>
+            <label htmlFor="">Width:<input type="number" max="3000" value={artboardSize[0]} onChange={(e)=>{
+              updateJson({
+                type: "artboard_size",
+                value: [e.target.value,artboardSize[1]]
+              })
+              dispatch({type: 'darkmode/switch', payload: false})
+            }}/>px</label>
+            <label htmlFor="">Height:<input type="number" max="3000" value={artboardSize[1]} onChange={(e)=>{
+              updateJson({
+                type: "artboard_size",
+                value: [artboardSize[0],e.target.value]
+              })
+            }}/>px</label>
             <button onClick={
               (e)=>{
                 e.preventDefault()

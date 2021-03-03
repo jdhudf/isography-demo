@@ -53,11 +53,7 @@ const Dashboard = () => {
   //const [showModal, toggleModal] = useState(false);
   const [documentList, toggleDocumentList] = useState(false);
 
-  const json = useSelector(selectHex).json//getIsographyData();
-  const state = useSelector(selectHex)
-
-  console.log(state)
-
+  const json = useSelector(selectHex).artboards//getIsographyData();
 
   console.log(json)
 
@@ -79,6 +75,7 @@ const Dashboard = () => {
 
   const clicked = (e) => {
     json.working = parseInt(e.currentTarget.getAttribute('data-id'));
+    console.log(json)
     localStorage.setItem('isography', JSON.stringify(json));
   }
 
@@ -111,7 +108,9 @@ const Dashboard = () => {
             {(()=>{
               const list = json.data;
 
-              const arranged = list.sort(function(a, b){
+              console.log(json)
+
+              const arranged = json.sort(function(a, b){
                 //return new Date(a.last_modified) - new Date(b.last_modified)
                 return new Date(b.last_modified) - new Date(a.last_modified)
               })
@@ -124,23 +123,23 @@ const Dashboard = () => {
                     {/* y=x*item.artboard_size[1]/item.artboard_size[0] */}
                     <svg
                         version="1.1"
-                        viewBox={`0 0 ${item.artboard_size[0]} ${item.artboard_size[1]}`}
+                        viewBox={`0 0 ${item.canvas.artboard_size[0]} ${item.canvas.artboard_size[1]}`}
                         xmlns="http://www.w3.org/2000/svg"
                         style={{
-                          background:item.color_scheme['background'],
+                          background:item.canvas.color_scheme['background'],
                           width: "90%",
                           //height: `calc(${item.artboard_size[0]} / ${item.artboard_size[1]} * 90%)`
                         }}
                         dangerouslySetInnerHTML={
-                          {__html: item.svg_data.join('').replace(
+                          {__html: item.canvas.svg_data.join('').replace(
                             /class="main"/g,
-                            `style="fill:${item.color_scheme['mainColor']}"`
+                            `style="fill:${item.canvas.color_scheme['mainColor']}"`
                           ).replace(
                             /class="sub"/g,
-                            `style="fill:${item.color_scheme['subColor']}"`
+                            `style="fill:${item.canvas.color_scheme['subColor']}"`
                           ).replace(
                             /class="accent"/g,
-                            `style="fill:${item.color_scheme['accentColor']}"`
+                            `style="fill:${item.canvas.color_scheme['accentColor']}"`
                           )}
                         }
                     />
@@ -245,10 +244,6 @@ const NewArtboard = () => {
       display: `${showModal? 'block' : 'none'}`
     }
   }
-
-  const state = useSelector(selectHex).templates
-
-  console.log(state)
 
   const templatesJson = useSelector(selectHex).templates/*[
     {

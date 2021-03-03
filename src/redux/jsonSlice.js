@@ -5,10 +5,8 @@ import {
 import { switchDarkmode } from './actions';
 
 const initialState = {
-  hex: '#9ACFE1',
-  json: getIsographyData(),
   darkmode: false,
-  working: null,
+  working: 1,
   artboards: [
     {
       artboard_id: 1,
@@ -73,11 +71,6 @@ const initialState = {
 
 export default function jsonReducer(state = initialState, action) {
   switch (action.type) {
-    case 'hex/changeHex':
-      return {
-        ...state,
-        hex: action.payload
-      }
     case 'darkmode/switch':
       return {
         ...state,
