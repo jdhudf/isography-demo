@@ -750,22 +750,18 @@ class Artboard extends React.Component {
       </div>
     )
 
-    const { json } = this.props.json
+    const json = this.props.json.json
+    const artboards = this.props.artboards.artboards.artboards
 
     let artboard;
 
-    console.log(json)
-
-    for (var i = 0; i < json.artboards.length; i++) {
-      if (json.artboards[i].artboard_id == json.working) {
-        artboard = json.artboards[i];
+    for (var i = 0; i < artboards.length; i++) {
+      if (artboards[i].artboard_id == json.working) {
+        artboard = artboards[i];
       }
     }
 
-    console.log(artboard)
-
     const artboardSize = artboard.canvas.artboard_size;
-    console.log(artboardSize)
 
     return (
       <div style={{position: "relative"}}>
@@ -1031,6 +1027,7 @@ function Svg (props) {
 
 const mapStateToProps = state => ({
   json: state,
+  artboards: state
 })
 
 export default connect(

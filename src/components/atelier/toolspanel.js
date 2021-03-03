@@ -27,15 +27,13 @@ class ToolsPanel extends React.Component {
 
   render() {
 
-    const { state, switchDarkmode } = this.props
+    const { state, switchDarkmode,changeHex } = this.props
 
-    //console.log(state)
+    console.log(state)
 
-    const artboard_array = state.json.artboards
+    const artboards = state.artboards
 
     const working = state.json.working
-
-    //console.log(artboard_array[working])
 
     return (
       <section className="section-toolspanel section-bottom">
@@ -67,7 +65,10 @@ class ToolsPanel extends React.Component {
         <div className="color-scheme">
           <ColorPicker
              color={this.props.mainColor}
-             method={(e) => this.props.changeHexOfMain(e)}
+             method={(e) => {
+               this.props.changeHexOfMain(e)
+               changeHex({json: artboards,type: "mainColor", value: e})
+             }}
           />
           <ColorPicker
              color={this.props.subColor}
@@ -131,6 +132,6 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  dispatch => ({ switchDarkmode: value => dispatch(actions.switchDarkmode(value)) })
+  dispatch => ({ changeHex: value => dispatch(actions.changeHex(value)) })
   //dispatch => ({ switchDarkmode: value => dispatch(switchDarkmode(value)) })
 )(ToolsPanel)

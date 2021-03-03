@@ -1,3 +1,6 @@
+import {
+  updateJson,
+} from '../components/handleLocalstorage'
 
 //export const switchDarkmode = value => ({type: 'darkmode/switch', payload: value});
 
@@ -14,10 +17,11 @@ export const actions = {
       payload: value
     }
   },
-  set(value) {
+  changeHex({json,value,type}) {
+    console.log("action!")
     return {
-      type: 'FIXTASK',
-      payload: value
+      type: 'artboard/update',
+      payload: updateJson({ json: json, type:type , value: value})
     }
   },
   updTodo(value) {

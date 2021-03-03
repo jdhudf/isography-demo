@@ -24,6 +24,9 @@ import {
 import { useSelector, connect } from 'react-redux'
 const selectHex = state => state.json
 
+const selectArtboard = state => state.artboards
+const selectTemplate = state => state.template
+
 class Home extends React.Component {
   constructor(props) {
     super(props);
@@ -34,9 +37,11 @@ class Home extends React.Component {
 
   render() {
 
-    const { json } = this.props.json
+    const { json } = this.props
 
-    const darkmode = json.darkmode
+    const { template } = this.props.template
+
+    const darkmode = json.json.darkmode
 
     return (
       <section className={darkmode? "section-home dark-mode": "section-home"}>
@@ -53,9 +58,7 @@ const Dashboard = () => {
   //const [showModal, toggleModal] = useState(false);
   const [documentList, toggleDocumentList] = useState(false);
 
-  const json = useSelector(selectHex).artboards//getIsographyData();
-
-  console.log(json)
+  const json = useSelector(selectArtboard).artboards//getIsographyData();
 
   const styles = {
     test: {
@@ -106,9 +109,6 @@ const Dashboard = () => {
             </ul>
             <ul className={documentList?"document-list":"document-list-column"}>
             {(()=>{
-              const list = json.data;
-
-              console.log(json)
 
               const arranged = json.sort(function(a, b){
                 //return new Date(a.last_modified) - new Date(b.last_modified)
@@ -245,28 +245,8 @@ const NewArtboard = () => {
     }
   }
 
-  const templatesJson = useSelector(selectHex).templates/*[
-    {
-      name: "Square",
-      ratio: [1,1],
-    },
-    {
-      name: "Twitter Card Ratio",
-      ratio: [1,0.75],
-    },
-    {
-      name: "OGP Card Ratio",
-      ratio: [1,0.55],
-    },
-    {
-      name: "Golden Ratio",
-      ratio: [1,1.25],
-    },
-    {
-      name: "Silver Ratio",
-      ratio: [1,0.65],
-    },
-  ]*/
+  const templatesJson = useSelector(selectTemplate).templates
+
 
   return (
     <div>
@@ -392,6 +372,8 @@ const NewsFeed = () => {
 
 const mapStateToProps = state => ({
   json: state,
+  template: state,
+  artboard: state,
 })
 
 export default connect(mapStateToProps, null)(Home)

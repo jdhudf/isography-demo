@@ -35,14 +35,19 @@ class Atelier extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      mainColor: "#fff",//getArtboardData('color_scheme')['mainColor'],//getColor('#B21313','mainColor'),//"#B21313",
-      subColor: "#fff",//getArtboardData('color_scheme')['subColor'],//getColor('#111184','subColor'),
-      accentColor: "#fff",//getArtboardData('color_scheme')['accentColor'],//getColor('#C7B136','accentColor'),
-      background: "#fff",//getArtboardData('color_scheme')['background'],//getColor('#C7B136','background'),
+      mainColor: getArtboardData({json: this.props.json, type:'color_scheme'})['mainColor'],
+      //getColor('#B21313','mainColor'),//"#B21313",
+      subColor: getArtboardData({json: this.props.json, type:'color_scheme'})['subColor'],
+      //getArtboardData('color_scheme')['subColor'],//getColor('#111184','subColor'),
+      accentColor: getArtboardData({json: this.props.json, type:'color_scheme'})['accentColor'],
+      //getArtboardData('color_scheme')['accentColor'],//getColor('#C7B136','accentColor'),
+      background: getArtboardData({json: this.props.json, type:'color_scheme'})['background'],
+      //getArtboardData('color_scheme')['background'],//getColor('#C7B136','background'),
       willAddElementOfSvg: 1,
       selectEl:null,
       test: false,
-      data : [],//this.props.json,//getArtboardData('svg_data'),
+      data : getArtboardData({json: this.props.json, type:'svg_data'}),
+      //this.props.json,//getArtboardData('svg_data'),
       history: [
         {
           mainColor: null,
@@ -236,27 +241,22 @@ class Atelier extends React.Component {
       display: 'none',
     }
 
-    const { json, switchDarkmode } = this.props
+    const { json, artboards, switchDarkmode } = this.props
 
     const darkmode = json.json.darkmode
 
-    console.log(json)
 
-    const artboard_array = json.json.artboards
+    const artboard_array = artboards.artboards.artboards
 
     const working = json.json.working
 
-    const artboard = artboard_array[working]
-    const canvas = artboard['canvas']
-
-
-
-    console.log(canvas.artboard_size)
+    let artboard;
 
     for (var i=0;i<artboard_array.length;i++){
       if (working === artboard_array[i].artboard_id) {
 
-        //console.log(artboard_array[i],artboard_array[i].color_scheme)
+        artboard = artboard_array[i]
+
       } else {
         //console.log(working,artboard_array[i].artboard_id)
       }
@@ -374,6 +374,7 @@ class Atelier extends React.Component {
 
 const mapStateToProps = state => ({
   json: state,
+  artboards: state,
 })
 
 

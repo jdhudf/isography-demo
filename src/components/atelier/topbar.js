@@ -24,6 +24,7 @@ import {
 import { useSelector, useDispatch } from 'react-redux'
 
 const getState = state => state.json
+const selectArtboard = state => state.artboards
 
 class TopBar extends React.Component {
 
@@ -121,30 +122,26 @@ class TopBar extends React.Component {
 
 function ArtboardSetting (props) {
 
-  const state = useSelector(getState)
+  const state = useSelector(selectArtboard)
+  const working = useSelector(getState)
   const dispatch = useDispatch()
   //
   let artboard;
 
   for (var i = 0; i < state.artboards.length; i++) {
-    if (state.artboards[i].artboard_id == state.working) {
+    if (state.artboards[i].artboard_id == working.working) {
       artboard = state.artboards[i];
     }
   }
 
-  console.log(artboard)
-
   const artboardSize = artboard.canvas.artboard_size;
+  const artboardName = artboard.artboard_name
 
   const [showRatioWindow, changeStateRatio] = useState(false);
   const [showRenameWindow, changeStateRename] = useState(false);
   const [showDuplicateWindow, changeStateDuplicate] = useState(false);
   const [showDeleteWindow, changeStateDelete] = useState(false);
   const [redirect, changeStateRedirect] = useState(false);
-
-  const [artboardName, changeStateArtboardName] = useState(getArtboardData('artboard_name'));
-
-  console.log(artboardSize)
 
 
   const ratioSetting = (e) => {
@@ -155,7 +152,6 @@ function ArtboardSetting (props) {
       },[300]
     )
   }
-
 
   const renameSetting = (e) => {
     changeStateRename(true)
@@ -270,7 +266,7 @@ function ArtboardSetting (props) {
           <form action="">
             <label htmlFor="">
               <input id="artboardNameInput" type="text" value={artboardName} onChange={(e)=>{
-                changeStateArtboardName(e.target.value)
+                console.log("hoo~~~")
               }}/>
             </label>
             <button onClick={
@@ -307,7 +303,7 @@ function ArtboardSetting (props) {
         <div className="artboardSettings">
           <p>Duplicate the artboard</p>
           <form action="">
-            <label htmlFor=""><input type="text" value={artboardName + "_copy"} onChange={(e)=>{changeStateArtboardName(e.target.value)}}/></label>
+            <label htmlFor=""><input type="text" value={artboardName + "_copy"} onChange={(e)=>{console.log("hoo~~~")}}/></label>
             <button onClick={
               (e)=>{
                 e.preventDefault()
@@ -588,7 +584,23 @@ function ExportComponent (props) {
 
 const InputArtboardName = () => {
 
-  const artboardName = getArtboardData('artboard_name')
+  const state = useSelector(selectArtboard)
+  const working = useSelector(getState)
+
+  let artboard;
+
+  console.log(state)
+
+  for (var i = 0; i < state.artboards.length; i++) {
+    if (state.artboards[i].artboard_id == working.working) {
+      artboard = state.artboards[i];
+    }
+  }
+
+  console.log(artboard)
+
+  const artboardSize = artboard.canvas.artboard_size;
+  const artboardName = artboard.artboard_name
 
   const styles = {
     i: {

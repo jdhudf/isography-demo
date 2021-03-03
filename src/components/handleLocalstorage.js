@@ -1,28 +1,29 @@
-export const getArtboardData = (type) => {
-  if (localStorage.getItem('isography') !== null) {
-    const json = JSON.parse(localStorage.getItem('isography'));
+export const getArtboardData = ({json,type}) => {
 
-    for(var i=0;i<json.length;i++){
-      if(json[i].artboard_id === json[i].working){
+  if (json !== undefined) {
+
+    console.log(json)
+
+    const artboards = json.artboards.artboards
+
+    for(var i=0;i<artboards.length;i++){
+      if(artboards[i].artboard_id === json.json.working){
 
         switch (type) {
           case "color_scheme":
-            return json[i].canvas.color_scheme;
+            return artboards[i].canvas.color_scheme;
             //break;
           case "artboard_size":
-            return json[i].canvas.artboard_size;
+            return artboards[i].canvas.artboard_size;
             //break;
           case "svg_data":
-            return  json[i].canvas.svg_data
+            return  artboards[i].canvas.svg_data
             //break;
           case "last_modified":
-            return json[i].last_modified
+            return artboards[i].last_modified
             //break;
           case "artboard_name":
-            return json[i].artboard_name
-            //break;
-          //case "last_modified":
-            //return json.data[i].last_modified
+            return artboards[i].artboard_name
             //break;
           default:
         }
@@ -30,14 +31,14 @@ export const getArtboardData = (type) => {
       }
     }
 
+  } else {
+
   }
 }
 
 export const setArtboardData = ({type, value}) => {
   if (localStorage.getItem('isography') !== null) {
     const json = JSON.parse(localStorage.getItem('isography'));
-
-    console.log(json)
 
     for(var i=0;i<json.length;i++){
       if(json[i].artboard_id === json.working){
@@ -76,44 +77,49 @@ export const setArtboardData = ({type, value}) => {
   }
 }
 
-export const updateJson = ({type, value}) => {
+export const updateJson = ({json, type, value}) => {
   if (localStorage.getItem('isography') !== null) {
-    const json = JSON.parse(localStorage.getItem('isography'));
 
-    for(var i=0;i<json.data.length;i++){
-      if(json.data[i].artboard_id === json.working){
+    console.log(json)
+
+    const artboards = json.artboards
+
+    console.log(artboards)
+
+    for(var i=0;i<artboards.length;i++){
+      if(artboards[i].artboard_id === json.working){
 
           switch (type) {
             case "mainColor":
-              json.data[i].color_scheme["mainColor"] = value
+              artboards[i].canvas.color_scheme["mainColor"] = value
               break;
             case "subColor":
-              json.data[i].color_scheme["subColor"] = value
+              artboards[i].canvas.canvas.color_scheme["subColor"] = value
               break;
             case "accentColor":
-              json.data[i].color_scheme["accentColor"] = value
+              artboards[i].canvas.color_scheme["accentColor"] = value
               break;
             case "background":
-              json.data[i].color_scheme["background"] = value
+              artboards[i].canvas.color_scheme["background"] = value
               break;
             case "artboard_size":
-              json.data[i].artboard_size = value
+              artboards[i].canvas.artboard_size = value
               break;
             case "last_modified":
-              json.data[i].last_modified = value
+              artboards[i].last_modified = value
               break;
             case "artboard_name":
-              json.data[i].artboard_name = value
+              artboards[i].artboard_name = value
               break;
             case "svg_data":
-              json.data[i].svg_data = value
+              artboards[i].canvas.svg_data = value
               break;
             default:
           }
 
       }
     }
-    return json
+    return artboards
   }
 }
 
