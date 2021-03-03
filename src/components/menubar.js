@@ -85,11 +85,7 @@ const Darkmode = () => {
   const value = mode.darkmode
 
   const handleChange = e => {
-    if (value) {
-      dispatch({type: 'darkmode/switch', payload: false})
-    } else {
-      dispatch({type: 'darkmode/switch', payload: true})
-    }
+    dispatch({type: 'darkmode/switch'})
   }
 
   return (

@@ -27,13 +27,8 @@ class ToolsPanel extends React.Component {
 
   render() {
 
-    const { state, switchDarkmode,changeHex } = this.props
+    const { artboards, working, switchDarkmode,changeHex } = this.props
 
-    console.log(state)
-
-    const artboards = state.artboards
-
-    const working = state.json.working
 
     return (
       <section className="section-toolspanel section-bottom">
@@ -127,7 +122,8 @@ function ToggleGrid() {
 
 
 const mapStateToProps = state => ({
-  state: state,
+  artboards: state.artboards,
+  working: state.json.working,
 })
 
 export default connect(

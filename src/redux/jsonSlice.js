@@ -12,14 +12,16 @@ const initialState = {
 export default function jsonReducer(state = initialState, action) {
   switch (action.type) {
     case 'darkmode/switch':
+      console.log("darkmode action!")
+      console.log(state.darkmode)
       return {
         ...state,
-        darkmode: action.payload
+        darkmode: !state.darkmode
       }
-    case 'json/changeJson':
+    case 'working/switch':
       return {
         ...state,
-        json: action.payload
+        working: action.payload
       }
     default:
       console.log("problem in reducer")

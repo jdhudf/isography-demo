@@ -750,8 +750,8 @@ class Artboard extends React.Component {
       </div>
     )
 
-    const json = this.props.json.json
-    const artboards = this.props.artboards.artboards.artboards
+    const json = this.props.json
+    const artboards = this.props.artboards
 
     let artboard;
 
@@ -1026,8 +1026,8 @@ function Svg (props) {
 }
 
 const mapStateToProps = state => ({
-  json: state,
-  artboards: state
+  json: state.json,
+  artboards: state.artboards
 })
 
 export default connect(

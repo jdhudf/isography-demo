@@ -122,15 +122,15 @@ class TopBar extends React.Component {
 
 function ArtboardSetting (props) {
 
-  const state = useSelector(selectArtboard)
+  const artboards = useSelector(selectArtboard)
   const working = useSelector(getState)
   const dispatch = useDispatch()
   //
   let artboard;
 
-  for (var i = 0; i < state.artboards.length; i++) {
-    if (state.artboards[i].artboard_id == working.working) {
-      artboard = state.artboards[i];
+  for (var i = 0; i < artboards.length; i++) {
+    if (artboards[i].artboard_id == working.working) {
+      artboard = artboards[i];
     }
   }
 
@@ -235,7 +235,6 @@ function ArtboardSetting (props) {
             <button onClick={
               (e)=>{
                 e.preventDefault()
-                console.log('click')
                 document.getElementsByClassName("artboardSettingsBackground")[0].classList.remove("active");
                 window.setTimeout(
                   function(){
@@ -584,20 +583,17 @@ function ExportComponent (props) {
 
 const InputArtboardName = () => {
 
-  const state = useSelector(selectArtboard)
+  const artboards = useSelector(selectArtboard)
   const working = useSelector(getState)
 
   let artboard;
 
-  console.log(state)
-
-  for (var i = 0; i < state.artboards.length; i++) {
-    if (state.artboards[i].artboard_id == working.working) {
-      artboard = state.artboards[i];
+  for (var i = 0; i < artboards.length; i++) {
+    if (artboards[i].artboard_id == working.working) {
+      artboard = artboards[i];
     }
   }
 
-  console.log(artboard)
 
   const artboardSize = artboard.canvas.artboard_size;
   const artboardName = artboard.artboard_name

@@ -5,23 +5,28 @@ import {
 //export const switchDarkmode = value => ({type: 'darkmode/switch', payload: value});
 
 export const switchDarkmode = value => {
-  console.log("action ~~~")
   return {type: 'darkmode/switch', payload: value}
 }
 
 export const actions = {
   switchDarkmode(value) {
-    console.log("action!")
     return {
       type: 'darkmode/switch',
+      payload: !this.state.darkmode
+    }
+  },
+  swicthWorking(value) {
+    return {
+      type: 'working/switch',
       payload: value
     }
   },
-  changeHex({json,value,type}) {
-    console.log("action!")
+  changeHex({working, type, value}) {
+    console.log("ChangeHex!")
+    console.log(updateJson({ working:working, type:type , value: value}))
     return {
       type: 'artboard/update',
-      payload: updateJson({ json: json, type:type , value: value})
+      payload: updateJson({ working:working, type:type , value: value})
     }
   },
   updTodo(value) {

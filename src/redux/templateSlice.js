@@ -25,10 +25,10 @@ const initialState = {
 
 export default function templateReducer(state = initialState, action) {
   switch (action.type) {
-    case 'darkmode/switch':
+    case 'templates/edit':
       return {
         ...state,
-        template: action.payload
+        templates: action.payload
       }
     default:
       console.log("problem in reducer")

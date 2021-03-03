@@ -6,7 +6,7 @@ import templateReducer from './templateSlice'
 const rootReducer = combineReducers({
   json: jsonReducer,
   artboards: artboardReducer,
-  template: templateReducer,
+  templates: templateReducer,
 })
 
 export default rootReducer

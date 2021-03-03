@@ -35,18 +35,37 @@ class Atelier extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      mainColor: getArtboardData({json: this.props.json, type:'color_scheme'})['mainColor'],
-      //getColor('#B21313','mainColor'),//"#B21313",
-      subColor: getArtboardData({json: this.props.json, type:'color_scheme'})['subColor'],
-      //getArtboardData('color_scheme')['subColor'],//getColor('#111184','subColor'),
-      accentColor: getArtboardData({json: this.props.json, type:'color_scheme'})['accentColor'],
-      //getArtboardData('color_scheme')['accentColor'],//getColor('#C7B136','accentColor'),
-      background: getArtboardData({json: this.props.json, type:'color_scheme'})['background'],
-      //getArtboardData('color_scheme')['background'],//getColor('#C7B136','background'),
+      mainColor: getArtboardData({
+        artboards: this.props.artboards,
+        working:this.props.json.working,
+        type:'color_scheme'}
+      )['mainColor'],//"#B21313",
+      subColor: getArtboardData({
+        artboards: this.props.artboards,
+        working:this.props.json.working,
+        type:'color_scheme'}
+      )['subColor'],
+      //'#111184'
+      accentColor: getArtboardData({
+        artboards: this.props.artboards,
+        working:this.props.json.working,
+        type:'color_scheme'}
+      )['accentColor'],
+      //'#C7B136'
+      background: getArtboardData({
+        artboards: this.props.artboards,
+        working:this.props.json.working,
+        type:'color_scheme'}
+      )['background'],
+      //getColor('#C7B136','background'),
       willAddElementOfSvg: 1,
       selectEl:null,
       test: false,
-      data : getArtboardData({json: this.props.json, type:'svg_data'}),
+      data : getArtboardData({
+        artboards: this.props.artboards,
+        working:this.props.json.working,
+        type:'svg_data'}
+      ),//getArtboardData({json: this.props.json, type:'svg_data'}),
       //this.props.json,//getArtboardData('svg_data'),
       history: [
         {
@@ -243,12 +262,12 @@ class Atelier extends React.Component {
 
     const { json, artboards, switchDarkmode } = this.props
 
-    const darkmode = json.json.darkmode
+    const darkmode = json.darkmode
 
 
-    const artboard_array = artboards.artboards.artboards
+    const artboard_array = artboards
 
-    const working = json.json.working
+    const working = json.working
 
     let artboard;
 
@@ -373,8 +392,8 @@ class Atelier extends React.Component {
 
 
 const mapStateToProps = state => ({
-  json: state,
-  artboards: state,
+  json: state.json,
+  artboards: state.artboards,
 })
 
 

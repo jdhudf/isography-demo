@@ -21,11 +21,12 @@ import {
   addNewArtboard
  } from '../components/handleLocalstorage'
 
-import { useSelector, connect } from 'react-redux'
-const selectHex = state => state.json
+import { useSelector, useDispatch, connect } from 'react-redux'
+import { actions } from '../redux/actions';
 
+const selectHex = state => state.json
 const selectArtboard = state => state.artboards
-const selectTemplate = state => state.template
+const selectTemplate = state => state.templates
 
 class Home extends React.Component {
   constructor(props) {
@@ -37,11 +38,9 @@ class Home extends React.Component {
 
   render() {
 
-    const { json } = this.props
+    const { json,templates } = this.props
 
-    const { template } = this.props.template
-
-    const darkmode = json.json.darkmode
+    const darkmode = json.darkmode
 
     return (
       <section className={darkmode? "section-home dark-mode": "section-home"}>
@@ -58,7 +57,7 @@ const Dashboard = () => {
   //const [showModal, toggleModal] = useState(false);
   const [documentList, toggleDocumentList] = useState(false);
 
-  const json = useSelector(selectArtboard).artboards//getIsographyData();
+  const json = useSelector(selectArtboard)//getIsographyData();
 
   const styles = {
     test: {
@@ -78,12 +77,12 @@ const Dashboard = () => {
 
   const clicked = (e) => {
     json.working = parseInt(e.currentTarget.getAttribute('data-id'));
-    console.log(json)
-    localStorage.setItem('isography', JSON.stringify(json));
+
+    dispatch({type: 'working/switch', payload: parseInt(e.currentTarget.getAttribute('data-id'))})
   }
 
   //const color = useSelector(selectHex)
-  //const dispatch = useDispatch()
+  const dispatch = useDispatch()
 
   //const today = new Date();
   //const dated = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
@@ -247,6 +246,9 @@ const NewArtboard = () => {
 
   const templatesJson = useSelector(selectTemplate).templates
 
+  console.log("fs")
+  console.log(templatesJson)
+
 
   return (
     <div>
@@ -371,11 +373,12 @@ const NewsFeed = () => {
 }
 
 const mapStateToProps = state => ({
-  json: state,
-  template: state,
-  artboard: state,
+  json: state.json,
+  templates: state.templates,
+  artboards: state.artboard,
 })
 
-export default connect(mapStateToProps, null)(Home)
-
-//export default Home;
+export default connect(
+  mapStateToProps,
+  dispatch => ({ swicthWorking: value => dispatch(actions.swicthWorking(value)) })
+)(Home)

@@ -1,13 +1,10 @@
-export const getArtboardData = ({json,type}) => {
+export const getArtboardData = ({artboards,working,type}) => {
 
-  if (json !== undefined) {
-
-    console.log(json)
-
-    const artboards = json.artboards.artboards
+  if (artboards !== undefined) {
+    //const artboards = artboard.artboards
 
     for(var i=0;i<artboards.length;i++){
-      if(artboards[i].artboard_id === json.json.working){
+      if(artboards[i].artboard_id === working){
 
         switch (type) {
           case "color_scheme":
@@ -78,49 +75,46 @@ export const setArtboardData = ({type, value}) => {
 }
 
 export const updateJson = ({json, type, value}) => {
-  if (localStorage.getItem('isography') !== null) {
+  console.log(json)
 
-    console.log(json)
+  const artboards = json.artboards
 
-    const artboards = json.artboards
+  console.log(artboards)
 
-    console.log(artboards)
+  for(var i=0;i<artboards.length;i++){
+    if(artboards[i].artboard_id === json.working){
 
-    for(var i=0;i<artboards.length;i++){
-      if(artboards[i].artboard_id === json.working){
+        switch (type) {
+          case "mainColor":
+            artboards[i].canvas.color_scheme["mainColor"] = value
+            break;
+          case "subColor":
+            artboards[i].canvas.canvas.color_scheme["subColor"] = value
+            break;
+          case "accentColor":
+            artboards[i].canvas.color_scheme["accentColor"] = value
+            break;
+          case "background":
+            artboards[i].canvas.color_scheme["background"] = value
+            break;
+          case "artboard_size":
+            artboards[i].canvas.artboard_size = value
+            break;
+          case "last_modified":
+            artboards[i].last_modified = value
+            break;
+          case "artboard_name":
+            artboards[i].artboard_name = value
+            break;
+          case "svg_data":
+            artboards[i].canvas.svg_data = value
+            break;
+          default:
+        }
 
-          switch (type) {
-            case "mainColor":
-              artboards[i].canvas.color_scheme["mainColor"] = value
-              break;
-            case "subColor":
-              artboards[i].canvas.canvas.color_scheme["subColor"] = value
-              break;
-            case "accentColor":
-              artboards[i].canvas.color_scheme["accentColor"] = value
-              break;
-            case "background":
-              artboards[i].canvas.color_scheme["background"] = value
-              break;
-            case "artboard_size":
-              artboards[i].canvas.artboard_size = value
-              break;
-            case "last_modified":
-              artboards[i].last_modified = value
-              break;
-            case "artboard_name":
-              artboards[i].artboard_name = value
-              break;
-            case "svg_data":
-              artboards[i].canvas.svg_data = value
-              break;
-            default:
-          }
-
-      }
     }
-    return artboards
   }
+  return artboards
 }
 
 
