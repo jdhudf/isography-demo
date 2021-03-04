@@ -36,24 +36,24 @@ class Atelier extends React.Component {
     super(props);
     this.state = {
       mainColor: getArtboardData({
-        artboards: this.props.artboards,
+        artboards: this.props.artboards.artboards,
         working:this.props.json.working,
         type:'color_scheme'}
       )['mainColor'],//"#B21313",
       subColor: getArtboardData({
-        artboards: this.props.artboards,
+        artboards: this.props.artboards.artboards,
         working:this.props.json.working,
         type:'color_scheme'}
       )['subColor'],
       //'#111184'
       accentColor: getArtboardData({
-        artboards: this.props.artboards,
+        artboards: this.props.artboards.artboards,
         working:this.props.json.working,
         type:'color_scheme'}
       )['accentColor'],
       //'#C7B136'
       background: getArtboardData({
-        artboards: this.props.artboards,
+        artboards: this.props.artboards.artboards,
         working:this.props.json.working,
         type:'color_scheme'}
       )['background'],
@@ -62,7 +62,7 @@ class Atelier extends React.Component {
       selectEl:null,
       test: false,
       data : getArtboardData({
-        artboards: this.props.artboards,
+        artboards: this.props.artboards.artboards,
         working:this.props.json.working,
         type:'svg_data'}
       ),//getArtboardData({json: this.props.json, type:'svg_data'}),
@@ -265,7 +265,7 @@ class Atelier extends React.Component {
     const darkmode = json.darkmode
 
 
-    const artboard_array = artboards
+    const artboard_array = artboards.artboards
 
     const working = json.working
 
@@ -295,11 +295,7 @@ class Atelier extends React.Component {
             <img className="icon" src={icon} alt="Icon" />
             <h2 style={{color: '#fff',}}>Welcome to Isography</h2>
             <button onClick={()=> {
-              if (darkmode) {
-                switchDarkmode(false)
-              } else {
-                switchDarkmode(true)
-              }
+              switchDarkmode(!darkmode)
             }}> Mode is {darkmode? "true":"false"} </button>
           </div>
 

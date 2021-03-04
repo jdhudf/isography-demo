@@ -12,7 +12,7 @@ export const actions = {
   switchDarkmode(value) {
     return {
       type: 'darkmode/switch',
-      payload: !this.state.darkmode
+      payload: value
     }
   },
   swicthWorking(value) {
@@ -21,24 +21,41 @@ export const actions = {
       payload: value
     }
   },
-  changeHex({working, type, value}) {
-    console.log("ChangeHex!")
-    console.log(updateJson({ working:working, type:type , value: value}))
-    return {
-      type: 'artboard/update',
-      payload: updateJson({ working:working, type:type , value: value})
+  changeHex({artboards, id, hex, type}) {
+
+    let artboard;
+    switch (type) {
+      case "main":
+
+        for (let i = 0; i < artboards.length; i++) {
+
+          console.log("??????" + artboards[i].artboard_id)
+
+          if (artboards[i].artboard_id === id) {
+            artboard = artboards[i]
+            console.log(type)
+            console.log(artboards[i].canvas.color_scheme['mainColor'])
+            artboards[i].canvas.color_scheme['mainColor'] = hex
+            console.log(artboards[i].canvas.color_scheme['mainColor'])
+          } else {
+            console.log("へっ!")
+          }
+        }
+        console.log("へへっ!")
+      case "sub":
+
+        break;
+      case "accent":
+
+        break;
+      case "background":
+
+        break;
+      default:
     }
-  },
-  updTodo(value) {
     return {
-      type: 'UPDTASK',
-      value,
-    }
-  },
-  delTodo(value) {
-    return {
-      type: 'DELTASK',
-      value,
+      type: 'hex/update',
+      payload: artboards
     }
   },
 }

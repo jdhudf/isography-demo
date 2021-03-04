@@ -57,7 +57,7 @@ const Dashboard = () => {
   //const [showModal, toggleModal] = useState(false);
   const [documentList, toggleDocumentList] = useState(false);
 
-  const json = useSelector(selectArtboard)//getIsographyData();
+  const json = useSelector(selectArtboard).artboards//getIsographyData();
 
   const styles = {
     test: {

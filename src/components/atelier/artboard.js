@@ -751,7 +751,7 @@ class Artboard extends React.Component {
     )
 
     const json = this.props.json
-    const artboards = this.props.artboards
+    const artboards = this.props.artboards.artboards
 
     let artboard;
 

@@ -122,7 +122,7 @@ class TopBar extends React.Component {
 
 function ArtboardSetting (props) {
 
-  const artboards = useSelector(selectArtboard)
+  const artboards = useSelector(selectArtboard).artboards
   const working = useSelector(getState)
   const dispatch = useDispatch()
   //
@@ -583,7 +583,7 @@ function ExportComponent (props) {
 
 const InputArtboardName = () => {
 
-  const artboards = useSelector(selectArtboard)
+  const artboards = useSelector(selectArtboard).artboards
   const working = useSelector(getState)
 
   let artboard;
@@ -593,6 +593,9 @@ const InputArtboardName = () => {
       artboard = artboards[i];
     }
   }
+
+  console.log(artboards)
+  console.log(artboard)
 
 
   const artboardSize = artboard.canvas.artboard_size;

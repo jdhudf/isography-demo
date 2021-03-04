@@ -62,7 +62,11 @@ class ToolsPanel extends React.Component {
              color={this.props.mainColor}
              method={(e) => {
                this.props.changeHexOfMain(e)
-               changeHex({json: artboards,type: "mainColor", value: e})
+
+               if (artboards !== undefined &&  working !== undefined ) {
+                 changeHex({artboards: artboards.artboards, id: working, hex: e, type: "main"})
+               }
+
              }}
           />
           <ColorPicker
