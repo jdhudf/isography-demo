@@ -64,18 +64,30 @@ class ToolsPanel extends React.Component {
                this.props.changeHexOfMain(e)
 
                if (artboards !== undefined &&  working !== undefined ) {
-                 changeHex({artboards: artboards.artboards, id: working, hex: e, type: "main"})
+                 changeHex({artboards: artboards.artboards, id: working, hex: e, type: "mainColor"})
                }
 
              }}
           />
           <ColorPicker
              color={this.props.subColor}
-             method={(e) => this.props.changeHexOfSub(e)}
+             method={(e) => {
+               this.props.changeHexOfSub(e)
+
+               if (artboards !== undefined &&  working !== undefined ) {
+                 changeHex({artboards: artboards.artboards, id: working, hex: e, type: "subColor"})
+               }
+
+             }}
           />
           <ColorPicker
             color={this.props.accentColor}
-            method={(e) => this.props.changeHexOfAccent(e)}
+            method={(e) => {
+              this.props.changeHexOfAccent(e)
+              if (artboards !== undefined &&  working !== undefined ) {
+                changeHex({artboards: artboards.artboards, id: working, hex: e, type: "accentColor"})
+              }
+            }}
           />
             {/*ref='CPSetting' />*/}
         </div>
@@ -85,7 +97,12 @@ class ToolsPanel extends React.Component {
         <p style={{margin: "0",color:"gray"}}>BG</p>
         <ColorPicker
           color={this.props.backgroundColor}
-          method={(e) => this.props.changeHexOfBackground(e)}
+          method={(e) => {
+            this.props.changeHexOfBackground(e)
+            if (artboards !== undefined &&  working !== undefined ) {
+              changeHex({artboards: artboards.artboards, id: working, hex: e, type: "background"})
+            }
+          }}
         />
 
         <ToggleGrid/>

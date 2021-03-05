@@ -19,7 +19,7 @@ import {
 
 import {
   addNewArtboard
- } from '../components/handleLocalstorage'
+} from '../components/handleLocalstorage'
 
 import { useSelector, useDispatch, connect } from 'react-redux'
 import { actions } from '../redux/actions';
@@ -198,20 +198,39 @@ const NewArtboard = () => {
   const [height, updateHeight] = useState("600");
   const [ratioName, updateRatioName] = useState("");
 
+  const json = useSelector(selectArtboard).artboards
+
+  const dispatch = useDispatch()
+
   const createNewArtboard = (e) => {
 
-    addNewArtboard({
-      artboard_name: value,
-      mainColor: mainColor,
-      subColor: subColor,
-      accentColor: accentColor,
-      background: background,
-      width: width,
-      height: height,
-      svg: [],
-    });
+    console.log("test")
 
-    window.location.reload(false);
+    const today = new Date();
+
+    const newData = {
+      artboard_id: json.length + 1,
+      artboard_name: value,
+      created_at: today,
+      last_modified: today,
+      canvas: {
+        artboard_size: [width,height],
+        svg_data: [],
+        color_scheme: {
+          mainColor: mainColor,
+          subColor: subColor,
+          accentColor: accentColor,
+          background: background
+        }
+      }
+    }
+
+    json.push(newData)
+
+    dispatch({type: 'add/artboard', payload: json})
+
+    toggleModal(false)
+
   }
 
   const updateInputValue = (e) => {
@@ -245,9 +264,6 @@ const NewArtboard = () => {
   }
 
   const templatesJson = useSelector(selectTemplate).templates
-
-  console.log("fs")
-  console.log(templatesJson)
 
 
   return (
@@ -380,5 +396,7 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  dispatch => ({ swicthWorking: value => dispatch(actions.swicthWorking(value)) })
+  dispatch => ({
+    swicthWorking: value => dispatch(actions.swicthWorking(value)),
+   })
 )(Home)

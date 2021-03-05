@@ -43,8 +43,12 @@ const initialState = {
 export default function artboardReducer(state = initialState, action) {
   switch (action.type) {
     case 'hex/update':
-      console.log("test" + action.payload)
-      console.log(action.payload)
+      return {
+        ...state,
+        artboards: action.payload
+      }
+    case 'add/artboard':
+      console.info("~~~~~")
       return {
         ...state,
         artboards: action.payload

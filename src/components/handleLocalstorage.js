@@ -119,6 +119,7 @@ export const updateJson = ({json, type, value}) => {
 
 
 export const addNewArtboard = ({
+  json,
   artboard_name,
   mainColor,
   subColor,
@@ -128,30 +129,24 @@ export const addNewArtboard = ({
   height,
   svg
 }) => {
-  if (localStorage.getItem('isography') !== null) {
-    const json = JSON.parse(localStorage.getItem('isography'));
+  const today = new Date();
 
-    const today = new Date();
-    //const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()
-
-    const newData = {
-      artboard_id: json.data.length + 1,
-      artboard_name: artboard_name,
-      created_at: today,
-      last_modified: today,
-      artboard_size: [width,height],
-      svg_data: svg,
-      color_scheme: {
-        mainColor: mainColor,
-        subColor: subColor,
-        accentColor: accentColor,
-        background: background
-      }
+  const newData = {
+    artboard_id: json.length + 1,
+    artboard_name: artboard_name,
+    created_at: today,
+    last_modified: today,
+    artboard_size: [width,height],
+    svg_data: svg,
+    color_scheme: {
+      mainColor: mainColor,
+      subColor: subColor,
+      accentColor: accentColor,
+      background: background
     }
-
-    json.data.push(newData)
-    localStorage.setItem('isography', JSON.stringify(json));
   }
+
+  return json.push(newData)
 }
 
 export const removeArtboard = (e) => {
