@@ -74,15 +74,10 @@ export const setArtboardData = ({type, value}) => {
   }
 }
 
-export const updateJson = ({json, type, value}) => {
-  console.log(json)
-
-  const artboards = json.artboards
-
-  console.log(artboards)
-
+export const updateArtboards = ({working, type, artboards,value}) => {
+  
   for(var i=0;i<artboards.length;i++){
-    if(artboards[i].artboard_id === json.working){
+    if(artboards[i].artboard_id === working){
 
         switch (type) {
           case "mainColor":
@@ -136,31 +131,34 @@ export const addNewArtboard = ({
     artboard_name: artboard_name,
     created_at: today,
     last_modified: today,
-    artboard_size: [width,height],
-    svg_data: svg,
-    color_scheme: {
-      mainColor: mainColor,
-      subColor: subColor,
-      accentColor: accentColor,
-      background: background
-    }
-  }
-
-  return json.push(newData)
-}
-
-export const removeArtboard = (e) => {
-  if (localStorage.getItem('isography') !== null) {
-    const json = JSON.parse(localStorage.getItem('isography'));
-
-    for(var i=0;i<json.data.length;i++){
-      if(json.data[i].artboard_id === json.working){
-          //json.data[i].artboard_name = e
-          json.data.splice(i,1);
+    canvas: {
+      artboard_size: [width,height],
+      svg_data: svg,
+      color_scheme: {
+        mainColor: mainColor,
+        subColor: subColor,
+        accentColor: accentColor,
+        background: background
       }
     }
-    localStorage.setItem('isography', JSON.stringify(json));
   }
+
+  json.push(newData)
+
+  return json
+}
+
+export const removeArtboard = ({artboards,working}) => {
+
+  for(var i=0;i<artboards.length;i++){
+    if(artboards[i].artboard_id === working){
+        //json.data[i].artboard_name = e
+        artboards.splice(i,1);
+    }
+  }
+
+  return artboards
+
 }
 
 

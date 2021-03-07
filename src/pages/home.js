@@ -204,30 +204,19 @@ const NewArtboard = () => {
 
   const createNewArtboard = (e) => {
 
-    console.log("test")
-
-    const today = new Date();
-
-    const newData = {
-      artboard_id: json.length + 1,
+    const newData = addNewArtboard({
+      json: json,
       artboard_name: value,
-      created_at: today,
-      last_modified: today,
-      canvas: {
-        artboard_size: [width,height],
-        svg_data: [],
-        color_scheme: {
-          mainColor: mainColor,
-          subColor: subColor,
-          accentColor: accentColor,
-          background: background
-        }
-      }
-    }
+      mainColor: mainColor,
+      subColor: subColor,
+      accentColor: accentColor,
+      background: background,
+      width: width,
+      height: height,
+      svg: []
+    })
 
-    json.push(newData)
-
-    dispatch({type: 'add/artboard', payload: json})
+    dispatch({type: 'add/artboard', payload: newData})
 
     toggleModal(false)
 

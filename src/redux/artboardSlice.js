@@ -48,7 +48,11 @@ export default function artboardReducer(state = initialState, action) {
         artboards: action.payload
       }
     case 'add/artboard':
-      console.info("~~~~~")
+      return {
+        ...state,
+        artboards: action.payload
+      }
+    case 'update/artboard':
       return {
         ...state,
         artboards: action.payload

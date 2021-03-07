@@ -14,7 +14,7 @@ import {
   setArtboardData,
   removeArtboard,
   addNewArtboard,
-  updateJson
+  updateArtboards
 } from '../handleLocalstorage'
 
 import {
@@ -134,8 +134,10 @@ function ArtboardSetting (props) {
     }
   }
 
-  const artboardSize = artboard.canvas.artboard_size;
-  const artboardName = artboard.artboard_name
+  console.log(artboards)
+
+  const [artboardSize, changeArtboardSize] = useState(artboard.canvas.artboard_size);
+  const [artboardName, changeArtboardName] = useState(artboard.artboard_name);
 
   const [showRatioWindow, changeStateRatio] = useState(false);
   const [showRenameWindow, changeStateRename] = useState(false);
@@ -220,17 +222,10 @@ function ArtboardSetting (props) {
           <p>Change the artboard ratio</p>
           <form action="">
             <label htmlFor="">Width:<input type="number" max="3000" value={artboardSize[0]} onChange={(e)=>{
-              updateJson({
-                type: "artboard_size",
-                value: [e.target.value,artboardSize[1]]
-              })
-              dispatch({type: 'darkmode/switch', payload: false})
+              changeArtboardSize([parseInt(e.target.value),artboardSize[1]])
             }}/>px</label>
             <label htmlFor="">Height:<input type="number" max="3000" value={artboardSize[1]} onChange={(e)=>{
-              updateJson({
-                type: "artboard_size",
-                value: [artboardSize[0],e.target.value]
-              })
+              changeArtboardSize([artboardSize[0],parseInt(e.target.value)])
             }}/>px</label>
             <button onClick={
               (e)=>{
@@ -245,10 +240,16 @@ function ArtboardSetting (props) {
             }}>Cancel</button>
             <button onClick={()=>{
 
-              setArtboardData({
-                type: 'artboard_size',
-                value: [artboardSize[0],artboardSize[1]],
-              })
+              const newData = updateArtboards(
+                {
+                  working: working.working,
+                  type: "artboard_size",
+                  artboards: artboards,
+                  value: [artboardSize[0],artboardSize[1]]
+                }
+              );
+
+              dispatch({type: 'update/artboard', payload: newData})
 
             }}>Change</button>
           </form>
@@ -265,11 +266,14 @@ function ArtboardSetting (props) {
           <form action="">
             <label htmlFor="">
               <input id="artboardNameInput" type="text" value={artboardName} onChange={(e)=>{
-                console.log("hoo~~~")
+
+                changeArtboardName(e.target.value)
+
               }}/>
             </label>
             <button onClick={
               (e)=>{
+
                 e.preventDefault()
                 document.getElementsByClassName("artboardSettingsBackground")[1].classList.remove("active");
                 window.setTimeout(
@@ -281,13 +285,21 @@ function ArtboardSetting (props) {
             }}>Cancel</button>
             <button onClick={(e)=>{
 
-              setArtboardData({
-                type: 'artboard_name',
-                value: artboardName,
-              })
+              e.preventDefault()
+
+              const newData = updateArtboards(
+                {
+                  working: working.working,
+                  type: "artboard_name",
+                  artboards: artboards,
+                  value: artboardName
+                }
+              );
+
+              dispatch({type: 'update/artboard', payload: newData})
 
               changeStateRename(false)
-              //e.preventDefault();
+
             }}>Change</button>
           </form>
         </div>
@@ -357,11 +369,11 @@ function ArtboardSetting (props) {
             <button onClick={
               (e)=>{
                 document.getElementsByClassName("artboardSettingsBackground")[3].classList.remove("active");
-                removeArtboard();
+                removeArtboard({artboards:artboards,working:working.working});
                 changeStateRedirect(true);
               }
             }>Delete</button>
-            {redirect? <Redirect to="/home"/>:null}
+            {redirect ? <Redirect to="/home"/>:null}
           </form>
         </div>
       </div>
@@ -594,11 +606,7 @@ const InputArtboardName = () => {
     }
   }
 
-  console.log(artboards)
-  console.log(artboard)
-
-
-  const artboardSize = artboard.canvas.artboard_size;
+  //const artboardSize = artboard.canvas.artboard_size;
   const artboardName = artboard.artboard_name
 
   const styles = {

@@ -68,4 +68,11 @@ export const actions = {
       payload: json
     }
   },
+  updateArtboard(value) {
+    console.log(value)
+    return {
+      type: 'update/artboard',
+      payload: value
+    }
+  },
 }

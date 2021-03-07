@@ -7,12 +7,13 @@ import {
   setArtboardData,
   artboardScale,
   artboardPosition,
+  updateArtboards
 } from '../handleLocalstorage'
 
 import { onWheel } from './features/pinch-gesture-wheel'
 
 import { connect } from 'react-redux'
-import { switchDarkmode,actions } from '../../redux/actions';
+import { switchDarkmode, actions } from '../../redux/actions';
 
 //import { useSelector, useDispatch } from 'react-redux'
 
@@ -300,13 +301,12 @@ class Artboard extends React.Component {
 
   onMouseUp = (e) => {
 
-    this.setState({isMouseDown:false})
-    //console.log('mouseUp: ' + e.target.parentNode.outerHTML)
+    const working = this.props.json.working
+    const artboards = this.props.artboards
 
-    setArtboardData({
-      type: 'svg_data',
-      value: this.state.data,
-    })
+    const { updateArtboard } = this.props
+
+    this.setState({isMouseDown:false})
 
     if(this.props.test) {
 
@@ -316,15 +316,36 @@ class Artboard extends React.Component {
 
     this.updateSelecter();
 
-    this.props.updateState(this.state.data);
+    const newData = updateArtboards({
+      working: working,
+      type: "svg_data",
+      artboards: artboards.artboards,
+      value: this.state.data
+    })
+
+    updateArtboard(newData)
 
   }
 
   onMouseLeave = (e) => {
+
     if(this.state.isMouseDown) {
       this.setState({isMouseDown:false})
-      //console.log('mouseLeave: ' + e.target.outerHTML)
-      this.props.updateState(this.state.data);
+
+
+      const working = this.props.json.working
+      const artboards = this.props.artboards
+
+      const { updateArtboard } = this.props
+
+      const newData = updateArtboards({
+        working: working,
+        type: "svg_data",
+        artboards: artboards.artboards,
+        value: this.state.data
+      })
+
+      updateArtboard(newData)
     }
   }
 
@@ -1032,6 +1053,9 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  dispatch => ({ switchDarkmode: value => dispatch(actions.switchDarkmode(value)) })
+  dispatch => (
+    { switchDarkmode: value => dispatch(actions.switchDarkmode(value)) },
+    { updateArtboard: value => dispatch(actions.updateArtboard(value)) }
+  )
   //dispatch => ({ switchDarkmode: value => dispatch(switchDarkmode(value)) })
 )(Artboard)
