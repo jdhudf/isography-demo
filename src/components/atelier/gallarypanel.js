@@ -139,6 +139,26 @@ class GallaryPanel extends React.Component {
          </TabList>
 
          <TabPanel>
+           <div>
+             <ul className="gallary-category-list">
+               <li>
+                 <span></span>
+                 <p>People</p>
+               </li>
+               <li>
+                 <span></span>
+                 <p>Plants</p>
+               </li>
+               <li>
+                 <span></span>
+                 <p>Buildings</p>
+               </li>
+               <li>
+                 <span></span>
+                 <p>Animals</p>
+               </li>
+             </ul>
+           </div>
            <div className="gallaryframe"
                 style={styles.gallaryframe} onMouseDown={this.selectElementOfSVG}>
              <svg style={styles.i} className="svg-item" viewBox="0 0 200 200" width="83.195" height="140.411"><g transform="translate(0,0) scale(1,1)"><path className="main" d="M168.68,59.078l-70.627,40.776l-0,81.553l70.627,-40.776l-0,-81.553Z"/><path d="M98.043,18.295l-70.627,40.777l70.637,40.782l70.627,-40.777l-70.637,-40.782Z" className="sub"/><path d="M98.053,99.854l-70.66,-40.795l0,81.548l70.66,40.796l-0,-81.549Z" className="accent"/></g></svg>
