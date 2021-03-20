@@ -7,16 +7,20 @@ import { switchDarkmode } from './actions';
 const initialState = {
   darkmode: false,
   working: 1,
+  grid: false,
 }
 
 export default function jsonReducer(state = initialState, action) {
   switch (action.type) {
     case 'darkmode/switch':
-      console.log("darkmode action!")
-      console.log(state.darkmode)
       return {
         ...state,
         darkmode: !state.darkmode
+      }
+    case 'grid/switch':
+      return {
+        ...state,
+        grid: !state.grid
       }
     case 'working/switch':
       return {

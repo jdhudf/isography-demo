@@ -33,3 +33,25 @@
     transition: ease all .3s;
   }
 }
+
+.grid {
+  .grid-customizer {
+    //display: none;
+    position: absolute;
+    left: 55px;
+    transform: translateY(-40px);
+    background: #fff;
+    width: 200px;
+    height: 50px;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, .2);
+    border-radius: 5px;
+    input {
+      margin-top: 20px;
+    }
+  }
+  &:hover {
+    .grid-customizer {
+      display: block;
+    }
+  }
+}

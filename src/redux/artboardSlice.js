@@ -15,7 +15,8 @@ const initialState = {
           subColor: '#000000',
           accentColor: '#FAFAFA',
           background: '#ffffff'
-        }
+        },
+        grid: 1,
       }
     },
     {
@@ -33,7 +34,8 @@ const initialState = {
           subColor: '#000000',
           accentColor: '#FAFAFA',
           background: '#4B6A6D'
-        }
+        },
+        grid: 1,
       }
     },
   ]

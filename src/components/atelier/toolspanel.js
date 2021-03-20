@@ -15,6 +15,8 @@ import '../../styles/toolspanel.scss';
 import ColorPicker from "./toolspanel_ColorPicker";
 import { connect } from 'react-redux'
 import { actions } from '../../redux/actions';
+import { useSelector, useDispatch } from 'react-redux'
+const getState = state => state.json
 
 class ToolsPanel extends React.Component {
 
@@ -119,23 +121,29 @@ class ToolsPanel extends React.Component {
 
 function ToggleGrid() {
 
-  const [toggleState, changeStateToggle] = useState(false);
+  const toggleState = useSelector(getState).grid
+  const [count, setCount] = useState(1)
+
+  const dispatch = useDispatch()
 
   const toggleGrid = () => {
     if (toggleState) {
-      changeStateToggle(false)
+      dispatch({type: 'grid/switch', payload: false})
       document.getElementById('toggle').classList.remove("active")
     } else {
-      changeStateToggle(true)
+      dispatch({type: 'grid/switch', payload: true})
       document.getElementById('toggle').classList.add("active")
     }
   }
 
   return (
-    <div style={{marginBottom: "30px"}}>
-      <p style={{marginBottom: "0px",color:"gray"}}>Grid</p>
+    <div className="grid" style={{marginBottom: "30px"}}>
+      <p style={{marginBottom: "0px", color:"gray"}}>Grid</p>
       <div id="toggle" onClick={toggleGrid} className="toggle">
         <div className="button"></div>
+      </div>
+      <div className="grid-customizer">
+        <input type="range" min="0.05" max="3" value={count} step="0.01" onChange={(e)=>setCount(e.target.value)}/>
       </div>
     </div>
   )
