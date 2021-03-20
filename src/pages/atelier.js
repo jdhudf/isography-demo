@@ -158,6 +158,8 @@ class Atelier extends React.Component {
 
     const data_copy = this.state.data.slice();
 
+    const { json, artboards, switchDarkmode,updateArtboard } = this.props
+
     data_copy.splice(this.state.selectEl,1);
 
     this.setState({data: data_copy});
@@ -166,6 +168,10 @@ class Atelier extends React.Component {
       type: 'svg_data',
       value: data_copy,
     })
+
+    console.log(typeof updateArtboard())
+
+    //updateArtboards(data_copy)
   }
 
   keyPress = (e) => {
@@ -260,7 +266,7 @@ class Atelier extends React.Component {
       display: 'none',
     }
 
-    const { json, artboards, switchDarkmode } = this.props
+    const { json, artboards, switchDarkmode,updateArtboard } = this.props
 
     const darkmode = json.darkmode
 
@@ -395,6 +401,13 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  dispatch => ({ switchDarkmode: value => dispatch(actions.switchDarkmode(value)) })
-  //dispatch => ({ switchDarkmode: value => dispatch(switchDarkmode(value)) })
+  //dispatch => ({ switchDarkmode: value => dispatch(actions.switchDarkmode(value)) })
+  dispatch => ({
+    switchDarkmode: value => dispatch(actions.switchDarkmode(value)),
+    updateArtboard: value => dispatch(actions.updateArtboard(value))
+  })
+  /*dispatch => ({
+    switchDarkmode: value => dispatch(switchDarkmode(value)),
+    updateArtboard: value => dispatch(updateArtboard(value))
+  })*/
 )(Atelier)
