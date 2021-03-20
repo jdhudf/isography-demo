@@ -801,6 +801,27 @@ class Artboard extends React.Component {
                onClick={ ()=> this.setState({ displayContextMenu: false }) }/>
           {menu}
         </div> : null }
+      <svg
+        id="grid"
+        viewBox={`0 0 ${artboardSize[0]} ${artboardSize[1]}`}
+        width={artboardSize[0]}
+        height={artboardSize[1]}
+        version="1.1">
+          <defs>
+            <pattern id="Pattern" x="0" y="0" width=".11" height=".082">
+    <g transform="matrix(1.52177,0,0,1.53768,-0.32241,-18.278)">
+       <g transform="matrix(-1.07699,-0.588628,0.621799,-1.01953,53.1328,61.2278)">
+           <path d="M2.967,15.069L57.826,15.069" style={{fill:"none",stroke:"deepskyblue",strokeWidth:"0.55px"}}/>
+       </g>
+       <g transform="matrix(-1.07699,0.588628,-0.621799,-1.01953,71.8727,25.4431)">
+           <path d="M2.967,15.069L57.826,15.069" style={{fill:"none",stroke:"deepskyblue",strokeWidth:"0.55px"}}/>
+       </g>
+   </g>
+            </pattern>
+          </defs>
+          <rect fill="url(#Pattern)" width={artboardSize[0]}
+          height={artboardSize[1]}/>
+      </svg>
 
       <svg
           style={styles.style}
