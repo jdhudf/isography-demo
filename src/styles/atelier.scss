@@ -103,6 +103,22 @@
 
       }
     }
+    .gallary-category-list {
+      li {
+        display: inline-block;
+        margin-right: 10px;
+        span {
+          display: block;
+          border: solid 1px #E4E4E4;
+          width: 70px;
+          height: 70px;
+          border-radius: 50%;
+        }
+        p {
+          margin: 0;
+        }
+      }
+    }
   }
 }
 
