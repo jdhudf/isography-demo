@@ -810,6 +810,12 @@ class Artboard extends React.Component {
       {
         grid ?
         <svg
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%,-50%)",
+          }}
           id="grid"
           viewBox={`0 0 ${artboardSize[0]} ${artboardSize[1]}`}
           width={artboardSize[0]}
