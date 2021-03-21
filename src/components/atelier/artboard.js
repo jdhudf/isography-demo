@@ -87,6 +87,8 @@ class Artboard extends React.Component {
 
     //el.addEventListener('onkeydown', this.keyPress , { passive: false });
 
+    window.addEventListener('resize', this.updateSelecter);
+
     setArtboardData({
       type: 'last_modified',
       value: new Date(),
