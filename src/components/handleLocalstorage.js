@@ -75,7 +75,7 @@ export const setArtboardData = ({type, value}) => {
 }
 
 export const updateArtboards = ({working, type, artboards,value}) => {
-  
+
   for(var i=0;i<artboards.length;i++){
     if(artboards[i].artboard_id === working){
 
@@ -84,7 +84,7 @@ export const updateArtboards = ({working, type, artboards,value}) => {
             artboards[i].canvas.color_scheme["mainColor"] = value
             break;
           case "subColor":
-            artboards[i].canvas.canvas.color_scheme["subColor"] = value
+            artboards[i].canvas.color_scheme["subColor"] = value
             break;
           case "accentColor":
             artboards[i].canvas.color_scheme["accentColor"] = value
@@ -103,6 +103,9 @@ export const updateArtboards = ({working, type, artboards,value}) => {
             break;
           case "svg_data":
             artboards[i].canvas.svg_data = value
+            break;
+          case "grid":
+            artboards[i].canvas.grid = value
             break;
           default:
         }

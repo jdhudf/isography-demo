@@ -13,10 +13,17 @@ import {
 import '../../styles/toolspanel.scss';
 
 import ColorPicker from "./toolspanel_ColorPicker";
+
+import {
+  updateArtboards
+} from '../handleLocalstorage'
+
 import { connect } from 'react-redux'
 import { actions } from '../../redux/actions';
 import { useSelector, useDispatch } from 'react-redux'
 const getState = state => state.json
+const getArtboards = state => state.artboards
+
 
 class ToolsPanel extends React.Component {
 
@@ -121,10 +128,25 @@ class ToolsPanel extends React.Component {
 
 function ToggleGrid() {
 
+  const json = useSelector(getState)
   const toggleState = useSelector(getState).grid
-  const [count, setCount] = useState(1)
+  const artboards = useSelector(getArtboards).artboards
+
+  let artboard;
+
+  for (var i = 0; i < artboards.length; i++) {
+    if (artboards[i].artboard_id == json.working) {
+      artboard = artboards[i];
+    }
+  }
+
+  const gridScale = artboard.canvas.grid
+
+  //updateArtboards = ({working, type, artboards,value})
 
   const dispatch = useDispatch()
+
+
 
   const toggleGrid = () => {
     if (toggleState) {
@@ -136,6 +158,18 @@ function ToggleGrid() {
     }
   }
 
+  const updateGrid = (e) => {
+
+    const g = updateArtboards({
+      working: json.working,
+      artboards: artboards,
+      type: "grid",
+      value: e.target.value
+    })
+
+    dispatch({type: 'update/artboard', payload: g})
+  }
+
   return (
     <div className="grid" style={{marginBottom: "30px"}}>
       <p style={{marginBottom: "0px", color:"gray"}}>Grid</p>
@@ -143,7 +177,7 @@ function ToggleGrid() {
         <div className="button"></div>
       </div>
       <div className="grid-customizer">
-        <input type="range" min="0.05" max="3" value={count} step="0.01" onChange={(e)=>setCount(e.target.value)}/>
+        <input type="range" min="0.05" max="3" value={gridScale} step="0.01" onChange={updateGrid}/>
       </div>
     </div>
   )

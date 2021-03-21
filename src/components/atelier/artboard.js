@@ -775,6 +775,7 @@ class Artboard extends React.Component {
     const artboards = this.props.artboards.artboards
     const grid = json.grid
 
+
     let artboard;
 
     for (var i = 0; i < artboards.length; i++) {
@@ -784,6 +785,7 @@ class Artboard extends React.Component {
     }
 
     const artboardSize = artboard.canvas.artboard_size;
+    const gridScale = artboard.canvas.grid;
 
     return (
       <div style={{position: "relative"}}>
@@ -812,7 +814,7 @@ class Artboard extends React.Component {
           height={artboardSize[1]}
           version="1.1">
             <defs>
-              <pattern id="Pattern" x="0" y="0" width="90" height="49.5" patternUnits="userSpaceOnUse" patternTransform="scale(1.5)">
+              <pattern id="Pattern" x="0" y="0" width="90" height="49.5" patternUnits="userSpaceOnUse" patternTransform={`scale(${gridScale})`}>
               <g transform="matrix(1.52177,0,0,1.53768,-0.32241,-18.278)">
                  <g transform="matrix(-1.07699,-0.588628,0.621799,-1.01953,53.1328,61.2278)">
                      <path d="M2.967,15.069L57.826,15.069" style={{fill:"none",stroke:"deepskyblue",strokeWidth:"0.55px"}}/>
