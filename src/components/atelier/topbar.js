@@ -384,8 +384,27 @@ function ArtboardSetting (props) {
 
 function ExportComponent (props) {
 
+  const artboards = useSelector(selectArtboard).artboards
+  const working = useSelector(getState).working
+
+  let artboard;
+
+  for (var i=0;i<artboards.length;i++){
+    if (working === artboards[i].artboard_id) {
+
+      artboard = artboards[i]
+
+    } else {
+      //console.log(working,artboard_array[i].artboard_id)
+    }
+  }
+
+  const artboard_size = artboard.canvas.artboard_size
+
+  console.log(artboard)
+
   const [showExportPanel, changeStateExportPanel] = useState(false);
-  const [artboardName, changeStateArtboardName] = useState(getArtboardData('artboard_name'));
+  const [artboardName, changeStateArtboardName] = useState(artboard.artboard_name);
 
   const [radioFormat, changeStateRadioFormat] = useState("png");
   const [radioSize, changeStateRadioSize] = useState("x-small");
@@ -444,9 +463,9 @@ function ExportComponent (props) {
                 version="1.1"
                 width="100%"
                 height="auto"
-                data-width={getArtboardData('artboard_size')[0]}
-                data-height={getArtboardData('artboard_size')[1]}
-                viewBox={`0 0 ${getArtboardData('artboard_size')[0]} ${getArtboardData('artboard_size')[1]}`}
+                data-width={artboard_size[0]}
+                data-height={artboard_size[1]}
+                viewBox={`0 0 ${artboard_size[0]} ${artboard_size[1]}`}
                 xmlns="http://www.w3.org/2000/svg"
                 style={styles.svg}
                 dangerouslySetInnerHTML={{__html: props.data.join('') }}
@@ -460,7 +479,7 @@ function ExportComponent (props) {
               </tr>
               <tr>
                 <th>Scale</th>
-                <td>{getArtboardData('artboard_size')[0]}px : {getArtboardData('artboard_size')[1]}px</td>
+                <td>{artboard_size[0]}px : {artboard_size[1]}px</td>
               </tr>
               <tr>
                 <th>Size</th>
