@@ -127,17 +127,27 @@ function ArtboardSetting (props) {
   const dispatch = useDispatch()
   //
   let artboard;
+  let array_num;
 
   for (var i = 0; i < artboards.length; i++) {
     if (artboards[i].artboard_id == working.working) {
+      array_num = i;
       artboard = artboards[i];
     }
   }
 
-  console.log(artboards)
+  let artboard_size,artboard_name;
 
-  const [artboardSize, changeArtboardSize] = useState(artboard.canvas.artboard_size);
-  const [artboardName, changeArtboardName] = useState(artboard.artboard_name);
+  if (artboard){
+    artboard_size = artboard.canvas.artboard_size;
+    artboard_name = artboard.artboard_name;
+  } else {
+    artboard_size = [800,600];
+    artboard_name = "Unknown";
+  }
+
+  const [artboardSize, changeArtboardSize] = useState(artboard_size);
+  const [artboardName, changeArtboardName] = useState(artboard_name);
 
   const [showRatioWindow, changeStateRatio] = useState(false);
   const [showRenameWindow, changeStateRename] = useState(false);
@@ -238,7 +248,10 @@ function ArtboardSetting (props) {
                   },[500]
                 )
             }}>Cancel</button>
-            <button onClick={()=>{
+            <button onClick={(e)=>{
+
+              e.preventDefault()
+              changeStateRatio(false)
 
               const newData = updateArtboards(
                 {
@@ -314,11 +327,10 @@ function ArtboardSetting (props) {
         <div className="artboardSettings">
           <p>Duplicate the artboard</p>
           <form action="">
-            <label htmlFor=""><input type="text" value={artboardName + "_copy"} onChange={(e)=>{console.log("hoo~~~")}}/></label>
+            <label htmlFor=""><input type="text" value={artboardName} onChange={(e)=>changeArtboardName(e.target.value)}/></label>
             <button onClick={
               (e)=>{
                 e.preventDefault()
-                console.log('click')
                 document.getElementsByClassName("artboardSettingsBackground")[2].classList.remove("active");
                 window.setTimeout(
                   function(){
@@ -327,19 +339,30 @@ function ArtboardSetting (props) {
                   },[500]
                 )
             }}>Cancel</button>
-            <button onClick={()=>{
-              const name = artboardName + '_copy'
+            <button onClick={(e)=>{
 
-              addNewArtboard({
+              e.preventDefault()
+              const name = artboardName + '_copy'
+              const now = new Date()
+
+              const newData = {
+                artboard_id: artboards.length + 1,
                 artboard_name: name,
-                mainColor: getArtboardData('color_scheme')['mainColor'],
-                subColor: getArtboardData('color_scheme')['subColor'],
-                accentColor: getArtboardData('color_scheme')['accentColor'],
-                background: getArtboardData('color_scheme')['background'],
-                width: artboardSize[0],
-                height: artboardSize[1],
-                svg: getArtboardData('svg_data'),
-              });
+                created_at: now,
+                last_modified: now,
+                canvas: {
+                  artboard_size: artboard.canvas.artboard_size,
+                  svg_data: artboard.canvas.svg_data,
+                  color_scheme: artboard.canvas.color_scheme,
+                  grid: artboard.canvas.grid,
+                }
+              }
+
+              artboards.push(newData)
+
+              dispatch({type: 'update/artboard', payload: artboards})
+
+              changeStateDuplicate(false)
 
             }}>Duplicate</button>
           </form>
@@ -368,9 +391,16 @@ function ArtboardSetting (props) {
             }}>Cancel</button>
             <button onClick={
               (e)=>{
+                e.preventDefault()
                 document.getElementsByClassName("artboardSettingsBackground")[3].classList.remove("active");
-                removeArtboard({artboards:artboards,working:working.working});
+
+                const newData = artboards;
+
+                newData.splice( array_num, 1 );
+
+                changeStateDelete(true)
                 changeStateRedirect(true);
+                dispatch({type: 'update/artboard', payload: newData})
               }
             }>Delete</button>
             {redirect ? <Redirect to="/home"/>:null}
@@ -387,24 +417,33 @@ function ExportComponent (props) {
   const artboards = useSelector(selectArtboard).artboards
   const working = useSelector(getState).working
 
-  let artboard;
+  let artboard,artboard_size,artboard_name,color_scheme;
 
   for (var i=0;i<artboards.length;i++){
     if (working === artboards[i].artboard_id) {
 
       artboard = artboards[i]
 
-    } else {
-      //console.log(working,artboard_array[i].artboard_id)
     }
   }
 
-  const artboard_size = artboard.canvas.artboard_size
-
-  console.log(artboard)
+  if(artboard){
+    artboard_size = artboard.canvas.artboard_size
+    artboard_name = artboard.artboard_name
+    color_scheme = artboard.canvas.color_scheme
+  } else {
+    artboard_size = [800,600]
+    artboard_name = "unknown"
+    color_scheme = {
+      mainColor: '#cccccc',
+      subColor: '#000000',
+      accentColor: '#FAFAFA',
+      background: '#ffffff'
+    }
+  }
 
   const [showExportPanel, changeStateExportPanel] = useState(false);
-  const [artboardName, changeStateArtboardName] = useState(artboard.artboard_name);
+  const [artboardName, changeStateArtboardName] = useState(artboard_name);
 
   const [radioFormat, changeStateRadioFormat] = useState("png");
   const [radioSize, changeStateRadioSize] = useState("x-small");
@@ -450,6 +489,40 @@ function ExportComponent (props) {
     }
   };
 
+  const regaxedData = () => {
+
+    const main = color_scheme["mainColor"],
+          sub = color_scheme["subColor"],
+          accent =color_scheme["accentColor"]
+    ;
+
+    let str = props.data.join('')
+
+    let result = str.replace( 'class="main"', `fill="${main}"` );
+
+    while(result !== str) {
+      str = str.replace('class="main"', `fill="${main}"`);
+      result = result.replace('class="main"', `fill="${main}"`);
+    }
+
+    result = str.replace( 'class="sub"', `fill="${sub}"` );
+
+    while(result !== str) {
+      str = str.replace('class="sub"', `fill="${sub}"`);
+      result = result.replace('class="sub"', `fill="${sub}"`);
+    }
+
+    result = str.replace( 'class="accent"', `fill="${accent}"` );
+
+    while(result !== str) {
+      str = str.replace('class="accent"', `fill="${accent}"`);
+      result = result.replace('class="accent"', `fill="${accent}"`);
+    }
+
+    return result
+  }
+
+
   return (
     <div>
       <p onClick={openExportPanel}>Export</p>
@@ -459,7 +532,7 @@ function ExportComponent (props) {
           <div>
             <h2>Preview</h2>
             <svg
-                id="svg"
+                id="svg_preview"
                 version="1.1"
                 width="100%"
                 height="auto"
@@ -468,7 +541,7 @@ function ExportComponent (props) {
                 viewBox={`0 0 ${artboard_size[0]} ${artboard_size[1]}`}
                 xmlns="http://www.w3.org/2000/svg"
                 style={styles.svg}
-                dangerouslySetInnerHTML={{__html: props.data.join('') }}
+                dangerouslySetInnerHTML={{__html: regaxedData() }}
             >
             </svg>
             <div>
@@ -617,7 +690,7 @@ const InputArtboardName = () => {
   const artboards = useSelector(selectArtboard).artboards
   const working = useSelector(getState)
 
-  let artboard;
+  let artboard,artboardName;
 
   for (var i = 0; i < artboards.length; i++) {
     if (artboards[i].artboard_id == working.working) {
@@ -625,8 +698,11 @@ const InputArtboardName = () => {
     }
   }
 
-  //const artboardSize = artboard.canvas.artboard_size;
-  const artboardName = artboard.artboard_name
+  if (artboard) {
+    artboardName = artboard.artboard_name
+  } else {
+    artboardName = "unknown"
+  }
 
   const styles = {
     i: {
