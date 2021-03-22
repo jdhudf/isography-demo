@@ -132,7 +132,7 @@ function ToggleGrid() {
   const toggleState = useSelector(getState).grid
   const artboards = useSelector(getArtboards).artboards
 
-  let artboard;
+  let artboard,gridScale;
 
   for (var i = 0; i < artboards.length; i++) {
     if (artboards[i].artboard_id == json.working) {
@@ -140,7 +140,11 @@ function ToggleGrid() {
     }
   }
 
-  const gridScale = artboard.canvas.grid
+  if (artboard) {
+    gridScale = artboard.canvas.grid
+  } else {
+    gridScale = 1
+  }
 
   //updateArtboards = ({working, type, artboards,value})
 
