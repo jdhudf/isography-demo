@@ -134,6 +134,7 @@ export const addNewArtboard = ({
     artboard_name: artboard_name,
     created_at: today,
     last_modified: today,
+    grid: 1,
     canvas: {
       artboard_size: [width,height],
       svg_data: svg,
