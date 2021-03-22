@@ -778,7 +778,7 @@ class Artboard extends React.Component {
     const grid = json.grid
 
 
-    let artboard;
+    let artboard,artboardSize,gridScale;
 
     for (var i = 0; i < artboards.length; i++) {
       if (artboards[i].artboard_id == json.working) {
@@ -786,8 +786,13 @@ class Artboard extends React.Component {
       }
     }
 
-    const artboardSize = artboard.canvas.artboard_size;
-    const gridScale = artboard.canvas.grid;
+    if (artboard) {
+      artboardSize = artboard.canvas.artboard_size;
+      gridScale = artboard.canvas.grid;
+    } else {
+      artboardSize = [800,600];
+      gridScale = 1;
+    }
 
     return (
       <div style={{position: "relative"}}>
