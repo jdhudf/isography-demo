@@ -9,7 +9,7 @@ export function downloadImages ({filename}) {
 
   } else if(userAgent.indexOf('edge') !== -1) { //For Edge
 
-     svg2imageData(document.getElementById('svg'), function(data) {
+     svg2imageData(document.getElementById('svg_preview'), function(data) {
 
        window.navigator.msSaveOrOpenBlob(data, filename + '.png');
 
@@ -20,7 +20,7 @@ export function downloadImages ({filename}) {
 
   } else {
 
-    svg2imageData(document.getElementById('svg'), function(data) {
+    svg2imageData(document.getElementById('svg_preview'), function(data) {
 
         //document.getElementById('converted-image').src = data;
         // Create an invisible A element
