@@ -526,161 +526,166 @@ function ExportComponent (props) {
   return (
     <div>
       <p onClick={openExportPanel}>Export</p>
-      { showExportPanel ? <div className="export-pannel" >
-        <div className="export-pannel-background" onClick={closeExportPanel}/>
-        <div className="export-pannel-content">
-          <div>
-            <h2>Preview</h2>
-            <svg
-                id="svg_preview"
-                version="1.1"
-                width="100%"
-                height="auto"
-                data-width={artboard_size[0]}
-                data-height={artboard_size[1]}
-                viewBox={`0 0 ${artboard_size[0]} ${artboard_size[1]}`}
-                xmlns="http://www.w3.org/2000/svg"
-                style={styles.svg}
-                dangerouslySetInnerHTML={{__html: regaxedData() }}
-            >
-            </svg>
+      { showExportPanel ?
+        <div className="export-pannel" >
+          <div className="export-pannel-background" onClick={closeExportPanel}/>
+          <div className="export-pannel-content">
             <div>
-              <table>
-              <tr>
-                <th>File Name</th>
-                <td>{artboardName}</td>
-              </tr>
-              <tr>
-                <th>Scale</th>
-                <td>{artboard_size[0]}px : {artboard_size[1]}px</td>
-              </tr>
-              <tr>
-                <th>Size</th>
-                <td>It'll be ... 100KB</td>
-              </tr>
-              </table>
+              <h2 className="preview">Preview</h2>
+              <svg
+                  id="svg_preview"
+                  version="1.1"
+                  width="100%"
+                  height="auto"
+                  data-width={artboard_size[0]}
+                  data-height={artboard_size[1]}
+                  viewBox={`0 0 ${artboard_size[0]} ${artboard_size[1]}`}
+                  xmlns="http://www.w3.org/2000/svg"
+                  style={styles.svg}
+                  dangerouslySetInnerHTML={{__html: regaxedData() }}
+              >
+              </svg>
+              {/*<div>
+                <table>
+                <tr>
+                  <th>File Name</th>
+                  <td>{artboardName}</td>
+                </tr>
+                <tr>
+                  <th>Scale</th>
+                  <td>{artboard_size[0]}px : {artboard_size[1]}px</td>
+                </tr>
+                <tr>
+                  <th>Size</th>
+                  <td>It'll be ... 100KB</td>
+                </tr>
+                </table>
+              </div>*/}
+            </div>
+            <div>
+              <h2>File Name</h2>
+              <input type="text" value={artboardName} onChange={(e)=>changeStateArtboardName(e.target.value)}/>.png
+              {/*<h2>Format</h2>
+
+              <ul>
+                <li>
+                  <label>
+                    <input
+                      type="radio"
+                      name="format"
+                      value="png"
+                      checked={radioFormat === "png"}
+                      onChange={handleRadioFormat} />PNG
+                  </label>
+                </li>
+                <li>
+                  <label>
+                    <input
+                      type="radio"
+                      name="format"
+                      value="jpg"
+                      checked={radioFormat === "jpg"}
+                      onChange={handleRadioFormat} />JPG
+                  </label>
+                </li>
+              </ul>
+
+              <h2>Size</h2>
+              <ul>
+                <li>
+                  <label>
+                    <input
+                      type="radio"
+                      name="size"
+                      value="x-small"
+                      checked={radioSize === "x-small"}
+                      onChange={handleRadioSize} />X-Small
+                  </label>
+                </li>
+                <li>
+                  <label>
+                    <input
+                      type="radio"
+                      name="size"
+                      value="small"
+                      checked={radioSize === "small"}
+                      onChange={handleRadioSize} />Small
+                  </label>
+                </li>
+                <li>
+                  <label>
+                    <input
+                      type="radio"
+                      name="size"
+                      value="medium"
+                      checked={radioSize === "medium"}
+                      onChange={handleRadioSize} />Medium
+                  </label>
+                </li>
+                <li>
+                  <label>
+                    <input
+                      type="radio"
+                      name="size"
+                      value="large"
+                      checked={radioSize === "large"}
+                      onChange={handleRadioSize} />Large
+                  </label>
+                </li>
+                <li>
+                  <label>
+                    <input
+                      type="radio"
+                      name="size"
+                      value="x-large"
+                      checked={radioSize === "x-large"}
+                      onChange={handleRadioSize} />X-Large
+                  </label>
+                </li>
+              </ul>
+              <h2>Compression ratio</h2>
+              <ul>
+                <li>
+                  <label>
+                    <input
+                      type="radio"
+                      name="quality"
+                      value="low"
+                      checked={radioCompression === "low"}
+                      onChange={handleRadioCompression} />Low Quality
+                  </label>
+                </li>
+                <li>
+                  <label>
+                    <input
+                      type="radio"
+                      name="quality"
+                      value="medium"
+                      checked={radioCompression === "medium"}
+                      onChange={handleRadioCompression} />Medium Quality
+                  </label>
+                </li>
+                <li>
+                  <label>
+                    <input
+                      type="radio"
+                      name="quality"
+                      value="high"
+                      checked={radioCompression==="high"}
+                      onChange={handleRadioCompression} />High Quality
+                  </label>
+                </li>
+              </ul>*/}
+              <br/>
+              <button className="cancel" onClick={closeExportPanel}>Cancel</button>
+              <button className="download" onClick={()=>{
+                downloadImages({filename:artboardName})
+                changeStateExportPanel(false)
+              }}>Download</button>
             </div>
           </div>
-          <div>
-            <h2>File Name</h2>
-            <input type="text" value={artboardName} onChange={(e)=>changeStateArtboardName(e.target.value)}/>
-            <h2>Format</h2>
-
-            <ul>
-              <li>
-                <label>
-                  <input
-                    type="radio"
-                    name="format"
-                    value="png"
-                    checked={radioFormat === "png"}
-                    onChange={handleRadioFormat} />PNG
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input
-                    type="radio"
-                    name="format"
-                    value="jpg"
-                    checked={radioFormat === "jpg"}
-                    onChange={handleRadioFormat} />JPG
-                </label>
-              </li>
-            </ul>
-
-            <h2>Size</h2>
-            <ul>
-              <li>
-                <label>
-                  <input
-                    type="radio"
-                    name="size"
-                    value="x-small"
-                    checked={radioSize === "x-small"}
-                    onChange={handleRadioSize} />X-Small
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input
-                    type="radio"
-                    name="size"
-                    value="small"
-                    checked={radioSize === "small"}
-                    onChange={handleRadioSize} />Small
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input
-                    type="radio"
-                    name="size"
-                    value="medium"
-                    checked={radioSize === "medium"}
-                    onChange={handleRadioSize} />Medium
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input
-                    type="radio"
-                    name="size"
-                    value="large"
-                    checked={radioSize === "large"}
-                    onChange={handleRadioSize} />Large
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input
-                    type="radio"
-                    name="size"
-                    value="x-large"
-                    checked={radioSize === "x-large"}
-                    onChange={handleRadioSize} />X-Large
-                </label>
-              </li>
-            </ul>
-            <h2>Compression ratio</h2>
-            <ul>
-              <li>
-                <label>
-                  <input
-                    type="radio"
-                    name="quality"
-                    value="low"
-                    checked={radioCompression === "low"}
-                    onChange={handleRadioCompression} />Low Quality
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input
-                    type="radio"
-                    name="quality"
-                    value="medium"
-                    checked={radioCompression === "medium"}
-                    onChange={handleRadioCompression} />Medium Quality
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input
-                    type="radio"
-                    name="quality"
-                    value="high"
-                    checked={radioCompression==="high"}
-                    onChange={handleRadioCompression} />High Quality
-                </label>
-              </li>
-            </ul>
-            <br/>
-            <button className="cancel" onClick={closeExportPanel}>Cancel</button>
-            <button className="download" onClick={()=>downloadImages({filename:artboardName})}>Download</button>
-          </div>
         </div>
-      </div> : null }
+      : null }
     </div>
   )
 }

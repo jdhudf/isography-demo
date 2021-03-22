@@ -270,6 +270,7 @@
     transform: translate(-50%,-50%);
     background: #fff;
     display: flex;
+    align-items: center;
     justify-content: space-around;
     padding: 30px 0 50px;
     h2 {
@@ -277,9 +278,13 @@
       color: #000;
       font-size: 1.8rem;
     }
+    .preview {
+      color: darkgray;
+      font-size: 1.2rem;
+    }
     div {
       text-align: left;
-      flex-basis: 40%;
+      flex-basis: 35%;
       width: 100%;
       svg {
         border: solid 3px #F0F0F0;
@@ -328,6 +333,14 @@
       background: #49B7D8;
       color: #fff;
       border: solid 2px #49B7D8;
+    }
+  }
+}
+
+.darkmode {
+  .export-pannel  {
+    .export-pannel-content {
+
     }
   }
 }
