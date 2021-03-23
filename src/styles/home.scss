@@ -9,6 +9,23 @@
     flex-wrap: nowrap;
     align-items: flex-start;
   }
+  @include max-screen($device-small-pc) {
+    background: #F7F7F7;
+    .flexbox {
+      display: block;
+      background: #F7F7F7;
+      main {
+        .section-new {
+          width: 100%;
+        }
+      }
+      aside {
+        img {
+          //display: none;
+        }
+      }
+    }
+  }
 }
 
 main {
@@ -18,6 +35,7 @@ main {
 
 aside {
   flex-basis: 260px;
+  width: 100%;
   .sendFeedback {
     text-align: center;
     margin-top: 40px;
@@ -83,6 +101,13 @@ aside {
       padding: 5px 0;
       width: 100px;
       border-radius: 5px;
+    }
+  }
+  @include max-screen($device-small-pc) {
+    padding-bottom: 20px;
+    .sendFeedback {
+      max-width: 500px;
+      margin: 30px auto 0;
     }
   }
 }
@@ -259,10 +284,11 @@ aside {
   //align-items: flex-end;
   padding-top: 10px;
   width: 750px;
+  overflow-x: hidden;
   &>div {
     width: 750px;
     overflow-x: scroll;
-    //sscrollbar-width: thin!important;
+    //scrollbar-width: thin!important;
   }
   ul {
     width: 900px;
@@ -304,6 +330,9 @@ aside {
     &:hover {
       cursor: pointer;
     }
+  }
+  @include max-screen($device-small-pc) {
+    width: 100%;
   }
 }
 
@@ -356,6 +385,9 @@ aside {
       color: $gray;
       font-size: 1.2rem;
     }
+  }
+  @include max-screen($device-small-pc) {
+    width: 100%;
   }
 }
 
@@ -489,6 +521,9 @@ aside {
       color: $gray;
       font-weight: 600;
     }
+  }
+  @include max-screen($device-small-pc) {
+    display: none;
   }
 }
 
