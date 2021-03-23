@@ -61,12 +61,12 @@ class Atelier extends React.Component {
       willAddElementOfSvg: 1,
       selectEl:null,
       test: false,
-      data : getArtboardData({
+      /*data : getArtboardData({
         artboards: this.props.artboards.artboards,
         working:this.props.json.working,
         type:'svg_data'}
       ),//getArtboardData({json: this.props.json, type:'svg_data'}),
-      //this.props.json,//getArtboardData('svg_data'),
+      //this.props.json,//getArtboardData('svg_data'),*/
       history: [
         {
           mainColor: null,
@@ -152,26 +152,6 @@ class Atelier extends React.Component {
     //console.log('mouseUp: ' + e.target.parentNode.outerHTML)
     document.querySelector('.section-gallalypanel').style.cursor = 'default';
     document.querySelector('.section-artboard').style.cursor = 'default';
-  }
-
-  removeElement = (e) => {
-
-    const data_copy = this.state.data.slice();
-
-    const { json, artboards, switchDarkmode,updateArtboard } = this.props
-
-    data_copy.splice(this.state.selectEl,1);
-
-    this.setState({data: data_copy});
-
-    setArtboardData({
-      type: 'svg_data',
-      value: data_copy,
-    })
-
-    console.log(typeof updateArtboard())
-
-    //updateArtboards(data_copy)
   }
 
   keyPress = (e) => {
@@ -353,9 +333,8 @@ class Atelier extends React.Component {
                    value: e,
                  })*/
                }}
-               removeElement={this.removeElement}
                selectEl={this.state.selectEl}
-               length={this.state.data.length}
+               //length={artboard.canvas.svg_data.length}//{this.state.data.length}
                bringForward={this.bringForward}
                sendBackward={this.sendBackward}
           />
