@@ -72,7 +72,11 @@ class Artboard extends React.Component {
       selectedInitial: [0,0],
       isScaleMouseDown: false,
       // -- below is svg data
-      data : this.props.data,
+      data : getArtboardData({
+        artboards: this.props.artboards.artboards,
+        working:this.props.json.working,
+        type:"svg_data"
+      })//this.props.data,
     };
   }
 
@@ -93,6 +97,8 @@ class Artboard extends React.Component {
       type: 'last_modified',
       value: new Date(),
     })
+
+    console.log("componentDidMount")
 
   }
 
@@ -204,9 +210,9 @@ class Artboard extends React.Component {
 
   onMouseDown = (e) => {
 
-    if (this.props.data !== this.state.data) {
+    /*if (this.props.data !== this.state.data) {
       this.setState({data:this.props.data})
-    }
+    }*/
 
     this.setState({isMouseDown:true})
 
@@ -228,7 +234,6 @@ class Artboard extends React.Component {
     //  * mouse clicked coordinate
     this.getTranslate(e);
     this.setState({initial:[mouseX,mouseY]});
-    this.props.updateState(this.state.data);
 
   }
 
@@ -777,8 +782,7 @@ class Artboard extends React.Component {
     const artboards = this.props.artboards.artboards
     const grid = json.grid
 
-
-    let artboard,artboardSize,gridScale;
+    let artboard,artboardSize,gridScale,svg_data;
 
     for (var i = 0; i < artboards.length; i++) {
       if (artboards[i].artboard_id == json.working) {
@@ -789,10 +793,15 @@ class Artboard extends React.Component {
     if (artboard) {
       artboardSize = artboard.canvas.artboard_size;
       gridScale = artboard.canvas.grid;
+      svg_data = artboard.canvas.svg_data
     } else {
       artboardSize = [800,600];
       gridScale = 1;
+      svg_data = []//this.state.data
     }
+
+
+    console.log(svg_data);
 
     return (
       <div style={{position: "relative"}}>
@@ -856,6 +865,8 @@ class Artboard extends React.Component {
 
             this.state.data.join('')
 
+            //svg_data.join('')
+
           }}
             // we should display state while updating state, cuz we update props in realtime, the performance will be bad.
             //
@@ -908,9 +919,9 @@ function Svg (props) {
 
   const onMouseDown = (e) => {
 
-    if (props.data !== state.data) {
+    /*if (props.data !== state.data) {
       this.setState({data:this.props.data})
-    }
+    }*/
 
     this.setState({isMouseDown:true})
 
