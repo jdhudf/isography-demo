@@ -34,6 +34,36 @@ class ToolsPanel extends React.Component {
     }
   }
 
+  removeElement = (props) => {
+
+    const { artboards, working, switchDarkmode,updateArtboard } = this.props
+
+    //console.log(artboards.artboards)
+    let artboard;
+
+    for(var i=0;i<artboards.artboards.length;i++){
+      if(artboards.artboards[i].artboard_id === working){
+        artboard = artboards.artboards[i]
+      }
+    }
+
+    const data_copy = artboard.canvas.svg_data.slice();
+
+    console.log(data_copy)
+
+    data_copy.splice(this.props.selectEl,1);
+
+    const newData = updateArtboards({
+      working: working,
+      type: "svg_data",
+      artboards: artboards.artboards,
+      value: data_copy
+    })
+
+    updateArtboard(newData)
+
+  }
+
   render() {
 
     const { artboards, working, switchDarkmode,changeHex } = this.props
@@ -118,7 +148,7 @@ class ToolsPanel extends React.Component {
 
 
 
-        <p onClick={(e) =>this.props.removeElement()} title="Remove Element"><FontAwesomeIcon icon={faTrashAlt} /></p>
+        <p onClick={this.removeElement} title="Remove Element"><FontAwesomeIcon icon={faTrashAlt} /></p>
 
       </section>
     );
@@ -195,6 +225,9 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  dispatch => ({ changeHex: value => dispatch(actions.changeHex(value)) })
+  dispatch => ({
+    changeHex: value => dispatch(actions.changeHex(value)),
+    updateArtboard: value => dispatch(actions.updateArtboard(value))
+  })
   //dispatch => ({ switchDarkmode: value => dispatch(switchDarkmode(value)) })
 )(ToolsPanel)
