@@ -19,4 +19,7 @@ body {
     text-decoration: none;
     font-weight: bold;
   }
+  /*@include max-screen($device-small-pc) {
+    overflow: auto;
+  }*/
 }
