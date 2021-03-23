@@ -179,6 +179,8 @@ export const artboardScale = (e) => {
 
   if (localStorage.getItem('artboardScale') === null) {
     localStorage.setItem('artboardScale', e);
+  } else if (localStorage.getItem('artboardScale') === "0") {
+    localStorage.setItem('artboardScale', 1);
   }
   return  JSON.parse(localStorage.getItem('artboardScale'))
 
