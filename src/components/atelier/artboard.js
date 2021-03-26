@@ -72,11 +72,11 @@ class Artboard extends React.Component {
       selectedInitial: [0,0],
       isScaleMouseDown: false,
       // -- below is svg data
-      data : getArtboardData({
+      data : this.svg_dataInRedux()/*getArtboardData({
         artboards: this.props.artboards.artboards,
         working:this.props.json.working,
         type:"svg_data"
-      })//this.props.data,
+      })//this.props.data,*/
     };
   }
 
@@ -107,6 +107,7 @@ class Artboard extends React.Component {
   selectElement = (e) => {
 
     var array = this.state.data;
+
     let g = e.target.parentNode.outerHTML;
 
     if (g.startsWith('<g transform="translate')) {
@@ -210,11 +211,12 @@ class Artboard extends React.Component {
 
   onMouseDown = (e) => {
 
-    /*if (this.props.data !== this.state.data) {
-      this.setState({data:this.props.data})
-    }*/
+    if (this.svg_dataInRedux !== this.state.data) {
+      this.setState({data:this.svg_dataInRedux()})
+    }
 
     this.setState({isMouseDown:true})
+    this.setState({propsOrState:true})
 
     const mouseX = e.pageX;// pageX and pageY is mouse's axis in the box.
     const mouseY = e.pageY;
@@ -242,7 +244,6 @@ class Artboard extends React.Component {
     if (this.state.isMouseDown) {
 
       const selected = this.selectElement(e);//this.state.selectedElement
-
 
       //---  Calculate a gap  ---//
       const move = [e.pageX,e.pageY];
@@ -287,6 +288,7 @@ class Artboard extends React.Component {
           }
         );
 
+
         //--- Move Selector Position ---//
 
         this.updateSelecter();
@@ -294,15 +296,17 @@ class Artboard extends React.Component {
 
         //---  Update this.state.data  ---//
 
-        const data_copy = this.state.data.slice();
+        const data_copy = this.state.data.slice()//this.svg_dataInRedux().slice();
         data_copy[selected] = result;
         this.setState({data: data_copy});
 
 
+
       } else {
-        this.setState({isMouseDown:false})
+        //this.setState({isMouseDown:false})
       }
 
+    } else {
     }
   }
 
@@ -314,6 +318,7 @@ class Artboard extends React.Component {
     const { updateArtboard } = this.props
 
     this.setState({isMouseDown:false})
+    this.setState({propsOrState:false})
 
     if(this.props.test) {
 
@@ -689,6 +694,32 @@ class Artboard extends React.Component {
     this.props.updateState(this.state.data);
   }
 
+  svg_dataInRedux = (props) => {
+    const json = this.props.json
+    const artboards = this.props.artboards.artboards
+    const grid = json.grid
+
+    let artboard,artboardSize,gridScale,svg_data;
+
+    for (var i = 0; i < artboards.length; i++) {
+      if (artboards[i].artboard_id == json.working) {
+        artboard = artboards[i];
+      }
+    }
+
+    if (artboard) {
+      artboardSize = artboard.canvas.artboard_size;
+      gridScale = artboard.canvas.grid;
+      svg_data = artboard.canvas.svg_data
+    } else {
+      artboardSize = [800,600];
+      gridScale = 1;
+      svg_data = []//this.state.data
+    }
+
+    return svg_data//.join('')
+  }
+
   render() {
 
     const styles = {
@@ -797,11 +828,8 @@ class Artboard extends React.Component {
     } else {
       artboardSize = [800,600];
       gridScale = 1;
-      svg_data = []//this.state.data
+      //svg_data = this.state.data
     }
-
-
-    console.log(svg_data);
 
     return (
       <div style={{position: "relative"}}>
@@ -861,13 +889,27 @@ class Artboard extends React.Component {
           width={artboardSize[0]}
           height={artboardSize[1]}
           xmlns="http://www.w3.org/2000/svg"
-          dangerouslySetInnerHTML={{__html:
+          dangerouslySetInnerHTML=/*{{__html: this.state.data.join('') }}*//*{{__html:
 
-            this.state.data.join('')
+            //this.state.data.join('')
+
+            this.svg_dataInRedux().join('')
 
             //svg_data.join('')
 
-          }}
+          }}*//*{{__html: ()=>{
+                    console.log('resresr')
+                    return this.svg_dataInRedux().join('')
+                   }
+                 }}*/
+           {{__html: (() => {
+                if (!this.state.propsOrState) {
+                  return this.svg_dataInRedux().join('')
+                } else {
+                  return this.state.data.join('')
+                }
+              })()
+           }}
             // we should display state while updating state, cuz we update props in realtime, the performance will be bad.
             //
 
