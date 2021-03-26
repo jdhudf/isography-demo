@@ -13,7 +13,7 @@ const initialState = {
         color_scheme: {
           mainColor: '#cccccc',
           subColor: '#000000',
-          accentColor: '#FAFAFA',
+          accentColor: '#F0F0F0',
           background: '#ffffff'
         },
         grid: 1,
