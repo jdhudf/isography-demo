@@ -472,6 +472,21 @@ class Artboard extends React.Component {
       value: data_copy,
     })
 
+    // update artboard with redux
+    const working = this.props.json.working
+    const artboards = this.props.artboards
+
+    const { updateArtboard } = this.props
+
+    const newData = updateArtboards({
+      working: working,
+      type: "svg_data",
+      artboards: artboards.artboards,
+      value: data_copy
+    })
+
+    updateArtboard(newData)
+
   }
 
   //--- Below is code about handling artboard position and scale ---//
