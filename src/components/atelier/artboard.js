@@ -372,41 +372,13 @@ class Artboard extends React.Component {
 
     const g = e.target.parentNode.outerHTML;
 
-    console.log(g)
-
     // only when users click svg element, this event'll trigger.
     if (g.startsWith('<g transform="translate')) {
 
       this.setState({mouse:[e.pageX,e.pageY]})
       this.setState({displayContextMenu: true});
 
-      const container = document.getElementsByClassName('section-artboard');
-      const contextMenu = document.getElementById('onContextMenu')
-
-      console.log(container)
-
-      console.log(container[1].clientHeight)
-      //this.setState({mouse:[e.offsetX,e.offsetY]})
-      //this.setState({mouse:[e.clientX,e.clientY]})
-
       this.selectElement(e);
-      console.log("FFF")
-      console.log( contextMenu )
-
-      if (e.pageY > 244) {//244
-        //contextMenu.style.position = 'fixed';
-        //contextMenu.style.top = e.pageY + 'px';
-        //contextMenu.style.left = e.pageX + 'px';
-        //contextMenu.style.transform = e.pageX + 'px';
-
-        console.log(contextMenu.clientHeight)
-        console.log(contextMenu.offsetHeight)
-        console.log(contextMenu.offsetWidth)
-      }
-
-      //contextMenu.style.top = e.pageY + 'px';
-      //contextMenu.style.left = e.pageX + 'px';
-
 
       e.preventDefault();
     }
@@ -788,7 +760,7 @@ class Artboard extends React.Component {
           if ( this.state.mouse[1] < 244) {
             return  "auto"
           } else {
-            return "0"
+            return "5px"
           }
         })()}`,
         left: `${this.state.mouse[0] + 20}px`,
