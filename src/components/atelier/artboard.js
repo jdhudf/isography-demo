@@ -245,12 +245,20 @@ class Artboard extends React.Component {
 
       const selected = this.selectElement(e);//this.state.selectedElement
 
+      const artboardScale =  this.state.artboardScale;
+
+      //console.log(artboardScale)
+
       //---  Calculate a gap  ---//
       const move = [e.pageX,e.pageY];
       const gap = [
+        (parseInt(move[0]) - parseInt(this.state.initial[0]))/artboardScale,
+        (parseInt(move[1]) - parseInt(this.state.initial[1]))/artboardScale
+      ];
+      /*const gap = [
         parseInt(move[0]) - parseInt(this.state.initial[0]),
         parseInt(move[1]) - parseInt(this.state.initial[1])
-      ];
+      ];*/
 
       //console.log('gap ok : ' +  gap);
 
