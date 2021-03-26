@@ -377,23 +377,31 @@ class Artboard extends React.Component {
     // only when users click svg element, this event'll trigger.
     if (g.startsWith('<g transform="translate')) {
 
-
-
       this.setState({mouse:[e.pageX,e.pageY]})
       this.setState({displayContextMenu: true});
+
+      const container = document.getElementsByClassName('section-artboard');
+      const contextMenu = document.getElementById('onContextMenu')
+
+      console.log(container)
+
+      console.log(container[1].clientHeight)
       //this.setState({mouse:[e.offsetX,e.offsetY]})
       //this.setState({mouse:[e.clientX,e.clientY]})
 
       this.selectElement(e);
       console.log("FFF")
-      const contextMenu = document.getElementById('onContextMenu')
       console.log( contextMenu )
 
-      if (contextMenu) {
+      if (e.pageY > 244) {//244
         //contextMenu.style.position = 'fixed';
         //contextMenu.style.top = e.pageY + 'px';
         //contextMenu.style.left = e.pageX + 'px';
         //contextMenu.style.transform = e.pageX + 'px';
+
+        console.log(contextMenu.clientHeight)
+        console.log(contextMenu.offsetHeight)
+        console.log(contextMenu.offsetWidth)
       }
 
       //contextMenu.style.top = e.pageY + 'px';
@@ -769,12 +777,25 @@ class Artboard extends React.Component {
       box: {
         //position: "absolute",
         position: "fixed",
-        top:`${this.state.mouse[1]}px`,
-        left: `${this.state.mouse[0]}px`,
+        top: `${(()=>{
+          if ( this.state.mouse[1] < 244) {
+            return this.state.mouse[1] + "px"
+          } else {
+            return "auto"
+          }
+        })()}`,
+        bottom: `${(()=>{
+          if ( this.state.mouse[1] < 244) {
+            return  "auto"
+          } else {
+            return "0"
+          }
+        })()}`,
+        left: `${this.state.mouse[0] + 20}px`,
         //top: 0,
         //left: 0,
         //transform: `scale(${this.state.artboardScale}) translate(-50%,-50%)`,
-        zIndex: "10000"
+        zIndex: "10000",
       },
       cover: {
         position: 'fixed',
@@ -869,20 +890,20 @@ class Artboard extends React.Component {
       <div style={{position: "relative"}}>
       {selector}
 
-      { this.state.displayContextMenu ?
-        <div style={{
-          border:"solid 1px blue",
-          position: "fixed",
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          zIndex: 10000,
-        }}>
-          <div style={styles.cover}
-               onClick={ ()=> this.setState({ displayContextMenu: false }) }/>
-          {menu}
-        </div> : null }
+      <div style={{
+        border:"solid 1px blue",
+        position: "fixed",
+        display:  this.state.displayContextMenu ? "block" : "none",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        zIndex: 10000,
+      }}>
+        <div style={styles.cover}
+             onClick={ ()=> this.setState({ displayContextMenu: false }) }/>
+        {menu}
+      </div>
 
       <section style={styles.artboard}
                className="section-artboard section-bottom"
