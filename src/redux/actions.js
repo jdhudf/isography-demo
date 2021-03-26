@@ -75,7 +75,7 @@ export const actions = {
     }
   },
   updateArtboard(value) {
-    console.log(value)
+    //console.log(value)
     return {
       type: 'update/artboard',
       payload: value
