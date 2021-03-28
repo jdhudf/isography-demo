@@ -5,6 +5,7 @@ const initialState = {
       artboard_name: 'Artboard Name 1',
       created_at: 'Tue, 22 May 2018 13:20:00 GMT',
       last_modified: 'Tue, 22 May 2018 13:20:00 GMT',
+      grid: 1,
       canvas: {
         artboard_size: [800,600],
         svg_data: ['<g transform="translate(50,50) scale(1,1)" class="sub"><circle cx="0" cy="0" r="50"></circle></g>',
@@ -16,14 +17,20 @@ const initialState = {
           accentColor: '#F0F0F0',
           background: '#ffffff'
         },
-        grid: 1,
-      }
+      },
+      history: [
+        {
+          svg_data: [],
+          color_scheme: [],
+        }
+      ]
     },
     {
       artboard_id: 2,
       artboard_name: 'Artboard Name 2',
       created_at: 'Tue, 22 May 2018 13:20:00 GMT',
       last_modified: 'Tue, 22 May 2018 13:20:00 GMT',
+      grid: 1,
       canvas: {
         artboard_size: [800,600],
         svg_data: ['<g transform="translate(50,50) scale(1,1)" class="sub"><circle cx="0" cy="0" r="50"></circle></g>',
@@ -35,8 +42,8 @@ const initialState = {
           accentColor: '#FAFAFA',
           background: '#4B6A6D'
         },
-        grid: 1,
-      }
+      },
+      history: []
     },
   ]
 }
@@ -58,6 +65,11 @@ export default function artboardReducer(state = initialState, action) {
       return {
         ...state,
         artboards: action.payload
+      }
+    case 'update/history':
+      return {
+        ...state,
+        artboards: state.artboards.map(el => el.artboard_id === action.payload.artboard_id ? action.payload : el)
       }
     default:
       console.log("problem in reducer")

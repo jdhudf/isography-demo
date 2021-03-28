@@ -69,6 +69,7 @@ class Artboard extends React.Component {
       startCoordinate: [0,0],
       // -- below is scaling data
       selectedScale: 1,
+      initialForScale: [0,0],
       selectedInitial: [0,0],
       isScaleMouseDown: false,
       // -- below is svg data
@@ -551,7 +552,7 @@ class Artboard extends React.Component {
 
   //--- Below is code about scaling elements ---//
 
-  getDistance =  (e) => {
+  getDistance = (e) => {
     const elements = document.getElementById("svg");
     const selectedElement = elements.children[this.state.selectedElement]
 
@@ -587,8 +588,8 @@ class Artboard extends React.Component {
 
     const scaling = this.state.selectedScale * z / init_z
 
-    console.log(this.state.selectedScale,this.state.selectedInitial);
-    console.log(this.state.selectedScale,scaling,z,init_z)
+    //console.log(this.state.selectedScale,this.state.selectedInitial);
+    //console.log(this.state.selectedScale,scaling,z,init_z)
 
     //const el = this.state.data[this.state.selectedElement];
     const data_copy = this.state.data.slice();
@@ -611,7 +612,8 @@ class Artboard extends React.Component {
 
     const g = selectedElement.outerHTML;//e.target.parentNode.outerHTML;
 
-    console.info('g tag is... ' + selectedElement.outerHTML);
+    //console.info('g tag is... ' + selectedElement.outerHTML);
+    console.log(g === this.state.data[this.state.selectedElement],g,this.state.data[this.state.selectedElement])
 
     if (g === this.state.data[this.state.selectedElement] && g.startsWith('<g transform="translate') && scaling < 4) {
 
@@ -637,6 +639,8 @@ class Artboard extends React.Component {
       data_copy[this.state.selectedElement] = result;
 
       this.setState({data: data_copy});
+    } else {
+      console.log("error")
     }
 
   }
@@ -651,6 +655,7 @@ class Artboard extends React.Component {
     const mouseX = e.pageX;
     const mouseY = e.pageY;
     const el = this.state.data[this.state.selectedElement];
+    this.setState({propsOrState:true})
 
     const getValueOfTransformScale = () => {
 
@@ -672,7 +677,7 @@ class Artboard extends React.Component {
     this.setState({
       isScaleMouseDown:true,
       selectedInitial: [mouseX,mouseY],
-      initial: [mouseX,mouseY],
+      initialForScale: [mouseX,mouseY],
       selectedScale: getValueOfTransformScale(),
     })
 
@@ -685,7 +690,7 @@ class Artboard extends React.Component {
       this.getDistance(e);
       this.updateSelecter()
 
-      switch (position){
+      /*switch (position){
         case 'topLeft':
           console.log('topLeft');
           break;
@@ -700,7 +705,7 @@ class Artboard extends React.Component {
           break;
         default:
           break;
-      }
+      }*/
 
     }
 
@@ -708,12 +713,40 @@ class Artboard extends React.Component {
 
   onScaleUp = (e, position) => {
     this.setState({isScaleMouseDown:false})
-    this.props.updateState(this.state.data);
+    this.setState({propsOrState:false})
+
+    const working = this.props.json.working
+    const artboards = this.props.artboards
+
+    const { updateArtboard } = this.props
+
+    const newData = updateArtboards({
+      working: working,
+      type: "svg_data",
+      artboards: artboards.artboards,
+      value: this.state.data
+    })
+
+    updateArtboard(newData)
   }
 
   onScaleLeave = (e, position) => {
     this.setState({isScaleMouseDown:false})
-    this.props.updateState(this.state.data);
+    this.setState({propsOrState:false})
+
+    const working = this.props.json.working
+    const artboards = this.props.artboards
+
+    const { updateArtboard } = this.props
+
+    const newData = updateArtboards({
+      working: working,
+      type: "svg_data",
+      artboards: artboards.artboards,
+      value: this.state.data
+    })
+
+    updateArtboard(newData)
   }
 
   svg_dataInRedux = (props) => {

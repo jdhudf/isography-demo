@@ -81,4 +81,11 @@ export const actions = {
       payload: value
     }
   },
+  updateHistory(value) {
+    //console.log(value)
+    return {
+      type: 'update/history',
+      payload: value
+    }
+  },
 }

@@ -335,8 +335,20 @@ class Atelier extends React.Component {
                }}
                selectEl={this.state.selectEl}
                //length={artboard.canvas.svg_data.length}//{this.state.data.length}
-               bringForward={this.bringForward}
-               sendBackward={this.sendBackward}
+               bringForward={()=>{
+                 if (this.state.selectEl === artboard.canvas.svg_data.length) {
+                   this.setState({selectEl: this.state.selectEl})
+                 } else {
+                   this.setState({selectEl: this.state.selectEl + 1})
+                 }
+               }}
+               sendBackward={()=>{
+                 if (this.state.selectEl <= 0) {
+                   this.setState({selectEl: 0})
+                 } else {
+                   this.setState({selectEl: this.state.selectEl - 1})
+                 }
+               }}
           />
           <div className="section-artboard">
           <Artboard

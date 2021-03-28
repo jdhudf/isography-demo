@@ -78,8 +78,8 @@
     flex-basis: 30%;
     z-index: 1000;
     border-left: solid 1px #E4E4E4;
+    overflow-x: hidden;
     .react-tabs {
-      overflow-x: scroll;
       margin-top: 10px;
       .react-tabs__tab-list {
         display: flex;
@@ -100,10 +100,12 @@
         }
       }
       .react-tabs__tab-panel {
-
+        overflow-x: scroll;
       }
     }
     .gallary-category-list {
+      width: 400px;
+      border: solid 1px red;
       li {
         display: inline-block;
         margin-right: 10px;
