@@ -107,20 +107,23 @@ class Artboard extends React.Component {
 
     var array = this.state.data;
 
-    let g = e.target.parentNode.outerHTML;
+    if (e) {
+      let g = e.target.parentNode.outerHTML;
 
-    if (g.startsWith('<g transform="translate')) {
+      if (g.startsWith('<g transform="translate')) {
 
-      this.setState({selectedElement: array.indexOf(g)});
-      this.props.sendSelectEl(array.indexOf(g));
+        this.setState({selectedElement: array.indexOf(g)});
+        this.props.sendSelectEl(array.indexOf(g));
 
-      return array.indexOf(g)
+        return array.indexOf(g)
 
-    } else {
+      } else {
 
-      this.setState({isMouseDown:false})
+        this.setState({isMouseDown:false})
 
+      }
     }
+
   }
 
   updateSelecter = () => {
@@ -344,6 +347,8 @@ class Artboard extends React.Component {
 
     updateArtboard(newData)
 
+    this.getTranslate(e);
+
   }
 
   onMouseLeave = (e) => {
@@ -365,6 +370,7 @@ class Artboard extends React.Component {
       })
 
       updateArtboard(newData)
+      this.getTranslate(e);
     }
   }
 
@@ -587,11 +593,6 @@ class Artboard extends React.Component {
     // -- code about scaling & code about translating el while scaling
 
     const scaling = this.state.selectedScale * z / init_z
-
-    //console.log(this.state.selectedScale,this.state.selectedInitial);
-    //console.log(this.state.selectedScale,scaling,z,init_z)
-
-    //const el = this.state.data[this.state.selectedElement];
     const data_copy = this.state.data.slice();
 
     //const regExp = /-?\d+/g;
@@ -608,16 +609,15 @@ class Artboard extends React.Component {
       parseInt(this.state.initialTranslate[1]) + parseInt(gap[1])
     ];
 
+    //console.log(initialAxis,this.state.initialTranslate,this.state.initial,gap,this.state.selectedInitial)
+
     //console.info('translate is ' +  translate)
 
     const g = selectedElement.outerHTML;//e.target.parentNode.outerHTML;
 
-    //console.info('g tag is... ' + selectedElement.outerHTML);
-    console.log(g === this.state.data[this.state.selectedElement],g,this.state.data[this.state.selectedElement])
-
     if (g === this.state.data[this.state.selectedElement] && g.startsWith('<g transform="translate') && scaling < 4) {
 
-      console.info('translate is ' + translate);
+      //console.info('translate is ' + translate);
 
       const regExp = /\(([^)]+)\)/g;
       var n = 1;
