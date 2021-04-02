@@ -58,8 +58,24 @@ export const getCanvas = ({artboards,working}) => {
   }
 }
 
+export const setCanvas = ({working, artboards,value}) => {
+
+  const newData =  JSON.parse(JSON.stringify(artboards));
+
+  for(var i=0;i<newData.length;i++){
+    if(newData[i].artboard_id === working){
+
+        newData[i].canvas = value
+
+    }
+  }
+  return newData
+}
+
 export const setArtboardData = ({type, value}) => {
+
   if (localStorage.getItem('isography') !== null) {
+
     const json = JSON.parse(localStorage.getItem('isography'));
 
     for(var i=0;i<json.length;i++){

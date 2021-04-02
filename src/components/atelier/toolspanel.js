@@ -15,7 +15,8 @@ import '../../styles/toolspanel.scss';
 import ColorPicker from "./toolspanel_ColorPicker";
 
 import {
-  updateArtboards
+  updateArtboards,
+  setCanvas
 } from '../handleLocalstorage'
 
 import { connect } from 'react-redux'
@@ -238,14 +239,14 @@ class ToolsPanel extends React.Component {
         <p title="Undo" onClick={()=>{
           undo(this.props.past[0])
 
-          const newData = JSON.parse(JSON.stringify(artboards))
-
-          newData[0].canvas =  this.props.past[0]
+          const newData = setCanvas({working:working, artboards: artboards, value: this.props.past[this.props.past.length-1] })
 
           //console.log(this.props.past[0])
           console.log(this.props.present.color_scheme["mainColor"])
 
-          testtt()
+          updateArtboard(newData)
+
+          //testtt()
         }}>
           <FontAwesomeIcon icon={faLongArrowAltLeft} />
         </p>
