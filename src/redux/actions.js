@@ -83,18 +83,20 @@ export const actions = {
   },
   recordHistory(value) {
     return {
-      type: 'record/histoty',
+      type: 'record/history',
       payload: value
     }
   },
-  undo() {
+  undo(value) {
     return {
       type: 'UNDO',
+      //payload: value
     }
   },
-  redo() {
+  redo(value) {
     return {
       type: 'REDO',
+      payload: value
     }
   },
 }
