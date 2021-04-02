@@ -2,29 +2,38 @@ import { switchDarkmode } from './actions';
 
 const initialState = {
   past: [],
-  present: {
-
-  },
+  present: {},
   future: []
 }
+
+/*export default function historyReducer(state = initialState, action) {
+  switch (action.type) {
+    case 'record/history':
+      console.log("his his")
+      return {
+        canvas : action.payload
+      }
+    default:
+      return state
+
+  }
+}*/
 
 export default function historyReducer(state = initialState, action) {
 
   const { past, present, future } = state
 
+  console.log(state)
 
   switch (action.type) {
-    case 'reset/histoty':
+    case 'reset/history':
       return {
-        ...state,
         past: [],
         present: action.payload,
         future: []
       }
-    case 'record/histoty':
-      console.log("his his")
+    case 'record/history':
       return {
-        ...state,
         past: [...past, action.payload],
         present: action.payload,
         future: []
@@ -32,9 +41,6 @@ export default function historyReducer(state = initialState, action) {
     case 'UNDO':
       const previous = past[past.length - 1]
       const newPast = past.slice(0, past.length - 1)
-      console.log("undo")
-      console.log("previous: " + previous)
-      console.log("newPast: " + newPast)
       return {
         past: newPast,
         present: previous,

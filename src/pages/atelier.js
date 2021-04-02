@@ -10,6 +10,7 @@ import icon from '../images/logo.svg';
 import {
   getArtboardData,
   setArtboardData,
+  getCanvas
 } from '../components/handleLocalstorage'
 
 import '../styles/atelier.scss';
@@ -35,40 +36,12 @@ class Atelier extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      mainColor: getArtboardData({
-        artboards: this.props.artboards.present.artboards,
-        working:this.props.json.working,
-        type:'color_scheme'}
-      )['mainColor'],//"#B21313",
-      subColor: getArtboardData({
-        artboards: this.props.artboards.present.artboards,
-        working:this.props.json.working,
-        type:'color_scheme'}
-      )['subColor'],
-      //'#111184'
-      accentColor: getArtboardData({
-        artboards: this.props.artboards.present.artboards,
-        working:this.props.json.working,
-        type:'color_scheme'}
-      )['accentColor'],
-      //'#C7B136'
-      background: getArtboardData({
-        artboards: this.props.artboards.present.artboards,
-        working:this.props.json.working,
-        type:'color_scheme'}
-      )['background'],
-      //getColor('#C7B136','background'),
       willAddElementOfSvg: 1,
       selectEl:null,
       test: false,
-      /*data : getArtboardData({
-        artboards: this.props.artboards.artboards,
-        working:this.props.json.working,
-        type:'svg_data'}
-      ),//getArtboardData({json: this.props.json, type:'svg_data'}),
-      //this.props.json,//getArtboardData('svg_data'),*/
     }
   }
+
 
   /*isLocalStorageAvlbl = () => {
     if (typeof localStorage !== 'undefined') {
@@ -178,47 +151,6 @@ class Atelier extends React.Component {
     }
   }
 
-  bringForward = (e) => {
-    const el = this.state.data[this.state.selectEl];
-    const data_copy = this.state.data.slice();
-    data_copy.splice(this.state.selectEl,1);
-    data_copy.splice(this.state.selectEl + 1 ,0,el);
-    this.setState({data: data_copy});
-
-    setArtboardData({
-      type: 'svg_data',
-      value: data_copy,
-    })
-  }
-
-  sendBackward = (e) => {
-    const el = this.state.data[this.state.selectEl];
-    const data_copy = this.state.data.slice();
-    data_copy.splice(this.state.selectEl,1);
-    data_copy.splice(this.state.selectEl - 1 ,0,el);
-    this.setState({data: data_copy});
-
-    setArtboardData({
-      type: 'svg_data',
-      value: data_copy,
-    })
-  }
-
-  immute = () => {
-    const hisJson = {
-      mainColor: this.state.mainColor,
-      subColor: this.state.subColor,
-      accentColor: this.state.accentColor,
-      background: this.state.background,
-      data: this.state.data
-    }
-
-    const history_copy = this.state.data.slice();
-    history_copy.push(hisJson);
-    this.setState({history: history_copy});
-
-  }
-
 
   render() {
 
@@ -235,26 +167,14 @@ class Atelier extends React.Component {
       display: 'none',
     }
 
-    const { json, artboards, switchDarkmode,updateArtboard } = this.props
+    const { darkmode, switchDarkmode, updateArtboard, working, artboards } = this.props
 
-    const darkmode = json.darkmode
+    const canvas = getCanvas({artboards:artboards,working:working});
 
-
-    const artboard_array = artboards.present.artboards
-
-    const working = json.working
-
-    let artboard;
-
-    for (var i=0;i<artboard_array.length;i++){
-      if (working === artboard_array[i].artboard_id) {
-
-        artboard = artboard_array[i]
-
-      } else {
-        //console.log(working,artboard_array[i].artboard_id)
-      }
-    }
+    const mainColor = canvas.color_scheme["mainColor"],
+          subColor = canvas.color_scheme["subColor"],
+          accentColor = canvas.color_scheme["accentColor"],
+          background = canvas.color_scheme["background"];
 
     return (
       <section className={darkmode? "section-atelier dark-mode": "section-atelier"}
@@ -276,79 +196,35 @@ class Atelier extends React.Component {
 
           <style jsx>{`
             .main {
-              fill: ${this.state.mainColor};
+              fill: ${mainColor};
             }
             .sub {
-              fill: ${this.state.subColor};
+              fill: ${subColor};
             }
             .accent {
-              fill: ${this.state.accentColor};
+              fill: ${accentColor};
             }
           `}</style>
           <TopBar
-               data={this.state.data}
-               background={this.state.background}
+               background={background}
           />
           <ToolsPanel
-               mainColor={this.state.mainColor}
-               subColor={this.state.subColor}
-               accentColor={this.state.accentColor}
-               backgroundColor={this.state.background}
-               changeHexOfMain={(e) => {
-                 this.setState({mainColor:e})
-                 /*setArtboardData({
-                   type: 'mainColor',
-                   value: e,
-                 })*/
-               }}
-               changeHexOfSub={(e) => {
-                 this.setState({subColor:e})
-                 /*setArtboardData({
-                   type: 'subColor',
-                   value: e,
-                 })*/
-               }}
-               changeHexOfAccent={(e) => {
-                 this.setState({accentColor:e})
-                 /*setArtboardData({
-                   type: 'accentColor',
-                   value: e,
-                 })*/
-               }}
-               changeHexOfBackground={(e) => {
-                 this.setState({background:e})
-                 /*setArtboardData({
-                   type: 'background',
-                   value: e,
-                 })*/
-               }}
+               mainColor={mainColor}
+               subColor={subColor}
+               accentColor={accentColor}
+               backgroundColor={background}
                selectEl={this.state.selectEl}
                //length={artboard.canvas.svg_data.length}//{this.state.data.length}
-               bringForward={()=>{
-                 if (this.state.selectEl === artboard.canvas.svg_data.length) {
-                   this.setState({selectEl: this.state.selectEl})
-                 } else {
-                   this.setState({selectEl: this.state.selectEl + 1})
-                 }
-               }}
-               sendBackward={()=>{
-                 if (this.state.selectEl <= 0) {
-                   this.setState({selectEl: 0})
-                 } else {
-                   this.setState({selectEl: this.state.selectEl - 1})
-                 }
-               }}
           />
           <div className="section-artboard">
           <Artboard
-               mainColor={this.state.mainColor}
-               subColor={this.state.subColor}
-               accentColor={this.state.accentColor}
-               background={this.state.background}
+               mainColor={mainColor}
+               subColor={subColor}
+               accentColor={accentColor}
+               background={background}
                updateState={(e) => {
                  this.setState({data:e})
                }}
-               data={this.state.data}
 
                willAddElementOfSvg={this.state.willAddElementOfSvg}
                method={(e)=>{this.setState({test:false})}}
@@ -374,8 +250,9 @@ class Atelier extends React.Component {
 
 
 const mapStateToProps = state => ({
-  json: state.json,
-  artboards: state.artboards,
+  darkmode: state.json.darkmode,
+  working: state.json.working,
+  artboards: state.artboards.present.artboards,
 })
 
 

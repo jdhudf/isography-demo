@@ -90,7 +90,7 @@ export const actions = {
   undo(value) {
     return {
       type: 'UNDO',
-      //payload: value
+      payload: value
     }
   },
   redo(value) {

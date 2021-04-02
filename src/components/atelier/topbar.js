@@ -34,7 +34,7 @@ class TopBar extends React.Component {
     this.state = {
       showModal: false,
       showExportPanel: false,
-      artboardName: getArtboardData('artboard_name'),
+      artboardName: "unknown"//getArtboardData('artboard_name'),
     };
 
     this.handleOpenModal = this.handleOpenModal.bind(this);

@@ -76,6 +76,13 @@ export default function artboardReducer(state = initialState, action) {
         ...state,
         artboards: action.payload
       }
+    /*case 'UNDO':
+      console.log("UNDO in artboard reducer")
+      console.log(action.payload)
+      return {
+        ...state,
+        artboards: action.payload
+      }*/
     default:
       console.log("problem in reducer")
       return state

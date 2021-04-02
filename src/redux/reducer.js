@@ -9,8 +9,8 @@ import undoable from 'redux-undo';
 const rootReducer = combineReducers({
   json: jsonReducer,
   artboards: undoable(artboardReducer, {
-    undoType: 'CANVAS_UNDO',
-    redoType: 'CANVAS_REDO',
+    undoType: 'DOCUMENT_UNDO',
+    redoType: 'DOCUMENT_REDO',
     // here you will want to configure specific redux-undo action type
   }),
   templates: templateReducer,

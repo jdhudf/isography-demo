@@ -7,7 +7,8 @@ import {
   setArtboardData,
   artboardScale,
   artboardPosition,
-  updateArtboards
+  updateArtboards,
+  getCanvas
 } from '../handleLocalstorage'
 
 import { onWheel } from './features/pinch-gesture-wheel'
@@ -73,7 +74,7 @@ class Artboard extends React.Component {
       selectedInitial: [0,0],
       isScaleMouseDown: false,
       // -- below is svg data
-      data : this.svg_dataInRedux()
+      data : getCanvas({artboards:this.props.artboards,working:this.props.working}).svg_data
     };
   }
 
@@ -209,10 +210,6 @@ class Artboard extends React.Component {
 
   onMouseDown = (e) => {
 
-    if (this.svg_dataInRedux !== this.state.data) {
-      this.setState({data:this.svg_dataInRedux()})
-    }
-
     this.setState({isMouseDown:true})
     this.setState({propsOrState:true})
 
@@ -318,10 +315,7 @@ class Artboard extends React.Component {
 
   onMouseUp = (e) => {
 
-    const working = this.props.json.working
-    const artboards = this.props.artboards.present.artboards
-
-    const { updateArtboard } = this.props
+    const { updateArtboard, working, artboards } = this.props
 
     this.setState({isMouseDown:false})
     this.setState({propsOrState:false})
@@ -353,10 +347,7 @@ class Artboard extends React.Component {
       this.setState({isMouseDown:false})
 
 
-      const working = this.props.json.working
-      const artboards = this.props.artboards.present.artboards
-
-      const { updateArtboard } = this.props
+      const { updateArtboard, working, artboards } = this.props
 
       const newData = updateArtboards({
         working: working,
@@ -711,10 +702,7 @@ class Artboard extends React.Component {
     this.setState({isScaleMouseDown:false})
     this.setState({propsOrState:false})
 
-    const working = this.props.json.working
-    const artboards = this.props.artboards.present.artboards
-
-    const { updateArtboard } = this.props
+    const { updateArtboard, working, artboards } = this.props
 
     const newData = updateArtboards({
       working: working,
@@ -730,10 +718,7 @@ class Artboard extends React.Component {
     this.setState({isScaleMouseDown:false})
     this.setState({propsOrState:false})
 
-    const working = this.props.json.working
-    const artboards = this.props.artboards.present.artboards
-
-    const { updateArtboard } = this.props
+    const { updateArtboard, working, artboards } = this.props
 
     const newData = updateArtboards({
       working: working,
@@ -743,32 +728,6 @@ class Artboard extends React.Component {
     })
 
     updateArtboard(newData)
-  }
-
-  svg_dataInRedux = (props) => {
-    const json = this.props.json
-    const artboards = this.props.artboards.present.artboards
-    const grid = json.grid
-
-    let artboard,artboardSize,gridScale,svg_data;
-
-    for (var i = 0; i < artboards.length; i++) {
-      if (artboards[i].artboard_id == json.working) {
-        artboard = artboards[i];
-      }
-    }
-
-    if (artboard) {
-      artboardSize = artboard.canvas.artboard_size;
-      gridScale = artboard.canvas.grid;
-      svg_data = artboard.canvas.svg_data
-    } else {
-      artboardSize = [800,600];
-      gridScale = 1;
-      svg_data = []//this.state.data
-    }
-
-    return svg_data//.join('')
   }
 
   render() {
@@ -880,29 +839,11 @@ class Artboard extends React.Component {
       </div>
     )
 
-    const json = this.props.json
-    const artboards = this.props.artboards.present.artboards
-    const grid = json.grid
+    const { working, artboards, grid } = this.props
+    const canvas =  getCanvas({artboards:artboards, working: working})
+    const artboardSize = canvas.artboard_size,
+          gridScale = getArtboardData({artboards:artboards,working:working,type:"grid"})
 
-    let artboard,artboardSize,gridScale,svg_data;
-
-    for (var i = 0; i < artboards.length; i++) {
-      if (artboards[i].artboard_id == json.working) {
-        artboard = artboards[i];
-      }
-    }
-
-    if (artboard) {
-      artboardSize = artboard.canvas.artboard_size;
-      gridScale = artboard.canvas.grid;
-      svg_data = artboard.canvas.svg_data
-    } else {
-      artboardSize = [800,600];
-      gridScale = 1;
-      //svg_data = this.state.data
-    }
-
-    console.log(this.props.present)
 
     return (
       <div style={{position: "relative"}}>
@@ -971,22 +912,9 @@ class Artboard extends React.Component {
           width={artboardSize[0]}
           height={artboardSize[1]}
           xmlns="http://www.w3.org/2000/svg"
-          dangerouslySetInnerHTML=/*{{__html: this.state.data.join('') }}*//*{{__html:
-
-            //this.state.data.join('')
-
-            this.svg_dataInRedux().join('')
-
-            //svg_data.join('')
-
-          }}*//*{{__html: ()=>{
-                    console.log('resresr')
-                    return this.svg_dataInRedux().join('')
-                   }
-                 }}*/
-           {{__html: (() => {
+          dangerouslySetInnerHTML={{__html: (() => {
                 if (!this.state.propsOrState) {
-                  return this.svg_dataInRedux().join('')
+                  return getCanvas({artboards:artboards,working:working}).svg_data.join('')
                 } else {
                   return this.state.data.join('')
                 }
@@ -1020,7 +948,9 @@ class Artboard extends React.Component {
 
 const mapStateToProps = state => ({
   json: state.json,
-  artboards: state.artboards
+  artboards: state.artboards.present.artboards,
+  working: state.json.working,
+  grid: state.grid
 })
 
 export default connect(

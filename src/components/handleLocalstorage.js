@@ -1,29 +1,54 @@
 export const getArtboardData = ({artboards,working,type}) => {
 
-  if (artboards !== undefined) {
+  const copy =  JSON.parse(JSON.stringify(artboards));
+
+  if (copy !== undefined) {
     //const artboards = artboard.artboards
 
-    for(var i=0;i<artboards.length;i++){
-      if(artboards[i].artboard_id === working){
+    for(var i=0;i<copy.length;i++){
+      if(copy[i].artboard_id === working){
 
         switch (type) {
           case "color_scheme":
-            return artboards[i].canvas.color_scheme;
+            return copy[i].canvas.color_scheme;
             //break;
           case "artboard_size":
-            return artboards[i].canvas.artboard_size;
+            return copy[i].canvas.artboard_size;
             //break;
           case "svg_data":
-            return  artboards[i].canvas.svg_data
+            return  copy[i].canvas.svg_data
             //break;
           case "last_modified":
-            return artboards[i].last_modified
+            return copy[i].last_modified
             //break;
           case "artboard_name":
-            return artboards[i].artboard_name
+            return copy[i].artboard_name
+            //break;
+          case "grid":
+            return copy[i].grid
             //break;
           default:
         }
+
+      }
+    }
+
+  } else {
+
+  }
+}
+
+export const getCanvas = ({artboards,working}) => {
+
+  const copy =  artboards//artboardsJSON.parse(JSON.stringify(artboards));
+
+  if (copy !== undefined) {
+    //const artboards = artboard.artboards
+
+    for(var i=0;i<copy.length;i++){
+      if(copy[i].artboard_id === working){
+
+        return copy[i].canvas
 
       }
     }
@@ -76,43 +101,48 @@ export const setArtboardData = ({type, value}) => {
 
 export const updateArtboards = ({working, type, artboards,value}) => {
 
-  for(var i=0;i<artboards.length;i++){
-    if(artboards[i].artboard_id === working){
+  const newData =  JSON.parse(JSON.stringify(artboards));
+
+  for(var i=0;i<newData.length;i++){
+    if(newData[i].artboard_id === working){
 
         switch (type) {
           case "mainColor":
-            artboards[i].canvas.color_scheme["mainColor"] = value
+            newData[i].canvas.color_scheme["mainColor"] = value
             break;
           case "subColor":
-            artboards[i].canvas.color_scheme["subColor"] = value
+            newData[i].canvas.color_scheme["subColor"] = value
             break;
           case "accentColor":
-            artboards[i].canvas.color_scheme["accentColor"] = value
+            newData[i].canvas.color_scheme["accentColor"] = value
             break;
           case "background":
-            artboards[i].canvas.color_scheme["background"] = value
+            newData[i].canvas.color_scheme["background"] = value
             break;
           case "artboard_size":
-            artboards[i].canvas.artboard_size = value
+            newData[i].canvas.artboard_size = value
             break;
           case "last_modified":
-            artboards[i].last_modified = value
+            newData[i].last_modified = value
             break;
           case "artboard_name":
-            artboards[i].artboard_name = value
+            newData[i].artboard_name = value
             break;
           case "svg_data":
-            artboards[i].canvas.svg_data = value
+            newData[i].canvas.svg_data = value
             break;
           case "grid":
-            artboards[i].canvas.grid = value
+            newData[i].canvas.grid = value
+            break;
+          case "canvas":
+            newData[i].canvas = value
             break;
           default:
         }
 
     }
   }
-  return artboards
+  return newData
 }
 
 

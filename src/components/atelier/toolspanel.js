@@ -21,7 +21,7 @@ import {
 import { connect } from 'react-redux'
 import { actions } from '../../redux/actions';
 import { useSelector, useDispatch } from 'react-redux'
-//import { ActionCreators } from 'redux-undo';
+import { ActionCreators } from 'redux-undo';
 
 const getState = state => state.json
 const getArtboards = state => state.artboards
@@ -119,12 +119,12 @@ class ToolsPanel extends React.Component {
         break;
     }
 
-    const newData = updateArtboards({
+    const newData = JSON.parse(JSON.stringify(updateArtboards({
       working: working,
       type: "svg_data",
       artboards: artboards,
       value: data_copy
-    })
+    })));
 
     updateArtboard(newData)
 
@@ -163,7 +163,7 @@ class ToolsPanel extends React.Component {
 
   render() {
 
-    const { working, switchDarkmode, changeHex, undo, recordHistory,redo } = this.props
+    const { working, switchDarkmode, changeHex, undo, recordHistory,redo,updateArtboard,past,testtt } = this.props
 
     const artboards = this.props.artboards.present.artboards
 
@@ -206,20 +206,18 @@ class ToolsPanel extends React.Component {
           <ColorPicker
              color={this.props.mainColor}
              method={(e) => {
-               this.props.changeHexOfMain(e)
 
                if (artboards !== undefined &&  working !== undefined ) {
-                 changeHex({artboards: artboards, id: working, hex: e, type: "mainColor"})
+                 changeHex({artboards: JSON.parse(JSON.stringify(artboards)), id: working, hex: e, type: "mainColor"})
                }
 
-               recordHistory(artboard.canvas)
+               recordHistory(JSON.parse(JSON.stringify(artboard.canvas)))
 
              }}
           />
           <ColorPicker
              color={this.props.subColor}
              method={(e) => {
-               this.props.changeHexOfSub(e)
 
                if (artboards !== undefined &&  working !== undefined ) {
                  changeHex({artboards: artboards, id: working, hex: e, type: "subColor"})
@@ -230,7 +228,6 @@ class ToolsPanel extends React.Component {
           <ColorPicker
             color={this.props.accentColor}
             method={(e) => {
-              this.props.changeHexOfAccent(e)
               if (artboards !== undefined &&  working !== undefined ) {
                 changeHex({artboards: artboards, id: working, hex: e, type: "accentColor"})
               }
@@ -239,8 +236,16 @@ class ToolsPanel extends React.Component {
             {/*ref='CPSetting' />*/}
         </div>
         <p title="Undo" onClick={()=>{
-          //console.log("???")
-          undo()
+          undo(this.props.past[0])
+
+          const newData = JSON.parse(JSON.stringify(artboards))
+
+          newData[0].canvas =  this.props.past[0]
+
+          //console.log(this.props.past[0])
+          console.log(this.props.present.color_scheme["mainColor"])
+
+          testtt()
         }}>
           <FontAwesomeIcon icon={faLongArrowAltLeft} />
         </p>
@@ -250,7 +255,6 @@ class ToolsPanel extends React.Component {
         <ColorPicker
           color={this.props.backgroundColor}
           method={(e) => {
-            this.props.changeHexOfBackground(e)
             if (artboards !== undefined &&  working !== undefined ) {
               changeHex({artboards: artboards, id: working, hex: e, type: "background"})
             }
@@ -334,6 +338,9 @@ function ToggleGrid() {
 const mapStateToProps = state => ({
   artboards: state.artboards,
   working: state.json.working,
+  past: state.history.past,
+  future: state.history.future,
+  present: state.history.present,
 })
 
 export default connect(
@@ -342,8 +349,9 @@ export default connect(
     changeHex: value => dispatch(actions.changeHex(value)),
     updateArtboard: value => dispatch(actions.updateArtboard(value)),
     recordHistory: value => dispatch(actions.recordHistory(value)),
-    undo:          value => dispatch(actions.undo()),
-    redo:          value => dispatch(actions.redo()),
+    undo:          value => dispatch(actions.undo()),//value => dispatch(actions.undo(value)),
+    redo:          value => dispatch(actions.redo(value)),
+    testtt:          value => dispatch(ActionCreators.undo()),
   })
   //dispatch => ({ switchDarkmode: value => dispatch(switchDarkmode(value)) })
 )(ToolsPanel)
