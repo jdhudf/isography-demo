@@ -6,6 +6,7 @@ const initialState = {
       created_at: 'Tue, 22 May 2018 13:20:00 GMT',
       last_modified: 'Tue, 22 May 2018 13:20:00 GMT',
       grid: 1,
+      undoable: false,
       canvas: {
         artboard_size: [800,600],
         svg_data: ['<g transform="translate(50,50) scale(1,1)" class="sub"><circle cx="0" cy="0" r="50"></circle></g>',
@@ -18,12 +19,6 @@ const initialState = {
           background: '#ffffff'
         },
       },
-      history: [
-        {
-          svg_data: [],
-          color_scheme: [],
-        }
-      ]
     },
     {
       artboard_id: 2,
@@ -31,6 +26,7 @@ const initialState = {
       created_at: 'Tue, 22 May 2018 13:20:00 GMT',
       last_modified: 'Tue, 22 May 2018 13:20:00 GMT',
       grid: 1,
+      undoable: false,
       canvas: {
         artboard_size: [800,600],
         svg_data: ['<g transform="translate(50,50) scale(1,1)" class="sub"><circle cx="0" cy="0" r="50"></circle></g>',
@@ -43,7 +39,6 @@ const initialState = {
           background: '#4B6A6D'
         },
       },
-      history: []
     },
   ]
 }
@@ -66,10 +61,20 @@ export default function artboardReducer(state = initialState, action) {
         ...state,
         artboards: action.payload
       }
-    case 'update/history':
+    case 'grid/artboard':
       return {
         ...state,
-        artboards: state.artboards.map(el => el.artboard_id === action.payload.artboard_id ? action.payload : el)
+        artboards: action.payload
+      }
+    case 'last_modified/artboard':
+      return {
+        ...state,
+        artboards: action.payload
+      }
+    case 'canvas/artboard':
+      return {
+        ...state,
+        artboards: action.payload
       }
     default:
       console.log("problem in reducer")

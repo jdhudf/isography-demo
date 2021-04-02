@@ -73,11 +73,7 @@ class Artboard extends React.Component {
       selectedInitial: [0,0],
       isScaleMouseDown: false,
       // -- below is svg data
-      data : this.svg_dataInRedux()/*getArtboardData({
-        artboards: this.props.artboards.artboards,
-        working:this.props.json.working,
-        type:"svg_data"
-      })//this.props.data,*/
+      data : this.svg_dataInRedux()
     };
   }
 
@@ -323,7 +319,7 @@ class Artboard extends React.Component {
   onMouseUp = (e) => {
 
     const working = this.props.json.working
-    const artboards = this.props.artboards
+    const artboards = this.props.artboards.present.artboards
 
     const { updateArtboard } = this.props
 
@@ -341,7 +337,7 @@ class Artboard extends React.Component {
     const newData = updateArtboards({
       working: working,
       type: "svg_data",
-      artboards: artboards.artboards,
+      artboards: artboards,
       value: this.state.data
     })
 
@@ -358,14 +354,14 @@ class Artboard extends React.Component {
 
 
       const working = this.props.json.working
-      const artboards = this.props.artboards
+      const artboards = this.props.artboards.present.artboards
 
       const { updateArtboard } = this.props
 
       const newData = updateArtboards({
         working: working,
         type: "svg_data",
-        artboards: artboards.artboards,
+        artboards: artboards,
         value: this.state.data
       })
 
@@ -481,14 +477,14 @@ class Artboard extends React.Component {
 
     // update artboard with redux
     const working = this.props.json.working
-    const artboards = this.props.artboards
+    const artboards = this.props.artboards.present.artboards
 
     const { updateArtboard } = this.props
 
     const newData = updateArtboards({
       working: working,
       type: "svg_data",
-      artboards: artboards.artboards,
+      artboards: artboards,
       value: data_copy
     })
 
@@ -716,14 +712,14 @@ class Artboard extends React.Component {
     this.setState({propsOrState:false})
 
     const working = this.props.json.working
-    const artboards = this.props.artboards
+    const artboards = this.props.artboards.present.artboards
 
     const { updateArtboard } = this.props
 
     const newData = updateArtboards({
       working: working,
       type: "svg_data",
-      artboards: artboards.artboards,
+      artboards: artboards,
       value: this.state.data
     })
 
@@ -735,14 +731,14 @@ class Artboard extends React.Component {
     this.setState({propsOrState:false})
 
     const working = this.props.json.working
-    const artboards = this.props.artboards
+    const artboards = this.props.artboards.present.artboards
 
     const { updateArtboard } = this.props
 
     const newData = updateArtboards({
       working: working,
       type: "svg_data",
-      artboards: artboards.artboards,
+      artboards: artboards,
       value: this.state.data
     })
 
@@ -751,7 +747,7 @@ class Artboard extends React.Component {
 
   svg_dataInRedux = (props) => {
     const json = this.props.json
-    const artboards = this.props.artboards.artboards
+    const artboards = this.props.artboards.present.artboards
     const grid = json.grid
 
     let artboard,artboardSize,gridScale,svg_data;
@@ -885,7 +881,7 @@ class Artboard extends React.Component {
     )
 
     const json = this.props.json
-    const artboards = this.props.artboards.artboards
+    const artboards = this.props.artboards.present.artboards
     const grid = json.grid
 
     let artboard,artboardSize,gridScale,svg_data;
@@ -905,6 +901,8 @@ class Artboard extends React.Component {
       gridScale = 1;
       //svg_data = this.state.data
     }
+
+    console.log(this.props.present)
 
     return (
       <div style={{position: "relative"}}>

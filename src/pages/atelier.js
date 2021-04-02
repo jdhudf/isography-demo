@@ -36,24 +36,24 @@ class Atelier extends React.Component {
     super(props);
     this.state = {
       mainColor: getArtboardData({
-        artboards: this.props.artboards.artboards,
+        artboards: this.props.artboards.present.artboards,
         working:this.props.json.working,
         type:'color_scheme'}
       )['mainColor'],//"#B21313",
       subColor: getArtboardData({
-        artboards: this.props.artboards.artboards,
+        artboards: this.props.artboards.present.artboards,
         working:this.props.json.working,
         type:'color_scheme'}
       )['subColor'],
       //'#111184'
       accentColor: getArtboardData({
-        artboards: this.props.artboards.artboards,
+        artboards: this.props.artboards.present.artboards,
         working:this.props.json.working,
         type:'color_scheme'}
       )['accentColor'],
       //'#C7B136'
       background: getArtboardData({
-        artboards: this.props.artboards.artboards,
+        artboards: this.props.artboards.present.artboards,
         working:this.props.json.working,
         type:'color_scheme'}
       )['background'],
@@ -67,17 +67,6 @@ class Atelier extends React.Component {
         type:'svg_data'}
       ),//getArtboardData({json: this.props.json, type:'svg_data'}),
       //this.props.json,//getArtboardData('svg_data'),*/
-      history: [
-        {
-          mainColor: null,
-          subColor: null,
-          accentColor: null,
-          background: null,
-          data: [],
-        },
-        //{},
-        //{},
-      ],
     }
   }
 
@@ -251,7 +240,7 @@ class Atelier extends React.Component {
     const darkmode = json.darkmode
 
 
-    const artboard_array = artboards.artboards
+    const artboard_array = artboards.present.artboards
 
     const working = json.working
 
