@@ -209,10 +209,6 @@ class Atelier extends React.Component {
                background={background}
           />
           <ToolsPanel
-               mainColor={mainColor}
-               subColor={subColor}
-               accentColor={accentColor}
-               backgroundColor={background}
                selectEl={this.state.selectEl}
                //length={artboard.canvas.svg_data.length}//{this.state.data.length}
           />

@@ -16,7 +16,8 @@ import ColorPicker from "./toolspanel_ColorPicker";
 
 import {
   updateArtboards,
-  setCanvas
+  setCanvas,
+  getCanvas
 } from '../handleLocalstorage'
 
 import { connect } from 'react-redux'
@@ -42,7 +43,7 @@ class ToolsPanel extends React.Component {
   handleElement = (action) => {
 
     const { working, switchDarkmode,updateArtboard,undo } = this.props
-    const artboards = this.props.artboards.present.artboards
+    const artboards = this.props.artboards
 
     let artboard,svg_data,el,data_copy;
 
@@ -164,17 +165,13 @@ class ToolsPanel extends React.Component {
 
   render() {
 
-    const { working, switchDarkmode, changeHex, undo, recordHistory,redo,updateArtboard,past,testtt } = this.props
+    const { working, switchDarkmode, changeHex, undo, recordHistory,redo,updateArtboard,past,future,present,testtt,artboards } = this.props
 
-    const artboards = this.props.artboards.present.artboards
-
-    let artboard;
-
-    for (var i = 0; i < artboards.length; i++) {
-      if (artboards[i].artboard_id == working) {
-        artboard = artboards[i];
-      }
-    }
+    const canvas = getCanvas({artboards: artboards, working: working})
+    const mainColor = canvas.color_scheme['mainColor'],
+          subColor = canvas.color_scheme['subColor'],
+          accentColor = canvas.color_scheme['accentColor'],
+          background = canvas.color_scheme['background'];
 
     return (
       <section className="section-toolspanel section-bottom">
@@ -205,19 +202,19 @@ class ToolsPanel extends React.Component {
         <p><FontAwesomeIcon icon={faFont} /></p>
         <div className="color-scheme">
           <ColorPicker
-             color={this.props.mainColor}
+             color={mainColor}
              method={(e) => {
 
                if (artboards !== undefined &&  working !== undefined ) {
                  changeHex({artboards: JSON.parse(JSON.stringify(artboards)), id: working, hex: e, type: "mainColor"})
                }
 
-               recordHistory(JSON.parse(JSON.stringify(artboard.canvas)))
+               recordHistory(JSON.parse(JSON.stringify(canvas)))
 
              }}
           />
           <ColorPicker
-             color={this.props.subColor}
+             color={subColor}
              method={(e) => {
 
                if (artboards !== undefined &&  working !== undefined ) {
@@ -227,7 +224,7 @@ class ToolsPanel extends React.Component {
              }}
           />
           <ColorPicker
-            color={this.props.accentColor}
+            color={accentColor}
             method={(e) => {
               if (artboards !== undefined &&  working !== undefined ) {
                 changeHex({artboards: artboards, id: working, hex: e, type: "accentColor"})
@@ -237,20 +234,21 @@ class ToolsPanel extends React.Component {
             {/*ref='CPSetting' />*/}
         </div>
         <p title="Undo" onClick={()=>{
-          undo(this.props.past[0])
+          undo()
 
-          const newData = setCanvas({working:working, artboards: artboards, value: this.props.past[this.props.past.length-1] })
-
-          //console.log(this.props.past[0])
-          console.log(this.props.present.color_scheme["mainColor"])
+          const newData = setCanvas({working:working, artboards: artboards, value: past[past.length-1] })
 
           updateArtboard(newData)
 
-          //testtt()
         }}>
           <FontAwesomeIcon icon={faLongArrowAltLeft} />
         </p>
-        <p title="Redo" onClick={()=>redo()}><FontAwesomeIcon icon={faLongArrowAltRight} /></p>
+        <p title="Redo" onClick={()=>{
+          redo()
+          const newData = setCanvas({working:working, artboards: artboards, value: present[present.length-1] })
+
+          updateArtboard(newData)
+        }}><FontAwesomeIcon icon={faLongArrowAltRight} /></p>
 
         <p style={{margin: "0",color:"gray"}}>BG</p>
         <ColorPicker
@@ -337,7 +335,7 @@ function ToggleGrid() {
 
 
 const mapStateToProps = state => ({
-  artboards: state.artboards,
+  artboards: state.artboards.present.artboards,
   working: state.json.working,
   past: state.history.past,
   future: state.history.future,
