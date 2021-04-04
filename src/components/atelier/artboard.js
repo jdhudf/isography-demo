@@ -4,7 +4,6 @@ import '../../styles/artboard.scss';
 
 import {
   getArtboardData,
-  setArtboardData,
   artboardScale,
   artboardPosition,
   updateArtboards,
@@ -90,11 +89,19 @@ class Artboard extends React.Component {
 
     window.addEventListener('resize', this.updateSelecter);
 
-    setArtboardData({
-      type: 'last_modified',
-      value: new Date(),
-    })
+    const { artboards, working, resetHistory, updateArtboard } = this.props
 
+    const canvas = getCanvas({artboards: artboards,working:working});
+
+    const newData = updateArtboards({working:working, type:"last_modified", artboards: artboards,value: new Date()})
+
+    updateArtboard(newData)
+    resetHistory(canvas)
+
+  }
+
+  componentDidUpdate() {
+    this.updateSelecter()
   }
 
   //--- Choose which element we should edit &  send it to parent component ---//
@@ -307,7 +314,7 @@ class Artboard extends React.Component {
 
         //--- Move Selector Position ---//
 
-        this.updateSelecter();
+        //this.updateSelecter();
 
 
         //---  Update this.state.data  ---//
@@ -328,39 +335,23 @@ class Artboard extends React.Component {
 
   onMouseUp = (e) => {
 
-    const { updateArtboard, working, artboards } = this.props
 
-    this.setState({isMouseDown:false})
-    this.setState({propsOrState:false})
+    if ( this.state.isMouseDown ) {
 
-    if(this.props.test) {
+      const { updateArtboard, working, artboards, recordHistory } = this.props
 
-      this.addElementOfSVG(this.props.willAddElementOfSvg)
+      const canvas = getCanvas({artboards: artboards,working:working})
 
-    }
-
-    this.updateSelecter();
-
-    const newData = updateArtboards({
-      working: working,
-      type: "svg_data",
-      artboards: artboards,
-      value: this.state.data
-    })
-
-    updateArtboard(newData)
-
-    this.getTranslate(e);
-
-  }
-
-  onMouseLeave = (e) => {
-
-    if(this.state.isMouseDown) {
       this.setState({isMouseDown:false})
+      this.setState({propsOrState:false})
 
+      if(this.props.test) {
 
-      const { updateArtboard, working, artboards } = this.props
+        this.addElementOfSVG(this.props.willAddElementOfSvg)
+
+      }
+
+      //this.updateSelecter();
 
       const newData = updateArtboards({
         working: working,
@@ -370,6 +361,34 @@ class Artboard extends React.Component {
       })
 
       updateArtboard(newData)
+      recordHistory(canvas)
+
+      this.getTranslate(e);
+
+    }
+
+  }
+
+  onMouseLeave = (e) => {
+
+    if(this.state.isMouseDown) {
+      this.setState({isMouseDown:false})
+
+
+      const { updateArtboard, working, artboards, recordHistory } = this.props
+
+      const canvas = getCanvas({artboards: artboards,working:working})
+
+
+      const newData = updateArtboards({
+        working: working,
+        type: "svg_data",
+        artboards: artboards,
+        value: this.state.data
+      })
+
+      updateArtboard(newData)
+      recordHistory(canvas)
       this.getTranslate(e);
     }
   }
@@ -491,7 +510,7 @@ class Artboard extends React.Component {
 
   onWheel = (e) => {
     e.preventDefault();
-    this.updateSelecter();
+    //this.updateSelecter();
     if (e.ctrlKey) {
 
       if (0.5 < this.state.artboardScale < 1.5) {
@@ -534,7 +553,7 @@ class Artboard extends React.Component {
   }
   gestureChange = (e) => {
     e.preventDefault();
-    this.updateSelecter();
+    //this.updateSelecter();
     this.setState({artboardScale: this.state.gestureStartScale * e.scale})
 
     localStorage.setItem('artboardScale', this.state.gestureStartScale * e.scale);
@@ -683,7 +702,7 @@ class Artboard extends React.Component {
     if (this.state.isScaleMouseDown) {
 
       this.getDistance(e);
-      this.updateSelecter()
+      //this.updateSelecter()
 
       /*switch (position){
         case 'topLeft':
@@ -735,7 +754,6 @@ class Artboard extends React.Component {
       value: this.state.data
     })
 
-    updateArtboard(newData)
   }
 
   render() {
@@ -966,7 +984,9 @@ export default connect(
   dispatch => ({
     switchDarkmode: value => dispatch(actions.switchDarkmode(value)),
     updateArtboard: value => dispatch(actions.updateArtboard(value)),
-    switchSelected: value => dispatch(actions.switchSelected(value))
+    switchSelected: value => dispatch(actions.switchSelected(value)),
+    recordHistory: value => dispatch(actions.recordHistory(value)),
+    resetHistory: value => dispatch(actions.resetHistory(value))
   })
   //dispatch => ({ switchDarkmode: value => dispatch(switchDarkmode(value)) })
 )(Artboard)
