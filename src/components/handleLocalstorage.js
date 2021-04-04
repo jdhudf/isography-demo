@@ -72,49 +72,6 @@ export const setCanvas = ({working, artboards,value}) => {
   return newData
 }
 
-export const setArtboardData = ({type, value}) => {
-
-  if (localStorage.getItem('isography') !== null) {
-
-    const json = JSON.parse(localStorage.getItem('isography'));
-
-    for(var i=0;i<json.length;i++){
-      if(json[i].artboard_id === json.working){
-
-          switch (type) {
-            case "mainColor":
-              json[i].canvas.color_scheme["mainColor"] = value
-              break;
-            case "subColor":
-              json[i].canvas.color_scheme["subColor"] = value
-              break;
-            case "accentColor":
-              json[i].canvas.color_scheme["accentColor"] = value
-              break;
-            case "background":
-              json[i].canvas.color_scheme["background"] = value
-              break;
-            case "artboard_size":
-              json[i].canvas.artboard_size = value
-              break;
-            case "last_modified":
-              json[i].last_modified = value
-              break;
-            case "artboard_name":
-              json[i].artboard_name = value
-              break;
-            case "svg_data":
-              json[i].canvas.svg_data = value
-              break;
-            default:
-          }
-
-      }
-    }
-    localStorage.setItem('isography', JSON.stringify(json));
-  }
-}
-
 export const updateArtboards = ({working, type, artboards,value}) => {
 
   const newData =  JSON.parse(JSON.stringify(artboards));
@@ -148,7 +105,7 @@ export const updateArtboards = ({working, type, artboards,value}) => {
             newData[i].canvas.svg_data = value
             break;
           case "grid":
-            newData[i].canvas.grid = value
+            newData[i].grid = value
             break;
           case "canvas":
             newData[i].canvas = value

@@ -31,7 +31,6 @@ export default function templateReducer(state = initialState, action) {
         templates: action.payload
       }
     default:
-      console.log("problem in reducer")
       return state
 
   }

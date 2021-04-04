@@ -42,6 +42,7 @@
 .section-atelier  {
   display: flex;
   flex-wrap: wrap;
+  user-select: none;
   .section-menubar {
     flex-basis: 100vw;
     z-index: 10000;

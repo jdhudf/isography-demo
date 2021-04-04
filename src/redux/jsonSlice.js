@@ -1,8 +1,3 @@
-import {
-  getIsographyData,
- } from '../components/handleLocalstorage'
-
-import { switchDarkmode } from './actions';
 
 const initialState = {
   darkmode: false,
@@ -34,7 +29,6 @@ export default function jsonReducer(state = initialState, action) {
         selected: action.payload
       }
     default:
-      console.log("problem in reducer")
       return state
 
   }

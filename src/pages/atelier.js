@@ -9,7 +9,6 @@ import icon from '../images/logo.svg';
 
 import {
   getArtboardData,
-  setArtboardData,
   getCanvas
 } from '../components/handleLocalstorage'
 

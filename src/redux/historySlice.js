@@ -1,4 +1,3 @@
-import { switchDarkmode } from './actions';
 
 const initialState = {
   past: [],
@@ -44,7 +43,7 @@ export default function historyReducer(state = initialState, action) {
       return {
         past: newPast,
         present: previous,
-        future: [present, ...future]
+        future: [action.payload, ...future]
       }
     case 'REDO':
       const next = future[0]
@@ -55,7 +54,6 @@ export default function historyReducer(state = initialState, action) {
         future: newFuture
       }
     default:
-      console.log("problem in reducer")
       return state
 
   }

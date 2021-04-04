@@ -90,6 +90,12 @@ export const actions = {
       payload: value
     }
   },
+  resetHistory(value) {
+    return {
+      type: 'reset/history',
+      payload: value
+    }
+  },
   undo(value) {
     return {
       type: 'UNDO',

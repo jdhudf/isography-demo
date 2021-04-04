@@ -3,6 +3,11 @@ import { Link,Redirect } from 'react-router-dom'
 import '../../styles/topbar.scss';
 //import icon from '../../images/logo.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
+import { connect } from 'react-redux'
+import { actions } from '../../redux/actions';
+
+
 import {
   //faChevronDown,
   //faAdjust,
@@ -11,10 +16,10 @@ import {
 
 import {
   getArtboardData,
-  setArtboardData,
   removeArtboard,
   addNewArtboard,
-  updateArtboards
+  updateArtboards,
+  getCanvas,
 } from '../handleLocalstorage'
 
 import {
@@ -24,7 +29,8 @@ import {
 import { useSelector, useDispatch } from 'react-redux'
 
 const getState = state => state.json
-const selectArtboard = state => state.artboards
+const selectArtboards = state => state.artboards.present.artboards
+const selectWorking = state => state.json.working
 
 class TopBar extends React.Component {
 
@@ -33,8 +39,7 @@ class TopBar extends React.Component {
     super();
     this.state = {
       showModal: false,
-      showExportPanel: false,
-      artboardName: "unknown"//getArtboardData('artboard_name'),
+      showExportPanel: false
     };
 
     this.handleOpenModal = this.handleOpenModal.bind(this);
@@ -64,11 +69,6 @@ class TopBar extends React.Component {
 
   submitArtboardName = (e) => {
 
-    setArtboardData({
-      type: 'artboard_name',
-      value: this.state.artboardName,
-    })
-
     this.setState({ showModal: false })
     e.preventDefault();
   }
@@ -97,6 +97,17 @@ class TopBar extends React.Component {
       }
     };*/
 
+    const { artboards, working } = this.props
+
+    const artboardName = getArtboardData({
+                           artboards:artboards,
+                           working:working,
+                           type:"artboard_name"
+                         }),
+          canvas = getCanvas({artboards:artboards,working:working}),
+          svg_data = canvas.svg_data,
+          background = canvas.color_scheme['background']
+
     return (
       <section className="section-menubar">
         <div>
@@ -104,10 +115,18 @@ class TopBar extends React.Component {
         </div>
         <div>
           <ArtboardSetting />
-          <ExportComponent data={this.props.data} background={this.props.background}/>
+          <ExportComponent data={svg_data} background={background}/>
         </div>
         <div>
-          <InputArtboardName/>
+
+          <p style={{
+            fontWeight: "600",
+            padding: "3px 15px",
+            borderRadius: "3px",
+            display: "inline-block",
+            fontSize: "12px"
+          }}>{artboardName}</p>
+
         </div>
         <div>
           <p style={{fontWeight: "600",fontSize:"12px"}}>FREE DEMO</p>
@@ -122,15 +141,15 @@ class TopBar extends React.Component {
 
 function ArtboardSetting (props) {
 
-  const artboards = useSelector(selectArtboard).present.artboards
-  const working = useSelector(getState)
+  const artboards = useSelector(selectArtboards)
+  const working = useSelector(selectWorking)
   const dispatch = useDispatch()
   //
   let artboard;
   let array_num;
 
   for (var i = 0; i < artboards.length; i++) {
-    if (artboards[i].artboard_id == working.working) {
+    if (artboards[i].artboard_id == working) {
       array_num = i;
       artboard = artboards[i];
     }
@@ -414,33 +433,13 @@ function ArtboardSetting (props) {
 
 function ExportComponent (props) {
 
-  const artboards = useSelector(selectArtboard).present.artboards
-  const working = useSelector(getState).working
+  const artboards = useSelector(selectArtboards)
+  const working = useSelector(selectWorking)
 
-  let artboard,artboard_size,artboard_name,color_scheme;
-
-  for (var i=0;i<artboards.length;i++){
-    if (working === artboards[i].artboard_id) {
-
-      artboard = artboards[i]
-
-    }
-  }
-
-  if(artboard){
-    artboard_size = artboard.canvas.artboard_size
-    artboard_name = artboard.artboard_name
-    color_scheme = artboard.canvas.color_scheme
-  } else {
-    artboard_size = [800,600]
-    artboard_name = "unknown"
-    color_scheme = {
-      mainColor: '#cccccc',
-      subColor: '#000000',
-      accentColor: '#FAFAFA',
-      background: '#ffffff'
-    }
-  }
+  const canvas = getCanvas({artboards: artboards,working:working}),
+        artboard_size = canvas.artboard_size,
+        color_scheme = canvas.color_scheme,
+        artboard_name = getArtboardData({artboards:artboards, working: working, type: "artboard_name"});
 
   const [showExportPanel, changeStateExportPanel] = useState(false);
   const [artboardName, changeStateArtboardName] = useState(artboard_name);
@@ -690,40 +689,24 @@ function ExportComponent (props) {
   )
 }
 
-const InputArtboardName = () => {
 
-  const artboards = useSelector(selectArtboard).present.artboards
-  const working = useSelector(getState)
 
-  let artboard,artboardName;
+const mapStateToProps = state => ({
+  json: state.json,
+  artboards: state.artboards.present.artboards,
+  working: state.json.working,
+  grid: state.grid,
+  selected: state.json.selected
+})
 
-  for (var i = 0; i < artboards.length; i++) {
-    if (artboards[i].artboard_id == working.working) {
-      artboard = artboards[i];
-    }
-  }
-
-  if (artboard) {
-    artboardName = artboard.artboard_name
-  } else {
-    artboardName = "unknown"
-  }
-
-  const styles = {
-    i: {
-      fontWeight: "600",
-      padding: "3px 15px",
-      borderRadius: "3px",
-      display: "inline-block",
-      fontSize: "12px"
-    }
-  }
-
-  return (
-    <div>
-      <p style={styles.i}>{artboardName}</p>
-    </div>
-  )
-}
-
-export default TopBar;
+export default connect(
+  mapStateToProps,
+  dispatch => ({
+    switchDarkmode: value => dispatch(actions.switchDarkmode(value)),
+    updateArtboard: value => dispatch(actions.updateArtboard(value)),
+    switchSelected: value => dispatch(actions.switchSelected(value)),
+    recordHistory: value => dispatch(actions.recordHistory(value)),
+    resetHistory: value => dispatch(actions.resetHistory(value))
+  })
+  //dispatch => ({ switchDarkmode: value => dispatch(switchDarkmode(value)) })
+)(TopBar)

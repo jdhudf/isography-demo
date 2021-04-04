@@ -976,7 +976,7 @@ const mapStateToProps = state => ({
   json: state.json,
   artboards: state.artboards.present.artboards,
   working: state.json.working,
-  grid: state.grid,
+  grid: state.json.grid,
   selected: state.json.selected
 })
 

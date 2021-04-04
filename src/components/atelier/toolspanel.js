@@ -15,6 +15,7 @@ import '../../styles/toolspanel.scss';
 import ColorPicker from "./toolspanel_ColorPicker";
 
 import {
+  getArtboardData,
   updateArtboards,
   setCanvas,
   getCanvas
@@ -23,10 +24,11 @@ import {
 import { connect } from 'react-redux'
 import { actions } from '../../redux/actions';
 import { useSelector, useDispatch } from 'react-redux'
-import { ActionCreators } from 'redux-undo';
+//import { ActionCreators } from 'redux-undo';
 
-const getState = state => state.json
-const getArtboards = state => state.artboards
+const getWorking = state => state.json.working
+const getArtboards = state => state.artboards.present.artboards
+const getGrid = state => state.json.grid
 
 
 
@@ -35,12 +37,11 @@ class ToolsPanel extends React.Component {
 
   handleElement = (action) => {
 
-    const { working, updateArtboard, undo, artboards, selected, switchSelected } = this.props
+    const { working, updateArtboard, artboards, selected, switchSelected, recordHistory } = this.props
 
     const canvas = getCanvas({working: working, artboards:artboards});
 
-    let artboard,
-        el = canvas.svg_data[selected],
+    let el = canvas.svg_data[selected],
         data_copy = canvas.svg_data.slice();
 
     switch (action){
@@ -123,12 +124,13 @@ class ToolsPanel extends React.Component {
     })
 
     updateArtboard(newData)
+    recordHistory(JSON.parse(JSON.stringify(canvas)))
 
   }
 
   removeElement = (props) => {
 
-    const { working, switchDarkmode,updateArtboard, selected,artboards } = this.props
+    const { working, updateArtboard, selected,artboards,recordHistory } = this.props
 
     const canvas = getCanvas({working:working,artboards:artboards}),
           data_copy = canvas.svg_data.slice();
@@ -146,12 +148,13 @@ class ToolsPanel extends React.Component {
     })
 
     updateArtboard(newData)
+    recordHistory(canvas)
 
   }
 
   render() {
 
-    const { working, changeHex, undo, recordHistory,redo,updateArtboard,past,future,present,artboards, switchSelected,selected} = this.props
+    const { working, changeHex, undo, recordHistory,redo,updateArtboard,past,future,artboards,selected} = this.props
 
     const canvas = getCanvas({artboards: artboards, working: working})
     const mainColor = canvas.color_scheme['mainColor'],
@@ -186,7 +189,6 @@ class ToolsPanel extends React.Component {
             )
           }
         })()}
-        <p>{selected}</p>
         <p><FontAwesomeIcon icon={faFont} /></p>
         <div className="color-scheme">
           <ColorPicker
@@ -236,7 +238,7 @@ class ToolsPanel extends React.Component {
           } else {
             return (
               <p title="Undo" onClick={()=>{
-                undo()
+                undo(canvas)
                 const newData = setCanvas({ working: working, artboards: artboards, value: past[past.length-1] })
                 updateArtboard(newData)
               }}>
@@ -267,7 +269,7 @@ class ToolsPanel extends React.Component {
 
         <p style={{margin: "0",color:"gray"}}>BG</p>
         <ColorPicker
-          color={this.props.backgroundColor}
+          color={background}
           method={(e) => {
             if (artboards !== undefined &&  working !== undefined ) {
               changeHex({artboards: artboards, id: working, hex: e, type: "background"})
@@ -291,29 +293,15 @@ class ToolsPanel extends React.Component {
 
 function ToggleGrid() {
 
-  const json = useSelector(getState)
-  const toggleState = useSelector(getState).grid
-  const artboards = useSelector(getArtboards).present.artboards
+  const working = useSelector(getWorking)
+  const artboards = useSelector(getArtboards)
+  const toggleState = useSelector(getGrid)
 
-  let artboard,gridScale;
-
-  for (var i = 0; i < artboards.length; i++) {
-    if (artboards[i].artboard_id == json.working) {
-      artboard = artboards[i];
-    }
-  }
-
-  if (artboard) {
-    gridScale = artboard.canvas.grid
-  } else {
-    gridScale = 1
-  }
+  const [gridScale, setGridScale] = useState(getArtboardData({artboards:artboards,working:working,type:"grid"}));
 
   //updateArtboards = ({working, type, artboards,value})
 
   const dispatch = useDispatch()
-
-
 
   const toggleGrid = () => {
     if (toggleState) {
@@ -327,8 +315,10 @@ function ToggleGrid() {
 
   const updateGrid = (e) => {
 
+    setGridScale(e.target.value)
+
     const g = updateArtboards({
-      working: json.working,
+      working: working,
       artboards: artboards,
       type: "grid",
       value: e.target.value
@@ -363,12 +353,11 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   dispatch => ({
-    changeHex: value => dispatch(actions.changeHex(value)),
+    changeHex:    value => dispatch(actions.changeHex(value)),
     updateArtboard: value => dispatch(actions.updateArtboard(value)),
     recordHistory:  value => dispatch(actions.recordHistory(value)),
-    undo:           value => dispatch(actions.undo()),//value => dispatch(actions.undo(value)),
+    undo:           value => dispatch(actions.undo(value)),//value => dispatch(actions.undo(value)),
     redo:           value => dispatch(actions.redo(value)),
-    testtt:         value => dispatch(ActionCreators.undo()),
     switchSelected: value => dispatch(actions.switchSelected(value)),
   })
   //dispatch => ({ switchDarkmode: value => dispatch(switchDarkmode(value)) })

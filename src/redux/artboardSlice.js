@@ -84,7 +84,6 @@ export default function artboardReducer(state = initialState, action) {
         artboards: action.payload
       }*/
     default:
-      console.log("problem in reducer")
       return state
 
   }

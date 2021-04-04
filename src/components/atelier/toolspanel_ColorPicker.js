@@ -69,9 +69,11 @@ class ColorPicker extends React.Component {
           Conditional operator = condition ? true : false
           */}
         { this.state.displayColorPicker ? <div style={ styles.popover }>
-          <div style={ styles.cover } onClick={ this.handleClose }/>
+          <div style={ styles.cover } onClick={ this.handleClose } /*onMouseUp={ this.props.updateHistory }*//>
           <SketchPicker color={ this.props.color }
-          onChange={ this.handleChange } />
+          onChange={ this.handleChange }
+          //onMouseDown={console.log('DD')}
+          />
           {/*onChange={this.props.onChange(e.target.value)}/>*/}
         </div> : null }
 

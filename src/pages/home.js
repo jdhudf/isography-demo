@@ -24,8 +24,8 @@ import {
 import { useSelector, useDispatch, connect } from 'react-redux'
 import { actions } from '../redux/actions';
 
-const selectHex = state => state.json
-const selectArtboard = state => state.artboards
+const selectWorking = state => state.json.working
+const selectArtboards = state => state.artboards.present.artboards
 const selectTemplate = state => state.templates
 
 class Home extends React.Component {
@@ -57,7 +57,9 @@ const Dashboard = () => {
   //const [showModal, toggleModal] = useState(false);
   const [documentList, toggleDocumentList] = useState(false);
 
-  const json = useSelector(selectArtboard).artboards//getIsographyData();
+  const working = useSelector(selectWorking),
+        artboards =  useSelector(selectArtboards)
+        //getIsographyData();
 
   const styles = {
     test: {
@@ -76,8 +78,6 @@ const Dashboard = () => {
   }
 
   const clicked = (e) => {
-    json.working = parseInt(e.currentTarget.getAttribute('data-id'));
-
     dispatch({type: 'working/switch', payload: parseInt(e.currentTarget.getAttribute('data-id'))})
   }
 
@@ -109,7 +109,7 @@ const Dashboard = () => {
             <ul className={documentList?"document-list":"document-list-column"}>
             {(()=>{
 
-              const arranged = json.sort(function(a, b){
+              const arranged = artboards.sort(function(a, b){
                 //return new Date(a.last_modified) - new Date(b.last_modified)
                 return new Date(b.last_modified) - new Date(a.last_modified)
               })
@@ -198,7 +198,7 @@ const NewArtboard = () => {
   const [height, updateHeight] = useState("600");
   const [ratioName, updateRatioName] = useState("");
 
-  const json = useSelector(selectArtboard).artboards
+  const json = useSelector(selectArtboards)
 
   const dispatch = useDispatch()
 
@@ -380,7 +380,7 @@ const NewsFeed = () => {
 const mapStateToProps = state => ({
   json: state.json,
   templates: state.templates,
-  artboards: state.artboard,
+  artboards: state.artboards.present.artboards,
 })
 
 export default connect(
