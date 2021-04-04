@@ -32,13 +32,6 @@ const getArtboards = state => state.artboards
 
 class ToolsPanel extends React.Component {
 
-  constructor(props){
-    super(props);
-    this.state = {
-      color: null,
-    }
-  }
-
 
   handleElement = (action) => {
 

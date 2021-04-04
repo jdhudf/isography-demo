@@ -8,7 +8,7 @@ class ColorPicker extends React.Component {
     super(props);
     this.state = {
       displayColorPicker: false,
-      color: `${this.props.color}`,
+      //color: `${this.props.color}`,
     }
   }
 
@@ -21,7 +21,6 @@ class ColorPicker extends React.Component {
   };
 
   handleChange = (color) => {
-    this.setState({ color: color.hex })
     this.props.method(color.hex)
   };
 
@@ -33,7 +32,7 @@ class ColorPicker extends React.Component {
           width: '25px',
           height: '25px',
           borderRadius: '2px',
-          background: `${this.state.color}`,
+          background: `${this.props.color}`,
         },
         swatch: {
           padding: '3px',
@@ -71,7 +70,7 @@ class ColorPicker extends React.Component {
           */}
         { this.state.displayColorPicker ? <div style={ styles.popover }>
           <div style={ styles.cover } onClick={ this.handleClose }/>
-          <SketchPicker color={ this.state.color }
+          <SketchPicker color={ this.props.color }
           onChange={ this.handleChange } />
           {/*onChange={this.props.onChange(e.target.value)}/>*/}
         </div> : null }
