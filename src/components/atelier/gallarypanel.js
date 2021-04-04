@@ -1,7 +1,6 @@
 import React from 'react';
-//import item from '../../images/box.svg';
-//import Image from 'react-svg-loader!../../images/box.svg';
-//https://github.com/boopathi/react-svg-loader/tree/master/packages/react-svg-loader
+
+import MyIcon from '../../images/test.inline.svg';
 
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import '../../styles/atelier.scss';
@@ -129,6 +128,7 @@ class GallaryPanel extends React.Component {
       <section
          className="section-gallalypanel section-bottom"
       >
+       <MyIcon width={50} height={50}/>
        <Tabs>
          <TabList>
            <Tab>Category</Tab>

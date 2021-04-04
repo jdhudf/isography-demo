@@ -119,13 +119,13 @@ class TopBar extends React.Component {
         </div>
         <div>
 
-          <p style={{
+          <div><p style={{
             fontWeight: "600",
             padding: "3px 15px",
             borderRadius: "3px",
             display: "inline-block",
             fontSize: "12px"
-          }}>{artboardName}</p>
+          }}>{artboardName}</p></div>
 
         </div>
         <div>
