@@ -150,6 +150,7 @@ class Artboard extends React.Component {
 
 
       const corners = document.getElementsByClassName('corner');
+      const ajastment = 7;
 
       selector.style.display = "block"
 
@@ -157,33 +158,33 @@ class Artboard extends React.Component {
       selector.style.height = client_h +  'px';
 
       selector.style.position = 'fixed';
-      selector.style.left = client_left + 'px';
-      selector.style.top = client_top +  'px';
+      selector.style.left = client_left - 1 + 'px';
+      selector.style.top = client_top - 1 + 'px';
       selector.style.zIndex = 1000;
 
-      const d = client_left - 5;
-      const e =  client_top - 5;
+      const d = client_left - ajastment;
+      const e =  client_top -ajastment;
 
       corners[0].style.left = d + 'px';
       corners[0].style.top = e +  'px';
       corners[0].style.cursor = 'nwse-resize';
 
-      const x = client_left + client_w - 5;
-      const y = client_top + client_h - 5;
+      const x = client_left + client_w - ajastment;
+      const y = client_top + client_h - ajastment;
 
       corners[1].style.left = x + 'px';
       corners[1].style.top = y + 'px';
       corners[1].style.cursor = 'nwse-resize';
 
-      const n = client_left + client_w -5;
-      const m = client_top - 5;
+      const n = client_left + client_w - ajastment;
+      const m = client_top - ajastment;
 
       corners[2].style.left = n + 'px';
       corners[2].style.top = m + 'px';
       corners[2].style.cursor = 'nesw-resize';
 
-      const o = client_left - 5;
-      const p = client_top + client_h - 5;
+      const o = client_left - ajastment;
+      const p = client_top + client_h - ajastment;
 
       corners[3].style.left = o + 'px';
       corners[3].style.top = p + 'px';
