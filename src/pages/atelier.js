@@ -37,7 +37,6 @@ class Atelier extends React.Component {
     super(props);
     this.state = {
       willAddElementOfSvg: 1,
-      selectEl:null,
       test: false,
     }
   }
@@ -167,7 +166,7 @@ class Atelier extends React.Component {
       display: 'none',
     }
 
-    const { darkmode, switchDarkmode, updateArtboard, working, artboards } = this.props
+    const { darkmode, switchDarkmode, working, artboards } = this.props
 
     const canvas = getCanvas({artboards:artboards,working:working});
 
@@ -225,9 +224,6 @@ class Atelier extends React.Component {
                willAddElementOfSvg={this.state.willAddElementOfSvg}
                method={(e)=>{this.setState({test:false})}}
                test={this.state.test}
-               sendSelectEl={(e) => {
-                 this.setState({selectEl:e})
-               }}
           />
           </div>
           <GallaryPanel
@@ -257,10 +253,6 @@ export default connect(
   //dispatch => ({ switchDarkmode: value => dispatch(actions.switchDarkmode(value)) })
   dispatch => ({
     switchDarkmode: value => dispatch(actions.switchDarkmode(value)),
-    updateArtboard: value => dispatch(actions.updateArtboard(value))
+    //updateArtboard: value => dispatch(actions.updateArtboard(value))
   })
-  /*dispatch => ({
-    switchDarkmode: value => dispatch(switchDarkmode(value)),
-    updateArtboard: value => dispatch(updateArtboard(value))
-  })*/
 )(Atelier)

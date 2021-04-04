@@ -35,20 +35,13 @@ class ToolsPanel extends React.Component {
 
   handleElement = (action) => {
 
-    const { working, switchDarkmode,updateArtboard,undo } = this.props
-    const artboards = this.props.artboards
+    const { working, updateArtboard, undo, artboards, selected, switchSelected } = this.props
 
-    let artboard,svg_data,el,data_copy;
+    const canvas = getCanvas({working: working, artboards:artboards});
 
-    for(var i=0;i<artboards.length;i++){
-      if(artboards[i].artboard_id === working) {
-        console.log(artboards[i])
-        artboard = artboards[i]
-        data_copy = artboards[i].canvas.svg_data.slice();
-        el = artboard.canvas.svg_data[this.props.selectEl];
-      }
-    }
-
+    let artboard,
+        el = canvas.svg_data[selected],
+        data_copy = canvas.svg_data.slice();
 
     switch (action){
       case 'Duplicate':
@@ -57,7 +50,7 @@ class ToolsPanel extends React.Component {
         break;
       case 'Delete':
         console.log('delete');
-        data_copy.splice(this.props.selectEl,1);
+        data_copy.splice(selected,1);
         break;
       case 'Reflect':
         const regExp = /-?\d+/g;
@@ -90,36 +83,44 @@ class ToolsPanel extends React.Component {
         break;
       case 'bringToFront':
         console.log('bringToFront');
-        data_copy.splice(this.props.selectEl,1);
+        data_copy.splice(selected,1);
         data_copy.push(el);
         break;
       case 'bringForward':
         console.log('bringForward');
-        data_copy.splice(this.props.selectEl,1);
-        data_copy.splice(this.props.selectEl + 1 ,0,el);
-        this.props.bringForward();
+
+        data_copy.splice(selected,1);
+        data_copy.splice(selected + 1 ,0,el);
+
+        if (data_copy.length !== selected) {
+          switchSelected(selected + 1)
+        }
+
         break;
       case 'sendBackward':
         console.log('sendBackward');
-        data_copy.splice(this.props.selectEl,1);
-        data_copy.splice(this.props.selectEl - 1 ,0,el);
-        this.props.sendBackward();
+        data_copy.splice(selected,1);
+        data_copy.splice(selected - 1 ,0,el);
+
+        if (data_copy.length !== selected) {
+          switchSelected(selected - 1)
+        }
         break;
       case 'sendToBack':
         console.log('sendToBack');
-        data_copy.splice(this.props.selectEl,1);
+        data_copy.splice(selected,1);
         data_copy.unshift(el);
         break;
       default:
         break;
     }
 
-    const newData = JSON.parse(JSON.stringify(updateArtboards({
+    const newData = updateArtboards({
       working: working,
       type: "svg_data",
       artboards: artboards,
       value: data_copy
-    })));
+    })
 
     updateArtboard(newData)
 
@@ -127,23 +128,15 @@ class ToolsPanel extends React.Component {
 
   removeElement = (props) => {
 
-    const { working, switchDarkmode,updateArtboard } = this.props
+    const { working, switchDarkmode,updateArtboard, selected,artboards } = this.props
 
-    const artboards = this.props.artboards.present.artboards
+    const canvas = getCanvas({working:working,artboards:artboards}),
+          data_copy = canvas.svg_data.slice();
 
-    let artboard;
-
-    for(var i=0;i<artboards.length;i++){
-      if(artboards[i].artboard_id === working){
-        artboard = artboards[i]
-      }
-    }
-
-    const data_copy = artboard.canvas.svg_data.slice();
 
     console.log(data_copy)
 
-    data_copy.splice(this.props.selectEl,1);
+    data_copy.splice(selected,1);
 
     const newData = updateArtboards({
       working: working,
@@ -158,25 +151,26 @@ class ToolsPanel extends React.Component {
 
   render() {
 
-    const { working, switchDarkmode, changeHex, undo, recordHistory,redo,updateArtboard,past,future,present,testtt,artboards } = this.props
+    const { working, changeHex, undo, recordHistory,redo,updateArtboard,past,future,present,artboards, switchSelected,selected} = this.props
 
     const canvas = getCanvas({artboards: artboards, working: working})
     const mainColor = canvas.color_scheme['mainColor'],
           subColor = canvas.color_scheme['subColor'],
           accentColor = canvas.color_scheme['accentColor'],
-          background = canvas.color_scheme['background'];
+          background = canvas.color_scheme['background'],
+          svg_data = canvas.svg_data;
 
     return (
       <section className="section-toolspanel section-bottom">
         {(()=>{
-          if(this.props.selectEl === 0){
+          if(selected === 0){
             return (
               <span>
                 <p title="Bring Forward" onClick={()=>this.handleElement("bringForward")}><FontAwesomeIcon icon={faSortAmountUp} /></p>
                 <p title="Send Backward" style={{color: "lightgray"}}><FontAwesomeIcon icon={faSortAmountDown} /></p>
               </span>
             )
-          } else if (this.props.selectEl === (this.props.length - 1)) {
+          } else if (selected === (svg_data.length - 1)) {
             return (
               <span>
                 <p title="Bring Forward" style={{color: "lightgray"}}><FontAwesomeIcon icon={faSortAmountUp} /></p>
@@ -192,6 +186,7 @@ class ToolsPanel extends React.Component {
             )
           }
         })()}
+        <p>{selected}</p>
         <p><FontAwesomeIcon icon={faFont} /></p>
         <div className="color-scheme">
           <ColorPicker
@@ -362,6 +357,7 @@ const mapStateToProps = state => ({
   past: state.history.past,
   future: state.history.future,
   present: state.history.present,
+  selected: state.json.selected
 })
 
 export default connect(
@@ -369,10 +365,11 @@ export default connect(
   dispatch => ({
     changeHex: value => dispatch(actions.changeHex(value)),
     updateArtboard: value => dispatch(actions.updateArtboard(value)),
-    recordHistory: value => dispatch(actions.recordHistory(value)),
-    undo:          value => dispatch(actions.undo()),//value => dispatch(actions.undo(value)),
-    redo:          value => dispatch(actions.redo(value)),
-    testtt:          value => dispatch(ActionCreators.undo()),
+    recordHistory:  value => dispatch(actions.recordHistory(value)),
+    undo:           value => dispatch(actions.undo()),//value => dispatch(actions.undo(value)),
+    redo:           value => dispatch(actions.redo(value)),
+    testtt:         value => dispatch(ActionCreators.undo()),
+    switchSelected: value => dispatch(actions.switchSelected(value)),
   })
   //dispatch => ({ switchDarkmode: value => dispatch(switchDarkmode(value)) })
 )(ToolsPanel)

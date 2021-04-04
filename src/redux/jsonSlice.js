@@ -8,6 +8,7 @@ const initialState = {
   darkmode: false,
   working: 1,
   grid: false,
+  selected: 0
 }
 
 export default function jsonReducer(state = initialState, action) {
@@ -26,6 +27,11 @@ export default function jsonReducer(state = initialState, action) {
       return {
         ...state,
         working: action.payload
+      }
+    case 'selected/switch':
+      return {
+        ...state,
+        selected: action.payload
       }
     default:
       console.log("problem in reducer")

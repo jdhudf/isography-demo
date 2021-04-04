@@ -78,7 +78,7 @@ export const actions = {
     }
   },
   updateArtboard(value) {
-    //console.log(value)
+    console.log("update!")
     return {
       type: 'update/artboard',
       payload: value
@@ -99,6 +99,12 @@ export const actions = {
   redo(value) {
     return {
       type: 'REDO',
+      payload: value
+    }
+  },
+  switchSelected(value) {
+    return {
+      type: 'selected/switch',
       payload: value
     }
   },

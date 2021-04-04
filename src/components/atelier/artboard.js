@@ -60,7 +60,6 @@ class Artboard extends React.Component {
       propsOrState: false,
       initialTranslate: [0,0], // to change translate(x,y)
       initial: [0,0], // to calculate a gap
-      selectedElement: 0, // to make it clear which el should edit
       displayContextMenu: false,
       // -- below is artboard resize and pinch
       mouse: [0,0],
@@ -98,11 +97,11 @@ class Artboard extends React.Component {
 
   }
 
-
   //--- Choose which element we should edit &  send it to parent component ---//
   selectElement = (e) => {
 
     var array = this.state.data;
+    const { switchSelected } =  this.props
 
     if (e) {
       let g = e.target.parentNode.outerHTML;
@@ -110,7 +109,7 @@ class Artboard extends React.Component {
       if (g.startsWith('<g transform="translate')) {
 
         this.setState({selectedElement: array.indexOf(g)});
-        this.props.sendSelectEl(array.indexOf(g));
+        switchSelected(array.indexOf(g))
 
         return array.indexOf(g)
 
@@ -125,9 +124,11 @@ class Artboard extends React.Component {
 
   updateSelecter = () => {
 
+    const { selected } = this.props
+
     // Selector is lightblue line.
     const elements = document.getElementById("svg");
-    const selectedElement = elements.children[this.state.selectedElement]
+    const selectedElement = elements.children[selected]
     const selector = document.getElementById('selector');
 
 
@@ -213,6 +214,15 @@ class Artboard extends React.Component {
     this.setState({isMouseDown:true})
     this.setState({propsOrState:true})
 
+    const { artboards, working } = this.props
+    const canvas =  getCanvas({artboards: artboards, working: working}),
+          svg_data = canvas.svg_data;
+
+
+    if (this.state.data !== svg_data) {
+      this.setState({data:svg_data});
+    }
+
     const mouseX = e.pageX;// pageX and pageY is mouse's axis in the box.
     const mouseY = e.pageY;
 
@@ -231,14 +241,17 @@ class Artboard extends React.Component {
     //  * mouse clicked coordinate
     this.getTranslate(e);
     this.setState({initial:[mouseX,mouseY]});
+    this.selectElement(e);
 
   }
 
   onMouseMove = (e) => {
 
+    const { selected } =  this.props
+
     if (this.state.isMouseDown) {
 
-      const selected = this.selectElement(e);//this.state.selectedElement
+      //const selected = this.selectElement(e);
 
       const artboardScale =  this.state.artboardScale;
 
@@ -268,7 +281,7 @@ class Artboard extends React.Component {
       const g = e.target.parentNode.outerHTML;
 
       //console.log('same? ' + g);
-      //console.log('same? ' + this.state.data[this.state.selectedElement]);
+      //console.log('same? ' + this.state.data[selected]);
 
       if (g === this.state.data[selected] && g.startsWith('<g transform="translate')) {
         //console.log('initialTranslate('+this.state.initialTranslate[0]+','+this.state.initialTranslate[1]+')');
@@ -391,7 +404,9 @@ class Artboard extends React.Component {
 
   handleElement = (action) => {
 
-    const el = this.state.data[this.state.selectedElement];
+    const { selected, artboards,working, updateArtboard } = this.props
+
+    const el = this.state.data[selected];
     const data_copy = this.state.data.slice();
 
     switch (action){
@@ -401,7 +416,7 @@ class Artboard extends React.Component {
         break;
       case 'Delete':
         console.log('delete');
-        data_copy.splice(this.state.selectedElement,1);
+        data_copy.splice(selected,1);
         break;
       case 'Reflect':
         const regExp = /-?\d+/g;
@@ -429,27 +444,27 @@ class Artboard extends React.Component {
           }
         );
 
-        data_copy.splice(this.state.selectedElement,1);
+        data_copy.splice(selected,1);
         data_copy.push(result);
         break;
       case 'bringToFront':
         console.log('bringToFront');
-        data_copy.splice(this.state.selectedElement,1);
+        data_copy.splice(selected,1);
         data_copy.push(el);
         break;
       case 'bringForward':
         console.log('bringForward');
-        data_copy.splice(this.state.selectedElement,1);
-        data_copy.splice(this.state.selectedElement + 1 ,0,el);
+        data_copy.splice(selected,1);
+        data_copy.splice(selected + 1 ,0,el);
         break;
       case 'sendBackward':
         console.log('sendBackward');
-        data_copy.splice(this.state.selectedElement,1);
-        data_copy.splice(this.state.selectedElement - 1 ,0,el);
+        data_copy.splice(selected,1);
+        data_copy.splice(selected - 1 ,0,el);
         break;
       case 'sendToBack':
         console.log('sendToBack');
-        data_copy.splice(this.state.selectedElement,1);
+        data_copy.splice(selected,1);
         data_copy.unshift(el);
         break;
       default:
@@ -459,18 +474,7 @@ class Artboard extends React.Component {
     this.setState({data: data_copy});
     this.setState({ displayContextMenu: false })
 
-    this.props.updateState(data_copy);
-
-    setArtboardData({
-      type: 'svg_data',
-      value: data_copy,
-    })
-
     // update artboard with redux
-    const working = this.props.json.working
-    const artboards = this.props.artboards.present.artboards
-
-    const { updateArtboard } = this.props
 
     const newData = updateArtboards({
       working: working,
@@ -546,8 +550,10 @@ class Artboard extends React.Component {
   //--- Below is code about scaling elements ---//
 
   getDistance = (e) => {
+
+    const { selected } = this.props
     const elements = document.getElementById("svg");
-    const selectedElement = elements.children[this.state.selectedElement]
+    const selectedElement = elements.children[selected]
 
     //alert(selectedElement.getBoundingClientRect().width);
 
@@ -602,7 +608,7 @@ class Artboard extends React.Component {
 
     const g = selectedElement.outerHTML;//e.target.parentNode.outerHTML;
 
-    if (g === this.state.data[this.state.selectedElement] && g.startsWith('<g transform="translate') && scaling < 4) {
+    if (g === this.state.data[selected] && g.startsWith('<g transform="translate') && scaling < 4) {
 
       //console.info('translate is ' + translate);
 
@@ -623,7 +629,7 @@ class Artboard extends React.Component {
         }
       );
 
-      data_copy[this.state.selectedElement] = result;
+      data_copy[selected] = result;
 
       this.setState({data: data_copy});
     } else {
@@ -639,9 +645,11 @@ class Artboard extends React.Component {
     // * get selected element
 
     // pageX and pageY is mouse's axis in one element.
+
+    const { selected } = this.props
     const mouseX = e.pageX;
     const mouseY = e.pageY;
-    const el = this.state.data[this.state.selectedElement];
+    const el = this.state.data[selected];
     this.setState({propsOrState:true})
 
     const getValueOfTransformScale = () => {
@@ -844,7 +852,6 @@ class Artboard extends React.Component {
     const artboardSize = canvas.artboard_size,
           gridScale = getArtboardData({artboards:artboards,working:working,type:"grid"})
 
-
     return (
       <div style={{position: "relative"}}>
       {selector}
@@ -950,14 +957,16 @@ const mapStateToProps = state => ({
   json: state.json,
   artboards: state.artboards.present.artboards,
   working: state.json.working,
-  grid: state.grid
+  grid: state.grid,
+  selected: state.json.selected
 })
 
 export default connect(
   mapStateToProps,
-  dispatch => (
-    { switchDarkmode: value => dispatch(actions.switchDarkmode(value)) },
-    { updateArtboard: value => dispatch(actions.updateArtboard(value)) }
-  )
+  dispatch => ({
+    switchDarkmode: value => dispatch(actions.switchDarkmode(value)),
+    updateArtboard: value => dispatch(actions.updateArtboard(value)),
+    switchSelected: value => dispatch(actions.switchSelected(value))
+  })
   //dispatch => ({ switchDarkmode: value => dispatch(switchDarkmode(value)) })
 )(Artboard)
