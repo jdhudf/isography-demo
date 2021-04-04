@@ -199,7 +199,7 @@ class ToolsPanel extends React.Component {
              method={(e) => {
 
                if (artboards !== undefined &&  working !== undefined ) {
-                 changeHex({artboards: JSON.parse(JSON.stringify(artboards)), id: working, hex: e, type: "mainColor"})
+                 changeHex({artboards: artboards, id: working, hex: e, type: "mainColor"})
                }
 
                recordHistory(JSON.parse(JSON.stringify(canvas)))
@@ -214,6 +214,8 @@ class ToolsPanel extends React.Component {
                  changeHex({artboards: artboards, id: working, hex: e, type: "subColor"})
                }
 
+               recordHistory(JSON.parse(JSON.stringify(canvas)))
+
              }}
           />
           <ColorPicker
@@ -222,26 +224,51 @@ class ToolsPanel extends React.Component {
               if (artboards !== undefined &&  working !== undefined ) {
                 changeHex({artboards: artboards, id: working, hex: e, type: "accentColor"})
               }
+
+              recordHistory(JSON.parse(JSON.stringify(canvas)))
+
             }}
           />
             {/*ref='CPSetting' />*/}
         </div>
-        <p title="Undo" onClick={()=>{
-          undo()
-
-          const newData = setCanvas({working:working, artboards: artboards, value: past[past.length-1] })
-
-          updateArtboard(newData)
-
-        }}>
-          <FontAwesomeIcon icon={faLongArrowAltLeft} />
-        </p>
-        <p title="Redo" onClick={()=>{
-          redo()
-          const newData = setCanvas({working:working, artboards: artboards, value: present[present.length-1] })
-
-          updateArtboard(newData)
-        }}><FontAwesomeIcon icon={faLongArrowAltRight} /></p>
+        {(()=>{
+          if (past.length === 0) {
+            return (
+              <p title="Undo" style={{color: "lightgray"}}>
+                <FontAwesomeIcon icon={faLongArrowAltLeft} />
+              </p>
+            )
+          } else {
+            return (
+              <p title="Undo" onClick={()=>{
+                undo()
+                const newData = setCanvas({ working: working, artboards: artboards, value: past[past.length-1] })
+                updateArtboard(newData)
+              }}>
+                <FontAwesomeIcon icon={faLongArrowAltLeft} />
+              </p>
+            )
+          }
+        })()}
+        {(()=>{
+          if (future.length === 0) {
+            return (
+              <p title="Redo" style={{color: "lightgray"}}>
+                <FontAwesomeIcon icon={faLongArrowAltRight} />
+              </p>
+            )
+          } else {
+            return (
+              <p title="Redo" onClick={()=>{
+                redo()
+                const newData = setCanvas({working:working, artboards: artboards, value: future[0] })
+                updateArtboard(newData)
+              }}>
+                <FontAwesomeIcon icon={faLongArrowAltRight} />
+              </p>
+            )
+          }
+        })()}
 
         <p style={{margin: "0",color:"gray"}}>BG</p>
         <ColorPicker
@@ -250,6 +277,8 @@ class ToolsPanel extends React.Component {
             if (artboards !== undefined &&  working !== undefined ) {
               changeHex({artboards: artboards, id: working, hex: e, type: "background"})
             }
+
+            recordHistory(JSON.parse(JSON.stringify(canvas)))
           }}
         />
 

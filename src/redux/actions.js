@@ -28,11 +28,14 @@ export const actions = {
     }
   },
   changeHex({artboards, id, hex, type}) {
+
+    const newData = JSON.parse(JSON.stringify(artboards));
+
     const update = (type) => {
 
-      for (let i = 0; i < artboards.length; i++) {
-        if (artboards[i].artboard_id === id) {
-          artboards[i].canvas.color_scheme[type] = hex
+      for (let i = 0; i < newData.length; i++) {
+        if (newData[i].artboard_id === id) {
+          newData[i].canvas.color_scheme[type] = hex
         }
       }
 
@@ -63,7 +66,7 @@ export const actions = {
     }
     return {
       type: 'hex/update',
-      payload: artboards
+      payload: newData
     }
   },
   addNewArtboard(json) {
