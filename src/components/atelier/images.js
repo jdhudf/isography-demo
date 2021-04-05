@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import Img_1 from '../../images/materials/test.inline.svg';
+import Img_1 from '../../images/materials/box.inline.svg';
 import Img_2 from '../../images/materials/monstera.inline.svg';
 import Img_3 from '../../images/materials/standing_man.inline.svg';
 import Img_4 from '../../images/materials/standing_woman.inline.svg';
@@ -23,14 +23,24 @@ class Myloop extends Component {
 
     return (
       <>
-        <Img_1/>
-        <Img_2/>
-        <Img_3/>
-        <Img_4/>
-        <Img_1/>
-        <Img_2/>
-        <Img_3/>
-        <Img_4/>
+        <div className="item"><Img_1/></div>
+        <div className="item"><Img_2/></div>
+        <div className="item"><Img_3/></div>
+        <div className="item"><Img_4/></div>
+        <div className="item"><Img_1/></div>
+        <div className="item"><Img_2/></div>
+        <div className="item"><Img_3/></div>
+        <div className="item"><Img_4/></div>
+        <div className="item"><Img_1/></div>
+        <div className="item"><Img_2/></div>
+        <div className="item"><Img_3/></div>
+        <div className="item"><Img_4/></div>
+        <div className="item"><Img_1/></div>
+        <div className="item"><Img_2/></div>
+        <div className="item"><Img_3/></div>
+        <div className="item"><Img_4/></div>
+        <div className="item"><Img_1/></div>
+        <div className="item"><Img_2/></div>
       </>
     );
   }
