@@ -2,11 +2,15 @@ import React from 'react';
 
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import '../../styles/atelier.scss';
+import '../../styles/gallarypanel.scss';
+
+import { connect } from 'react-redux'
+import { actions } from '../../redux/actions';
 
 import Myloop from './images.js';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSearch } from '@fortawesome/free-solid-svg-icons'
+import { faSearch,faChevronLeft,faChevronRight } from '@fortawesome/free-solid-svg-icons'
 
 //====================================
 //  We need below functions that
@@ -96,16 +100,6 @@ class GallaryPanel extends React.Component {
   render() {
 
     const styles={
-      gallaryframe: {
-        width: "90%",
-        margin: "10px auto",
-        height:"500px",
-        border: "solid 2px #F0F0F0",
-        overflow: "scroll",
-        display: "flex",
-        flexWrap: "wrap",
-        justifyContent: "space-around",
-      },
       style_input: {
         width: "90%",
         padding: "5px 0",
@@ -115,64 +109,80 @@ class GallaryPanel extends React.Component {
       }
     };
 
+    const { drawer, toggleDrawer } = this.props
+
     return (
       <section
-         className="section-gallalypanel section-bottom"
+         className={drawer ? "drawer show section-gallalypanel section-bottom":"drawer hide section-gallalypanel section-bottom"}
       >
-       <Tabs>
-         <TabList>
-           <Tab>Category</Tab>
-           <Tab>Later</Tab>
-           <Tab>Suggest</Tab>
-           <Tab>Past</Tab>
-           <Tab><FontAwesomeIcon icon={faSearch} /></Tab>
-         </TabList>
+          <div className="drawer-button">
+           <p onClick={()=> {
+             toggleDrawer()
+           }}>
+             {drawer ?
+               <span><FontAwesomeIcon icon={faChevronRight} /></span>
+               : <span><FontAwesomeIcon icon={faChevronLeft} /></span>}
+           </p>
+          </div>
+          <div className="drawer-content">
+             <Tabs>
+               <TabList>
+                 <Tab>Update new materials in 2021/04/05</Tab>
+                 {/*<Tab>Later</Tab>
+                 <Tab><FontAwesomeIcon icon={faSearch} /></Tab>*/}
+               </TabList>
 
-         <TabPanel>
-           <div>
-             <ul className="gallary-category-list">
-               <li>
-                 <span></span>
-                 <p>People</p>
-               </li>
-               <li>
-                 <span></span>
-                 <p>Plants</p>
-               </li>
-               <li>
-                 <span></span>
-                 <p>Buildings</p>
-               </li>
-               <li>
-                 <span></span>
-                 <p>Animals</p>
-               </li>
-             </ul>
-           </div>
-           <div className="gallaryframe"
-                style={styles.gallaryframe} onMouseDown={this.selectElementOfSVG}>
-             <Myloop />
+               <TabPanel>
+                 <div>
+                   <ul className="gallary-category-list">
+                     <li>
+                       <span></span>
+                       <p>People</p>
+                     </li>
+                     <li>
+                       <span></span>
+                       <p>Plants</p>
+                     </li>
+                     <li>
+                       <span></span>
+                       <p>Buildings</p>
+                     </li>
+                     <li>
+                       <span></span>
+                       <p>Animals</p>
+                     </li>
+                   </ul>
+                 </div>
+                 <div className="gallaryframe"
+                      onMouseDown={this.selectElementOfSVG}>
+                   <Myloop />
 
 
-           </div>
-         </TabPanel>
-         <TabPanel>
-           <div>test</div>
-         </TabPanel>
-         <TabPanel>
-            <div>test</div>
-         </TabPanel>
-         <TabPanel>
-            <div>test</div>
-         </TabPanel>
-         <TabPanel>
-            <div>test</div>
-         </TabPanel>
-       </Tabs>
+                 </div>
+               </TabPanel>
+               {/*<TabPanel>
+                 <div>test</div>
+               </TabPanel>
+               <TabPanel>
+                  <div>test</div>
+               </TabPanel>*/}
+             </Tabs>
+          </div>
 
       </section>
     );
   }
 }
 
-export default GallaryPanel;
+
+const mapStateToProps = state => ({
+  drawer: state.json.drawer
+})
+
+export default connect(
+  mapStateToProps,
+  dispatch => ({
+    toggleDrawer: value => dispatch(actions.toggleDrawer()),
+  })
+  //dispatch => ({ switchDarkmode: value => dispatch(switchDarkmode(value)) })
+)(GallaryPanel)

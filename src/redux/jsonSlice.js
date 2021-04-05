@@ -3,7 +3,8 @@ const initialState = {
   darkmode: false,
   working: 1,
   grid: false,
-  selected: 0
+  selected: 0,
+  drawer: true,
 }
 
 export default function jsonReducer(state = initialState, action) {
@@ -27,6 +28,11 @@ export default function jsonReducer(state = initialState, action) {
       return {
         ...state,
         selected: action.payload
+      }
+    case 'toggle/drawer':
+      return {
+        ...state,
+        drawer: !state.drawer
       }
     default:
       return state

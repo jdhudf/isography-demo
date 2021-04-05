@@ -72,56 +72,6 @@
     background: #E4E4E4;
     z-index: 0;
   }
-  .section-gallalypanel {
-    background: #FFF;
-    color: #000;
-    flex-shrink: 400px;
-    flex-basis: 30%;
-    z-index: 1000;
-    border-left: solid 1px #E4E4E4;
-    overflow-x: hidden;
-    .react-tabs {
-      margin-top: 10px;
-      .react-tabs__tab-list {
-        display: flex;
-        flex-wrap: nowrap;
-        justify-content: space-around;
-        width: 90%;
-        margin: 0 auto;
-        .react-tabs__tab {
-          border: solid 1px #E4E4E4;
-          border-radius: 1000px;
-          display: inline-block;
-          width: auto;
-          padding: 5px 10px;
-        }
-        .react-tabs__tab--selected {
-          background: #000;
-          color: #fff;
-        }
-      }
-      .react-tabs__tab-panel {
-        overflow-x: scroll;
-      }
-    }
-    .gallary-category-list {
-      width: 400px;
-      li {
-        display: inline-block;
-        margin-right: 10px;
-        span {
-          display: block;
-          border: solid 1px #E4E4E4;
-          width: 70px;
-          height: 70px;
-          border-radius: 50%;
-        }
-        p {
-          margin: 0;
-        }
-      }
-    }
-  }
 }
 
 .dark-mode {
@@ -162,18 +112,5 @@
         }
       }
     }
-  }
-}
-
-.section-gallalypanel {
-  svg {
-    border: solid 1px #E7E7E7;
-    flex-basis: 47%;
-    margin: 0 auto;
-    margin-top: 5px;
-    margin-bottom: 0px;
-    width: 100%;
-    background: #F0F0F0;
-    display: block;
   }
 }

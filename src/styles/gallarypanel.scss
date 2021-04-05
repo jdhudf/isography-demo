@@ -1,0 +1,225 @@
+@import "_setup.scss";
+
+.section-gallalypanel {
+  background: #FFF;
+  color: #000;
+  flex-shrink: 400px;
+  flex-basis: 30%;
+  z-index: 1000;
+  border-left: solid 1px #E4E4E4;
+  .react-tabs {
+    margin-top: 10px;
+    .react-tabs__tab-list {
+      display: flex;
+      flex-wrap: nowrap;
+      justify-content: space-around;
+      width: 100%;
+      //margin: 0 auto;
+      .react-tabs__tab {
+        width: 100%;
+        border: solid 1px #E4E4E4;
+        border-radius: 1000px;
+        display: inline-block;
+        padding: 5px 10px;
+      }
+      .react-tabs__tab--selected {
+        background: linear-gradient(90deg, purple , blue);
+        border: none;
+        padding: 1px;
+        color: #fff;
+        //background: #fff;
+        border-radius: 500px;
+        position: relative;
+        z-index : auto;
+        padding: 5px 0;
+        /*&:before {
+          content: "";
+          display: block;
+          position: absolute;
+          top: -1px; left: -1px; bottom: -1px; right: -1px;
+          background: linear-gradient(90deg, purple , blue);
+          z-index: -1;
+        }*/
+      }
+    }
+    .react-tabs__tab-panel {
+      overflow-x: scroll;
+      margin: 0;
+      .gallary-category-list {
+        display: none;
+        width: 400px;
+        li {
+          display: inline-block;
+          margin-right: 10px;
+          span {
+            display: block;
+            border: solid 1px #E4E4E4;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+          }
+          p {
+            margin: 0;
+          }
+        }
+      }
+      .gallaryframe {
+        outline: solid 2px #F0F0F0;
+        border: solid 2px #fff;
+        border-top: solid 4px #fff;
+        background: #ffffff;
+        width: 97%;
+        margin: 0 auto;
+        margin-top: -7px;
+        height:536px;
+        overflow: scroll;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        &:after {
+          display: block;
+          content:"";
+          flex-basis: 33.333%;
+        }
+        .item {
+          text-align: center;
+          border: solid 2px #ffffff;
+          border-top: solid 0px #ffffff;
+          border-bottom: solid 4px #ffffff;
+          box-sizing: border-box;
+          background: #F0F0F0;
+          flex-basis: 33.3333%;
+          padding-bottom:33.3333%;
+          height: 0;
+          border-radius: 5px;
+          svg {
+            display: block;
+            margin: 0 auto;
+            height: auto;
+          }
+        }
+      }
+    }
+  }
+  @include max-screen($device-small-pc) {
+    .react-tabs {
+      .react-tabs__tab-panel {
+        .gallaryframe {
+          .item {
+            flex-basis: 50%;
+            padding-bottom:50%;
+          }
+        }
+      }
+    }
+  }
+}
+
+.drawer {
+  margin-left: -20px;
+  position: relative;
+  .drawer-button {
+    position: relative;
+    position: absolute;
+    top: 0;
+    left: -20px;
+    box-sizing: border-box;
+    width: 40px;
+    height: 100vh;
+    z-index: 0;
+    p {
+      position: relative;
+      top: 45%;
+      left: 100%;
+      transform: translate(-50%,-50%);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      box-sizing: border-box;
+      line-height: 3.6;
+      background: #fff;
+      text-align: left;
+      text-indent: 1rem;
+      opacity: 0;
+      transition: all ease .2s;
+      z-index: 0;
+      background: linear-gradient(90deg, #E4E4E4 0%, #fff 0%,  #fff 100% );
+      span {
+        position: relative;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        display: block;
+        color: lightgray;
+        background: #fff;
+        font-size: 1.1rem;
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+      }
+    }
+    &:hover {
+      p {
+        opacity: 1;
+        transition: all ease .1s;
+        left: 60%;
+        background: linear-gradient(90deg, #E4E4E4 0%, #E4E4E4 40%, #fff 40%,  #fff 100% );
+      }
+    }
+  }
+  .drawer-content {
+    width: 95%;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1!important;
+  }
+}
+
+.drawer.hide {
+  flex-shrink: 30px;
+  flex-basis: 30px;
+  .drawer-content {
+    display: none;
+  }
+}
+
+.drawer.show {
+  .drawer-content {
+    display: block;
+  }
+}
+
+.dark-mode {
+  .section-gallalypanel {
+    background: $c1;
+    border-left: solid 1px $c4;
+    .react-tabs {
+      background: $c1;
+      .react-tabs__tab-list {
+        .react-tabs__tab {
+          border: solid 1px $c2;
+          color: $c3;
+        }
+        .react-tabs__tab--selected {
+          background: $c4;
+          color: $c3;
+        }
+      }
+      .react-tabs__tab-panel {
+        .gallaryframe {
+          background: $c4;
+          outline: solid 2px $c2;
+          border: solid 2px $c4;
+          border-top: solid 4px $c4;
+          .item {
+            border: solid 2px $c4;
+            border-top: solid 0px $c4;
+            border-bottom: solid 4px $c4;
+            box-sizing: border-box;
+            background: $c3;
+          }
+        }
+      }
+    }
+  }
+}

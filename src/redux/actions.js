@@ -114,4 +114,9 @@ export const actions = {
       payload: value
     }
   },
+  toggleDrawer() {
+    return {
+      type: 'toggle/drawer',
+    }
+  },
 }
