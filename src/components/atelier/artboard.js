@@ -768,6 +768,8 @@ class Artboard extends React.Component {
       value: this.state.data
     })
 
+    updateArtboard(newData)
+
   }
 
   render() {
