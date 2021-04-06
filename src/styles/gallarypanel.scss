@@ -113,6 +113,31 @@
       }
     }
   }
+  @include max-screen($device-tablet) {
+    .react-tabs {
+      .react-tabs__tab-panel {
+        .gallaryframe {
+          display: block;
+          .item {
+            padding-bottom:100%;
+          }
+        }
+      }
+    }
+  }
+  @include max-screen($device-mobile) {
+    .react-tabs {
+      .react-tabs__tab-panel {
+        .gallaryframe {
+          display: flex;
+          .item {
+            flex-basis: 50%;
+            padding-bottom:50%;
+          }
+        }
+      }
+    }
+  }
 }
 
 .drawer {
@@ -172,6 +197,9 @@
     margin: 0 auto;
     position: relative;
     z-index: 1!important;
+  }
+  @include max-screen($device-mobile) {
+    margin-left: 0;
   }
 }
 

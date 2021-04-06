@@ -72,6 +72,36 @@
     background: #E4E4E4;
     z-index: 0;
   }
+  @include max-screen($device-mobile) {
+    display: flex;
+    .section-toolspanel {//93
+      height: 7vh;
+      display: flex;
+      flex-basis: 100%;
+      justify-content: space-around;
+      align-items: center;
+      z-index: 10000!important;
+      span {
+        display: flex;
+      }
+      .color-scheme {
+        display: flex;
+      }
+    }
+    .section-artboard {
+      height: 53vh;
+      flex-basis: 100%;
+      //z-index: -1!important;
+      //overflow: hidden;
+      svg#svg {
+        z-index: -1!important;
+      }
+    }
+    .section-gallalypanel{
+      flex-basis: 100%;
+      height: 33vh;
+    }
+  }
 }
 
 .dark-mode {
