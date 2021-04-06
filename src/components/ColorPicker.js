@@ -43,7 +43,7 @@ class ColorPicker extends React.Component {
         },
         swatch: {
           padding: '3px',
-          background: '#fff',
+          //background: '#fff',
           borderRadius: '5px',
           boxShadow: '0 0 0 1px rgba(0,0,0,.1)',
           display: 'flex',

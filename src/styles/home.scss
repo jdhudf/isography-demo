@@ -10,10 +10,8 @@
     align-items: flex-start;
   }
   @include max-screen($device-small-pc) {
-    background: #F7F7F7;
     .flexbox {
       display: block;
-      background: #F7F7F7;
       main {
         .section-new {
           width: 100%;
@@ -641,8 +639,10 @@ aside {
     }
   }
   .section-dashboard {
+    background: $c1!important;
     h2 {
       color: #9EA3B2;
+      background: $c1;
     }
     .template-list {
       background: #282C34;
@@ -667,6 +667,30 @@ aside {
         p {
           color: #9EA3B2;
         }
+      }
+    }
+  }
+  .modal-content {
+    .preview {
+      h2 {
+        background: #000;
+      }
+    }
+    .setting {
+      background: $c1;
+      input {
+        background: $c1;
+        color: $c3;
+      }
+      .color-picker div {
+        background: $c2;
+        border: solid 1px $c2;
+        span {
+          color: $c3;
+        }
+      }
+      label {
+        color: $c3;
       }
     }
   }

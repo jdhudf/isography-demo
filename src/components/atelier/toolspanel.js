@@ -29,6 +29,7 @@ import { useSelector, useDispatch } from 'react-redux'
 const getWorking = state => state.json.working
 const getArtboards = state => state.artboards.present.artboards
 const getGrid = state => state.json.grid
+const getDarkmode = state => state.json.darkmode
 
 
 
@@ -154,7 +155,7 @@ class ToolsPanel extends React.Component {
 
   render() {
 
-    const { working, changeHex, undo, recordHistory,redo,updateArtboard,past,future,artboards,selected} = this.props
+    const { working, changeHex, undo, recordHistory,redo,updateArtboard,past,future,artboards,selected,darkmode } = this.props
 
     const canvas = getCanvas({artboards: artboards, working: working})
     const mainColor = canvas.color_scheme['mainColor'],
@@ -170,13 +171,13 @@ class ToolsPanel extends React.Component {
             return (
               <span>
                 <p title="Bring Forward" onClick={()=>this.handleElement("bringForward")}><FontAwesomeIcon icon={faSortAmountUp} /></p>
-                <p title="Send Backward" style={{color: "lightgray"}}><FontAwesomeIcon icon={faSortAmountDown} /></p>
+                <p title="Send Backward" style={{color: darkmode ? "#444855":"lightgray"}}><FontAwesomeIcon icon={faSortAmountDown} /></p>
               </span>
             )
           } else if (selected === (svg_data.length - 1)) {
             return (
               <span>
-                <p title="Bring Forward" style={{color: "lightgray"}}><FontAwesomeIcon icon={faSortAmountUp} /></p>
+                <p title="Bring Forward" style={{color: darkmode ? "#444855":"lightgray"}}><FontAwesomeIcon icon={faSortAmountUp} /></p>
                 <p title="Send Backward" onClick={()=>this.handleElement("sendBackward")}><FontAwesomeIcon icon={faSortAmountDown} /></p>
               </span>
             )
@@ -231,7 +232,7 @@ class ToolsPanel extends React.Component {
         {(()=>{
           if (past.length === 0) {
             return (
-              <p title="Undo" style={{color: "lightgray"}}>
+              <p title="Undo" style={{color: darkmode ? "#444855":"lightgray" }}>
                 <FontAwesomeIcon icon={faLongArrowAltLeft} />
               </p>
             )
@@ -250,7 +251,7 @@ class ToolsPanel extends React.Component {
         {(()=>{
           if (future.length === 0) {
             return (
-              <p title="Redo" style={{color: "lightgray"}}>
+              <p title="Redo" style={{color: darkmode ? "#444855":"lightgray"}}>
                 <FontAwesomeIcon icon={faLongArrowAltRight} />
               </p>
             )
@@ -267,7 +268,7 @@ class ToolsPanel extends React.Component {
           }
         })()}
 
-        <p style={{margin: "0",color:"gray"}}>BG</p>
+        <p style={{margin: "0",color:darkmode ? "#9EA3B2":"gray"}}>BG</p>
         <ColorPicker
           color={background}
           method={(e) => {
@@ -296,6 +297,7 @@ function ToggleGrid() {
   const working = useSelector(getWorking)
   const artboards = useSelector(getArtboards)
   const toggleState = useSelector(getGrid)
+  const darkmode = useSelector(getDarkmode)
 
   const [gridScale, setGridScale] = useState(getArtboardData({artboards:artboards,working:working,type:"grid"}));
 
@@ -329,7 +331,7 @@ function ToggleGrid() {
 
   return (
     <div className="grid" style={{marginBottom: "30px"}}>
-      <p style={{marginBottom: "0px", color:"gray"}}>Grid</p>
+      <p style={{marginBottom: "0px", color:darkmode ? "#9EA3B2":"gray"}}>Grid</p>
       <div id="toggle" onClick={toggleGrid} className="toggle">
         <div className="button"></div>
       </div>
@@ -347,7 +349,8 @@ const mapStateToProps = state => ({
   past: state.history.past,
   future: state.history.future,
   present: state.history.present,
-  selected: state.json.selected
+  selected: state.json.selected,
+  darkmode: state.json.darkmode
 })
 
 export default connect(
