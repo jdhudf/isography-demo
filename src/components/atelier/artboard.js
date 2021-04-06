@@ -362,11 +362,7 @@ class Artboard extends React.Component {
 
     }
 
-    console.log(this.props.test)
-
     if(this.props.test) {
-
-      alert("svg svg svg!")
 
       this.addElementOfSVG(this.props.willAddElementOfSvg)
 
@@ -418,8 +414,6 @@ class Artboard extends React.Component {
 
   addElementOfSVG = (e) => {
 
-    alert("svg!")
-
     const { updateArtboard, working, artboards, recordHistory } = this.props
 
     const canvas = getCanvas({artboards: artboards,working:working})
@@ -428,7 +422,6 @@ class Artboard extends React.Component {
     data_copy.push(e);
     this.setState({data: data_copy});
     this.props.method()
-    this.props.updateState(data_copy)
 
     const newData = updateArtboards({
       working: working,

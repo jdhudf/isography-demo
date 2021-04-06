@@ -22,7 +22,7 @@ export default function historyReducer(state = initialState, action) {
 
   const { past, present, future } = state
 
-  console.log(state)
+  //console.log(state)
 
   switch (action.type) {
     case 'reset/history':

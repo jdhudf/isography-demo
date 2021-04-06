@@ -34,7 +34,7 @@ class GallaryPanel extends React.Component {
         svg,
         g = "fs";
 
-    console.log(e.target.parentNode.outerHTML)
+    //console.log(e.target.parentNode.outerHTML)
 
     if (e.target.parentNode.outerHTML.startsWith('<svg ')) {
       svg = e.target.parentNode//.outerHTML
