@@ -29,18 +29,36 @@ class GallaryPanel extends React.Component {
   }
 
   selectElementOfSVG = (e) => {
-    console.log(e)
-  }
 
-  selectElementOfSVG = (e) => {
+    let item,// = e.target.parentNode.outerHTML,
+        svg,
+        g = "fs";
 
-    const g = e.target.parentNode.outerHTML;
+    console.log(e.target.parentNode.outerHTML)
 
-    if (g.startsWith('<g transform="translate')) {
+    if (e.target.parentNode.outerHTML.startsWith('<svg ')) {
+      svg = e.target.parentNode//.outerHTML
+    } else if (e.target.parentNode.outerHTML.startsWith('<div class="item">')) {
 
-      console.log(e.target.parentNode.outerHTML)
+      svg = e.target.parentNode.childNodes[0];
 
-      this.props.method(e.target.parentNode.outerHTML)
+    } else {
+      svg = e.target.parentNode.closest("svg")//.outerHTML
+    }
+
+    const children = svg.children;
+
+    let gtag = document.createElement('g');
+
+    gtag.setAttribute('transform', 'translate(0,0) scale(1,1)');
+
+    for (let i = 0; i< children.length; i++) {
+      gtag.appendChild(children[i].cloneNode(true));
+    }
+
+    if (gtag.outerHTML.startsWith('<g transform="translate')) {
+
+      this.props.method(gtag.outerHTML)
 
     } else {}
 
@@ -99,16 +117,6 @@ class GallaryPanel extends React.Component {
 
   render() {
 
-    const styles={
-      style_input: {
-        width: "90%",
-        padding: "5px 0",
-        margin: "10px 0",
-        border: "solid 2px #E7E7E7",
-        fontWeight: "bold"
-      }
-    };
-
     const { drawer, toggleDrawer } = this.props
 
     return (
@@ -156,8 +164,6 @@ class GallaryPanel extends React.Component {
                  <div className="gallaryframe"
                       onMouseDown={this.selectElementOfSVG}>
                    <Myloop />
-
-
                  </div>
                </TabPanel>
                {/*<TabPanel>

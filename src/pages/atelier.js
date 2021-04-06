@@ -231,6 +231,8 @@ class Atelier extends React.Component {
                    willAddElementOfSvg:e,
                    test:true,
                  })
+
+                 console.log("true")
                }}
           />
       </section>

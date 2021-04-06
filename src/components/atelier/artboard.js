@@ -346,12 +346,6 @@ class Artboard extends React.Component {
       this.setState({isMouseDown:false})
       this.setState({propsOrState:false})
 
-      if(this.props.test) {
-
-        this.addElementOfSVG(this.props.willAddElementOfSvg)
-
-      }
-
       //this.updateSelecter();
 
       const newData = updateArtboards({
@@ -365,6 +359,16 @@ class Artboard extends React.Component {
       recordHistory(canvas)
 
       this.getTranslate(e);
+
+    }
+
+    console.log(this.props.test)
+
+    if(this.props.test) {
+
+      alert("svg svg svg!")
+
+      this.addElementOfSVG(this.props.willAddElementOfSvg)
 
     }
 
@@ -414,11 +418,27 @@ class Artboard extends React.Component {
 
   addElementOfSVG = (e) => {
 
+    alert("svg!")
+
+    const { updateArtboard, working, artboards, recordHistory } = this.props
+
+    const canvas = getCanvas({artboards: artboards,working:working})
+
     const data_copy = this.state.data.slice();
     data_copy.push(e);
     this.setState({data: data_copy});
     this.props.method()
     this.props.updateState(data_copy)
+
+    const newData = updateArtboards({
+      working: working,
+      type: "svg_data",
+      artboards: artboards,
+      value: this.state.data
+    })
+
+    updateArtboard(newData)
+    recordHistory(canvas)
 
   }
 
