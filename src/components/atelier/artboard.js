@@ -13,7 +13,7 @@ import {
 import { onWheel } from './features/pinch-gesture-wheel'
 
 import { connect } from 'react-redux'
-import { switchDarkmode, actions } from '../../redux/actions';
+import { actions } from '../../redux/actions';
 
 //import { useSelector, useDispatch } from 'react-redux'
 
@@ -228,6 +228,8 @@ class Artboard extends React.Component {
 
 
     if (this.state.data !== svg_data) {
+
+      console.log(this.state.data === canvas.svg_data)
       this.setState({data:svg_data});
     }
 
@@ -313,18 +315,11 @@ class Artboard extends React.Component {
         );
 
 
-        //--- Move Selector Position ---//
-
-        //this.updateSelecter();
-
-
         //---  Update this.state.data  ---//
 
         const data_copy = this.state.data.slice()//this.svg_dataInRedux().slice();
         data_copy[selected] = result;
         this.setState({data: data_copy});
-
-
 
       } else {
         //this.setState({isMouseDown:false})
@@ -625,9 +620,11 @@ class Artboard extends React.Component {
     //const regExp = /\(([^)]+)\)/g;
     //const transform = el.match(regExp)
 
+    const artboardScale =  this.state.artboardScale;
+
     const gap = [
-      e.pageX - initialAxis[0],
-      e.pageY - initialAxis[1]
+      (e.pageX - initialAxis[0])/artboardScale,
+      (e.pageY - initialAxis[1])/artboardScale
     ];
 
     let translate = [
@@ -886,6 +883,8 @@ class Artboard extends React.Component {
     const artboardSize = canvas.artboard_size,
           gridScale = getArtboardData({artboards:artboards,working:working,type:"grid"})
 
+    console.log(canvas.svg_data)
+
     return (
       <div style={{position: "relative"}}>
       {selector}
@@ -907,7 +906,6 @@ class Artboard extends React.Component {
 
       <section style={styles.artboard}
                className="section-artboard section-bottom"
-
                gestureStart={this.gestureStart}
                gestureChange={this.gestureChange}
                gestureEnd={this.gestureEnd}

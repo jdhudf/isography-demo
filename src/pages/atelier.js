@@ -8,14 +8,14 @@ import Artboard from '../components/atelier/artboard.js';
 import icon from '../images/logo.svg';
 
 import {
-  getArtboardData,
+  //getArtboardData,
   getCanvas
 } from '../components/handleLocalstorage'
 
 import '../styles/atelier.scss';
 
 import { connect } from 'react-redux'
-import { switchDarkmode,actions } from '../redux/actions';
+import { actions } from '../redux/actions';
 
 
 //====================================
@@ -35,7 +35,7 @@ class Atelier extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      willAddElementOfSvg: 1,
+      willAddElementOfSvg: null,
       test: false,
     }
   }
@@ -174,8 +174,21 @@ class Atelier extends React.Component {
           accentColor = canvas.color_scheme["accentColor"],
           background = canvas.color_scheme["background"];
 
+    const svgElement = `<svg width="100" height="100" viewBox="0 0 200 200" version="1.1" xmlns="http://www.w3.org/2000/svg">` + this.state.willAddElementOfSvg + `</svg>`
+
+    const svg = escape(svgElement);
+
+    if (this.state.willAddElementOfSvg) {
+      
+    }
+
+    const svg_url = `url('data:image/svg+xml;utf8,`+ svg +`') 50 50, grabbing!important;`//`url('data:image/svg+xml;utf8,<svg fill="%23FF0000" height="48" viewBox="0 0 24 24" width="48" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h24v24H0z" fill="none"/><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>') 50 50, auto!important;`, pointer;
+
     return (
-      <section className={darkmode? "section-atelier dark-mode": "section-atelier"}
+      <section styles={{
+              cursor: "wait",
+          }}
+          className={darkmode? "section-atelier dark-mode": "section-atelier"}
           onMouseDown={this.onMouseDown}
           onMouseMove={this.onMouseMove}
           onMouseUp={this.onMouseUp}
@@ -202,13 +215,15 @@ class Atelier extends React.Component {
             .accent {
               fill: ${accentColor};
             }
+            .section-atelier, .section-atelier .section-artboard, .section-atelier .section-gallalypanel, .drawer {
+              cursor: ${ (this.state.test && this.state.willAddElementOfSvg) ? svg_url : "default"};
+            }
           `}</style>
           <TopBar
                background={background}
           />
           <ToolsPanel
                selectEl={this.state.selectEl}
-               //length={artboard.canvas.svg_data.length}//{this.state.data.length}
           />
           <div className="section-artboard">
           <Artboard
@@ -221,7 +236,12 @@ class Atelier extends React.Component {
                }}
 
                willAddElementOfSvg={this.state.willAddElementOfSvg}
-               method={(e)=>{this.setState({test:false})}}
+               method={(e)=>{
+                 this.setState({
+                   test:false,
+                   willAddElementOfSvg:null
+                 })
+               }}
                test={this.state.test}
           />
           </div>
@@ -232,6 +252,7 @@ class Atelier extends React.Component {
                    test:true,
                  })
                }}
+               me={()=>{ this.setState({ test:false,willAddElementOfSvg:null }) }}
           />
       </section>
     );

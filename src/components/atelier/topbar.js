@@ -16,8 +16,8 @@ import {
 
 import {
   getArtboardData,
-  removeArtboard,
-  addNewArtboard,
+  //removeArtboard,
+  //addNewArtboard,
   updateArtboards,
   getCanvas,
 } from '../handleLocalstorage'
@@ -28,7 +28,6 @@ import {
 
 import { useSelector, useDispatch } from 'react-redux'
 
-const getState = state => state.json
 const selectArtboards = state => state.artboards.present.artboards
 const selectWorking = state => state.json.working
 
@@ -149,7 +148,7 @@ function ArtboardSetting (props) {
   let array_num;
 
   for (var i = 0; i < artboards.length; i++) {
-    if (artboards[i].artboard_id == working) {
+    if (artboards[i].artboard_id === parseInt(working)) {
       array_num = i;
       artboard = artboards[i];
     }
@@ -274,7 +273,7 @@ function ArtboardSetting (props) {
 
               const newData = updateArtboards(
                 {
-                  working: working.working,
+                  working: working,
                   type: "artboard_size",
                   artboards: artboards,
                   value: [artboardSize[0],artboardSize[1]]
@@ -444,9 +443,9 @@ function ExportComponent (props) {
   const [showExportPanel, changeStateExportPanel] = useState(false);
   const [artboardName, changeStateArtboardName] = useState(artboard_name);
 
-  const [radioFormat, changeStateRadioFormat] = useState("png");
-  const [radioSize, changeStateRadioSize] = useState("x-small");
-  const [radioCompression, changeStateRadioCompression] = useState("low");
+  //const [radioFormat, changeStateRadioFormat] = useState("png");
+  //const [radioSize, changeStateRadioSize] = useState("x-small");
+  //const [radioCompression, changeStateRadioCompression] = useState("low");
 
   const openExportPanel = () => {
     changeStateExportPanel(true)
@@ -456,7 +455,7 @@ function ExportComponent (props) {
     changeStateExportPanel(false)
   }
 
-  const handleRadioFormat = (e) => {
+  /*const handleRadioFormat = (e) => {
     changeStateRadioFormat(e.target.value)
   }
 
@@ -465,7 +464,7 @@ function ExportComponent (props) {
   }
   const handleRadioCompression = (e) => {
     changeStateRadioCompression(e.target.value)
-  }
+  }*/
 
   const styles = {
     overlay: {

@@ -8,9 +8,9 @@ import {
   faAdjust
 } from '@fortawesome/free-solid-svg-icons'
 
-import { useSelector, useDispatch } from 'react-redux'
+import { /*useSelector,*/ useDispatch } from 'react-redux'
 
-const selectDarkmode = state => state.json
+//const selectDarkmode = state => state.json
 
 class MenuBar extends React.Component {
 
@@ -80,9 +80,9 @@ class MenuBar extends React.Component {
 const Darkmode = () => {
   const dispatch = useDispatch()
 
-  const mode = useSelector(selectDarkmode)
+  //const mode = useSelector(selectDarkmode)
 
-  const value = mode.darkmode
+  //const value = mode.darkmode
 
   const handleChange = e => {
     dispatch({type: 'darkmode/switch'})

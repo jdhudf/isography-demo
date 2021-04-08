@@ -24,7 +24,7 @@ import {
 import { useSelector, useDispatch, connect } from 'react-redux'
 import { actions } from '../redux/actions';
 
-const selectWorking = state => state.json.working
+//const selectWorking = state => state.json.working
 const selectArtboards = state => state.artboards.present.artboards
 const selectTemplate = state => state.templates
 
@@ -38,7 +38,7 @@ class Home extends React.Component {
 
   render() {
 
-    const { json,templates } = this.props
+    const { json } = this.props
 
     const darkmode = json.darkmode
 
@@ -57,7 +57,7 @@ const Dashboard = () => {
   //const [showModal, toggleModal] = useState(false);
   const [documentList, toggleDocumentList] = useState(false);
 
-  const working = useSelector(selectWorking),
+  const //working = useSelector(selectWorking),
         artboards =  useSelector(selectArtboards)
         //getIsographyData();
 

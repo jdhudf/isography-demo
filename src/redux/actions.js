@@ -1,13 +1,3 @@
-import {
-  updateJson,
-} from '../components/handleLocalstorage'
-
-//export const switchDarkmode = value => ({type: 'darkmode/switch', payload: value});
-/*
-export const switchDarkmode = value => {
-  return {type: 'darkmode/switch', payload: value}
-}*/
-
 export const actions = {
   switchDarkmode(value) {
     return {
@@ -70,8 +60,8 @@ export const actions = {
     }
   },
   addNewArtboard(json) {
-    const today = new Date();
-    console.info("?????")
+    //const today = new Date();
+    //console.info("?????")
     return {
       type: 'add/artboard',
       payload: json

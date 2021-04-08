@@ -10,7 +10,7 @@ import { actions } from '../../redux/actions';
 import Myloop from './images.js';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSearch,faChevronLeft,faChevronRight } from '@fortawesome/free-solid-svg-icons'
+import { /*faSearch,*/faChevronLeft,faChevronRight } from '@fortawesome/free-solid-svg-icons'
 
 //====================================
 //  We need below functions that
@@ -23,16 +23,13 @@ class GallaryPanel extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isMouseDown : false,
       willAddElementOfSvg: null,
     };
   }
 
   selectElementOfSVG = (e) => {
 
-    let item,// = e.target.parentNode.outerHTML,
-        svg,
-        g = "fs";
+    let svg;
 
     //console.log(e.target.parentNode.outerHTML)
 
@@ -162,7 +159,8 @@ class GallaryPanel extends React.Component {
                    </ul>
                  </div>
                  <div className="gallaryframe"
-                      onMouseDown={this.selectElementOfSVG}>
+                      onMouseDown={this.selectElementOfSVG}
+                      onMouseUp={() => this.props.me()}>
                    <Myloop />
                  </div>
                </TabPanel>
