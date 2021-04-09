@@ -715,24 +715,6 @@ class Artboard extends React.Component {
     if (this.state.isScaleMouseDown) {
 
       this.getDistance(e);
-      //this.updateSelecter()
-
-      /*switch (position){
-        case 'topLeft':
-          console.log('topLeft');
-          break;
-        case 'topRight':
-          console.log('topRight');
-          break;
-        case 'bottomRight':
-          console.log('bottomRight');
-          break;
-        case 'bottomLeft':
-          console.log('bottomLeft');
-          break;
-        default:
-          break;
-      }*/
 
     }
 
