@@ -120,7 +120,7 @@ export const updateArtboards = ({working, type, artboards,value}) => {
 
 
 export const addNewArtboard = ({
-  json,
+  artboards,
   artboard_name,
   mainColor,
   subColor,
@@ -130,10 +130,12 @@ export const addNewArtboard = ({
   height,
   svg
 }) => {
+
+  const copy = JSON.parse(JSON.stringify(artboards));
   const today = new Date();
 
   const newData = {
-    artboard_id: json.length + 1,
+    artboard_id: artboards.length + 1,
     artboard_name: artboard_name,
     created_at: today,
     last_modified: today,
@@ -150,9 +152,9 @@ export const addNewArtboard = ({
     }
   }
 
-  json.push(newData)
+  copy.push(newData)
 
-  return json
+  return copy
 }
 
 export const removeArtboard = ({artboards,working}) => {

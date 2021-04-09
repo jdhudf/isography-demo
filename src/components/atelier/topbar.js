@@ -17,7 +17,7 @@ import {
 import {
   getArtboardData,
   //removeArtboard,
-  //addNewArtboard,
+  addNewArtboard,
   updateArtboards,
   getCanvas,
 } from '../handleLocalstorage'
@@ -74,27 +74,6 @@ class TopBar extends React.Component {
 
 
   render() {
-
-    /*const styles = {
-      overlay: {
-        background: 'none',
-      },
-      content : {
-        position: 'relative',
-        width: '250px',
-        top                   : '11.4%',
-        left                  : '48%',
-        right                 : 'auto',
-        bottom                : 'auto',
-        transform             : 'translate(-50%, -10%)',
-        borderRadius: '0',
-        border: 'solid 1px #F0F0F0',
-        transition: 'ease all 1s',
-      },
-      svg: {
-        background: `${this.props.background}`
-      }
-    };*/
 
     const { artboards, working } = this.props
 
@@ -363,22 +342,19 @@ function ArtboardSetting (props) {
               const name = artboardName + '_copy'
               const now = new Date()
 
-              const newData = {
-                artboard_id: artboards.length + 1,
+              const newData = addNewArtboard({
+                artboards: artboards,
                 artboard_name: name,
-                created_at: now,
-                last_modified: now,
-                canvas: {
-                  artboard_size: artboard.canvas.artboard_size,
-                  svg_data: artboard.canvas.svg_data,
-                  color_scheme: artboard.canvas.color_scheme,
-                  grid: artboard.canvas.grid,
-                }
-              }
+                mainColor: artboard.canvas.color_scheme["mainColor"],
+                subColor: artboard.canvas.color_scheme["subColor"],
+                accentColor: artboard.canvas.color_scheme["accentColor"],
+                background: artboard.canvas.color_scheme["background"],
+                width: artboard.canvas.artboard_size[0],
+                height: artboard.canvas.artboard_size[1],
+                svg: artboard.canvas.svg_data
+              })
 
-              artboards.push(newData)
-
-              dispatch({type: 'update/artboard', payload: artboards})
+              dispatch({type: 'add/artboard', payload: newData})
 
               changeStateDuplicate(false)
 
@@ -519,7 +495,6 @@ function ExportComponent (props) {
 
     return result
   }
-
 
   return (
     <div>

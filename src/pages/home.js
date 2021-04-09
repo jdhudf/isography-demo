@@ -205,7 +205,7 @@ const NewArtboard = () => {
   const createNewArtboard = (e) => {
 
     const newData = addNewArtboard({
-      json: json,
+      artboards: json,
       artboard_name: value,
       mainColor: mainColor,
       subColor: subColor,
