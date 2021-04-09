@@ -612,8 +612,6 @@ class Artboard extends React.Component {
     //--  get scale() of selected element with regEpx  --//
 
     const { selected } = this.props,
-          mouseX = e.pageX,
-          mouseY = e.pageY,
           elements = document.getElementById("svg"),
           selectedElement = elements.children[selected],
           el = this.state.data[selected];
@@ -630,32 +628,20 @@ class Artboard extends React.Component {
 
     // -----  //
 
-    const getValueOfTransformScale = () => {
-
-      const regExp = /\(([^)]+)\)/g,
-            transform = el.match(regExp),// ex.["(342,147)","(1,1)"]
-            regExp_2 = /-?\d+\.\d+/g; // if (1.00,1.00)
-
-      let scale = transform[1].match(regExp_2)
-
-      if (JSON.stringify(scale) === "null") {
-        const regExp_3 = /-?\d+/g;
-        scale = transform[1].match(regExp_3)
-      }
-
-      return scale[0]
-
-    }
+    const regExp = /\(([^)]+)\)/g,
+          transform = el.match(regExp),// ex.["(342,147)","(1,1)"]
+          regExp_2 = /-?\d+(\.\d+)?/g,// /-?\d+\.\d+/g; // if (1.00,1.00)
+          scale = transform[1].match(regExp_2)[0]
 
     const client_right = selectedElement.getBoundingClientRect().right,
           client_bottom = selectedElement.getBoundingClientRect().bottom;
 
     this.setState({
-      isScaleMouseDown:true,
-      selectedInitial: [mouseX,mouseY],
-      selectedScale: getValueOfTransformScale(),
-      propsOrState:true,
-      clientPosition: [client_right, client_bottom ],
+      isScaleMouseDown: true,
+      selectedInitial: [ e.pageX , e.pageY ],
+      selectedScale: scale,
+      propsOrState: true,
+      clientPosition: [ client_right, client_bottom ],
     })
 
   }
@@ -671,8 +657,11 @@ class Artboard extends React.Component {
   }
 
   onScaleUp = (e, position) => {
-    this.setState({isScaleMouseDown:false})
-    this.setState({propsOrState:false})
+
+    this.setState({
+      isScaleMouseDown:false,
+      propsOrState:false
+    })
 
     const { updateArtboard, working, artboards } = this.props
 
@@ -687,8 +676,10 @@ class Artboard extends React.Component {
   }
 
   onScaleLeave = (e, position) => {
-    this.setState({isScaleMouseDown:false})
-    this.setState({propsOrState:false})
+    this.setState({
+      isScaleMouseDown:false,
+      propsOrState:false
+    })
 
     const { updateArtboard, working, artboards } = this.props
 
