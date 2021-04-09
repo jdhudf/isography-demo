@@ -208,7 +208,7 @@ class Atelier extends React.Component {
 
     return (
       <section
-          className={darkmode? "section-atelier dark-mode": "section-atelier"}
+          className={ darkmode ? "section-atelier dark-mode": "section-atelier" }
           onMouseDown={this.onMouseDown}
           onMouseMove={this.onMouseMove}
           onMouseUp={this.onMouseUp}

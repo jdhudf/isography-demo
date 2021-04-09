@@ -47,7 +47,7 @@ class GallaryPanel extends React.Component {
 
     let gtag = document.createElement('g');
 
-    gtag.setAttribute('transform', 'translate(0,0) scale(1,1)');
+    gtag.setAttribute('transform', 'translate(0,0) scale(1.00,1.00)');
 
     for (let i = 0; i< children.length; i++) {
       gtag.appendChild(children[i].cloneNode(true));
