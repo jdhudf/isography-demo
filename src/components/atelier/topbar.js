@@ -340,7 +340,6 @@ function ArtboardSetting (props) {
 
               e.preventDefault()
               const name = artboardName + '_copy'
-              const now = new Date()
 
               const newData = addNewArtboard({
                 artboards: artboards,
