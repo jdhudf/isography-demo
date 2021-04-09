@@ -413,20 +413,22 @@ class Artboard extends React.Component {
 
     const canvas = getCanvas({artboards: artboards,working:working})
 
-    const data_copy = this.state.data.slice();
+    const data_copy = canvas.svg_data.slice();
     data_copy.push(e);
     this.setState({data: data_copy});
-    this.props.method()
 
     const newData = updateArtboards({
       working: working,
       type: "svg_data",
       artboards: artboards,
-      value: this.state.data
+      value: data_copy
     })
 
     updateArtboard(newData)
-    recordHistory(canvas)
+
+    recordHistory(JSON.parse(JSON.stringify(canvas)))
+
+    this.props.method()
 
   }
 
@@ -883,10 +885,11 @@ class Artboard extends React.Component {
     const artboardSize = canvas.artboard_size,
           gridScale = getArtboardData({artboards:artboards,working:working,type:"grid"})
 
-    console.log(canvas.svg_data)
-
     return (
-      <div style={{position: "relative"}}>
+      <div id="board" style={{position: "relative"}}
+           onMouseUp={() => {
+             this.props.method()
+           }}>
       {selector}
 
       <div style={{

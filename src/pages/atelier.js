@@ -40,6 +40,17 @@ class Atelier extends React.Component {
     }
   }
 
+  componentDidMount(e) {
+
+    /*const el = document.querySelector('.section-artboard');
+    el.addEventListener('gesturestart', this.gestureStart, { passive: false });
+    el.addEventListener('gesturechange', this.gestureChange, { passive: false });
+    el.addEventListener('gestureend', this.gestureEnd, { passive: false });*/
+
+    //el.addEventListener('onkeydown', this.keyPress , { passive: false });
+
+  }
+
 
   /*isLocalStorageAvlbl = () => {
     if (typeof localStorage !== 'undefined') {
@@ -64,26 +75,9 @@ class Atelier extends React.Component {
   }*/
 
   onMouseDown = (e) => {
-    //this.setState({isMouseDown:true})
 
-    //const mouseX = e.pageX;// pageX and pageY is mouse's axis in the box.
-    //const mouseY = e.pageY;
-
-    const g = e.target.parentNode.outerHTML;
-
-    if (g.startsWith('<g transform="translate')) {
-
-      this.setState({isMouseDown:true})
-
-      //console.log(e.target.parentNode.outerHTML)
-
-      document.querySelector('.section-gallalypanel').style.cursor = 'copy';
-      document.querySelector('.section-artboard').style.cursor = 'copy';
-
-      this.setState({willAddElementOfSvg:e.target.parentNode.outerHTML})
-
-    } else {
-      this.setState({isMouseDown:false})
+    if (this.state.test) {
+      this.moveSVG(e)
     }
 
   }
@@ -91,13 +85,10 @@ class Atelier extends React.Component {
   onMouseMove = (e) => {
     e.preventDefault();
 
-    if (this.state.isMouseDown) {
-      document.querySelector('.section-gallalypanel').style.cursor = 'copy';
-      document.querySelector('.section-artboard').style.cursor = 'copy';
-    } else {
-      document.querySelector('.section-gallalypanel').style.cursor = 'default';
-      document.querySelector('.section-artboard').style.cursor = 'default';
+    if (this.state.test) {
+      this.moveSVG(e)
     }
+
   }
 
   onMouseUp = (e) => {
@@ -149,6 +140,47 @@ class Atelier extends React.Component {
     }
   }
 
+  createSVG = (e) => {
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute("id", "pointer")
+    svg.setAttribute("width", "200")
+    svg.setAttribute("height", "200");
+    svg.setAttribute("viewbox", "0 0 200 200");
+
+    svg.style.transform = "scale(0.55)"
+    svg.style.position = "absolute"
+    svg.style.display = "none"
+    svg.style.pointerEvents = "none"
+    svg.style.zIndex = "10000"
+
+    const c = document.getElementsByClassName('section-atelier')[0]
+
+    svg.innerHTML = e;
+
+    c.appendChild( svg );
+
+    svg.style.top = e.pageY - 100
+    svg.style.left = e.pageX - 100
+
+  }
+
+  removeSVG = () => {
+
+    const pointer = document.getElementById('pointer')
+
+    if (pointer) {
+      const c = document.getElementsByClassName('section-atelier')[0]
+      c.removeChild(pointer);
+    }
+  }
+
+  moveSVG = (e) => {
+    const pointer = document.getElementById('pointer')
+    pointer.style.display = "block"
+    pointer.style.top = e.pageY - 100
+    pointer.style.left = e.pageX - 100
+  }
+
 
   render() {
 
@@ -174,20 +206,8 @@ class Atelier extends React.Component {
           accentColor = canvas.color_scheme["accentColor"],
           background = canvas.color_scheme["background"];
 
-    const svgElement = `<svg width="100" height="100" viewBox="0 0 200 200" version="1.1" xmlns="http://www.w3.org/2000/svg">` + this.state.willAddElementOfSvg + `</svg>`
-
-    const svg = escape(svgElement);
-
-    if (this.state.willAddElementOfSvg) {
-      
-    }
-
-    const svg_url = `url('data:image/svg+xml;utf8,`+ svg +`') 50 50, grabbing!important;`//`url('data:image/svg+xml;utf8,<svg fill="%23FF0000" height="48" viewBox="0 0 24 24" width="48" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h24v24H0z" fill="none"/><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>') 50 50, auto!important;`, pointer;
-
     return (
-      <section styles={{
-              cursor: "wait",
-          }}
+      <section
           className={darkmode? "section-atelier dark-mode": "section-atelier"}
           onMouseDown={this.onMouseDown}
           onMouseMove={this.onMouseMove}
@@ -215,8 +235,11 @@ class Atelier extends React.Component {
             .accent {
               fill: ${accentColor};
             }
-            .section-atelier, .section-atelier .section-artboard, .section-atelier .section-gallalypanel, .drawer {
-              cursor: ${ (this.state.test && this.state.willAddElementOfSvg) ? svg_url : "default"};
+            .section-atelier .section-gallalypanel .item {
+              cursor: ${ (this.state.test && this.state.willAddElementOfSvg) ? "grabbing" : "grab"};
+            }
+            .section-atelier .board, .section-atelier .section-artboard, .section-atelier .section-gallalypanel, .drawer {
+              cursor: ${ (this.state.test && this.state.willAddElementOfSvg) ? "grabbing" : "default"};
             }
           `}</style>
           <TopBar
@@ -236,11 +259,12 @@ class Atelier extends React.Component {
                }}
 
                willAddElementOfSvg={this.state.willAddElementOfSvg}
-               method={(e)=>{
+               method={()=>{
                  this.setState({
                    test:false,
                    willAddElementOfSvg:null
                  })
+                 this.removeSVG()
                }}
                test={this.state.test}
           />
@@ -251,8 +275,13 @@ class Atelier extends React.Component {
                    willAddElementOfSvg:e,
                    test:true,
                  })
+
+                 this.createSVG(e)
                }}
-               me={()=>{ this.setState({ test:false,willAddElementOfSvg:null }) }}
+               me={()=>{
+                 this.setState({ test:false,willAddElementOfSvg:null })
+                 this.removeSVG()
+               }}
           />
       </section>
     );
