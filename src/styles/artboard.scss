@@ -70,6 +70,8 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: #ccc;
-  opacity: 0.3;
+  //background: red;
+  //opacity: 0.3;
+  z-index: 10000;
+  cursor: nwse-resize;
 }
