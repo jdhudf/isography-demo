@@ -53,6 +53,7 @@ class ToolsPanel extends React.Component {
       case 'Delete':
         console.log('delete');
         data_copy.splice(selected,1);
+        switchSelected(null)
         break;
       case 'Reflect':
         const regExp = /-?\d+/g;
