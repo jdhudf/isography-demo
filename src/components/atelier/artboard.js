@@ -70,7 +70,6 @@ class Artboard extends React.Component {
       startCoordinate: [0,0],
       // -- below is scaling data
       isScaleMouseDown: false,
-      selectedScale: 1,
       selectedTranslate: [0,0],
       initialForScale: [0,0],
       selectedInitial: [0,0],
@@ -206,9 +205,7 @@ class Artboard extends React.Component {
 
     if (s) {
 
-      const svg = document.getElementById('svg'),
-            selectedEl = svg.children[parseInt(s)],
-            g = selectedEl.outerHTML;
+      const g = this.state.data[parseInt(s)]
 
 
       const regExp = /-?\d+(\.\d+)?/g,
@@ -217,15 +214,13 @@ class Artboard extends React.Component {
       this.setState(
         {
           initialTranslate:[ parseInt(translate[0]), parseInt(translate[1]) ],
-          initialScale: parseInt(translate[2])
+          initialScale: parseFloat(translate[2]),
         }
       );
 
-    }else {
+    } else {
       const { selected } =  this.props,
-            svg = document.getElementById('svg'),
-            selectedEl = svg.children[selected],
-            g = selectedEl.outerHTML;
+            g = this.state.data[selected]
 
 
       const regExp = /-?\d+(\.\d+)?/g,
@@ -234,9 +229,10 @@ class Artboard extends React.Component {
       this.setState(
         {
           initialTranslate:[ parseInt(translate[0]), parseInt(translate[1]) ],
-          initialScale: parseInt(translate[2])
+          initialScale: parseFloat(translate[2]),
         }
       );
+
     }
 
 
@@ -253,7 +249,7 @@ class Artboard extends React.Component {
       initial:[ e.pageX, e.pageY ]
     })
 
-    const { artboards, working } = this.props,
+    const { artboards, working, selected } = this.props,
           canvas =  getCanvas({ artboards: artboards, working: working }),
           svg_data = canvas.svg_data;
 
@@ -303,14 +299,14 @@ class Artboard extends React.Component {
 
     if ( this.state.isMouseDown ) {
 
-      const { updateArtboard, working, artboards, recordHistory } = this.props
+      const { updateArtboard, working, artboards, recordHistory, selected } = this.props
 
-      const canvas = getCanvas({artboards: artboards,working:working})
+      const canvas = getCanvas({ artboards: artboards, working: working })
 
-      this.setState({isMouseDown:false})
-      this.setState({propsOrState:false})
-
-      //this.updateSelecter();
+      this.setState({
+        isMouseDown:false,
+        propsOrState:false
+      })
 
       const newData = updateArtboards({
         working: working,
@@ -322,11 +318,9 @@ class Artboard extends React.Component {
       updateArtboard(newData)
       recordHistory(canvas)
 
-      this.getAttribute(e, JSON.stringify(this.selectElement(e)) );
-
     }
 
-    if(this.props.test) {
+    if( this.props.test ) {
 
       this.addElementOfSVG(this.props.willAddElementOfSvg)
 
@@ -355,7 +349,6 @@ class Artboard extends React.Component {
       updateArtboard(newData)
       recordHistory(canvas)
 
-      this.getAttribute(e,JSON.stringify(this.selectElement(e)));
     }
   }
 
@@ -576,7 +569,7 @@ class Artboard extends React.Component {
           init_y = client_bottom - initialAxis[1],
           init_z = Math.sqrt ( Math.pow(init_x, 2) + Math.pow(init_y, 2) );
 
-    const scaling = this.state.selectedScale * z / init_z
+    const scaling = this.state.initialScale * z / init_z
 
     //--  Return Translate() of Selected Elements  --//
 
@@ -610,8 +603,6 @@ class Artboard extends React.Component {
 
     //--  get scale() of selected element with regEpx  --//
 
-    //this.getAttribute(e,JSON.stringify(this.selectElement(e)));
-
     const { selected } = this.props,
           elements = document.getElementById("svg"),
           selectedElement = elements.children[selected];
@@ -629,7 +620,7 @@ class Artboard extends React.Component {
       isScaleMouseDown: true,
       selectedInitial: [ e.pageX , e.pageY ],
       selectedTranslate: translate,
-      selectedScale: scale,
+      initialScale: scale,
       propsOrState: true,
       clientRightAndBottomForScale: [ client_right, client_bottom ]
     })
@@ -653,8 +644,17 @@ class Artboard extends React.Component {
       propsOrState:false
     })
 
-    const { updateArtboard, working, artboards, recordHistory } = this.props
+    const { updateArtboard, working, artboards, recordHistory, selected } = this.props
     const canvas = getCanvas({artboards: artboards,working:working})
+
+    const g = this.state.data[selected]//selectedEl.outerHTML;
+
+    const regExp = /-?\d+(\.\d+)?/g,
+          translate = g.match(regExp)
+
+    this.setState({
+      initialScale: translate[2]
+    })
 
     const newData = updateArtboards({
       working: working,
@@ -666,17 +666,26 @@ class Artboard extends React.Component {
     updateArtboard(newData)
     recordHistory(canvas)
 
-    this.getAttribute(e,JSON.stringify(this.selectElement(e)));
-
   }
 
   onScaleLeave = (e, position) => {
+
     this.setState({
       isScaleMouseDown:false,
       propsOrState:false
     })
 
-    const { updateArtboard, working, artboards } = this.props
+    const { updateArtboard, working, artboards, recordHistory, selected } = this.props
+    const canvas = getCanvas({ artboards: artboards, working:working })
+
+    const g = this.state.data[selected]
+
+    const regExp = /-?\d+(\.\d+)?/g,
+          translate = g.match(regExp)
+
+    this.setState({
+      initialScale: translate[2]
+    })
 
     const newData = updateArtboards({
       working: working,
@@ -686,8 +695,7 @@ class Artboard extends React.Component {
     })
 
     updateArtboard(newData)
-
-    this.getAttribute(e,JSON.stringify(this.selectElement(e)));
+    recordHistory(canvas)
 
   }
 
