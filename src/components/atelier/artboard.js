@@ -110,8 +110,10 @@ class Artboard extends React.Component {
   //--- Choose which element we should edit &  send it to parent component ---//
   selectElement = (e) => {
 
-    var array = this.state.data;
-    const { switchSelected } =  this.props
+    const { switchSelected, artboards, working } =  this.props
+    const canvas = getCanvas({ artboards: artboards, working: working })
+    var array = canvas.svg_data;
+
 
     if (e) {
       let g = e.target.parentNode.outerHTML;
@@ -125,9 +127,11 @@ class Artboard extends React.Component {
 
       } else {
 
-        this.setState({isMouseDown:false})
+        this.setState({ isMouseDown:false })
+        switchSelected( null )
 
       }
+
     }
 
   }
@@ -143,17 +147,14 @@ class Artboard extends React.Component {
 
 
     if ( selectedElement ){
-      const client_w = selectedElement.getBoundingClientRect().width;
-      const client_h = selectedElement.getBoundingClientRect().height;
 
-      const client_left = selectedElement.getBoundingClientRect().left;
-      const client_top = selectedElement.getBoundingClientRect().top;
-      //const client_right = selectedElement.getBoundingClientRect().right;
-      //const client_bottom = selectedElement.getBoundingClientRect().bottom;
+      const client_w = selectedElement.getBoundingClientRect().width,
+            client_h = selectedElement.getBoundingClientRect().height,
+            client_left = selectedElement.getBoundingClientRect().left,
+            client_top = selectedElement.getBoundingClientRect().top;
 
-
-      const corners = document.getElementsByClassName('corner');
-      const ajastment = 7;
+      const corners = document.getElementsByClassName('corner'),
+            ajastment = 7;
 
       selector.style.display = "block"
 
@@ -192,8 +193,11 @@ class Artboard extends React.Component {
       corners[3].style.left = o + 'px';
       corners[3].style.top = p + 'px';
       corners[3].style.cursor = 'nesw-resize';
+
     } else {
+
       selector.style.display = "none"
+
     }
 
 
@@ -205,7 +209,10 @@ class Artboard extends React.Component {
 
     if (s) {
 
-      const g = this.state.data[parseInt(s)]
+      const { artboards, working } =  this.props
+      const canvas = getCanvas({ artboards: artboards, working: working })
+
+      const g = canvas.svg_data[parseInt(s)]
 
 
       const regExp = /-?\d+(\.\d+)?/g,
@@ -219,19 +226,22 @@ class Artboard extends React.Component {
       );
 
     } else {
-      const { selected } =  this.props,
-            g = this.state.data[selected]
 
+      const { selected } =  this.props
 
-      const regExp = /-?\d+(\.\d+)?/g,
-            translate = g.match(regExp)
+      if ( selected ) {
 
-      this.setState(
-        {
-          initialTranslate:[ parseInt(translate[0]), parseInt(translate[1]) ],
-          initialScale: parseFloat(translate[2]),
-        }
-      );
+        const g = this.state.data[selected]
+        const regExp = /-?\d+(\.\d+)?/g,
+              translate = g.match(regExp)
+
+        this.setState(
+          {
+            initialTranslate:[ parseInt(translate[0]), parseInt(translate[1]) ],
+            initialScale: parseFloat(translate[2]),
+          }
+        );
+      }
 
     }
 
@@ -241,7 +251,8 @@ class Artboard extends React.Component {
   onMouseDown = (e) => {
 
     this.selectElement(e);
-    this.getAttribute(e,JSON.stringify(this.selectElement(e)));
+
+    this.getAttribute(e, JSON.stringify(this.selectElement(e)));
 
     this.setState({
       isMouseDown: true,
@@ -249,7 +260,7 @@ class Artboard extends React.Component {
       initial:[ e.pageX, e.pageY ]
     })
 
-    const { artboards, working, selected } = this.props,
+    const { artboards, working } = this.props,
           canvas =  getCanvas({ artboards: artboards, working: working }),
           svg_data = canvas.svg_data;
 
@@ -263,7 +274,7 @@ class Artboard extends React.Component {
 
   onMouseMove = (e) => {
 
-    if (this.state.isMouseDown) {
+    if (this.state.isMouseDown && this.props.selected !== null) {
 
       //---  Calculate a gap  ---//
       const { selected } =  this.props,
@@ -299,7 +310,7 @@ class Artboard extends React.Component {
 
     if ( this.state.isMouseDown ) {
 
-      const { updateArtboard, working, artboards, recordHistory, selected } = this.props
+      const { updateArtboard, working, artboards, recordHistory } = this.props
 
       const canvas = getCanvas({ artboards: artboards, working: working })
 
@@ -397,7 +408,7 @@ class Artboard extends React.Component {
 
   handleElement = (action) => {
 
-    const { selected, artboards,working, updateArtboard } = this.props
+    const { selected, artboards, working, updateArtboard, switchSelected } = this.props
 
     const el = this.state.data[selected];
     const data_copy = this.state.data.slice();
@@ -444,21 +455,35 @@ class Artboard extends React.Component {
         console.log('bringToFront');
         data_copy.splice(selected,1);
         data_copy.push(el);
+
+        if (data_copy.length !== selected) {
+          switchSelected(data_copy.length - 1)
+        }
+
         break;
       case 'bringForward':
         console.log('bringForward');
         data_copy.splice(selected,1);
         data_copy.splice(selected + 1 ,0,el);
+        if (data_copy.length !== selected) {
+          switchSelected(selected + 1)
+        }
         break;
       case 'sendBackward':
         console.log('sendBackward');
         data_copy.splice(selected,1);
         data_copy.splice(selected - 1 ,0,el);
+        if (data_copy.length !== selected) {
+          switchSelected(selected - 1)
+        }
         break;
       case 'sendToBack':
         console.log('sendToBack');
         data_copy.splice(selected,1);
         data_copy.unshift(el);
+        if (data_copy.length !== selected) {
+          switchSelected(0)
+        }
         break;
       default:
         break;
@@ -547,11 +572,11 @@ class Artboard extends React.Component {
     const { selected } = this.props,
           elements = document.getElementById("svg"),
           selectedElement = elements.children[selected],
-          artboardScale =  this.state.artboardScale,
+          //artboardScale =  this.state.artboardScale,
           data_copy = this.state.data.slice();
 
-    const client_w = selectedElement.getBoundingClientRect().width,
-          client_h = selectedElement.getBoundingClientRect().height,
+    const //client_w = selectedElement.getBoundingClientRect().width,
+          //client_h = selectedElement.getBoundingClientRect().height,
           client_right = selectedElement.getBoundingClientRect().right,
           client_bottom = selectedElement.getBoundingClientRect().bottom;
          //client_left = selectedElement.getBoundingClientRect().left,
@@ -573,10 +598,10 @@ class Artboard extends React.Component {
 
     //--  Return Translate() of Selected Elements  --//
 
-    const gap = [
+    /*const gap = [
       ( e.pageX - initialAxis[0] ) / artboardScale,
       ( e.pageY - initialAxis[1] ) / artboardScale
-    ];
+    ];*/
 
     let translate = [
       parseInt(this.state.selectedTranslate[0]),// + parseInt(gap[0]),

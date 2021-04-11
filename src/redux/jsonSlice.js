@@ -3,7 +3,7 @@ const initialState = {
   darkmode: false,
   working: 1,
   grid: false,
-  selected: 0,
+  selected: null,
   drawer: true,
 }
 
