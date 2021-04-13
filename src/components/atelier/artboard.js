@@ -142,65 +142,67 @@ class Artboard extends React.Component {
 
     // Selector is lightblue line.
     const elements = document.getElementById("svg");
-    const selectedElement = elements.children[selected]
-    const selector = document.getElementById('selector');
 
+    if ( elements ) {
 
-    if ( selectedElement ){
+      const selectedElement = elements.children[selected],
+            selector = document.getElementById('selector');
 
-      const client_w = selectedElement.getBoundingClientRect().width,
-            client_h = selectedElement.getBoundingClientRect().height,
-            client_left = selectedElement.getBoundingClientRect().left,
-            client_top = selectedElement.getBoundingClientRect().top;
+      if ( selectedElement ){
 
-      const corners = document.getElementsByClassName('corner'),
-            ajastment = 7;
+        const client_w = selectedElement.getBoundingClientRect().width,
+              client_h = selectedElement.getBoundingClientRect().height,
+              client_left = selectedElement.getBoundingClientRect().left,
+              client_top = selectedElement.getBoundingClientRect().top;
 
-      selector.style.display = "block"
+        const corners = document.getElementsByClassName('corner'),
+              ajastment = 7;
 
-      selector.style.width = client_w + 'px';
-      selector.style.height = client_h +  'px';
+        selector.style.display = "block"
 
-      selector.style.position = 'fixed';
-      selector.style.left = client_left - 1 + 'px';
-      selector.style.top = client_top - 1 + 'px';
-      selector.style.zIndex = 1000;
+        selector.style.width = client_w + 'px';
+        selector.style.height = client_h +  'px';
 
-      const d = client_left - ajastment;
-      const e =  client_top -ajastment;
+        selector.style.position = 'fixed';
+        selector.style.left = client_left - 1 + 'px';
+        selector.style.top = client_top - 1 + 'px';
+        selector.style.zIndex = 1000;
 
-      corners[0].style.left = d + 'px';
-      corners[0].style.top = e +  'px';
-      corners[0].style.cursor = 'nwse-resize';
+        const d = client_left - ajastment;
+        const e =  client_top -ajastment;
 
-      const x = client_left + client_w - ajastment;
-      const y = client_top + client_h - ajastment;
+        corners[0].style.left = d + 'px';
+        corners[0].style.top = e +  'px';
+        corners[0].style.cursor = 'nwse-resize';
 
-      corners[1].style.left = x + 'px';
-      corners[1].style.top = y + 'px';
-      corners[1].style.cursor = 'nwse-resize';
+        const x = client_left + client_w - ajastment;
+        const y = client_top + client_h - ajastment;
 
-      const n = client_left + client_w - ajastment;
-      const m = client_top - ajastment;
+        corners[1].style.left = x + 'px';
+        corners[1].style.top = y + 'px';
+        corners[1].style.cursor = 'nwse-resize';
 
-      corners[2].style.left = n + 'px';
-      corners[2].style.top = m + 'px';
-      corners[2].style.cursor = 'nesw-resize';
+        const n = client_left + client_w - ajastment;
+        const m = client_top - ajastment;
 
-      const o = client_left - ajastment;
-      const p = client_top + client_h - ajastment;
+        corners[2].style.left = n + 'px';
+        corners[2].style.top = m + 'px';
+        corners[2].style.cursor = 'nesw-resize';
 
-      corners[3].style.left = o + 'px';
-      corners[3].style.top = p + 'px';
-      corners[3].style.cursor = 'nesw-resize';
+        const o = client_left - ajastment;
+        const p = client_top + client_h - ajastment;
 
-    } else {
+        corners[3].style.left = o + 'px';
+        corners[3].style.top = p + 'px';
+        corners[3].style.cursor = 'nesw-resize';
 
-      selector.style.display = "none"
+      } else {
 
+        selector.style.display = "none"
+
+      }
     }
-
-
+    
   }
 
   //--- get initial translate of selected elements ---//
@@ -334,7 +336,7 @@ class Artboard extends React.Component {
         })
 
         updateArtboard(newData)
-        
+
         recordHistory(canvas)
       }
 
