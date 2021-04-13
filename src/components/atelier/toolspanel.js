@@ -168,27 +168,47 @@ class ToolsPanel extends React.Component {
     return (
       <section className="section-toolspanel section-bottom">
         {(()=>{
-          if(selected === 0){
-            return (
-              <span>
-                <p title="Bring Forward" onClick={()=>this.handleElement("bringForward")}><FontAwesomeIcon icon={faSortAmountUp} /></p>
-                <p title="Send Backward" style={{color: darkmode ? "#444855":"lightgray"}}><FontAwesomeIcon icon={faSortAmountDown} /></p>
-              </span>
-            )
-          } else if (selected === (svg_data.length - 1)) {
+          if ( svg_data.length > 1 ) {
+            if( selected === 0 ){
+              return (
+                <span>
+                  <p title="Bring Forward" onClick={()=>this.handleElement("bringForward")}><FontAwesomeIcon icon={faSortAmountUp} /></p>
+                  <p title="Send Backward" style={{color: darkmode ? "#444855":"lightgray"}}><FontAwesomeIcon icon={faSortAmountDown} /></p>
+                </span>
+              )
+            } else if (selected === (svg_data.length - 1)) {
+              return (
+                <span>
+                  <p title="Bring Forward" style={{color: darkmode ? "#444855":"lightgray"}}><FontAwesomeIcon icon={faSortAmountUp} /></p>
+                  <p title="Send Backward" onClick={()=>this.handleElement("sendBackward")}><FontAwesomeIcon icon={faSortAmountDown} /></p>
+                </span>
+              )
+            } else if ( selected === null ) {
+
+              return (
+                <span>
+                  <p title="Bring Forward" style={{color: darkmode ? "#444855":"lightgray"}}><FontAwesomeIcon icon={faSortAmountUp} /></p>
+                  <p title="Send Backward" style={{color: darkmode ? "#444855":"lightgray"}}><FontAwesomeIcon icon={faSortAmountDown} /></p>
+                </span>
+              )
+
+            } else {
+              return (
+                <span>
+                  <p title="Bring Forward" onClick={()=>this.handleElement("bringForward")}><FontAwesomeIcon icon={faSortAmountUp} /></p>
+                  <p title="Send Backward" onClick={()=>this.handleElement("sendBackward")}><FontAwesomeIcon icon={faSortAmountDown} /></p>
+                </span>
+              )
+            }
+          } else {
+
             return (
               <span>
                 <p title="Bring Forward" style={{color: darkmode ? "#444855":"lightgray"}}><FontAwesomeIcon icon={faSortAmountUp} /></p>
-                <p title="Send Backward" onClick={()=>this.handleElement("sendBackward")}><FontAwesomeIcon icon={faSortAmountDown} /></p>
+                <p title="Send Backward" style={{color: darkmode ? "#444855":"lightgray"}}><FontAwesomeIcon icon={faSortAmountDown} /></p>
               </span>
             )
-          } else {
-            return (
-              <span>
-                <p title="Bring Forward" onClick={()=>this.handleElement("bringForward")}><FontAwesomeIcon icon={faSortAmountUp} /></p>
-                <p title="Send Backward" onClick={()=>this.handleElement("sendBackward")}><FontAwesomeIcon icon={faSortAmountDown} /></p>
-              </span>
-            )
+            
           }
         })()}
         <p><FontAwesomeIcon icon={faFont} /></p>
