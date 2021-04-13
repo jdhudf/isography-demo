@@ -83,7 +83,7 @@ class Artboard extends React.Component {
   componentDidMount(e) {
 
     const el = document.querySelector('.section-artboard');
-    el.addEventListener('wheel', (e) => onWheel(e)  /*this.onWheel*/, { passive: false });
+    el.addEventListener('wheel', this.onWheel/*(e) => onWheel(e)*/  /*this.onWheel*/, { passive: false });
     el.addEventListener('gesturestart', this.gestureStart, { passive: false });
     el.addEventListener('gesturechange', this.gestureChange, { passive: false });
     el.addEventListener('gestureend', this.gestureEnd, { passive: false });
@@ -212,11 +212,16 @@ class Artboard extends React.Component {
       const { artboards, working } =  this.props
       const canvas = getCanvas({ artboards: artboards, working: working })
 
+      console.log(s)
+
       const g = canvas.svg_data[parseInt(s)]
 
+      console.log(g)
 
       const regExp = /-?\d+(\.\d+)?/g,
             translate = g.match(regExp)
+
+      console.log(g)
 
       this.setState(
         {
