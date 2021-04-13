@@ -57,11 +57,14 @@ export function svg2imageData(svgElement, successCallback, errorCallback) {
   canvas.style.display = "none";
   document.body.appendChild(canvas);
 
-  canvas.width = svgElement.dataset.width;//svgElement.width.baseVal.value;
-  canvas.height = svgElement.dataset.height;//svgElement.height.baseVal.value;
+  canvas.width = svgElement.width.baseVal.value;//svgElement.dataset.width;//svgElement.width.baseVal.value;
+  canvas.height = svgElement.height.baseVal.value;//svgElement.dataset.height;//svgElement.height.baseVal.value;
 
   var svgData = new XMLSerializer().serializeToString(svgElement);
   image.src = 'data:image/svg+xml;charset=utf-8;base64,' + btoa(svgData);
+
+  image.width = svgElement.width.baseVal.value;
+  image.height =  svgElement.height.baseVal.value;
 
 
   if( navigator.userAgent.match(/(iPhone|iPod|Android.*Mobile)/i) ){
