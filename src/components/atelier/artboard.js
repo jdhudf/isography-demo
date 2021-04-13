@@ -324,15 +324,20 @@ class Artboard extends React.Component {
         propsOrState:false
       })
 
-      const newData = updateArtboards({
-        working: working,
-        type: "svg_data",
-        artboards: artboards,
-        value: this.state.data
-      })
+      if (this.state.data !== canvas.svg_data) {
 
-      updateArtboard(newData)
-      recordHistory(canvas)
+        const newData = updateArtboards({
+          working: working,
+          type: "svg_data",
+          artboards: artboards,
+          value: this.state.data
+        })
+
+        updateArtboard(newData)
+        
+        recordHistory(canvas)
+      }
+
 
     }
 
