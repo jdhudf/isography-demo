@@ -248,7 +248,6 @@ class ToolsPanel extends React.Component {
 
             }}
           />
-            {/*ref='CPSetting' />*/}
         </div>
         {(()=>{
           if (past.length === 0) {
@@ -303,24 +302,19 @@ class ToolsPanel extends React.Component {
 
         <ToggleGrid/>
 
-
         {(()=>{
           if ( selected !== null ) {
 
             return (
-
               <p onClick={this.removeElement} title="Remove Element"><FontAwesomeIcon icon={faTrashAlt} /></p>
-
             )
 
           } else {
 
             return (
-
               <p title="Remove Element" style={{color: darkmode ? "#444855":"lightgray" }}>
                 <FontAwesomeIcon icon={faTrashAlt} />
               </p>
-
             )
 
           }
