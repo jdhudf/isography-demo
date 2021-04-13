@@ -218,6 +218,23 @@
 }
 
 .dark-mode {
+  .drawer {
+    .drawer-button {
+      p {
+        background: $c1;
+        background: linear-gradient(90deg, $c4 0%, $c1 0%,  $c1 100% );
+        &:hover {
+          p {
+            background: linear-gradient(90deg, $c4 0%, $c4 40%, $c1 40%, $c1 100% );
+          }
+        }
+        span {
+          background: $c1;
+          color: $c3;
+        }
+      }
+    }
+  }
   .section-gallalypanel {
     background: $c1;
     border-left: solid 1px $c4;
