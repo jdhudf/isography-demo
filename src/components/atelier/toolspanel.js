@@ -208,7 +208,7 @@ class ToolsPanel extends React.Component {
                 <p title="Send Backward" style={{color: darkmode ? "#444855":"lightgray"}}><FontAwesomeIcon icon={faSortAmountDown} /></p>
               </span>
             )
-            
+
           }
         })()}
         <p><FontAwesomeIcon icon={faFont} /></p>
@@ -304,8 +304,27 @@ class ToolsPanel extends React.Component {
         <ToggleGrid/>
 
 
+        {(()=>{
+          if ( selected !== null ) {
 
-        <p onClick={this.removeElement} title="Remove Element"><FontAwesomeIcon icon={faTrashAlt} /></p>
+            return (
+
+              <p onClick={this.removeElement} title="Remove Element"><FontAwesomeIcon icon={faTrashAlt} /></p>
+
+            )
+
+          } else {
+
+            return (
+
+              <p title="Remove Element" style={{color: darkmode ? "#444855":"lightgray" }}>
+                <FontAwesomeIcon icon={faTrashAlt} />
+              </p>
+
+            )
+
+          }
+        })()}
 
       </section>
     );
