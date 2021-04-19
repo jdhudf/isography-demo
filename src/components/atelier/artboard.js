@@ -114,11 +114,11 @@ class Artboard extends React.Component {
     const canvas = getCanvas({ artboards: artboards, working: working })
     var array = canvas.svg_data;
 
-    if ( e && e.target.closest("[data-type]") ) {
+    if ( e ) {
 
-      let g = e.target.closest("[data-type]").outerHTML;//e.target.parentNode.outerHTML;
+      if ( e.target.closest("[data-type]") ) {
 
-      if (g.startsWith('<g transform="translate')) {
+        let g = e.target.closest("[data-type]").outerHTML;//e.target.parentNode.outerHTML;
 
         this.setState({ selectedElement: array.indexOf(g) });
         switchSelected( array.indexOf(g) )
