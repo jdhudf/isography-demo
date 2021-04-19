@@ -114,9 +114,9 @@ class Artboard extends React.Component {
     const canvas = getCanvas({ artboards: artboards, working: working })
     var array = canvas.svg_data;
 
+    if ( e && e.target.closest("[data-type]") ) {
 
-    if (e) {
-      let g = e.target.parentNode.outerHTML;
+      let g = e.target.closest("[data-type]").outerHTML;//e.target.parentNode.outerHTML;
 
       if (g.startsWith('<g transform="translate')) {
 
@@ -202,7 +202,7 @@ class Artboard extends React.Component {
 
       }
     }
-    
+
   }
 
   //--- get initial translate of selected elements ---//
@@ -214,16 +214,10 @@ class Artboard extends React.Component {
       const { artboards, working } =  this.props
       const canvas = getCanvas({ artboards: artboards, working: working })
 
-      console.log(s)
-
       const g = canvas.svg_data[parseInt(s)]
-
-      console.log(g)
 
       const regExp = /-?\d+(\.\d+)?/g,
             translate = g.match(regExp)
-
-      console.log(g)
 
       this.setState(
         {
