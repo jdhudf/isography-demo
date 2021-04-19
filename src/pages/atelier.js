@@ -9,6 +9,7 @@ import icon from '../images/logo.svg';
 
 import {
   //getArtboardData,
+  updateArtboards,
   getCanvas
 } from '../components/handleLocalstorage'
 
@@ -37,17 +38,19 @@ class Atelier extends React.Component {
     this.state = {
       willAddElementOfSvg: null,
       test: false,
+      command: false,
+      shift: false,
     }
   }
 
   componentDidMount(e) {
 
-    /*const el = document.querySelector('.section-artboard');
-    el.addEventListener('gesturestart', this.gestureStart, { passive: false });
+    const el = document.querySelector('.section-artboard');
+    /*el.addEventListener('gesturestart', this.gestureStart, { passive: false });
     el.addEventListener('gesturechange', this.gestureChange, { passive: false });
     el.addEventListener('gestureend', this.gestureEnd, { passive: false });*/
 
-    //el.addEventListener('onkeydown', this.keyPress , { passive: false });
+    el.addEventListener('onkeydown', this.keyPress , { passive: false });
 
   }
 
@@ -73,6 +76,108 @@ class Atelier extends React.Component {
   /*getDataFromLocalStorage = () => {
     return localStorage.getItem('data')//this.setState({data:localStorage.getItem('data')})
   }*/
+
+  handleElement = (action) => {
+
+    const { selected, artboards, working, updateArtboard, switchSelected, recordHistory } = this.props
+
+    const canvas = getCanvas({ artboards: artboards, working: working })
+    const el = canvas.svg_data[selected];
+    const data_copy = canvas.svg_data.slice();
+
+    console.log(selected, el, data_copy)
+
+    switch (action){
+      case 'Duplicate':
+        console.log('duplicate');
+        data_copy.push(el);
+        console.log(el,data_copy)
+        break;
+      case 'Delete':
+        console.log('delete');
+        data_copy.splice(selected,1);
+        switchSelected(null)
+        break;
+      case 'Reflect':
+        const regExp = /-?\d+/g;
+        const scale = el.match(regExp)
+
+        var n = 3;
+
+        const result = el.replace(regExp,
+          function(match) {
+            if(n === 3) {
+              n--;
+              return scale[0];
+            } else if (n === 2) {
+              n--;
+              return scale[1];
+            } else if (n === 1) {
+              n--;
+              return -scale[2];
+            } else if (n === 0) {
+              n--;
+              return scale[3];
+            } else {
+              return match;
+            };
+          }
+        );
+
+        data_copy.splice(selected,1);
+        data_copy.push(result);
+        break;
+      case 'bringToFront':
+        console.log('bringToFront');
+        data_copy.splice(selected,1);
+        data_copy.push(el);
+
+        if (data_copy.length !== selected) {
+          switchSelected(data_copy.length - 1)
+        }
+
+        break;
+      case 'bringForward':
+        console.log('bringForward');
+        data_copy.splice(selected,1);
+        data_copy.splice(selected + 1 ,0,el);
+        if (data_copy.length !== selected) {
+          switchSelected(selected + 1)
+        }
+        break;
+      case 'sendBackward':
+        console.log('sendBackward');
+        data_copy.splice(selected,1);
+        data_copy.splice(selected - 1 ,0,el);
+        if (data_copy.length !== selected) {
+          switchSelected(selected - 1)
+        }
+        break;
+      case 'sendToBack':
+        console.log('sendToBack');
+        data_copy.splice(selected,1);
+        data_copy.unshift(el);
+        if (data_copy.length !== selected) {
+          switchSelected(0)
+        }
+        break;
+      default:
+        break;
+    }
+
+    // update artboard with redux
+
+    const newData = updateArtboards({
+      working: working,
+      type: "svg_data",
+      artboards: artboards,
+      value: data_copy
+    })
+
+    updateArtboard(newData)
+    recordHistory(canvas)
+
+  }
 
   onMouseDown = (e) => {
 
@@ -108,35 +213,64 @@ class Atelier extends React.Component {
   keyPress = (e) => {
     e.preventDefault();
 
-    if (e.which === 83) {
-      // Save artboard data but we don't need this function in demo version.
-      alert('⌘ S')
-    } else if (e.which === 90) {
-      // undo
-      alert('⌘ Z')
-    } else if (e.which === 88) {
+    //alert(e.which)
+    console.log(this.state.command, this.state.shift)
+
+    if (e.which === 91) {
+      // command
+      this.setState({ command: true })
+
+    } else if ( e.which === 16 ) {
       // redo
-      alert('⌘ X')
+      this.setState({ shift: true })
+
+    } else if ( this.state.command && e.which === 82 ) {
+      // redo
+      alert('⌘ R')
+    } else if ( this.state.command && e.which === 85 ) {
+      // undo
+      alert('⌘ U')
+    } else if ( this.state.command && e.which === 68 ) {
+      //Duplicate
+      this.handleElement('Duplicate')
+
+    } else if ( this.state.command && e.which === 219) {
+      // sendBackward
+      this.handleElement('sendBackward')
+
+    } else if ( this.state.shift && this.state.command && e.which === 219) {
+      // sendToBack
+      this.handleElement('sendToBack')
+
+    } else if ( this.state.shift && e.which === 221) {
+      // bringForward
+      this.handleElement('bringForward')
+
+    } else if ( this.state.shift && this.state.command && e.which === 221) {
+      // bringToFront
+      this.handleElement('bringToFront')
+
+    } else if ( e.which === 8 ) {
+      // delete selected element
+      this.handleElement('Delete')
+
     } else if (e.which === 67) {
       // copy
       alert('⌘ C')
     } else if (e.which === 86) {
       // paste
       alert('⌘ V')
-    } else if (e.which === 68) {
-      //
-      alert('⌘ D')
-    } else if (e.which === 8) {
-      // delete selected element
-      alert('delete')
-    } else if (e.which === 219) {
-      // sendToBack
-      alert('⌘ [')
-    } else if (e.which === 221) {
-      //
-      alert('⌘ ]')
+
     } else {
-      alert('⌘' + e.key + ' : ' + e.which)
+      //alert('⌘' + e.key + ' : ' + e.which)
+    }
+  }
+
+  keyUp = (e) => {
+    if (e.which === 91) {
+      this.setState({ command: false })
+    } else if (e.which === 16) {
+      this.setState({ shift: false })
     }
   }
 
@@ -206,6 +340,7 @@ class Atelier extends React.Component {
           accentColor = canvas.color_scheme["accentColor"],
           background = canvas.color_scheme["background"];
 
+
     return (
       <section
           className={ darkmode ? "section-atelier dark-mode": "section-atelier" }
@@ -213,7 +348,8 @@ class Atelier extends React.Component {
           onMouseMove={this.onMouseMove}
           onMouseUp={this.onMouseUp}
           onMouseLeave={this.onMouseLeave}
-          //onKeyDown={this.keyPress}
+          onKeyDown={this.keyPress}
+          onKeyUp= {this.keyUp}
           tabIndex="0"
           >
 
@@ -294,6 +430,7 @@ const mapStateToProps = state => ({
   darkmode: state.json.darkmode,
   working: state.json.working,
   artboards: state.artboards.present.artboards,
+  selected: state.json.selected
 })
 
 
@@ -302,6 +439,8 @@ export default connect(
   //dispatch => ({ switchDarkmode: value => dispatch(actions.switchDarkmode(value)) })
   dispatch => ({
     switchDarkmode: value => dispatch(actions.switchDarkmode(value)),
-    //updateArtboard: value => dispatch(actions.updateArtboard(value))
+    updateArtboard: value => dispatch(actions.updateArtboard(value)),
+    switchSelected: value => dispatch(actions.switchSelected(value)),
+    recordHistory: value => dispatch(actions.recordHistory(value))
   })
 )(Atelier)
