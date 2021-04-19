@@ -58,7 +58,7 @@ class Artboard extends React.Component {
       isMouseDown : false,
       propsOrState: false,
       initialTranslate: [0,0], // to change translate(x,y)
-      initialScale: 1.00, // attention!!! it's used for both of translating and scaling
+      initialScale: [1.00, 1.00], // attention!!! it's used for both of translating and scaling
       initial: [0,0], // to calculate a gap
       displayContextMenu: false,
       selectedElement: 0,
@@ -209,6 +209,8 @@ class Artboard extends React.Component {
 
   getAttribute = (e,s) => {
 
+    console.log(this.state.initialScale)
+
     if (s) {
 
       const { artboards, working } =  this.props
@@ -222,7 +224,7 @@ class Artboard extends React.Component {
       this.setState(
         {
           initialTranslate:[ parseInt(translate[0]), parseInt(translate[1]) ],
-          initialScale: parseFloat(translate[2]),
+          initialScale: [parseFloat(translate[2]), parseFloat(translate[3])],
         }
       );
 
@@ -239,7 +241,7 @@ class Artboard extends React.Component {
         this.setState(
           {
             initialTranslate:[ parseInt(translate[0]), parseInt(translate[1]) ],
-            initialScale: parseFloat(translate[2]),
+            initialScale: [parseFloat(translate[2]),parseFloat(translate[3])],
           }
         );
       }
@@ -250,6 +252,7 @@ class Artboard extends React.Component {
   }
 
   onMouseDown = (e) => {
+    console.log(this.state.initialScale)
 
     this.selectElement(e);
 
@@ -276,6 +279,7 @@ class Artboard extends React.Component {
   onMouseMove = (e) => {
 
     if (this.state.isMouseDown && this.props.selected !== null) {
+      //console.log(this.state.initialScale)
 
       //---  Calculate a gap  ---//
       const { selected } =  this.props,
@@ -296,7 +300,7 @@ class Artboard extends React.Component {
         parseInt(this.state.initialTranslate[1]) + parseInt(gap[1])
       ];
 
-      g.setAttribute("transform", `translate(`+ translate[0] +`,`+ translate[1] +`) scale(`+ this.state.initialScale +`,`+ this.state.initialScale +`)`);
+      g.setAttribute("transform", `translate(`+ translate[0] +`,`+ translate[1] +`) scale(`+ this.state.initialScale[0] +`,`+ this.state.initialScale[1] +`)`);
 
       data_copy[selected] = g.outerHTML
 
@@ -601,7 +605,10 @@ class Artboard extends React.Component {
           init_y = client_bottom - initialAxis[1],
           init_z = Math.sqrt ( Math.pow(init_x, 2) + Math.pow(init_y, 2) );
 
-    const scaling = this.state.initialScale * z / init_z
+    const scaling = [
+                      this.state.initialScale[0] * z / init_z,
+                      this.state.initialScale[1] * z / init_z,
+                    ]
 
     //--  Return Translate() of Selected Elements  --//
 
@@ -619,7 +626,7 @@ class Artboard extends React.Component {
 
     selectedElement.setAttribute("transform",
     `translate(`+ translate[0] +`,`+ translate[1] +`)
-     scale(`+ scaling +`,`+ scaling +`)`);
+     scale(`+ scaling[0] +`,`+ scaling[1] +`)`);
 
     data_copy[selected] = selectedElement.outerHTML
 
@@ -643,7 +650,7 @@ class Artboard extends React.Component {
           transform = selectedElement.outerHTML.match(regExp),// ex.["(342,147)","(1,1)"]
           regExp_2 = /-?\d+(\.\d+)?/g,// /-?\d+\.\d+/g; // if (1.00,1.00)
           translate =  transform[0].match(regExp_2),
-          scale = transform[1].match(regExp_2)[0]
+          scale = transform[1].match(regExp_2)
 
     const client_right = selectedElement.getBoundingClientRect().right,
           client_bottom = selectedElement.getBoundingClientRect().bottom;
@@ -652,7 +659,7 @@ class Artboard extends React.Component {
       isScaleMouseDown: true,
       selectedInitial: [ e.pageX , e.pageY ],
       selectedTranslate: translate,
-      initialScale: scale,
+      initialScale: [scale[0],scale[1]],
       propsOrState: true,
       clientRightAndBottomForScale: [ client_right, client_bottom ]
     })
@@ -671,6 +678,7 @@ class Artboard extends React.Component {
 
   onScaleUp = (e, position) => {
 
+
     this.setState({
       isScaleMouseDown:false,
       propsOrState:false
@@ -685,7 +693,7 @@ class Artboard extends React.Component {
           translate = g.match(regExp)
 
     this.setState({
-      initialScale: translate[2]
+      initialScale: [translate[2],translate[3]]
     })
 
     const newData = updateArtboards({
@@ -716,7 +724,7 @@ class Artboard extends React.Component {
           translate = g.match(regExp)
 
     this.setState({
-      initialScale: translate[2]
+      initialScale: [translate[2], translate[3]]
     })
 
     const newData = updateArtboards({
