@@ -7,6 +7,10 @@ import Img4 from '../../images/materials/standing_woman.inline.svg';
 import Img5 from '../../images/materials/moon.inline.svg';
 import Img6 from '../../images/materials/man_on_screen.inline.svg';
 import Img7 from '../../images/materials/antena.inline.svg';
+import Img8 from '../../images/materials/pc.inline.svg';
+import Img9 from '../../images/materials/keyboard.inline.svg';
+import Img10 from '../../images/materials/tablet.inline.svg';
+import Img11 from '../../images/materials/mobile.inline.svg';
 
 class Myloop extends Component {
 
@@ -21,6 +25,10 @@ class Myloop extends Component {
         <div className="item"><Img5/></div>
         <div className="item"><Img6/></div>
         <div className="item"><Img7/></div>
+        <div className="item"><Img8/></div>
+        <div className="item"><Img9/></div>
+        <div className="item"><Img10/></div>
+        <div className="item"><Img11/></div>
         <div className="item"><Img1/></div>
         <div className="item"><Img2/></div>
         <div className="item"><Img3/></div>
@@ -28,13 +36,10 @@ class Myloop extends Component {
         <div className="item"><Img5/></div>
         <div className="item"><Img6/></div>
         <div className="item"><Img7/></div>
-        <div className="item"><Img1/></div>
-        <div className="item"><Img2/></div>
-        <div className="item"><Img3/></div>
-        <div className="item"><Img4/></div>
-        <div className="item"><Img5/></div>
-        <div className="item"><Img6/></div>
-        <div className="item"><Img7/></div>
+        <div className="item"><Img8/></div>
+        <div className="item"><Img9/></div>
+        <div className="item"><Img10/></div>
+        <div className="item"><Img11/></div>
       </>
     );
   }
