@@ -418,9 +418,9 @@ function ExportComponent (props) {
   const [showExportPanel, changeStateExportPanel] = useState(false);
   const [artboardName, changeStateArtboardName] = useState(artboard_name);
 
-  //const [radioFormat, changeStateRadioFormat] = useState("png");
-  //const [radioSize, changeStateRadioSize] = useState("x-small");
-  //const [radioCompression, changeStateRadioCompression] = useState("low");
+  const [radioFormat, changeStateRadioFormat] = useState("png");
+  const [radioSize, changeStateRadioSize] = useState("2");
+  const [radioCompression, changeStateRadioCompression] = useState("low");
 
   const openExportPanel = () => {
     changeStateExportPanel(true)
@@ -430,7 +430,7 @@ function ExportComponent (props) {
     changeStateExportPanel(false)
   }
 
-  /*const handleRadioFormat = (e) => {
+  const handleRadioFormat = (e) => {
     changeStateRadioFormat(e.target.value)
   }
 
@@ -439,7 +439,7 @@ function ExportComponent (props) {
   }
   const handleRadioCompression = (e) => {
     changeStateRadioCompression(e.target.value)
-  }*/
+  }
 
   const styles = {
     overlay: {
@@ -560,7 +560,7 @@ function ExportComponent (props) {
                       onChange={handleRadioFormat} />JPG
                   </label>
                 </li>
-              </ul>
+              </ul>*/}
 
               <h2>Size</h2>
               <ul>
@@ -569,9 +569,9 @@ function ExportComponent (props) {
                     <input
                       type="radio"
                       name="size"
-                      value="x-small"
-                      checked={radioSize === "x-small"}
-                      onChange={handleRadioSize} />X-Small
+                      value="1"
+                      checked={radioSize === "1"}
+                      onChange={handleRadioSize} />x1
                   </label>
                 </li>
                 <li>
@@ -579,9 +579,9 @@ function ExportComponent (props) {
                     <input
                       type="radio"
                       name="size"
-                      value="small"
-                      checked={radioSize === "small"}
-                      onChange={handleRadioSize} />Small
+                      value="2"
+                      checked={radioSize === "2"}
+                      onChange={handleRadioSize} />x2
                   </label>
                 </li>
                 <li>
@@ -589,33 +589,13 @@ function ExportComponent (props) {
                     <input
                       type="radio"
                       name="size"
-                      value="medium"
-                      checked={radioSize === "medium"}
-                      onChange={handleRadioSize} />Medium
-                  </label>
-                </li>
-                <li>
-                  <label>
-                    <input
-                      type="radio"
-                      name="size"
-                      value="large"
-                      checked={radioSize === "large"}
-                      onChange={handleRadioSize} />Large
-                  </label>
-                </li>
-                <li>
-                  <label>
-                    <input
-                      type="radio"
-                      name="size"
-                      value="x-large"
-                      checked={radioSize === "x-large"}
-                      onChange={handleRadioSize} />X-Large
+                      value="3"
+                      checked={radioSize === "3"}
+                      onChange={handleRadioSize} />x3
                   </label>
                 </li>
               </ul>
-              <h2>Compression ratio</h2>
+              {/*<h2>Compression ratio</h2>
               <ul>
                 <li>
                   <label>
@@ -651,7 +631,7 @@ function ExportComponent (props) {
               <br/>
               <button className="cancel" onClick={closeExportPanel}>Cancel</button>
               <button className="download" onClick={()=>{
-                downloadImages({filename:artboardName})
+                downloadImages({filename:artboardName, filesize: parseInt(radioSize)})
                 changeStateExportPanel(false)
               }}>Download</button>
             </div>

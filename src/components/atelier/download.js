@@ -1,4 +1,4 @@
-export function downloadImages ({filename}) {
+export function downloadImages ({ filename, filesize }) {
 
   var userAgent = window.navigator.userAgent.toLowerCase();
 
@@ -16,7 +16,7 @@ export function downloadImages ({filename}) {
      },  function(error) {
             console.log(error);
             alert('failed to convert');
-          } );
+          }, filesize );
 
   } else {
 
@@ -42,12 +42,12 @@ export function downloadImages ({filename}) {
     },  function(error) {
             console.log(error);
             alert('failed to convert');
-          });
+          }, filesize);
 
   }
 }
 
-export function svg2imageData(svgElement, successCallback, errorCallback) {
+export function svg2imageData(svgElement, successCallback, errorCallback, filesize) {
 
   var canvas = document.createElement('canvas'),
       ctx = canvas.getContext('2d'),
@@ -57,14 +57,14 @@ export function svg2imageData(svgElement, successCallback, errorCallback) {
   canvas.style.display = "none";
   document.body.appendChild(canvas);
 
-  canvas.width = svgElement.width.baseVal.value;//svgElement.dataset.width;//svgElement.width.baseVal.value;
-  canvas.height = svgElement.height.baseVal.value;//svgElement.dataset.height;//svgElement.height.baseVal.value;
+  canvas.width = svgElement.width.baseVal.value * filesize;//svgElement.dataset.width;//svgElement.width.baseVal.value;
+  canvas.height = svgElement.height.baseVal.value * filesize;//svgElement.dataset.height;//svgElement.height.baseVal.value;
 
   var svgData = new XMLSerializer().serializeToString(svgElement);
   image.src = 'data:image/svg+xml;charset=utf-8;base64,' + btoa(svgData);
 
-  image.width = svgElement.width.baseVal.value;
-  image.height =  svgElement.height.baseVal.value;
+  image.width = svgElement.width.baseVal.value * filesize;
+  image.height =  svgElement.height.baseVal.value * filesize;
 
 
   if( navigator.userAgent.match(/(iPhone|iPod|Android.*Mobile)/i) ){
