@@ -38,9 +38,16 @@ class ToolsPanel extends React.Component {
 
   handleElement = (action) => {
 
-    const { working, updateArtboard, artboards, selected, switchSelected, recordHistory } = this.props
+    const {
+      working,
+      updateArtboard,
+      artboards,
+      selected,
+      switchSelected,
+      recordHistory
+    } = this.props
 
-    const canvas = getCanvas({working: working, artboards:artboards});
+    const canvas = getCanvas({ working: working, artboards:artboards });
 
     let el = canvas.svg_data[selected],
         data_copy = canvas.svg_data.slice();
