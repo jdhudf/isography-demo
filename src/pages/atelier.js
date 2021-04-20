@@ -10,7 +10,7 @@ import icon from '../images/logo.svg';
 import {
   //getArtboardData,
   updateArtboards,
-  getCanvas
+  getCanvas,
 } from '../components/handleLocalstorage'
 
 import '../styles/atelier.scss';
@@ -79,11 +79,19 @@ class Atelier extends React.Component {
 
   handleElement = (action) => {
 
-    const { selected, artboards, working, updateArtboard, switchSelected, recordHistory } = this.props
+    const {
+      selected, working,
+      artboards,
+      updateArtboard,
+      switchSelected,
+      recordHistory,
+      redo, undo,
+      future, past, present
+    } = this.props
 
-    const canvas = getCanvas({ artboards: artboards, working: working })
-    const el = canvas.svg_data[selected];
-    const data_copy = canvas.svg_data.slice();
+    const canvas = getCanvas({ artboards: artboards, working: working }),
+          el = canvas.svg_data[selected];
+    let data_copy = canvas.svg_data.slice();
 
     console.log(selected, el, data_copy)
 
@@ -91,7 +99,6 @@ class Atelier extends React.Component {
       case 'Duplicate':
         console.log('duplicate');
         data_copy.push(el);
-        console.log(el,data_copy)
         break;
       case 'Delete':
         console.log('delete');
@@ -128,29 +135,40 @@ class Atelier extends React.Component {
         data_copy.push(result);
         break;
       case 'bringToFront':
-        console.log('bringToFront');
-        data_copy.splice(selected,1);
-        data_copy.push(el);
+        if ( data_copy.length > 1 ) {
+          console.log('bringToFront');
+          data_copy.splice(selected,1);
+          data_copy.push(el);
 
-        if (data_copy.length !== selected) {
-          switchSelected(data_copy.length - 1)
+          if (data_copy.length !== selected) {
+            switchSelected(data_copy.length - 1)
+          }
         }
 
         break;
+
       case 'bringForward':
-        console.log('bringForward');
-        data_copy.splice(selected,1);
-        data_copy.splice(selected + 1 ,0,el);
-        if (data_copy.length !== selected) {
-          switchSelected(selected + 1)
+
+        if ( data_copy.length > 1 ) {
+          console.log('bringForward');
+          data_copy.splice(selected,1);
+          data_copy.splice(selected + 1 ,0,el);
+          if (data_copy.length !== selected) {
+            switchSelected(selected + 1)
+          }
         }
+
         break;
       case 'sendBackward':
-        console.log('sendBackward');
-        data_copy.splice(selected,1);
-        data_copy.splice(selected - 1 ,0,el);
-        if (data_copy.length !== selected) {
-          switchSelected(selected - 1)
+        if ( data_copy.length > 1 ) {
+          if (selected === (data_copy.length - 1)) {
+            console.log('sendBackward');
+            data_copy.splice(selected,1);
+            data_copy.splice(selected - 1 ,0,el);
+            if (data_copy.length !== selected) {
+              switchSelected(selected - 1)
+            }
+          }
         }
         break;
       case 'sendToBack':
@@ -159,6 +177,18 @@ class Atelier extends React.Component {
         data_copy.unshift(el);
         if (data_copy.length !== selected) {
           switchSelected(0)
+        }
+        break;
+      case 'Redo':
+        if (future.length !== 0) {
+          redo()
+          data_copy = future[0].svg_data.slice();
+        }
+        break;
+      case 'Undo':
+        if (past.length !== 0) {
+          undo(canvas)
+          data_copy = past[past.length-1].svg_data.slice();
         }
         break;
       default:
@@ -175,7 +205,7 @@ class Atelier extends React.Component {
     })
 
     updateArtboard(newData)
-    recordHistory(canvas)
+    recordHistory(JSON.parse(JSON.stringify(canvas)))
 
   }
 
@@ -221,15 +251,20 @@ class Atelier extends React.Component {
       this.setState({ command: true })
 
     } else if ( e.which === 16 ) {
-      // redo
+      // shift
       this.setState({ shift: true })
 
     } else if ( this.state.command && e.which === 82 ) {
-      // redo
-      alert('⌘ R')
-    } else if ( this.state.command && e.which === 85 ) {
-      // undo
-      alert('⌘ U')
+      // Reflect ('⌘ R')
+      this.handleElement("Reflect")
+
+    } else if ( this.state.command && e.which === 88 ) {
+      // undo ('⌘ X')
+      this.handleElement("Undo")
+    } else if ( this.state.command && e.which === 90 ) {
+      // redo ('⌘ Z')
+      this.handleElement("Redo")
+
     } else if ( this.state.command && e.which === 68 ) {
       //Duplicate
       this.handleElement('Duplicate')
@@ -430,7 +465,10 @@ const mapStateToProps = state => ({
   darkmode: state.json.darkmode,
   working: state.json.working,
   artboards: state.artboards.present.artboards,
-  selected: state.json.selected
+  selected: state.json.selected,
+  past: state.history.past,
+  future: state.history.future,
+  present: state.history.present,
 })
 
 
@@ -441,6 +479,8 @@ export default connect(
     switchDarkmode: value => dispatch(actions.switchDarkmode(value)),
     updateArtboard: value => dispatch(actions.updateArtboard(value)),
     switchSelected: value => dispatch(actions.switchSelected(value)),
-    recordHistory: value => dispatch(actions.recordHistory(value))
+    recordHistory: value => dispatch(actions.recordHistory(value)),
+    undo:           value => dispatch(actions.undo(value)),
+    redo:           value => dispatch(actions.redo(value)),
   })
 )(Atelier)
