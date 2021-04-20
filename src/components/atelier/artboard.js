@@ -902,14 +902,11 @@ class Artboard extends React.Component {
           height={artboardSize[1]}
           version="1.1">
             <defs>
-              <pattern id="Pattern" x="0" y="0" width="90" height="49.5" patternUnits="userSpaceOnUse" patternTransform={`scale(${gridScale})`}>
-              <g transform="matrix(1.52177,0,0,1.53768,-0.32241,-18.278)">
-                 <g transform="matrix(-1.07699,-0.588628,0.621799,-1.01953,53.1328,61.2278)">
-                     <path d="M2.967,15.069L57.826,15.069" style={{fill:"none",stroke:"deepskyblue",strokeWidth:"0.55px"}}/>
-                 </g>
-                 <g transform="matrix(-1.07699,0.588628,-0.621799,-1.01953,71.8727,25.4431)">
-                     <path d="M2.967,15.069L57.826,15.069" style={{fill:"none",stroke:"deepskyblue",strokeWidth:"0.55px"}}/>
-                 </g>
+              <pattern id="Pattern" x="0" y="0" width="100" height="57.7" patternUnits="userSpaceOnUse" patternTransform={`scale(${gridScale})`}>
+             <g>
+
+               <path d="M-0.049,57.701l99.94,-57.7" style={{fill:"none",stroke:"deepskyblue",strokeWidth:"1.5px"}}/>
+               <path d="M-0.049,0.001l99.94,57.7" style={{fill:"none",stroke:"deepskyblue",strokeWidth:"1.5px"}}/>
              </g>
               </pattern>
             </defs>
