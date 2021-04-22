@@ -162,19 +162,6 @@ class ToolsPanel extends React.Component {
 
   }
 
-  appendText = (props) => {
-    const {artboards, working, updateArtboard} = this.props;
-    const canvas = getCanvas({artboards: artboards, working: working}),
-          svg_data = canvas.svg_data.slice()
-
-    svg_data.push('<g transform="translate(20,35) scale(2.00,2.00)" data-type="el"><text x="0" y="0">Text</text></g>')
-    console.log(svg_data)
-
-    const newData = updateArtboards({artboards: artboards, working: working, type: "svg_data", value: svg_data})
-
-    updateArtboard(newData)
-  }
-
   render() {
 
     const { working, changeHex, undo, recordHistory,redo,updateArtboard,past,future,artboards,selected,darkmode } = this.props
@@ -232,7 +219,7 @@ class ToolsPanel extends React.Component {
 
           }
         })()}
-        <p onClick={this.appendText}><FontAwesomeIcon icon={faFont} /></p>
+        <TextEditer />
         <div className="color-scheme">
           <ColorPicker
              color={mainColor}
@@ -346,6 +333,33 @@ class ToolsPanel extends React.Component {
     );
 
   }
+}
+
+
+function TextEditer() {
+
+  const [ showBar, toggleBar] = useState(false)
+
+  const artboards = useSelector(getArtboards)
+  const working = useSelector(getWorking)
+  const dispatch = useDispatch()
+
+  const appendText = () => {
+
+    const canvas = getCanvas({artboards: artboards, working: working}),
+          svg_data = canvas.svg_data.slice()
+
+    svg_data.push('<g transform="translate(20,35) scale(2.00,2.00)" data-type="el"><text x="0" y="0">Text</text></g>')
+    console.log(svg_data)
+
+    const newData = updateArtboards({artboards: artboards, working: working, type: "svg_data", value: svg_data})
+
+    dispatch({type: 'update/artboard', payload: newData})
+  }
+
+  return (
+    <p onClick={appendText}><FontAwesomeIcon icon={faFont} /></p>
+  )
 }
 
 function ToggleGrid() {
@@ -596,6 +610,9 @@ function Gradient() {
               <option value="radial"
                       selected={picker === "radial"}>
                       Radial</option>
+              <option value="mesh"
+                      selected={picker === "mesh"}>
+                      Mesh</option>
             </select>
             {(() => {
               if ( picker === "solid" ) {
@@ -694,6 +711,19 @@ function Gradient() {
                            update(i)
                          }
                        } />
+                  </div>
+                )
+              } else if (picker === "mesh") {
+                return (
+                  <div style={{
+                          width: "200px",
+                          height: "200px",
+                          background: `
+                          radial-gradient(ellipse at top, #e66465, transparent),
+                          radial-gradient(ellipse at bottom, #4d9f0c, transparent),
+                          linear-gradient(127deg, rgba(0,255,0,.8), rgba(0,255,0,0) 70.71%),
+                          linear-gradient(336deg, rgba(0,0,255,.8), rgba(0,0,255,0) 70.71%)`
+                        }}>
                   </div>
                 )
               }
