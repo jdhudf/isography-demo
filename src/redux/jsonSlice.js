@@ -5,6 +5,7 @@ const initialState = {
   grid: false,
   selected: null,
   drawer: true,
+  colors: [],
 }
 
 export default function jsonReducer(state = initialState, action) {
@@ -33,6 +34,11 @@ export default function jsonReducer(state = initialState, action) {
       return {
         ...state,
         drawer: !state.drawer
+      }
+    case 'change/colors':
+      return {
+        ...state,
+        colors: action.payload
       }
     default:
       return state

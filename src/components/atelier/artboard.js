@@ -7,13 +7,15 @@ import {
   artboardScale,
   artboardPosition,
   updateArtboards,
-  getCanvas
+  getCanvas,
+  setCanvas
 } from '../handleLocalstorage'
 
 import { onWheel } from './features/pinch-gesture-wheel'
 
 import { connect } from 'react-redux'
 import { actions } from '../../redux/actions';
+import ColorPicker from "./toolspanel_ColorPicker";
 
 //import { useSelector, useDispatch } from 'react-redux'
 
@@ -75,7 +77,8 @@ class Artboard extends React.Component {
       selectedInitial: [0,0],
       center: [0,0],
       // -- below is svg data
-      data : getCanvas({artboards:this.props.artboards,working:this.props.working}).svg_data
+      data : getCanvas({artboards:this.props.artboards,working:this.props.working}).svg_data,
+      colors: [],
     };
   }
 
@@ -108,6 +111,50 @@ class Artboard extends React.Component {
   }
 
   //--- Choose which element we should edit &  send it to parent component ---//
+  getColors = (e,s) => {
+
+    //const { artboards, working } =  this.props
+    //const canvas = getCanvas({ artboards: artboards, working: working })
+    //const g = canvas.svg_data[e]
+
+    const { selected, changeColorSet, colors } =  this.props,
+          svg = document.getElementById('svg'),
+          g = svg.children[s],
+          data_copy = this.state.data.slice();
+
+    const array = []
+
+
+    if (g) {
+
+      for ( let i = 0; i < g.children.length ; i++ ) {
+
+        const c = g.children[i].getAttribute("fill")
+
+        array.push(c)
+
+      }
+
+    }
+
+    function uniq(array) {
+      const knownElements = {};
+      const uniquedArray = [];
+      for (let i = 0, maxi = array.length; i < maxi; i++) {
+        if (array[i] in knownElements)
+          continue;
+        uniquedArray.push(array[i]);
+        knownElements[array[i]] = true;
+      }
+      return uniquedArray;
+    };
+
+    console.log(uniq(array))
+
+    changeColorSet(uniq(array))
+
+  }
+
   selectElement = (e) => {
 
     const { switchSelected, artboards, working } =  this.props
@@ -146,7 +193,8 @@ class Artboard extends React.Component {
     if ( elements ) {
 
       const selectedElement = elements.children[selected],
-            selector = document.getElementById('selector');
+            selector = document.getElementById('selector'),
+            colorset = document.getElementById('color-set');
 
       if ( selectedElement ){
 
@@ -196,6 +244,11 @@ class Artboard extends React.Component {
         corners[3].style.top = p + 'px';
         corners[3].style.cursor = 'nesw-resize';
 
+        colorset.style.top = client_top + client_h + 'px';
+        colorset.style.left = client_left + 'px';
+        colorset.style.zIndex = "10000"
+        console.log(client_left,client_top)
+
       } else {
 
         selector.style.display = "none"
@@ -208,8 +261,6 @@ class Artboard extends React.Component {
   //--- get initial translate of selected elements ---//
 
   getAttribute = (e,s) => {
-
-    console.log(this.state.initialScale)
 
     if (s) {
 
@@ -255,6 +306,9 @@ class Artboard extends React.Component {
     console.log(this.state.initialScale)
 
     this.selectElement(e);
+    console.log(JSON.stringify(this.selectElement(e)))
+
+    this.getColors(e, JSON.stringify(this.selectElement(e)));
 
     this.getAttribute(e, JSON.stringify(this.selectElement(e)));
 
@@ -772,6 +826,13 @@ class Artboard extends React.Component {
 
   render() {
 
+    const { colors, artboards, working, grid, selected, recordHistory,changeColorSet,updateArtboard } = this.props
+    const canvas = getCanvas({ artboards: artboards, working: working}),
+          svg_data = canvas.svg_data.slice()
+
+    const artboardSize = canvas.artboard_size,
+          gridScale = getArtboardData({artboards:artboards,working:working,type:"grid"})
+
     const styles = {
       artboard: {
         position: "relative",
@@ -859,6 +920,50 @@ class Artboard extends React.Component {
       </div>
     )
 
+    const colorsDiv = []
+
+    if (colors) {
+      for (let i = 0; i < colors.length; i++) {
+
+        if (colors[i]!== null) {
+          colorsDiv.push(
+            <ColorPicker
+               color={colors[i]}
+               method={(e) => {
+                 const newColors = colors.slice()
+                 newColors[i] = e;
+
+                 const newCanvas = JSON.parse(JSON.stringify(canvas))
+                 const str = newCanvas.svg_data[selected]
+                 const reg =  colors[i]
+
+                 var result = str.replace(new RegExp(reg,'g'), e);
+                 console.log(result,e)
+
+                 newCanvas.svg_data[selected] = result
+
+                 const newData = updateArtboards({
+                   working: working,
+                   type: "svg_data",
+                   artboards: artboards,
+                   value: newCanvas.svg_data
+                 })
+                 updateArtboard(newData)
+
+
+                 //updateArtboard(newData)
+                 changeColorSet(newColors)
+
+
+                 //recordHistory(JSON.parse(JSON.stringify(canvas)))
+
+               }}
+            />
+          )
+        }
+      }
+    }
+
     const selector = (
       <div>
         <div id="scale-cover"
@@ -885,11 +990,6 @@ class Artboard extends React.Component {
       </div>
     )
 
-    const { working, artboards, grid } = this.props
-    const canvas =  getCanvas({artboards:artboards, working: working})
-    const artboardSize = canvas.artboard_size,
-          gridScale = getArtboardData({artboards:artboards,working:working,type:"grid"})
-
     return (
       <div id="board" //style={{position: "relative"}}
            onMouseUp={() => {
@@ -897,6 +997,11 @@ class Artboard extends React.Component {
            }}
            >
       {selector}
+      <div id="color-set"
+           style={{
+             display: "flex",
+             position: "absolute"
+           }}>{colorsDiv}</div>
 
       <div style={{
         border:"solid 1px blue",
@@ -1002,7 +1107,8 @@ const mapStateToProps = state => ({
   artboards: state.artboards.present.artboards,
   working: state.json.working,
   grid: state.json.grid,
-  selected: state.json.selected
+  selected: state.json.selected,
+  colors: state.json.colors
 })
 
 export default connect(
@@ -1012,7 +1118,8 @@ export default connect(
     updateArtboard: value => dispatch(actions.updateArtboard(value)),
     switchSelected: value => dispatch(actions.switchSelected(value)),
     recordHistory: value => dispatch(actions.recordHistory(value)),
-    resetHistory: value => dispatch(actions.resetHistory(value))
+    resetHistory: value => dispatch(actions.resetHistory(value)),
+    changeColorSet: value => dispatch(actions.changeColorSet(value))
   })
   //dispatch => ({ switchDarkmode: value => dispatch(switchDarkmode(value)) })
 )(Artboard)

@@ -108,4 +108,10 @@ export const actions = {
       type: 'toggle/drawer',
     }
   },
+  changeColorSet(value) {
+    return {
+      type: 'change/colors',
+      payload: value
+    }
+  },
 }
