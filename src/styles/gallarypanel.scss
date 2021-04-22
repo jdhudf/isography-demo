@@ -21,6 +21,7 @@
         border-radius: 1000px;
         display: inline-block;
         padding: 5px 10px;
+        margin: 5px;
       }
       .react-tabs__tab--selected {
         background: linear-gradient(90deg, purple , blue);
@@ -46,7 +47,10 @@
       overflow-x: scroll;
       margin: 0;
       .gallary-category-list {
-        display: none;
+        //display: none;
+        display: block;
+        margin-left: 0px;
+        margin-bottom: 17px;
         width: 400px;
         li {
           display: inline-block;
@@ -70,7 +74,7 @@
         background: #ffffff;
         width: 97%;
         margin: 0 auto;
-        margin-top: -7px;
+        margin-top: 15px;
         height:536px;
         overflow: scroll;
         display: flex;

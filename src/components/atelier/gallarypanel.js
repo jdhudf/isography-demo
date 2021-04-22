@@ -133,42 +133,43 @@ class GallaryPanel extends React.Component {
           <div className="drawer-content">
              <Tabs>
                <TabList>
-                 <Tab>Update new materials in 2021/04/05</Tab>
+                 <Tab>All</Tab>
+                 <Tab>Categories</Tab>
                  {/*<Tab>Later</Tab>
                  <Tab><FontAwesomeIcon icon={faSearch} /></Tab>*/}
                </TabList>
 
                <TabPanel>
-                 <div>
-                   <ul className="gallary-category-list">
-                     <li>
-                       <span></span>
-                       <p>People</p>
-                     </li>
-                     <li>
-                       <span></span>
-                       <p>Plants</p>
-                     </li>
-                     <li>
-                       <span></span>
-                       <p>Buildings</p>
-                     </li>
-                     <li>
-                       <span></span>
-                       <p>Animals</p>
-                     </li>
-                   </ul>
-                 </div>
                  <div className="gallaryframe"
                       onMouseDown={this.selectElementOfSVG}
                       onMouseUp={() => this.props.me()}>
                    <Myloop />
                  </div>
                </TabPanel>
-               {/*<TabPanel>
-                 <div>test</div>
-               </TabPanel>
                <TabPanel>
+               <div>
+                 <ul className="gallary-category-list">
+                   <li>
+                     <span></span>
+                     <p>People</p>
+                   </li>
+                   <li>
+                     <span></span>
+                     <p>Plants</p>
+                   </li>
+                   <li>
+                     <span></span>
+                     <p>Buildings</p>
+                   </li>
+                   <li>
+                     <span></span>
+                     <p>Animals</p>
+                   </li>
+                 </ul>
+               </div>
+               </TabPanel>
+
+               {/*<TabPanel>
                   <div>test</div>
                </TabPanel>*/}
              </Tabs>
