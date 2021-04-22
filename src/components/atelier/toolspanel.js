@@ -297,7 +297,7 @@ class ToolsPanel extends React.Component {
         })()}
 
         <p style={{margin: "0",color:darkmode ? "#9EA3B2":"gray"}}>BG</p>
-        <ColorPicker
+        {/*<ColorPicker
           color={background}
           method={(e) => {
             if (artboards !== undefined &&  working !== undefined ) {
@@ -306,7 +306,7 @@ class ToolsPanel extends React.Component {
 
             recordHistory(JSON.parse(JSON.stringify(canvas)))
           }}
-        />
+        />*/}
         <Gradient />
 
         <ToggleGrid/>
@@ -396,21 +396,25 @@ function Gradient() {
         color_scheme = canvas.color_scheme,
         artboard_name = getArtboardData({artboards:artboards, working: working, type: "artboard_name"});*/
 
-  const [ modal, toggleModal] = useState(false)
+  const [ modal, toggleModal] = useState(true)
   const [ picker, changePicker] = useState("linear")
   const color = getCanvas({artboards: artboards, working: working}).color_scheme["background"]
-  const [ solid, changeSolid] = useState("#cccccc")
+
+  const [ solid, changeSolid] = useState("#5A7A7C")
   const [ linear, changeLinear] = useState(
-    [
-      {
-        color: "#e66465",
-        percent: 0,
-      },
-      {
-          color: "#9198e5",
-          percent: 100,
-      }
-    ]
+    {
+      deg: "90",
+      color_set: [
+        {
+          color: "#e66465",
+          percent: 0,
+        },
+        {
+            color: "#9198e5",
+            percent: 100,
+        }
+      ]
+    }
   )
 
   const [iLinear, switchLinear] = useState(0)
@@ -446,15 +450,16 @@ function Gradient() {
       right: '0px',
       bottom: '0px',
       left: '0px',
+      zIndex: '-1'
     },
     linearGradientHandler: {
-      background: `linear-gradient(90deg, ${linear[0].color}, ${linear[1].color})`
+      background: `linear-gradient(90deg, ${linear.color_set[0].color}, ${linear.color_set[1].color})`
     }
   }
 
   const handler = []
 
-  for (let i = 0; i < linear.length; i++) {
+  for (let i = 0; i < linear.color_set.length; i++) {
     handler.push(
       <span class={(()=>{
                if ( i === iLinear) {
@@ -471,8 +476,8 @@ function Gradient() {
               () => switchLinear(i)
             }
             style={{
-              background: linear[i].color,
-              left: `${linear[i].percent}%`
+              background: linear.color_set[i].color,
+              left: `${linear.color_set[i].percent}%`
             }} />
     )
   }
@@ -504,7 +509,7 @@ function Gradient() {
           */}
         { modal ?
           <div style={ styles.popover }>
-            {/*<div style={ styles.cover } onClick={ () => toggleModal(false) }/>*/}
+            <div style={ styles.cover } onClick={ () => toggleModal(false) }/>
             <select name=""
                     id="picker-selector"
                     onChange={(e)=>{
@@ -515,7 +520,8 @@ function Gradient() {
 
                       } else if(e.target.value === "linear") {
 
-                        const i = `linear-gradient(90deg, ${linear[0].color}, ${linear[1].color})`
+                        const i = `linear-gradient(
+                          ${linear.deg}deg, ${linear.color_set[0].color}, ${linear.color_set[1].color})`
 
                         update(i)
 
@@ -549,20 +555,59 @@ function Gradient() {
               } else if ( picker === "linear") {
                 return (
                   <div>
+                    <div className="degree-handler">
+                      <span className="degree-circle"/>
+                      <span className="degree-subtraction"
+                      onClick={()=>{
+                        const copy = JSON.parse(JSON.stringify(linear))
+                        copy.deg = copy.deg - 1
+                        changeLinear(copy)
+
+                        const i = `linear-gradient(
+                          ${copy.deg}deg, ${copy.color_set[0].color}, ${copy.color_set[1].color})`
+
+                        update(i)
+                      }}></span>
+                      <input type="number"
+                             min="0" max="360"
+                             value={linear.deg}
+                             onChange={(e)=>{
+                               const copy = JSON.parse(JSON.stringify(linear))
+                               copy.deg = e.target.value
+                               changeLinear(copy)
+
+                               const i = `linear-gradient(
+                                 ${copy.deg}deg, ${copy.color_set[0].color}, ${copy.color_set[1].color})`
+
+                               update(i)
+                             }}/>
+                      <span className="degree-addition"
+                        onClick={()=>{
+                        const copy = JSON.parse(JSON.stringify(linear))
+                        copy.deg = copy.deg + 1
+                        changeLinear(copy)
+
+                        const i = `linear-gradient(
+                          ${copy.deg}deg, ${copy.color_set[0].color}, ${copy.color_set[1].color})`
+
+                        update(i)
+                      }}></span>
+                    </div>
                     <div class="linear-gradient-handler" style={styles.linearGradientHandler}>
                     </div>
                     <div class="handlers">
                       {handler}
                     </div>
                     <SketchPicker
-                       color={linear[iLinear].color}
+                       color={linear.color_set[iLinear].color}
                        onChange={
                          (e) => {
                            const copy = JSON.parse(JSON.stringify(linear))
-                           copy[iLinear].color = e.hex
+                           copy.color_set[iLinear].color = e.hex
                            changeLinear(copy)
 
-                           const i = `linear-gradient(90deg, ${linear[0].color}, ${linear[1].color})`
+                           const i = `linear-gradient(
+                             ${linear.deg}deg, ${linear.color_set[0].color}, ${linear.color_set[1].color})`
 
                            update(i)
                          }
