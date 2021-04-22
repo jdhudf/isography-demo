@@ -73,7 +73,7 @@ class Artboard extends React.Component {
       selectedTranslate: [0,0],
       initialForScale: [0,0],
       selectedInitial: [0,0],
-      clientRightAndBottomForScale: [0,0],
+      center: [0,0],
       // -- below is svg data
       data : getCanvas({artboards:this.props.artboards,working:this.props.working}).svg_data
     };
@@ -586,30 +586,31 @@ class Artboard extends React.Component {
           //artboardScale =  this.state.artboardScale,
           data_copy = this.state.data.slice();
 
-    const //client_w = selectedElement.getBoundingClientRect().width,
-          //client_h = selectedElement.getBoundingClientRect().height,
+    const client_w = selectedElement.getBoundingClientRect().width,
+          client_h = selectedElement.getBoundingClientRect().height,
           client_right = selectedElement.getBoundingClientRect().right,
           client_bottom = selectedElement.getBoundingClientRect().bottom;
          //client_left = selectedElement.getBoundingClientRect().left,
          //client_top = selectedElement.getBoundingClientRect().top;
 
+
     //--  Return Scale() of Selected Elements  --//
 
-    const x = client_right - e.pageX,
-          y = client_bottom - e.pageY,
+    const x = this.state.center[0] - e.pageX,//client_right - e.pageX,
+          y = this.state.center[1] - e.pageY,//client_bottom - e.pageY,
           z = Math.sqrt ( Math.pow(x, 2) + Math.pow(y, 2) );
 
     const initialAxis = this.state.selectedInitial;
 
-    const init_x = client_right - initialAxis[0],
-          init_y = client_bottom - initialAxis[1],
+    const init_x = this.state.center[0] - initialAxis[0],//client_right - initialAxis[0],
+          init_y = this.state.center[1] - initialAxis[1],//client_bottom - initialAxis[1],
           init_z = Math.sqrt ( Math.pow(init_x, 2) + Math.pow(init_y, 2) );
 
     const scaling = [
                       this.state.initialScale[0] * z / init_z,
                       this.state.initialScale[1] * z / init_z,
                     ]
-
+    console.log(scaling[0])
     //--  Return Translate() of Selected Elements  --//
 
     /*const gap = [
@@ -618,8 +619,8 @@ class Artboard extends React.Component {
     ];*/
 
     let translate = [
-      parseInt(this.state.selectedTranslate[0]),// + parseInt(gap[0]),
-      parseInt(this.state.selectedTranslate[1])// + parseInt(gap[1])
+      parseFloat(this.state.selectedTranslate[0]),// + parseFloat(gap[0]),
+      parseFloat(this.state.selectedTranslate[1])// + parseFloat(gap[1])
     ];
 
     //--  Change Transform() of Selected Element  --//
@@ -634,11 +635,30 @@ class Artboard extends React.Component {
 
   }
 
-  onScaleDown = (e) => {
+  onScaleDown = (e, corner) => {
 
     // set value as Below
     // * where mouse down
     // * get selected element
+
+    const cur = document.getElementById('scale-cover');
+
+    switch (corner) {
+      case "topLeft":
+        cur.style.cursor = "nwse-resize"
+        break;
+      case "bottomRight":
+        cur.style.cursor = "nesw-resize"
+        break;
+      case "topRight":
+        cur.style.cursor = "nwse-resize"
+        break;
+      case "bottomLeft":
+        cur.style.cursor = "nesw-resize"
+        break;
+      default:
+
+    }
 
     //--  get scale() of selected element with regEpx  --//
 
@@ -653,20 +673,31 @@ class Artboard extends React.Component {
           scale = transform[1].match(regExp_2)
 
     const client_right = selectedElement.getBoundingClientRect().right,
-          client_bottom = selectedElement.getBoundingClientRect().bottom;
+          client_bottom = selectedElement.getBoundingClientRect().bottom,
+          client_w = selectedElement.getBoundingClientRect().width,
+          client_h = selectedElement.getBoundingClientRect().height;
+
+    const center = [
+                    client_right - client_w / 2,
+                    client_bottom - client_h / 2
+                   ]
+    /*const centerDiv = document.getElementById('center')
+    centerDiv.style.left = this.state.center[0] + "px"
+    centerDiv.style.top = this.state.center[1] + "px"
+    centerDiv.style.zIndex = "100000"*/
 
     this.setState({
       isScaleMouseDown: true,
       selectedInitial: [ e.pageX , e.pageY ],
       selectedTranslate: translate,
-      initialScale: [scale[0],scale[1]],
+      initialScale: [parseFloat(scale[0]), parseFloat(scale[1])],
       propsOrState: true,
-      clientRightAndBottomForScale: [ client_right, client_bottom ]
+      center: [ center[0], center[1] ]
     })
 
   }
 
-  onScaleMove = (e, position) => {
+  onScaleMove = (e) => {
 
     if (this.state.isScaleMouseDown) {
 
@@ -843,7 +874,9 @@ class Artboard extends React.Component {
             const cornersDiv = corners.map((corner)=>
 
               <div className="corner"
-                   onMouseDown={this.onScaleDown}
+                   onMouseDown={(e)=>{
+                     this.onScaleDown(e, corner)
+                   }}
                    />
             )
             return cornersDiv
@@ -879,6 +912,12 @@ class Artboard extends React.Component {
              onClick={ ()=> this.setState({ displayContextMenu: false }) }/>
         {menu}
       </div>
+      {/*<div id="center" style={{
+                               width:"5px",
+                               height:"5px",
+                               background:"deepskyblue",
+                               position: "absolute"
+                             }}></div>*/}
 
       <section style={styles.artboard}
                className="section-artboard section-bottom"
