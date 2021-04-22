@@ -162,6 +162,19 @@ class ToolsPanel extends React.Component {
 
   }
 
+  appendText = (props) => {
+    const {artboards, working, updateArtboard} = this.props;
+    const canvas = getCanvas({artboards: artboards, working: working}),
+          svg_data = canvas.svg_data.slice()
+
+    svg_data.push('<g transform="translate(20,35) scale(2.00,2.00)" data-type="el"><text x="0" y="0">Text</text></g>')
+    console.log(svg_data)
+
+    const newData = updateArtboards({artboards: artboards, working: working, type: "svg_data", value: svg_data})
+
+    updateArtboard(newData)
+  }
+
   render() {
 
     const { working, changeHex, undo, recordHistory,redo,updateArtboard,past,future,artboards,selected,darkmode } = this.props
@@ -219,7 +232,7 @@ class ToolsPanel extends React.Component {
 
           }
         })()}
-        <p><FontAwesomeIcon icon={faFont} /></p>
+        <p onClick={this.appendText}><FontAwesomeIcon icon={faFont} /></p>
         <div className="color-scheme">
           <ColorPicker
              color={mainColor}
