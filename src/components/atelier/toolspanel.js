@@ -396,8 +396,8 @@ function Gradient() {
         color_scheme = canvas.color_scheme,
         artboard_name = getArtboardData({artboards:artboards, working: working, type: "artboard_name"});*/
 
-  const [ modal, toggleModal] = useState(true)
-  const [ picker, changePicker] = useState("linear")
+  const [ modal, toggleModal] = useState(false)
+  const [ picker, changePicker] = useState("solid")
   const color = getCanvas({artboards: artboards, working: working}).color_scheme["background"]
 
   const [ solid, changeSolid] = useState("#5A7A7C")
@@ -416,8 +416,24 @@ function Gradient() {
       ]
     }
   )
+  const [ radial, changeRadial] = useState(
+    {
+      deg: "90",
+      color_set: [
+        {
+          color: "#e66465",
+          percent: 0,
+        },
+        {
+            color: "#9198e5",
+            percent: 100,
+        }
+      ]
+    }
+  )
 
   const [iLinear, switchLinear] = useState(0)
+  const [iRadial, switchRadial] = useState(0)
 
   const styles = {
     color: {
@@ -482,6 +498,31 @@ function Gradient() {
     )
   }
 
+  const handlerRadial = []
+
+  for (let i = 0; i < radial.color_set.length; i++) {
+    handlerRadial.push(
+      <span class={(()=>{
+               if ( i === iRadial) {
+                 return (
+                   "handler active"
+                 )
+               } else {
+                 return (
+                   "handler"
+                 )
+               }
+            })()}
+            onClick={
+              () => switchRadial(i)
+            }
+            style={{
+              background: radial.color_set[i].color,
+              left: `${radial.color_set[i].percent}%`
+            }} />
+    )
+  }
+
   const update = (e) => {
     if (artboards !== undefined &&  working !== undefined ) {
 
@@ -526,7 +567,11 @@ function Gradient() {
                         update(i)
 
                       } else if (e.target.value === "radial") {
-                        update("#cccccc")
+
+                        const i = `radial-gradient(
+                          ${radial.color_set[0].color}, ${radial.color_set[1].color})`
+
+                        update(i)
                       }
                     }}>
               <option value="solid"
@@ -616,7 +661,27 @@ function Gradient() {
                 )
               } else if ( picker === "radial") {
                 return (
-                  <SketchPicker color={color} onChange={ (e) => changeLinear(e.hex) } />
+                  <div>
+                    <div class="linear-gradient-handler" style={styles.linearGradientHandler}>
+                    </div>
+                    <div class="handlers">
+                      {handlerRadial}
+                    </div>
+                    <SketchPicker
+                       color={radial.color_set[iRadial].color}
+                       onChange={
+                         (e) => {
+                           const copy = JSON.parse(JSON.stringify(radial))
+                           copy.color_set[iRadial].color = e.hex
+                           changeRadial(copy)
+
+                           const i = `radial-gradient(
+                             ${radial.color_set[0].color}, ${radial.color_set[1].color})`
+
+                           update(i)
+                         }
+                       } />
+                  </div>
                 )
               }
             })()}
