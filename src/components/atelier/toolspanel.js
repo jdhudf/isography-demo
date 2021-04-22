@@ -1,5 +1,6 @@
 import React, { useState }  from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { SketchPicker } from 'react-color';
 
 import {
   faSortAmountUp,
@@ -306,6 +307,7 @@ class ToolsPanel extends React.Component {
             recordHistory(JSON.parse(JSON.stringify(canvas)))
           }}
         />
+        <Gradient />
 
         <ToggleGrid/>
 
@@ -383,6 +385,203 @@ function ToggleGrid() {
   )
 }
 
+function Gradient() {
+
+  const artboards = useSelector(getArtboards)
+  const working = useSelector(getWorking)
+  const dispatch = useDispatch()
+
+  /*const canvas = getCanvas({artboards: artboards,working:working}),
+        artboard_size = canvas.artboard_size,
+        color_scheme = canvas.color_scheme,
+        artboard_name = getArtboardData({artboards:artboards, working: working, type: "artboard_name"});*/
+
+  const [ modal, toggleModal] = useState(false)
+  const [ picker, changePicker] = useState("linear")
+  const color = getCanvas({artboards: artboards, working: working}).color_scheme["background"]
+  const [ solid, changeSolid] = useState("#cccccc")
+  const [ linear, changeLinear] = useState(
+    [
+      {
+        color: "#e66465",
+        percent: 0,
+      },
+      {
+          color: "#9198e5",
+          percent: 100,
+      }
+    ]
+  )
+
+  const [iLinear, switchLinear] = useState(0)
+
+  const styles = {
+    color: {
+      width: '25px',
+      height: '25px',
+      borderRadius: '2px',
+      background: color,
+    },
+    swatch: {
+      padding: '3px',
+      background: '#fff',
+      borderRadius: '1px',
+      boxShadow: '0 0 0 1px rgba(0,0,0,.1)',
+      display: 'inline-block',
+      cursor: 'pointer',
+      marginTop: '1px',
+    },
+    popover: {
+      position: 'absolute',
+      zIndex: '2',
+      marginLeft: '60px',
+      marginTop: '-160px',
+      background: '#ffffff',
+      borderRadius: '2px',
+      boxShadow: 'rgba(0, 0, 0, 0.15) 0px 0px 0px 1px, rgba(0, 0, 0, 0.15) 0px 8px 16px;'
+    },
+    cover: {
+      position: 'fixed',
+      top: '0px',
+      right: '0px',
+      bottom: '0px',
+      left: '0px',
+    },
+    linearGradientHandler: {
+      background: `linear-gradient(90deg, ${linear[0].color}, ${linear[1].color})`
+    }
+  }
+
+  const handler = []
+
+  for (let i = 0; i < linear.length; i++) {
+    handler.push(
+      <span class={(()=>{
+               if ( i === iLinear) {
+                 return (
+                   "handler active"
+                 )
+               } else {
+                 return (
+                   "handler"
+                 )
+               }
+            })()}
+            onClick={
+              () => switchLinear(i)
+            }
+            style={{
+              background: linear[i].color,
+              left: `${linear[i].percent}%`
+            }} />
+    )
+  }
+
+  const update = (e) => {
+    if (artboards !== undefined &&  working !== undefined ) {
+
+      const newData = updateArtboards({
+        working: working,
+        type: "background",
+        artboards: artboards,
+        value: e
+      })
+
+      dispatch({type: 'hex/update', payload: newData})
+
+    }
+  }
+
+  return (
+    <div>
+      <div className="color-picker">
+
+        <div style={ styles.swatch } onClick={ () => toggleModal(true) }>
+          <div style={ styles.color } />
+        </div>
+        {/*
+          Conditional operator = condition ? true : false
+          */}
+        { modal ?
+          <div style={ styles.popover }>
+            {/*<div style={ styles.cover } onClick={ () => toggleModal(false) }/>*/}
+            <select name=""
+                    id="picker-selector"
+                    onChange={(e)=>{
+                      changePicker(e.target.value)
+                      if (e.target.value === "solid") {
+
+                        update(solid)
+
+                      } else if(e.target.value === "linear") {
+
+                        const i = `linear-gradient(90deg, ${linear[0].color}, ${linear[1].color})`
+
+                        update(i)
+
+                      } else if (e.target.value === "radial") {
+                        update("#cccccc")
+                      }
+                    }}>
+              <option value="solid"
+                      selected={picker === "solid"}>
+                      Solid</option>
+              <option value="linear"
+                      selected={picker === "linear"}>
+                      Linear</option>
+              <option value="radial"
+                      selected={picker === "radial"}>
+                      Radial</option>
+            </select>
+            {(() => {
+              if ( picker === "solid" ) {
+                return (
+                  <SketchPicker
+                     color={solid}
+                     onChange={(e) => {
+                       changeSolid(e.hex)
+
+                       update(e.hex)
+
+                       //recordHistory(JSON.parse(JSON.stringify(canvas)))
+                     }} />
+                )
+              } else if ( picker === "linear") {
+                return (
+                  <div>
+                    <div class="linear-gradient-handler" style={styles.linearGradientHandler}>
+                    </div>
+                    <div class="handlers">
+                      {handler}
+                    </div>
+                    <SketchPicker
+                       color={linear[iLinear].color}
+                       onChange={
+                         (e) => {
+                           const copy = JSON.parse(JSON.stringify(linear))
+                           copy[iLinear].color = e.hex
+                           changeLinear(copy)
+
+                           const i = `linear-gradient(90deg, ${linear[0].color}, ${linear[1].color})`
+
+                           update(i)
+                         }
+                       } />
+                  </div>
+                )
+              } else if ( picker === "radial") {
+                return (
+                  <SketchPicker color={color} onChange={ (e) => changeLinear(e.hex) } />
+                )
+              }
+            })()}
+          </div>
+        : null }
+
+      </div>
+    </div>
+  )
+}
 
 const mapStateToProps = state => ({
   artboards: state.artboards.present.artboards,

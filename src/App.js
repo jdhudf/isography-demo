@@ -19,6 +19,4 @@ function App() {
   );
 }
 
-//subscribe();
-
 export default App;
