@@ -383,8 +383,8 @@ class Atelier extends React.Component {
           onMouseMove={this.onMouseMove}
           onMouseUp={this.onMouseUp}
           onMouseLeave={this.onMouseLeave}
-          onKeyDown={this.keyPress}
-          onKeyUp= {this.keyUp}
+          //onKeyDown={this.keyPress}
+          //onKeyUp= {this.keyUp}}
           tabIndex="0"
           >
 
