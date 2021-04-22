@@ -420,6 +420,16 @@ class Atelier extends React.Component {
                selectEl={this.state.selectEl}
           />
           <div className="section-artboard">
+          {/*<div className="textEditer">
+            <select>
+              <option value="solid">
+                      Solid</option>
+              <option value="linear">
+                      Linear</option>
+              <option value="radial">
+                      Radial</option>
+            </select></div>
+            */}
           <Artboard
                mainColor={mainColor}
                subColor={subColor}
