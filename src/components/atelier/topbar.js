@@ -103,7 +103,14 @@ class TopBar extends React.Component {
             borderRadius: "3px",
             display: "inline-block",
             fontSize: "12px"
-          }}>{artboardName}</p></div>
+          }}>{(()=>{
+            const e = getArtboardData({
+                                   artboards:artboards,
+                                   working:working,
+                                   type:"artboard_name"
+                                 })
+            return e
+          })()}</p></div>
 
         </div>
         <div>
@@ -299,7 +306,7 @@ function ArtboardSetting (props) {
 
               const newData = updateArtboards(
                 {
-                  working: working.working,
+                  working: working,
                   type: "artboard_name",
                   artboards: artboards,
                   value: artboardName
