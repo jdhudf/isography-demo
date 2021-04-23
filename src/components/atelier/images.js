@@ -32,6 +32,7 @@ import Img29 from '../../images/materials/magnifier_3.inline.svg';
 import Img30 from '../../images/materials/wheel.inline.svg';
 import Img31 from '../../images/materials/wheel_2.inline.svg';
 import Img32 from '../../images/materials/ladder.inline.svg';
+import Img33 from '../../images/materials/test.inline.svg';
 
 class Myloop extends Component {
 
@@ -71,6 +72,7 @@ class Myloop extends Component {
         <div className="item"><Img30/></div>
         <div className="item"><Img31/></div>
         <div className="item"><Img32/></div>
+        <div className="item"><Img33/></div>
 
       </>
     );
