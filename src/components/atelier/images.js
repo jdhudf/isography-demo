@@ -21,6 +21,12 @@ import Img18 from '../../images/materials/measure_2.inline.svg';
 import Img19 from '../../images/materials/measure.inline.svg';
 import Img20 from '../../images/materials/pencil.inline.svg';
 import Img21 from '../../images/materials/scissors.inline.svg';
+import Img22 from '../../images/materials/code.inline.svg';
+import Img23 from '../../images/materials/pc_browser.inline.svg';
+import Img24 from '../../images/materials/pc_browser_horizontal.inline.svg';
+import Img25 from '../../images/materials/book.inline.svg';
+import Img26 from '../../images/materials/book_2.inline.svg';
+import Img27 from '../../images/materials/magnifier.inline.svg';
 
 class Myloop extends Component {
 
@@ -49,6 +55,13 @@ class Myloop extends Component {
         <div className="item"><Img19/></div>
         <div className="item"><Img20/></div>
         <div className="item"><Img21/></div>
+        <div className="item"><Img22/></div>
+        <div className="item"><Img23/></div>
+        <div className="item"><Img24/></div>
+        <div className="item"><Img25/></div>
+        <div className="item"><Img26/></div>
+        <div className="item"><Img27/></div>
+
       </>
     );
   }

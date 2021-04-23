@@ -16,6 +16,7 @@ import { onWheel } from './features/pinch-gesture-wheel'
 import { connect } from 'react-redux'
 import { actions } from '../../redux/actions';
 import ColorPicker from "./toolspanel_ColorPicker";
+import GradientPicker from "./artboard_colorpicker";
 
 //import { useSelector, useDispatch } from 'react-redux'
 
@@ -927,7 +928,40 @@ class Artboard extends React.Component {
 
         if (colors[i]!== null) {
           colorsDiv.push(
-            <ColorPicker
+            <GradientPicker
+              color={colors[i]}
+              method={
+                
+                (e) => {
+                const newColors = colors.slice()
+                newColors[i] = e;
+
+                const newCanvas = JSON.parse(JSON.stringify(canvas))
+                const str = newCanvas.svg_data[selected]
+                const reg =  colors[i]
+
+                var result = str.replace(new RegExp(reg,'g'), e);
+                console.log(result,e)
+
+                newCanvas.svg_data[selected] = result
+
+                const newData = updateArtboards({
+                  working: working,
+                  type: "svg_data",
+                  artboards: artboards,
+                  value: newCanvas.svg_data
+                })
+                updateArtboard(newData)
+
+
+                //updateArtboard(newData)
+                changeColorSet(newColors)
+
+
+                //recordHistory(JSON.parse(JSON.stringify(canvas)))
+
+              }}/>
+            /*<ColorPicker
                color={colors[i]}
                method={(e) => {
                  const newColors = colors.slice()
@@ -958,7 +992,7 @@ class Artboard extends React.Component {
                  //recordHistory(JSON.parse(JSON.stringify(canvas)))
 
                }}
-            />
+            />*/
           )
         }
       }

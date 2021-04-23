@@ -220,7 +220,7 @@ class ToolsPanel extends React.Component {
           }
         })()}
         <TextEditer />
-        <div className="color-scheme">
+        {/*<div className="color-scheme">
           <ColorPicker
              color={mainColor}
              method={(e) => {
@@ -256,7 +256,7 @@ class ToolsPanel extends React.Component {
 
             }}
           />
-        </div>
+        </div>*/}
         {(()=>{
           if (past.length === 0) {
             return (
