@@ -638,7 +638,7 @@ class Artboard extends React.Component {
     const { selected } = this.props,
           elements = document.getElementById("svg"),
           selectedElement = elements.children[selected],
-          //artboardScale =  this.state.artboardScale,
+          artboardScale =  this.state.artboardScale,
           data_copy = this.state.data.slice();
 
     const client_w = selectedElement.getBoundingClientRect().width,
@@ -668,14 +668,14 @@ class Artboard extends React.Component {
     console.log(scaling[0])
     //--  Return Translate() of Selected Elements  --//
 
-    /*const gap = [
+    const gap = [
       ( e.pageX - initialAxis[0] ) / artboardScale,
       ( e.pageY - initialAxis[1] ) / artboardScale
-    ];*/
+    ];
 
     let translate = [
-      parseFloat(this.state.selectedTranslate[0]),// + parseFloat(gap[0]),
-      parseFloat(this.state.selectedTranslate[1])// + parseFloat(gap[1])
+      parseFloat(this.state.selectedTranslate[0]) + parseFloat(gap[0]),
+      parseFloat(this.state.selectedTranslate[1]) + parseFloat(gap[1])
     ];
 
     //--  Change Transform() of Selected Element  --//
@@ -931,7 +931,7 @@ class Artboard extends React.Component {
             <GradientPicker
               color={colors[i]}
               method={
-                
+
                 (e) => {
                 const newColors = colors.slice()
                 newColors[i] = e;
