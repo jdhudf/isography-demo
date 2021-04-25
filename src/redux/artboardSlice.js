@@ -10,13 +10,13 @@ const initialState = {
       canvas: {
         artboard_size: [800,600],
         svg_data: [
-          '<g transform="translate(200,100) scale(2.00,2.00)" data-type="el"><path d="M49.797,92.693l-36.203,-20.902l-0,-41.804l36.203,20.902l-0,41.804Z" fill="#a0c6cf"></path><path d="M86,71.791l-36.203,20.902l-0,-41.804l36.203,-20.902l-0,41.804Z" fill="#a0c6cf"></path><path d="M49.797,50.889l-36.203,-20.902l36.203,-20.902l36.203,20.902l-36.203,20.902Z" fill="#a0c6cf"></path><path d="M49.797,92.693l-36.203,-20.902l-0,-41.804l36.203,20.902l-0,41.804Z" fill="#828282" style="opacity:0.2"></path><path d="M86,71.791l-36.203,20.902l-0,-41.804l36.203,-20.902l-0,41.804Z" fill="#828282" style="opacity:0.2"></path><path d="M86,71.791l-36.203,20.902l-0,-41.804l36.203,-20.902l-0,41.804Z" fill="#828282" style="opacity:0.2"></path></g>'
+          '<g transform="translate(200,100) scale(4.00,4.00)" data-type="el"><path d="M49.797,92.693l-36.203,-20.902l-0,-41.804l36.203,20.902l-0,41.804Z" fill="#000000"></path><path d="M86,71.791l-36.203,20.902l-0,-41.804l36.203,-20.902l-0,41.804Z" fill="#000000"></path><path d="M49.797,50.889l-36.203,-20.902l36.203,-20.902l36.203,20.902l-36.203,20.902Z" fill="#000000"></path><path d="M49.797,92.693l-36.203,-20.902l-0,-41.804l36.203,20.902l-0,41.804Z" fill="#828282" style="opacity:0.2"></path><path d="M86,71.791l-36.203,20.902l-0,-41.804l36.203,-20.902l-0,41.804Z" fill="#828282" style="opacity:0.2"></path><path d="M86,71.791l-36.203,20.902l-0,-41.804l36.203,-20.902l-0,41.804Z" fill="#828282" style="opacity:0.2"></path></g>'
         ],
         color_scheme: {
           mainColor: '#576675',
           subColor: '#192736',
           accentColor: '#b2d4cd',
-          background: '#5a7a7c'
+          background: 'linear-gradient(90deg, rgb(230, 100, 101), rgb(145, 152, 229))'
         },
       },
     },
