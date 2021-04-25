@@ -77,12 +77,7 @@ class TopBar extends React.Component {
 
     const { artboards, working } = this.props
 
-    const artboardName = getArtboardData({
-                           artboards:artboards,
-                           working:working,
-                           type:"artboard_name"
-                         }),
-          canvas = getCanvas({artboards:artboards,working:working}),
+    const canvas = getCanvas({artboards:artboards,working:working}),
           svg_data = canvas.svg_data,
           background = canvas.color_scheme['background']
 
@@ -425,9 +420,9 @@ function ExportComponent (props) {
   const [showExportPanel, changeStateExportPanel] = useState(false);
   const [artboardName, changeStateArtboardName] = useState(artboard_name);
 
-  const [radioFormat, changeStateRadioFormat] = useState("png");
+  //const [radioFormat, changeStateRadioFormat] = useState("png");
   const [radioSize, changeStateRadioSize] = useState("2");
-  const [radioCompression, changeStateRadioCompression] = useState("low");
+  //const [radioCompression, changeStateRadioCompression] = useState("low");
 
   const openExportPanel = () => {
     changeStateExportPanel(true)
@@ -437,16 +432,16 @@ function ExportComponent (props) {
     changeStateExportPanel(false)
   }
 
-  const handleRadioFormat = (e) => {
+  /*const handleRadioFormat = (e) => {
     changeStateRadioFormat(e.target.value)
-  }
+  }*/
 
   const handleRadioSize = (e) => {
     changeStateRadioSize(e.target.value)
   }
-  const handleRadioCompression = (e) => {
+  /*const handleRadioCompression = (e) => {
     changeStateRadioCompression(e.target.value)
-  }
+  }*/
 
   const styles = {
     overlay: {

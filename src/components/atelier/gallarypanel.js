@@ -134,7 +134,7 @@ class GallaryPanel extends React.Component {
              <Tabs>
                <TabList>
                  <Tab>All</Tab>
-                 <Tab>Categories</Tab>
+                 {/*<Tab>Categories</Tab>*/}
                  {/*<Tab>Later</Tab>
                  <Tab><FontAwesomeIcon icon={faSearch} /></Tab>*/}
                </TabList>
@@ -146,7 +146,7 @@ class GallaryPanel extends React.Component {
                    <Myloop />
                  </div>
                </TabPanel>
-               <TabPanel>
+               {/*<TabPanel>
                <div>
                  <ul className="gallary-category-list">
                    <li>
@@ -167,7 +167,7 @@ class GallaryPanel extends React.Component {
                    </li>
                  </ul>
                </div>
-               </TabPanel>
+               </TabPanel>*/}
 
                {/*<TabPanel>
                   <div>test</div>

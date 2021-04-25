@@ -86,7 +86,7 @@ class Atelier extends React.Component {
       switchSelected,
       recordHistory,
       redo, undo,
-      future, past, present
+      future, past//, present
     } = this.props
 
     const canvas = getCanvas({ artboards: artboards, working: working }),

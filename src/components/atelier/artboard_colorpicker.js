@@ -1,35 +1,18 @@
 import React, { useState }  from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { SketchPicker } from 'react-color';
-
-import ColorPicker from "./toolspanel_ColorPicker";
-
-import {
-  getArtboardData,
-  updateArtboards,
-  setCanvas,
-  getCanvas
-} from '../handleLocalstorage'
 
 import { connect } from 'react-redux'
 import { actions } from '../../redux/actions';
-import { useSelector, useDispatch } from 'react-redux'
+//import { useSelector, useDispatch } from 'react-redux'
 //import { ActionCreators } from 'redux-undo';
 
-const getWorking = state => state.json.working
-const getArtboards = state => state.artboards.present.artboards
-const getGrid = state => state.json.grid
-const getDarkmode = state => state.json.darkmode
+//const getWorking = state => state.json.working
+//const getArtboards = state => state.artboards.present.artboards
 
 
 class GradientPicker extends React.Component {
 
-
   render() {
-
-    const { working, changeHex, undo, recordHistory,redo,updateArtboard,past,future,artboards,selected,darkmode } = this.props
-
-    const canvas = getCanvas({artboards: artboards, working: working})
 
     return (
       <div>
@@ -68,10 +51,6 @@ class GradientPicker extends React.Component {
 }*/
 
 function Gradient(props) {
-
-  const artboards = useSelector(getArtboards)
-  const working = useSelector(getWorking)
-  const dispatch = useDispatch()
 
   /*const canvas = getCanvas({artboards: artboards,working:working}),
         artboard_size = canvas.artboard_size,

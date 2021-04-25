@@ -7,16 +7,15 @@ import {
   artboardScale,
   artboardPosition,
   updateArtboards,
-  getCanvas,
-  setCanvas
+  getCanvas
 } from '../handleLocalstorage'
 
-import { onWheel } from './features/pinch-gesture-wheel'
+//import { onWheel } from './features/pinch-gesture-wheel'
 
 import { connect } from 'react-redux'
 import { actions } from '../../redux/actions';
 import ColorPicker from "./toolspanel_ColorPicker";
-import GradientPicker from "./artboard_colorpicker";
+//import GradientPicker from "./artboard_colorpicker";
 
 //import { useSelector, useDispatch } from 'react-redux'
 
@@ -118,10 +117,14 @@ class Artboard extends React.Component {
     //const canvas = getCanvas({ artboards: artboards, working: working })
     //const g = canvas.svg_data[e]
 
-    const { selected, changeColorSet, colors } =  this.props,
+    const {
+            //selected,
+            changeColorSet,
+            //colors
+          } = this.props,
           svg = document.getElementById('svg'),
-          g = svg.children[s],
-          data_copy = this.state.data.slice();
+          g = svg.children[s];
+          //data_copy = this.state.data.slice();
 
     const array = []
 
@@ -641,10 +644,10 @@ class Artboard extends React.Component {
           artboardScale =  this.state.artboardScale,
           data_copy = this.state.data.slice();
 
-    const client_w = selectedElement.getBoundingClientRect().width,
-          client_h = selectedElement.getBoundingClientRect().height,
-          client_right = selectedElement.getBoundingClientRect().right,
-          client_bottom = selectedElement.getBoundingClientRect().bottom;
+    //const client_w = selectedElement.getBoundingClientRect().width,
+          //client_h = selectedElement.getBoundingClientRect().height,
+          //client_right = selectedElement.getBoundingClientRect().right,
+          //client_bottom = selectedElement.getBoundingClientRect().bottom;
          //client_left = selectedElement.getBoundingClientRect().left,
          //client_top = selectedElement.getBoundingClientRect().top;
 
@@ -827,9 +830,16 @@ class Artboard extends React.Component {
 
   render() {
 
-    const { colors, artboards, working, grid, selected, recordHistory,changeColorSet,updateArtboard } = this.props
-    const canvas = getCanvas({ artboards: artboards, working: working}),
-          svg_data = canvas.svg_data.slice()
+    const {
+       colors,
+       artboards,
+       working, grid, selected,
+       //recordHistory,
+       changeColorSet,
+       updateArtboard
+     } = this.props
+    const canvas = getCanvas({ artboards: artboards, working: working});
+          //svg_data = canvas.svg_data.slice()
 
     const artboardSize = canvas.artboard_size,
           gridScale = getArtboardData({artboards:artboards,working:working,type:"grid"})
@@ -928,7 +938,7 @@ class Artboard extends React.Component {
 
         if (colors[i]!== null) {
           colorsDiv.push(
-            <GradientPicker
+            /*<GradientPicker
               color={colors[i]}
               method={
 
@@ -960,8 +970,8 @@ class Artboard extends React.Component {
 
                 //recordHistory(JSON.parse(JSON.stringify(canvas)))
 
-              }}/>
-            /*<ColorPicker
+              }}/>*/
+            <ColorPicker
                color={colors[i]}
                method={(e) => {
                  const newColors = colors.slice()
@@ -992,7 +1002,7 @@ class Artboard extends React.Component {
                  //recordHistory(JSON.parse(JSON.stringify(canvas)))
 
                }}
-            />*/
+            />
           )
         }
       }

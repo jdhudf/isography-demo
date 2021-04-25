@@ -7,13 +7,11 @@ import {
   faSortAmountDown,
   faLongArrowAltRight,
   faLongArrowAltLeft ,
-  faFont,
+  //faFont,
   faTrashAlt,
 } from '@fortawesome/free-solid-svg-icons'
 
 import '../../styles/toolspanel.scss';
-
-import ColorPicker from "./toolspanel_ColorPicker";
 
 import {
   getArtboardData,
@@ -96,21 +94,21 @@ class ToolsPanel extends React.Component {
         const regExp2 = /-?\d+/g;
         const scale2 = el.match(regExp2)
 
-        var n = 3;
+        var nn = 3;
 
         const result2 = el.replace(regExp2,
           function(match) {
-            if(n === 3) {
-              n--;
+            if(nn === 3) {
+              nn--;
               return scale2[0];
-            } else if (n === 2) {
-              n--;
+            } else if (nn === 2) {
+              nn--;
               return scale2[1];
-            } else if (n === 1) {
-              n--;
+            } else if (nn === 1) {
+              nn--;
               return scale2[2];
-            } else if (n === 0) {
-              n--;
+            } else if (nn === 0) {
+              nn--;
               return -scale2[3];
             } else {
               return match;
@@ -193,14 +191,18 @@ class ToolsPanel extends React.Component {
 
   render() {
 
-    const { working, changeHex, undo, recordHistory,redo,updateArtboard,past,future,artboards,selected,darkmode } = this.props
+    const {
+      working,
+      undo, redo,
+      //recordHistory,
+      past, future,
+      updateArtboard,
+      artboards,
+      selected,
+      darkmode } = this.props
 
     const canvas = getCanvas({artboards: artboards, working: working})
-    const mainColor = canvas.color_scheme['mainColor'],
-          subColor = canvas.color_scheme['subColor'],
-          accentColor = canvas.color_scheme['accentColor'],
-          background = canvas.color_scheme['background'],
-          svg_data = canvas.svg_data;
+    const svg_data = canvas.svg_data;
 
     return (
       <section className="section-toolspanel section-bottom">
@@ -248,26 +250,26 @@ class ToolsPanel extends React.Component {
 
           }
         })()}
-        <TextEditer />
+        {/*<TextEditer />*/}
         {(()=>{
           if ( svg_data.length > 0 ) {
             if( selected !== null ) {
-              const fill = darkmode ? "#444855":"lightgray"
+              const fill = darkmode ? "#9EA1B1":"#000"
               return (
                 <>
-                  <p title="Reflect horizontal" onClick={()=>this.handleElement("Reflect")}>
+                  <p title="Reflect horizontal"
+                     onClick={()=>this.handleElement("Reflect")}>
 
-                     <svg width="21" height="100%" viewBox="0 0 30 30" version="1.1" style={{fillRule:"evenodd",clipRule:"evenodd",strokeLinejoin:"round",strokeMiterlimit:"2"}}><rect id="Artboard1" x="0" y="0" width="30" height="30" style={{fill:"none"}}/><g id="Artboard11"><path d="M16.456,25.786l0,-1.95l-3,0l0,1.95l3,0Zm0,-3.9l0,-1.95l-3,0l0,1.95l3,0Zm0,-3.9l0,-1.95l-3,0l0,1.95l3,0Zm0,-3.9l0,-1.95l-3,0l0,1.95l3,0Zm0,-3.9l0,-1.95l-3,0l0,1.95l3,0Zm0,-3.9l0,-1.95l-3,0l0,1.95l3,0Z"/><path d="M10.606,13.231c0.566,0.369 0.907,0.999 0.907,1.675c0,0.676 -0.341,1.306 -0.907,1.675c-1.43,0.933 -3.22,2.102 -4.727,3.085c-0.615,0.401 -1.4,0.434 -2.046,0.084c-0.645,-0.349 -1.047,-1.025 -1.047,-1.759c-0,-1.917 -0,-4.253 -0,-6.17c-0,-0.734 0.402,-1.409 1.047,-1.759c0.646,-0.349 1.431,-0.317 2.046,0.084c1.507,0.983 3.297,2.152 4.727,3.085Zm-5.32,3.837l3.312,-2.162l-3.312,-2.162l-0,4.324Z"/><path d="M19.306,13.231c-0.566,0.369 -0.907,0.999 -0.907,1.675c0,0.676 0.341,1.306 0.907,1.675c1.43,0.933 3.221,2.102 4.728,3.085c0.615,0.401 1.4,0.434 2.045,0.084c0.646,-0.349 1.048,-1.025 1.048,-1.759c-0,-1.917 -0,-4.253 -0,-6.17c-0,-0.734 -0.402,-1.409 -1.048,-1.759c-0.645,-0.349 -1.43,-0.317 -2.045,0.084c-1.507,0.983 -3.298,2.152 -4.728,3.085Zm2.008,1.675l3.313,2.162l-0,-4.324l-3.313,2.162Z"/></g></svg>
+                     <svg width="21" height="100%" viewBox="0 0 30 30" version="1.1" style={{fillRule:"evenodd",clipRule:"evenodd",strokeLinejoin:"round",strokeMiterlimit:"2"}}><rect id="Artboard1" x="0" y="0" width="30" height="30" style={{fill:"none"}}/><g id="Artboard11"><path fill={fill} d="M16.456,25.786l0,-1.95l-3,0l0,1.95l3,0Zm0,-3.9l0,-1.95l-3,0l0,1.95l3,0Zm0,-3.9l0,-1.95l-3,0l0,1.95l3,0Zm0,-3.9l0,-1.95l-3,0l0,1.95l3,0Zm0,-3.9l0,-1.95l-3,0l0,1.95l3,0Zm0,-3.9l0,-1.95l-3,0l0,1.95l3,0Z"/><path fill={fill} d="M10.606,13.231c0.566,0.369 0.907,0.999 0.907,1.675c0,0.676 -0.341,1.306 -0.907,1.675c-1.43,0.933 -3.22,2.102 -4.727,3.085c-0.615,0.401 -1.4,0.434 -2.046,0.084c-0.645,-0.349 -1.047,-1.025 -1.047,-1.759c-0,-1.917 -0,-4.253 -0,-6.17c-0,-0.734 0.402,-1.409 1.047,-1.759c0.646,-0.349 1.431,-0.317 2.046,0.084c1.507,0.983 3.297,2.152 4.727,3.085Zm-5.32,3.837l3.312,-2.162l-3.312,-2.162l-0,4.324Z"/><path fill={fill} d="M19.306,13.231c-0.566,0.369 -0.907,0.999 -0.907,1.675c0,0.676 0.341,1.306 0.907,1.675c1.43,0.933 3.221,2.102 4.728,3.085c0.615,0.401 1.4,0.434 2.045,0.084c0.646,-0.349 1.048,-1.025 1.048,-1.759c-0,-1.917 -0,-4.253 -0,-6.17c-0,-0.734 -0.402,-1.409 -1.048,-1.759c-0.645,-0.349 -1.43,-0.317 -2.045,0.084c-1.507,0.983 -3.298,2.152 -4.728,3.085Zm2.008,1.675l3.313,2.162l-0,-4.324l-3.313,2.162Z"/></g></svg>
                   </p>
                   <p title="Reflect vertical"
                      onClick={()=>this.handleElement("Reflect Vertical")}>
-
-                    <svg width="21" height="100%" viewBox="0 0 30 30" version="1.1" style={{fillRule:"evenodd",clipRule:"evenodd",strokeLinejoin:"round",stroMiterlimit:"2.5"}}><rect id="Artboard1" x="0" y="0" width="30" height="30" style={{fill:"none"}}/><path d="M25.681,13.561l-1.95,0l0,3l1.95,0l0,-3Zm-3.9,0l-1.95,0l0,3l1.95,0l0,-3Zm-3.9,0l-1.95,0l0,3l1.95,0l0,-3Zm-3.9,0l-1.95,0l0,3l1.95,0l0,-3Zm-3.9,0l-1.95,0l0,3l1.95,0l0,-3Zm-3.9,0l-1.95,0l0,3l1.95,0l0,-3Z"/><path d="M13.126,19.411c0.37,-0.566 1,-0.907 1.675,-0.907c0.676,0 1.306,0.341 1.675,0.907c0.933,1.43 2.102,3.221 3.085,4.728c0.402,0.615 0.434,1.4 0.084,2.045c-0.349,0.646 -1.024,1.048 -1.759,1.048c-1.917,-0 -4.253,-0 -6.17,-0c-0.734,-0 -1.409,-0.402 -1.759,-1.048c-0.349,-0.645 -0.317,-1.43 0.084,-2.045c0.984,-1.507 2.152,-3.298 3.085,-4.728Zm3.837,5.321l-2.162,-3.313l-2.162,3.313l4.324,-0Z"/><path d="M13.126,10.711c0.37,0.566 1,0.907 1.675,0.907c0.676,0 1.306,-0.341 1.675,-0.907c0.933,-1.43 2.102,-3.221 3.085,-4.728c0.402,-0.614 0.434,-1.399 0.084,-2.045c-0.349,-0.645 -1.024,-1.048 -1.759,-1.048c-1.917,0 -4.253,0 -6.17,0c-0.734,0 -1.409,0.403 -1.759,1.048c-0.349,0.646 -0.317,1.431 0.084,2.045c0.984,1.507 2.152,3.298 3.085,4.728Zm1.675,-2.008l2.162,-3.313l-4.324,0l2.162,3.313Z"/></svg>
+                    <svg width="21" height="100%" viewBox="0 0 30 30" version="1.1" style={{fillRule:"evenodd",clipRule:"evenodd",strokeLinejoin:"round",stroMiterlimit:"2.5"}}><rect id="Artboard1" x="0" y="0" width="30" height="30" style={{fill:"none"}}/><path fill={fill} d="M25.681,13.561l-1.95,0l0,3l1.95,0l0,-3Zm-3.9,0l-1.95,0l0,3l1.95,0l0,-3Zm-3.9,0l-1.95,0l0,3l1.95,0l0,-3Zm-3.9,0l-1.95,0l0,3l1.95,0l0,-3Zm-3.9,0l-1.95,0l0,3l1.95,0l0,-3Zm-3.9,0l-1.95,0l0,3l1.95,0l0,-3Z"/><path fill={fill} d="M13.126,19.411c0.37,-0.566 1,-0.907 1.675,-0.907c0.676,0 1.306,0.341 1.675,0.907c0.933,1.43 2.102,3.221 3.085,4.728c0.402,0.615 0.434,1.4 0.084,2.045c-0.349,0.646 -1.024,1.048 -1.759,1.048c-1.917,-0 -4.253,-0 -6.17,-0c-0.734,-0 -1.409,-0.402 -1.759,-1.048c-0.349,-0.645 -0.317,-1.43 0.084,-2.045c0.984,-1.507 2.152,-3.298 3.085,-4.728Zm3.837,5.321l-2.162,-3.313l-2.162,3.313l4.324,-0Z"/><path fill={fill} d="M13.126,10.711c0.37,0.566 1,0.907 1.675,0.907c0.676,0 1.306,-0.341 1.675,-0.907c0.933,-1.43 2.102,-3.221 3.085,-4.728c0.402,-0.614 0.434,-1.399 0.084,-2.045c-0.349,-0.645 -1.024,-1.048 -1.759,-1.048c-1.917,0 -4.253,0 -6.17,0c-0.734,0 -1.409,0.403 -1.759,1.048c-0.349,0.646 -0.317,1.431 0.084,2.045c0.984,1.507 2.152,3.298 3.085,4.728Zm1.675,-2.008l2.162,-3.313l-4.324,0l2.162,3.313Z"/></svg>
                   </p>
                   <p title="Duplicate"
                      onClick={()=>this.handleElement("Duplicate")}>
 
-                    <svg width="21" height="100%" viewBox="0 0 30 30" version="1.1" style={{fillRule:"evenodd",clipRule:"evenodd",strokeLinejoin:"round",strokeMiterlimit:"2.5"}}><rect id="Artboard1" x="0" y="0" width="30" height="30" style={{fill:"none"}}/><path d="M7.826,5.677c0.182,-0.031 0.369,-0.048 0.56,-0.048l12.534,-0c1.782,-0 3.229,1.447 3.229,3.228l0,12.543c0,0.17 -0.013,0.337 -0.039,0.5c1.516,-0.265 2.669,-1.589 2.669,-3.18l-0,-12.543c-0,-1.781 -1.447,-3.228 -3.229,-3.228l-12.534,-0c-1.612,-0 -2.949,1.184 -3.19,2.728Z"/><path d="M21.984,11.177c0,-1.782 -1.447,-3.228 -3.228,-3.228l-12.535,-0c-1.782,-0 -3.228,1.446 -3.228,3.228l-0,12.543c-0,1.782 1.446,3.229 3.228,3.229l12.535,-0c1.781,-0 3.228,-1.447 3.228,-3.229l0,-12.543Zm-2.5,0l0,12.543c0,0.402 -0.326,0.729 -0.728,0.729l-12.535,-0c-0.402,-0 -0.728,-0.327 -0.728,-0.729c-0,0 -0,-12.543 -0,-12.543c-0,-0.402 0.326,-0.728 0.728,-0.728c0,-0 12.535,-0 12.535,-0c0.402,-0 0.728,0.326 0.728,0.728Z"/></svg>
+                    <svg width="21" height="100%" viewBox="0 0 30 30" version="1.1" style={{fillRule:"evenodd",clipRule:"evenodd",strokeLinejoin:"round",strokeMiterlimit:"2.5"}}><rect id="Artboard1" x="0" y="0" width="30" height="30" style={{fill:"none"}}/><path fill={fill} d="M7.826,5.677c0.182,-0.031 0.369,-0.048 0.56,-0.048l12.534,-0c1.782,-0 3.229,1.447 3.229,3.228l0,12.543c0,0.17 -0.013,0.337 -0.039,0.5c1.516,-0.265 2.669,-1.589 2.669,-3.18l-0,-12.543c-0,-1.781 -1.447,-3.228 -3.229,-3.228l-12.534,-0c-1.612,-0 -2.949,1.184 -3.19,2.728Z"/><path fill={fill} d="M21.984,11.177c0,-1.782 -1.447,-3.228 -3.228,-3.228l-12.535,-0c-1.782,-0 -3.228,1.446 -3.228,3.228l-0,12.543c-0,1.782 1.446,3.229 3.228,3.229l12.535,-0c1.781,-0 3.228,-1.447 3.228,-3.229l0,-12.543Zm-2.5,0l0,12.543c0,0.402 -0.326,0.729 -0.728,0.729l-12.535,-0c-0.402,-0 -0.728,-0.327 -0.728,-0.729c-0,0 -0,-12.543 -0,-12.543c-0,-0.402 0.326,-0.728 0.728,-0.728c0,-0 12.535,-0 12.535,-0c0.402,-0 0.728,0.326 0.728,0.728Z"/></svg>
                   </p>
                 </>
               )
@@ -426,9 +428,9 @@ class ToolsPanel extends React.Component {
 }
 
 
-function TextEditer() {
+/*function TextEditer() {
 
-  const [ showBar, toggleBar] = useState(false)
+  //const [ showBar, toggleBar] = useState(false)
 
   const artboards = useSelector(getArtboards)
   const working = useSelector(getWorking)
@@ -450,7 +452,7 @@ function TextEditer() {
   return (
     <p onClick={appendText}><FontAwesomeIcon icon={faFont} /></p>
   )
-}
+}*/
 
 function ToggleGrid() {
 
