@@ -6,6 +6,8 @@ const initialState = {
   selected: null,
   drawer: true,
   colors: [],
+  artboardScale: 0.8,
+  artboardPosition: [0, 0],
 }
 
 export default function jsonReducer(state = initialState, action) {
@@ -39,6 +41,16 @@ export default function jsonReducer(state = initialState, action) {
       return {
         ...state,
         colors: action.payload
+      }
+    case 'update/artboardScale':
+      return {
+        ...state,
+        artboardScale: action.payload
+      }
+    case 'update/artboardPosition':
+      return {
+        ...state,
+        artboardPosition: action.payload
       }
     default:
       return state

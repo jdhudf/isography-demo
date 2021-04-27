@@ -332,6 +332,11 @@ aside {
   @include max-screen($device-small-pc) {
     width: 100%;
   }
+  @include max-screen($device-mobile) {
+    ul {
+      width: 900px;
+    }
+  }
 }
 
 .document-list-column {
@@ -386,6 +391,11 @@ aside {
   }
   @include max-screen($device-small-pc) {
     width: 100%;
+  }
+  @include max-screen($device-mobile) {
+    width: 90%;
+    margin: 40px auto;
+    display: block;
   }
 }
 
@@ -511,14 +521,41 @@ aside {
     img {
       width: 100%;
       border-radius: 5px 5px 0 0;
+      transition: all ease .5s;
+      z-index: 0;
     }
     h3 {
+      width: 95%;
       text-align: center;
-      margin: 10px 0 2px;
+      margin: 10px auto 2px;
       padding-bottom: 10px;
       color: $gray;
       font-weight: 600;
     }
+    .thumb {
+      overflow: hidden;
+      z-index: 0;
+      border-radius: 5px 5px 0 0;
+    }
+    &:before {
+      content:"News";
+      display: block;
+      position: absolute;
+      width: 55px;
+      text-align: center;
+      background: darkred;
+      border-radius: 5px 0 0 0;
+      color: #fff;
+      padding: 5px 0;
+      z-index: 1;
+    }
+    /*&:hover {
+      img {
+        transform: scale(1.3);
+        transition: all ease .3s;
+        z-index: 0;
+      }
+    }*/
   }
   @include max-screen($device-small-pc) {
     display: none;

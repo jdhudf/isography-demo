@@ -4,8 +4,6 @@ import '../../styles/artboard.scss';
 
 import {
   getArtboardData,
-  artboardScale,
-  artboardPosition,
   updateArtboards,
   getCanvas
 } from '../handleLocalstorage'
@@ -66,8 +64,8 @@ class Artboard extends React.Component {
       selectedElement: 0,
       // -- below is artboard resize and pinch
       mouse: [0,0],
-      artboardPosition: artboardPosition([0,0]),
-      artboardScale: artboardScale(1),
+      artboardPosition: this.props.artboard_position,
+      artboardScale: this.props.artboard_scale,
       gestureStartScale: 0,
       startCoordinate: [0,0],
       // -- below is scaling data
@@ -1152,7 +1150,9 @@ const mapStateToProps = state => ({
   working: state.json.working,
   grid: state.json.grid,
   selected: state.json.selected,
-  colors: state.json.colors
+  colors: state.json.colors,
+  artboard_scale: state.json.artboardScale,
+  artboard_position: state.json.artboardPosition,
 })
 
 export default connect(
@@ -1163,7 +1163,9 @@ export default connect(
     switchSelected: value => dispatch(actions.switchSelected(value)),
     recordHistory: value => dispatch(actions.recordHistory(value)),
     resetHistory: value => dispatch(actions.resetHistory(value)),
-    changeColorSet: value => dispatch(actions.changeColorSet(value))
+    changeColorSet: value => dispatch(actions.changeColorSet(value)),
+    artboardScale: value => dispatch(actions.artboardScale(value)),
+    artboardPosition: value => dispatch(actions.artboardPosition(value))
   })
   //dispatch => ({ switchDarkmode: value => dispatch(switchDarkmode(value)) })
 )(Artboard)

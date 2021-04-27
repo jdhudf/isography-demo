@@ -1,5 +1,17 @@
 @import "_setup.scss";
 
+.dark-mode {
+  .section-menubar a svg {
+    fill: $c3;
+  }
+}
+
+.dashboard {
+  a svg  {
+    margin-left: 20px;
+  }
+}
+
 .section-menubar {
   flex-basis: 100%;
   width: 100%;
@@ -9,6 +21,12 @@
   justify-content: space-between;
   height: 7vh;
   align-items: center;
+  a svg {
+    fill: darkgray;
+  }
+  a svg#logo  {
+    margin-left: 20px;
+  }
   .icon {
     border-radius: 50%;
     width: 35px;

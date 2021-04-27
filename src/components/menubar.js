@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
 import '../styles/menubar.scss';
-import icon from '../images/logo.svg';
+import Icon from '../images/logo.inline.svg';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   //faChevronDown,
@@ -55,8 +56,10 @@ class MenuBar extends React.Component {
     };*/
 
     return (
-      <section className="section-menubar">
-        <Link to="/home" aria-label="Home" title="Home"><img className="icon" src={icon} alt="Icon" /></Link>
+      <section className="section-menubar dashboard">
+        <Link to="/home" aria-label="Home" title="Home">
+          <Icon id="svg"/>
+        </Link>
         {/*<div>
         <button className="modal-botton" onClick={this.handleOpenModal}>
           <p>{Document[0].title} <span><FontAwesomeIcon icon={faChevronDown} /></span></p>

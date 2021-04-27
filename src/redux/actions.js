@@ -114,4 +114,16 @@ export const actions = {
       payload: value
     }
   },
+  artboardScale(value) {
+    return {
+      type: 'update/artboardScale',
+      payload: value
+    }
+  },
+  artboardPosition(value) {
+    return {
+      type: 'update/artboardPosition',
+      payload: value
+    }
+  },
 }

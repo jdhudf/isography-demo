@@ -5,7 +5,7 @@ import ColorPicker from '../components/ColorPicker.js';
 import MenuBar from '../components/menubar.js';
 
 import '../styles/home.scss';
-import img from '../images/default.png';
+import img from '../images/hello-world.png';
 
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -173,9 +173,7 @@ const Dashboard = () => {
             <button>Install App</button>
           </div>*/}
           <ul className="url">
-            <li><a href="https://www.isography.app/test" target="_blank" rel="noreferrer">User Guide</a></li>
             <li><a href="https://www.isography.app" target="_blank" rel="noreferrer">Official HP</a></li>
-            <li><a href="https://www.isography.app/lisence" target="_blank" rel="noreferrer">Use of Terms & Lisences</a></li>
           </ul>
           <div className="sendFeedback">
             <a href="https://forms.gle/pNbptjqrGctWzJS77" target="_blank" rel="noreferrer">Send Bug report or Feedback<span>Powered by Google From</span></a>
@@ -361,16 +359,10 @@ const NewsFeed = () => {
     <div className="new-feed">
       <Slider {...settings}>
       <div className="article">
-        <img src={img} alt=""/>
-        <h3>New Features !! 🎉</h3>
-      </div>
-      <div className="article">
-        <img src={img} alt=""/>
-        <h3>New Release !! 🎉</h3>
-      </div>
-      <div className="article">
-        <img src={img} alt=""/>
-        <h3>Demo Released !! 🎉</h3>
+        <a href="https://www.isography.app/hello-world">
+          <div className="thumb"><img src={img} alt=""/></div>
+          <h3>Isography's demo version is released experimentally.</h3>
+        </a>
       </div>
       </Slider>
     </div>

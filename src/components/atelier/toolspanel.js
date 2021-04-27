@@ -816,6 +816,10 @@ function Gradient() {
                           linear-gradient(127deg, rgba(0,255,0,.8), rgba(0,255,0,0) 70.71%),
                           linear-gradient(336deg, rgba(0,0,255,.8), rgba(0,0,255,0) 70.71%)`
                         }}>
+                        <p style={{
+                          paddingTop: "30px",
+                          color: "#fff",
+                        }}>Under Development</p>
                   </div>
                 )
               }

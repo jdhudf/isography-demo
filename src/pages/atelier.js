@@ -5,8 +5,6 @@ import GallaryPanel from '../components/atelier/gallarypanel.js';
 import ToolsPanel from '../components/atelier/toolspanel.js';
 import Artboard from '../components/atelier/artboard.js';
 
-import icon from '../images/logo.svg';
-
 import {
   //getArtboardData,
   updateArtboards,
@@ -353,20 +351,7 @@ class Atelier extends React.Component {
 
   render() {
 
-    const welcomescreen = {
-      background: '#000',
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      minWidth: '100vw',
-      minHeight: '100vh',
-      zIndex: '100000',
-      display: 'none',
-    }
-
-    const { darkmode, switchDarkmode, working, artboards } = this.props
+    const { darkmode, working, artboards } = this.props
 
     const canvas = getCanvas({artboards:artboards,working:working});
 
@@ -387,14 +372,6 @@ class Atelier extends React.Component {
           //onKeyUp= {this.keyUp}}
           tabIndex="0"
           >
-
-          <div style={welcomescreen} id="welcomescreen">
-            <img className="icon" src={icon} alt="Icon" />
-            <h2 style={{color: '#fff',}}>Welcome to Isography</h2>
-            <button onClick={()=> {
-              switchDarkmode(!darkmode)
-            }}> Mode is {darkmode? "true":"false"} </button>
-          </div>
 
           <style jsx>{`
             .main {
