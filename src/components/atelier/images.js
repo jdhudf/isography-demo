@@ -33,6 +33,19 @@ import Img30 from '../../images/materials/wheel.inline.svg';
 import Img31 from '../../images/materials/wheel_2.inline.svg';
 import Img32 from '../../images/materials/ladder.inline.svg';
 import Img33 from '../../images/materials/standing_man_2.inline.svg';
+import Img34 from '../../images/materials/paper_1.inline.svg';
+import Img35 from '../../images/materials/paper_2.inline.svg';
+
+import Img36 from '../../images/materials/paper_3.inline.svg';
+import Img37 from '../../images/materials/paper_4.inline.svg';
+import Img38 from '../../images/materials/paper_5.inline.svg';
+import Img39 from '../../images/materials/paper_6.inline.svg';
+import Img40 from '../../images/materials/mechanical_pencil.inline.svg';
+
+import Img41 from '../../images/materials/coaster_square.inline.svg';
+import Img42 from '../../images/materials/coaster_circle.inline.svg';
+import Img43 from '../../images/materials/cup_1.inline.svg';
+import Img44 from '../../images/materials/cup_2.inline.svg';
 
 class Myloop extends Component {
 
@@ -73,6 +86,17 @@ class Myloop extends Component {
         <div className="item"><Img30/></div>
         <div className="item"><Img31/></div>
         <div className="item"><Img32/></div>
+        <div className="item"><Img34/></div>
+        <div className="item"><Img35/></div>
+        <div className="item"><Img36/></div>
+        <div className="item"><Img37/></div>
+        <div className="item"><Img38/></div>
+        <div className="item"><Img39/></div>
+        <div className="item"><Img40/></div>
+        <div className="item"><Img41/></div>
+        <div className="item"><Img42/></div>
+        <div className="item"><Img43/></div>
+        <div className="item"><Img44/></div>
 
       </>
     );
