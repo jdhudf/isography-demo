@@ -253,7 +253,9 @@ class Artboard extends React.Component {
 
       } else {
 
-        selector.style.display = "none"
+        if( selector !== null ) {
+          selector.style.display = "none"
+        }
 
       }
     }
@@ -1127,6 +1129,10 @@ class Artboard extends React.Component {
           onMouseMove={this.onMouseMove}
           onMouseLeave={this.onMouseLeave}
           onContextMenu={this.onContextMenu}
+
+          onTouchStart={this.onMouseDown}
+          onTouchMove={this.onMouseMove}
+          onTouchEnd={this.onMouseUp}
       >
       </svg>
       {/*<Svg background={this.props.background} data={this.props.data}/>*/}

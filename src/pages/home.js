@@ -285,58 +285,63 @@ const NewArtboard = () => {
           </div>
         </div>
       </div>
-      <div className="section-new">
-        <h2>Create A New Document</h2>
-        <div className="template-list">
-          <div>
-            <ul>
-              <li onClick={ ()=>{
-                toggleModal(true)
-                updateWidth(800)
-                updateHeight(600)
-                updateRatioName("800:600")
-              } }>
-                <div style={{width:"80px", height:"60px"}} />
-                <p>Custom  <span>__px × __px</span></p>
-              </li>
-              {templatesJson.map(item => (
+      <div className="new-doc">
+        <div className="section-new">
+          <h2>Create A New Document</h2>
+          <div className="template-list">
+            <div>
+              <ul>
                 <li onClick={ ()=>{
                   toggleModal(true)
-                  updateWidth(item.ratio[0]*500)
-                  updateHeight(item.ratio[1]*500)
-                  updateRatioName(item.name)
+                  updateWidth(800)
+                  updateHeight(600)
+                  updateRatioName("800:600")
                 } }>
-                  {(()=>{
-
-                    // item.ratio[0] : item.ratio[1] = x : y
-                    // item.ratio[0] * y = item.ratio[1] * x
-
-                    const x =  item.ratio[0] / item.ratio[1]
-                    const y =  item.ratio[1] / item.ratio[0]
-
-                    if (item.ratio[0]>=item.ratio[1]) {
-                      return <div style={{
-                                  width: "75px",
-                                  height:`${y*75}px`,
-                                  margin: `${(75 - y*75)/2}px auto`
-                             }}/>//<p>1:{y}</p>
-                    } else {
-                      return <div style={{
-                                  width: `${x*75}px`,
-                                  height: "75px"
-                             }}/>//<p>{x}:1</p>
-                    }
-                  })()}
-                  {/*<div style={{
-                    width:`${item.ratio[0]*80}px`,
-                    height:`${item.ratio[1]*80}px`
-                  }}/>*/}
-                  <p>{item.name} <span>{item.ratio[0]} : {item.ratio[1]}</span></p>
+                  <div style={{width:"80px", height:"60px"}} />
+                  <p>Custom  <span>__px × __px</span></p>
                 </li>
-              ))}
-            </ul>
+                {templatesJson.map(item => (
+                  <li onClick={ ()=>{
+                    toggleModal(true)
+                    updateWidth(item.ratio[0]*500)
+                    updateHeight(item.ratio[1]*500)
+                    updateRatioName(item.name)
+                  } }>
+                    {(()=>{
+
+                      // item.ratio[0] : item.ratio[1] = x : y
+                      // item.ratio[0] * y = item.ratio[1] * x
+
+                      const x =  item.ratio[0] / item.ratio[1]
+                      const y =  item.ratio[1] / item.ratio[0]
+
+                      if (item.ratio[0]>=item.ratio[1]) {
+                        return <div style={{
+                                    width: "75px",
+                                    height:`${y*75}px`,
+                                    margin: `${(75 - y*75)/2}px auto`
+                               }}/>//<p>1:{y}</p>
+                      } else {
+                        return <div style={{
+                                    width: `${x*75}px`,
+                                    height: "75px"
+                               }}/>//<p>{x}:1</p>
+                      }
+                    })()}
+                    {/*<div style={{
+                      width:`${item.ratio[0]*80}px`,
+                      height:`${item.ratio[1]*80}px`
+                    }}/>*/}
+                    <p>{item.name} <span>{item.ratio[0]} : {item.ratio[1]}</span></p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <p className="edit-templates">Edit templates</p>
           </div>
-          <p className="edit-templates">Edit templates</p>
+        </div>
+        <div className="mobile">
+          <NewsFeed />
         </div>
       </div>
     </div>

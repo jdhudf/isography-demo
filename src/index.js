@@ -6,11 +6,43 @@ import * as serviceWorker from './serviceWorker';
 
 import { Provider } from 'react-redux'
 import store from './redux/store';
+import background from './images/isometric.png';
+import icon from './images/icon_2.svg';
+
+const Mobile = () => {
+
+  return (
+    <div className="not" style={{
+      backgroundImage: `url(${background})`
+    }}>
+      <img src={icon} alt=""/>
+      <div className="message">
+        <h1>Isography</h1>
+        <p>You can't use isography <br/>on mobile and tablet</p>
+        <p>I'm working on this now. <br/>Please wait.</p>
+      </div>
+    </div>
+  )
+}
+
+function PcOrMobile() {
+
+  var ua = navigator.userAgent;
+
+  if(ua.indexOf('iPhone') > 0 || ua.indexOf('iPod') > 0 || (ua.indexOf('Android') > 0 && ua.indexOf('Mobile') > 0)){
+      return <Mobile />;
+  } else if (ua.indexOf('iPad') > 0 || ua.indexOf('Android') > 0 || (/iPad|Macintosh/i.test(navigator.userAgent)
+&& 'ontouchend' in document)){
+      return <Mobile />;
+  }else{
+      return <App />;
+  }
+}
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <PcOrMobile />
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')

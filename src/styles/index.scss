@@ -23,3 +23,40 @@ body {
     overflow: auto;
   }*/
 }
+
+
+.not {
+  margin-top: -20px;
+  padding: 0;
+  min-height: 100vh;
+  background-size: cover;
+  color: #fff;
+  text-align: center;
+  text-shadow: 0 0 3px rgba(0, 0, 0, 0.8);
+  img, .message {
+    width: 90%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate( -50%, -50%);
+  }
+  .message {
+    h1 {
+      font-size: 10.3rem;
+    }
+    p {
+      font-size: 3.6rem;
+    }
+  }
+  @include max-screen($device-mobile) {
+    margin-top: 0px;
+    .message {
+      h1 {
+        font-size: 6.3rem;
+      }
+      p {
+        font-size: 3.0rem;
+      }
+    }
+  }
+}

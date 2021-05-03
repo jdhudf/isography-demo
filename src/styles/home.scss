@@ -103,6 +103,7 @@ aside {
   }
   @include max-screen($device-small-pc) {
     padding-bottom: 20px;
+    display: none;
     .sendFeedback {
       max-width: 500px;
       margin: 30px auto 0;
@@ -557,9 +558,6 @@ aside {
       }
     }*/
   }
-  @include max-screen($device-small-pc) {
-    display: none;
-  }
 }
 
 .modal-content {
@@ -664,6 +662,29 @@ aside {
   }
 }
 
+.new-doc {
+  .mobile {
+    display: none;
+  }
+  @include max-screen($device-small-pc) {
+    display: flex;
+    justify-content: space-between;
+    .section-new {
+      flex-basis: 60%;
+      overflow-x: scroll;
+    }
+    .mobile {
+      flex-basis: 36%;
+      display: block;
+    }
+  }
+  @include max-screen($device-tablet) {
+    display: block;
+    .mobile {
+      display: none;
+    }
+  }
+}
 
 
 .dark-mode {
