@@ -47,6 +47,30 @@ import Img42 from '../../images/materials/coaster_circle.inline.svg';
 import Img43 from '../../images/materials/cup_1.inline.svg';
 import Img44 from '../../images/materials/cup_2.inline.svg';
 
+import Img45 from '../../images/materials/ginkgo_1.inline.svg';
+import Img46 from '../../images/materials/ginkgo_2.inline.svg';
+import Img47 from '../../images/materials/ginkgo_3.inline.svg';
+import Img48 from '../../images/materials/ginkgo_4.inline.svg';
+import Img49 from '../../images/materials/ginkgo_5.inline.svg';
+import Img50 from '../../images/materials/ginkgo_6.inline.svg';
+
+import Img51 from '../../images/materials/maple1_1.inline.svg';
+import Img52 from '../../images/materials/maple1_2.inline.svg';
+import Img53 from '../../images/materials/maple1_3.inline.svg';
+import Img54 from '../../images/materials/maple1_4.inline.svg';
+
+import Img55 from '../../images/materials/maple2_1.inline.svg';
+import Img56 from '../../images/materials/maple2_2.inline.svg';
+import Img57 from '../../images/materials/maple2_3.inline.svg';
+import Img58 from '../../images/materials/maple2_4.inline.svg';
+
+import Img59 from '../../images/materials/maple3_1.inline.svg';
+import Img60 from '../../images/materials/maple3_2.inline.svg';
+import Img61 from '../../images/materials/maple3_3.inline.svg';
+import Img62 from '../../images/materials/maple3_4.inline.svg';
+
+
+
 class Myloop extends Component {
 
   render() {
@@ -97,6 +121,24 @@ class Myloop extends Component {
         <div className="item"><Img42/></div>
         <div className="item"><Img43/></div>
         <div className="item"><Img44/></div>
+        <div className="item"><Img45/></div>
+        <div className="item"><Img46/></div>
+        <div className="item"><Img47/></div>
+        <div className="item"><Img48/></div>
+        <div className="item"><Img49/></div>
+        <div className="item"><Img50/></div>
+        <div className="item"><Img51/></div>
+        <div className="item"><Img52/></div>
+        <div className="item"><Img53/></div>
+        <div className="item"><Img54/></div>
+        <div className="item"><Img55/></div>
+        <div className="item"><Img56/></div>
+        <div className="item"><Img57/></div>
+        <div className="item"><Img58/></div>
+        <div className="item"><Img59/></div>
+        <div className="item"><Img60/></div>
+        <div className="item"><Img61/></div>
+        <div className="item"><Img62/></div>
 
       </>
     );
