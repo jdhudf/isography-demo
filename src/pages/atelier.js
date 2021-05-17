@@ -224,18 +224,77 @@ class Atelier extends React.Component {
 
   }
 
+
+
   onMouseUp = (e) => {
-    this.setState({isMouseDown:false})
     //console.log('mouseUp: ' + e.target.parentNode.outerHTML)
     document.querySelector('.section-gallalypanel').style.cursor = 'default';
     document.querySelector('.section-artboard').style.cursor = 'default';
   }
 
   onMouseLeave = (e) => {
-    this.setState({isMouseDown:false})
     //console.log('mouseUp: ' + e.target.parentNode.outerHTML)
     document.querySelector('.section-gallalypanel').style.cursor = 'default';
     document.querySelector('.section-artboard').style.cursor = 'default';
+  }
+
+  onTouchStart = (e) => {
+
+    if (this.state.test) {
+      this.moveSVG(e.changedTouches[0])
+    }
+
+  }
+
+  onTouchMove = (e) => {
+
+    if (this.state.test) {
+      this.moveSVG(e.changedTouches[0])
+    }
+
+  }
+
+  onTouchEnd = (e) => {
+
+    document.querySelector('.section-gallalypanel').style.cursor = 'default';
+    document.querySelector('.section-artboard').style.cursor = 'default';
+
+    const elT = e.changedTouches[0]
+    const x = e.changedTouches[0].pageX
+    const y = e.changedTouches[0].pageY
+
+    var elm = document.elementFromPoint(x, y);
+    console.log("el is " + elm.id)
+
+    if (this.state.test && elm.id === "svg") {
+      const { updateArtboard, working, artboards, recordHistory } = this.props,
+            canvas = getCanvas({artboards: artboards,working:working}),
+            data_copy = canvas.svg_data.slice();
+
+
+      console.log(e.changedTouches[0].target.outerHTML)
+
+      data_copy.push(this.state.willAddElementOfSvg);
+      this.setState({data: data_copy});
+
+      const newData = updateArtboards({
+        working: working,
+        type: "svg_data",
+        artboards: artboards,
+        value: data_copy
+      })
+
+      updateArtboard(newData)
+
+      recordHistory(JSON.parse(JSON.stringify(canvas)))
+
+      this.setState({
+        test:false,
+        willAddElementOfSvg:null
+      })
+      this.removeSVG()
+    }
+
   }
 
   keyPress = (e) => {
@@ -319,6 +378,7 @@ class Atelier extends React.Component {
     svg.style.display = "none"
     svg.style.pointerEvents = "none"
     svg.style.zIndex = "10000"
+    svg.style.pointerEvents= "none"
 
     const c = document.getElementsByClassName('section-atelier')[0]
 
@@ -368,6 +428,10 @@ class Atelier extends React.Component {
           onMouseMove={this.onMouseMove}
           onMouseUp={this.onMouseUp}
           onMouseLeave={this.onMouseLeave}
+
+          onTouchStart={this.onTouchStart}
+          onTouchMove={this.onTouchMove}
+          onTouchEnd={this.onTouchEnd}
           //onKeyDown={this.keyPress}
           //onKeyUp= {this.keyUp}}
           tabIndex="0"
@@ -430,7 +494,7 @@ class Atelier extends React.Component {
           <GallaryPanel
                method={(e) => {
                  this.setState({
-                   willAddElementOfSvg:e,
+                   willAddElementOfSvg: e,
                    test:true,
                  })
 

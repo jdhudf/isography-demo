@@ -62,56 +62,40 @@ class GallaryPanel extends React.Component {
 
   }
 
-  /*onMouseDown = (e) => {
-    //this.setState({isMouseDown:true})
+  selectElementOfSVGMobile = (e) => {
 
-    const mouseX = e.pageX;// pageX and pageY is mouse's axis in the box.
-    const mouseY = e.pageY;
+    const touchObject = e.changedTouches[0];
 
-    const g = e.target.parentNode.outerHTML;
+    let svg;
 
-    if (g.startsWith('<g transform="translate')) {
+    if (touchObject.target.parentNode.outerHTML.startsWith('<svg ')) {
+      svg = touchObject.target.parentNode//.outerHTML
+    } else if (touchObject.target.parentNode.outerHTML.startsWith('<div class="item">')) {
 
-      this.setState({isMouseDown:true})
-
-      console.log(e.target.parentNode.outerHTML)
-
-      document.querySelector('.section-gallalypanel').style.cursor = 'copy';
-      document.querySelector('.section-artboard').style.cursor = 'copy';
-
-      this.setState({willAddElementOfSvg:e.target.parentNode.outerHTML})
+      svg = touchObject.target.parentNode.childNodes[0];
 
     } else {
-      this.setState({isMouseDown:false})
+      svg = touchObject.target.parentNode.closest("svg")//.outerHTML
     }
 
-  }
+    const children = svg.children;
 
-  onMouseMove = (e) => {
-    e.preventDefault();
+    let gtag = document.createElement('g');
 
-    if (this.state.isMouseDown) {
-      document.querySelector('.section-gallalypanel').style.cursor = 'copy';
-      document.querySelector('.section-artboard').style.cursor = 'copy';
-    } else {
-      document.querySelector('.section-gallalypanel').style.cursor = 'default';
-      document.querySelector('.section-artboard').style.cursor = 'default';
+    gtag.setAttribute('transform', 'translate(0,0) scale(1.00,1.00)');
+    gtag.setAttribute('data-type', 'el');
+
+    for (let i = 0; i< children.length; i++) {
+      gtag.appendChild(children[i].cloneNode(true));
     }
-  }
 
-  onMouseUp = (e) => {
-    this.setState({isMouseDown:false})
-    //console.log('mouseUp: ' + e.target.parentNode.outerHTML)
-    document.querySelector('.section-gallalypanel').style.cursor = 'default';
-    document.querySelector('.section-artboard').style.cursor = 'default';
-  }
+    if (gtag.outerHTML.startsWith('<g transform="translate')) {
 
-  onMouseLeave = (e) => {
-    this.setState({isMouseDown:false})
-    //console.log('mouseUp: ' + e.target.parentNode.outerHTML)
-    document.querySelector('.section-gallalypanel').style.cursor = 'default';
-    document.querySelector('.section-artboard').style.cursor = 'default';
-  }*/
+      this.props.method(gtag.outerHTML)
+
+    } else {}
+
+  }
 
   render() {
 
@@ -142,7 +126,9 @@ class GallaryPanel extends React.Component {
                <TabPanel>
                  <div className="gallaryframe"
                       onMouseDown={this.selectElementOfSVG}
-                      onMouseUp={() => this.props.me()}>
+                      onMouseUp={() => this.props.me()}
+                      onTouchStart={this.selectElementOfSVGMobile}
+                      onTouchEnd={() => this.props.me()}>
                    <Myloop />
                  </div>
                </TabPanel>

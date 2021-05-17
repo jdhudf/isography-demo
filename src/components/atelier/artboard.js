@@ -56,6 +56,7 @@ class Artboard extends React.Component {
     super(props);
     this.state = {
       isMouseDown : false,
+      isMouseDownMobile : false,
       propsOrState: false,
       initialTranslate: [0,0], // to change translate(x,y)
       initialScale: [1.00, 1.00], // attention!!! it's used for both of translating and scaling
@@ -77,6 +78,8 @@ class Artboard extends React.Component {
       // -- below is svg data
       data : getCanvas({artboards:this.props.artboards,working:this.props.working}).svg_data,
       colors: [],
+      test: "no",
+      item: null,
     };
   }
 
@@ -176,7 +179,7 @@ class Artboard extends React.Component {
 
       } else {
 
-        this.setState({ isMouseDown:false })
+        this.setState({ isMouseDown:false, isMouseDownMobile: false })
         switchSelected( null )
 
       }
@@ -249,7 +252,6 @@ class Artboard extends React.Component {
         colorset.style.top = client_top + client_h + 'px';
         colorset.style.left = client_left + 'px';
         colorset.style.zIndex = "10000"
-        console.log(client_left,client_top)
 
       } else {
 
@@ -273,15 +275,19 @@ class Artboard extends React.Component {
 
       const g = canvas.svg_data[parseInt(s)]
 
-      const regExp = /-?\d+(\.\d+)?/g,
-            translate = g.match(regExp)
+      if (g) {
 
-      this.setState(
-        {
-          initialTranslate:[ parseInt(translate[0]), parseInt(translate[1]) ],
-          initialScale: [parseFloat(translate[2]), parseFloat(translate[3])],
-        }
-      );
+        const regExp = /-?\d+(\.\d+)?/g,
+              translate = g.match(regExp)
+
+        this.setState(
+          {
+            initialTranslate:[ parseInt(translate[0]), parseInt(translate[1]) ],
+            initialScale: [parseFloat(translate[2]), parseFloat(translate[3])],
+          }
+        );
+      }
+
 
     } else {
 
@@ -299,6 +305,7 @@ class Artboard extends React.Component {
             initialScale: [parseFloat(translate[2]),parseFloat(translate[3])],
           }
         );
+
       }
 
     }
@@ -429,6 +436,110 @@ class Artboard extends React.Component {
       recordHistory(canvas)
 
     }
+  }
+
+  //-- for mobile
+
+  onTouchStart = (e) => {
+
+    var touchObject = e.changedTouches[0] ;
+
+    var x = touchObject.pageX ;
+	  var y = touchObject.pageY ;
+
+    this.getColors(touchObject , JSON.stringify(this.selectElement(touchObject)));
+
+    this.getAttribute(touchObject , JSON.stringify(this.selectElement(touchObject)));
+
+    this.setState({
+      isMouseDownMobile: true,
+      propsOrState: false,
+      initial:[ x, y ]
+    })
+
+    const { artboards, working } = this.props,
+          canvas =  getCanvas({ artboards: artboards, working: working }),
+          svg_data = canvas.svg_data;
+
+    if ( this.state.data !== svg_data ) {
+
+      this.setState({ data: svg_data });
+
+    }
+
+  }
+
+  onTouchMove = (e) => {
+
+    var touchObject = e.changedTouches[0] ;
+
+    var x = touchObject.pageX ;
+	  var y = touchObject.pageY ;
+
+    if (this.state.isMouseDownMobile && this.props.selected !== null) {
+
+      //---  Calculate a gap  ---//
+      const { selected } =  this.props,
+            svg = document.getElementById('svg'),
+            g = svg.children[selected],
+            data_copy = this.state.data.slice(),
+            move = [x, y],
+            artboardScale =  this.state.artboardScale;
+
+      const gap = [
+        ( parseInt(move[0]) - parseInt(this.state.initial[0]) ) / artboardScale,
+        ( parseInt(move[1]) - parseInt(this.state.initial[1]) ) / artboardScale
+      ];
+
+      //---  Calculate a translate(x,y)  ---//
+      const translate = [
+        parseInt(this.state.initialTranslate[0]) + parseInt(gap[0]),
+        parseInt(this.state.initialTranslate[1]) + parseInt(gap[1])
+      ];
+
+      if (g) {
+
+        g.setAttribute("transform", `translate(`+ translate[0] +`,`+ translate[1] +`) scale(`+ this.state.initialScale[0] +`,`+ this.state.initialScale[1] +`)`);
+
+        this.setState({item: g.outerHTML})
+
+        data_copy[selected] = g.outerHTML
+
+        this.setState({data: data_copy});
+
+      }
+
+    }
+
+  }
+
+  onTouchEnd = (e) => {
+
+    if ( this.state.isMouseDownMobile ) {
+
+      const { updateArtboard, working, artboards, recordHistory } = this.props
+
+      const canvas = getCanvas({ artboards: artboards, working: working })
+
+      this.setState({
+        isMouseDownMobile:false,
+        propsOrState:true,
+      })
+
+      const newData = updateArtboards({
+        working: working,
+        type: "svg_data",
+        artboards: artboards,
+        value: this.state.data
+      })
+
+      updateArtboard(newData)
+
+      recordHistory(canvas)
+
+
+    }
+
   }
 
   //--- Below is functions triggered in the artboard ---//
@@ -828,6 +939,118 @@ class Artboard extends React.Component {
 
   }
 
+
+  onTouchScaleStart = (e, corner) => {
+
+    console.log("Touch Scale");
+
+    const cur = document.getElementById('scale-cover');
+
+    const touchObject = e.changedTouches[0];
+
+    switch (corner) {
+      case "topLeft":
+        cur.style.cursor = "nwse-resize"
+        break;
+      case "bottomRight":
+        cur.style.cursor = "nesw-resize"
+        break;
+      case "topRight":
+        cur.style.cursor = "nwse-resize"
+        break;
+      case "bottomLeft":
+        cur.style.cursor = "nesw-resize"
+        break;
+      default:
+
+    }
+
+    //--  get scale() of selected element with regEpx  --//
+
+    const { selected } = this.props,
+          elements = document.getElementById("svg"),
+          selectedElement = elements.children[selected];
+
+    const regExp = /\(([^)]+)\)/g,
+          transform = selectedElement.outerHTML.match(regExp),// ex.["(342,147)","(1,1)"]
+          regExp_2 = /-?\d+(\.\d+)?/g,// /-?\d+\.\d+/g; // if (1.00,1.00)
+          translate =  transform[0].match(regExp_2),
+          scale = transform[1].match(regExp_2)
+
+    const client_right = selectedElement.getBoundingClientRect().right,
+          client_bottom = selectedElement.getBoundingClientRect().bottom,
+          client_w = selectedElement.getBoundingClientRect().width,
+          client_h = selectedElement.getBoundingClientRect().height;
+
+    const center = [
+                    client_right - client_w / 2,
+                    client_bottom - client_h / 2
+                   ]
+    /*const centerDiv = document.getElementById('center')
+    centerDiv.style.left = this.state.center[0] + "px"
+    centerDiv.style.top = this.state.center[1] + "px"
+    centerDiv.style.zIndex = "100000"*/
+
+    this.setState({
+      isScaleMouseDown: true,
+      selectedInitial: [ touchObject.pageX , touchObject.pageY ],
+      selectedTranslate: translate,
+      initialScale: [parseFloat(scale[0]), parseFloat(scale[1])],
+      propsOrState: true,
+      center: [ center[0], center[1] ]
+    })
+
+
+    this.setState({test: "Scale Start"})
+  }
+
+  onTouchScaleMove = (e) => {
+
+    if (this.state.isScaleMouseDown) {
+
+      console.log("Touch Scale Move");
+      this.setState({test: "Scaling Move"})
+
+      this.getDistance(e.changedTouches[0]);
+
+    }
+
+  }
+
+  onTouchScaleEnd = (e) => {
+
+    console.log("Touch Scale End");
+    this.setState({test: "Scaling End"})
+
+    this.setState({
+      isScaleMouseDown:false,
+      propsOrState:false
+    })
+
+    const { updateArtboard, working, artboards, recordHistory, selected } = this.props
+    const canvas = getCanvas({artboards: artboards,working:working})
+
+    const g = this.state.data[selected]//selectedEl.outerHTML;
+
+    const regExp = /-?\d+(\.\d+)?/g,
+          translate = g.match(regExp)
+
+    this.setState({
+      initialScale: [translate[2],translate[3]]
+    })
+
+    const newData = updateArtboards({
+      working: working,
+      type: "svg_data",
+      artboards: artboards,
+      value: this.state.data
+    })
+
+    updateArtboard(newData)
+    recordHistory(canvas)
+
+  }
+
   render() {
 
     const {
@@ -1014,6 +1237,9 @@ class Artboard extends React.Component {
              onMouseMove={(e) => this.onScaleMove(e)}
              onMouseUp={this.onScaleUp}
              onMouseLeave={this.onScaleLeave}
+
+             onTouchMove={(e) => this.onTouchScaleMove(e)}
+             onTouchEnd={this.onTouchScaleEnd}
              style={{ display: this.state.isScaleMouseDown ? "block" : "none" }}>
         </div>
         <div id="selector">
@@ -1026,6 +1252,11 @@ class Artboard extends React.Component {
                    onMouseDown={(e)=>{
                      this.onScaleDown(e, corner)
                    }}
+                   onTouchStart={(e)=>{
+                     this.onTouchScaleStart(e, corner)
+                   }}
+                   onTouchMove={(e) => this.onTouchScaleMove(e)}
+                   onTouchEnd={this.onTouchScaleEnd}
                    />
             )
             return cornersDiv
@@ -1061,6 +1292,13 @@ class Artboard extends React.Component {
              onClick={ ()=> this.setState({ displayContextMenu: false }) }/>
         {menu}
       </div>
+      <p>{(()=>{
+        if (this.state.propsOrState) {
+          return "true"
+        } else {
+          return "false"
+        }
+      })()}</p>
       {/*<div id="center" style={{
                                width:"5px",
                                height:"5px",
@@ -1130,9 +1368,9 @@ class Artboard extends React.Component {
           onMouseLeave={this.onMouseLeave}
           onContextMenu={this.onContextMenu}
 
-          onTouchStart={this.onMouseDown}
-          onTouchMove={this.onMouseMove}
-          onTouchEnd={this.onMouseUp}
+          onTouchStart={this.onTouchStart}
+          onTouchMove={this.onTouchMove}
+          onTouchEnd={this.onTouchEnd}
       >
       </svg>
       {/*<Svg background={this.props.background} data={this.props.data}/>*/}
