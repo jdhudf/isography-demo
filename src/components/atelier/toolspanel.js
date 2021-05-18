@@ -444,6 +444,47 @@ class ToolsPanel extends React.Component {
           }
         })()}
 
+        {/*<p>{(()=>{
+
+          const filesize = 1;
+          const text = "test"
+
+          const svgElement = document.getElementById('svg');
+
+          var c = document.createElement('canvas'),
+              ctx = c.getContext('2d'),
+              image = new Image();
+          var imageURL = c.toDataURL();
+
+          c.style.display = "none";
+          document.body.appendChild(c);
+
+          if (svgElement){
+            c.width = svgElement.width.baseVal.value * filesize;//svgElement.dataset.width;//svgElement.width.baseVal.value;
+            c.height = svgElement.height.baseVal.value * filesize;//svgElement.dataset.height;//svgElement.height.baseVal.value;
+
+            var svgData = new XMLSerializer().serializeToString(svgElement);
+            image.src = 'data:image/svg+xml;charset=utf-8;base64,' + btoa(svgData);
+
+            image.width = svgElement.width.baseVal.value * filesize;
+            image.height =  svgElement.height.baseVal.value * filesize;
+          }
+
+          const image_url = "http://forallcreators.com/wp-content/uploads/header-autumn-2.png"
+
+
+          return (
+                  <div class="sns_icon  twitter_back">
+                    <a class="twitter" href={`http://twitter.com/intent/tweet?text=${text} ${image_url}&url=https://www.isography.app&via=OTQStudio&related=OTQStudio&hashtags=ハッシュタグ1,ハッシュタグ2`} rel="nofollow" target="_blank" title="Twitterで共有">
+                      Share
+                    </a>
+                    <p style={{width: "30px"}}>
+                    <a href={image.src}>test</a></p>
+                   </div>
+                 )//<a href="https://twitter.com/intent/tweet?url=myUrl&text=myTitle" target="_blank"><img src="path_to_my_image"/></a><a href={`https\://twitter.com/intent/tweet?text=${text}%20${url}%20pic.twitter.com/uG1tsc2XOb%20@OTQstudio`} target="_blank">Share</a>
+
+        })()}</p>*/}
+
       </section>
     );
 
@@ -517,7 +558,7 @@ function ToggleGrid() {
   return (
     <div className="grid" style={{marginBottom: "30px"}}>
       <p style={{marginBottom: "0px", color:darkmode ? "#9EA3B2":"gray"}}>Grid</p>
-      <div id="toggle" onClick={toggleGrid} onTouchEnd={toggleGrid} className="toggle">
+      <div id="toggle" onClick={toggleGrid} className="toggle">
         <div className="button"></div>
       </div>
       <div className="grid-customizer">
@@ -633,9 +674,6 @@ function Gradient() {
             onClick={
               () => switchLinear(i)
             }
-            onTouchEnd={
-              () => switchLinear(i)
-            }
             style={{
               background: linear.color_set[i].color,
               left: `${linear.color_set[i].percent}%`
@@ -659,9 +697,6 @@ function Gradient() {
                }
             })()}
             onClick={
-              () => switchRadial(i)
-            }
-            onTouchEnd={
               () => switchRadial(i)
             }
             style={{
@@ -691,8 +726,7 @@ function Gradient() {
       <div className="color-picker">
 
         <div style={ styles.swatch }
-             onClick={ () => toggleModal(true) }
-             onTouchEnd={ () => toggleModal(true) }>
+             onClick={ () => toggleModal(true) }>
           <div style={ styles.color } />
         </div>
         {/*
@@ -701,8 +735,7 @@ function Gradient() {
         { modal ?
           <div style={ styles.popover }>
             <div style={ styles.cover }
-                 onClick={ () => toggleModal(false) }
-                 onTouchEnd={ () => toggleModal(false) }/>
+                 onClick={ () => toggleModal(false) }/>
             <select name=""
                     id="picker-selector"
                     onChange={(e)=>{
@@ -767,16 +800,6 @@ function Gradient() {
                           ${copy.deg}deg, ${copy.color_set[0].color}, ${copy.color_set[1].color})`
 
                         update(i)
-                      }}
-                      onTouchEnd={()=>{
-                        const copy = JSON.parse(JSON.stringify(linear))
-                        copy.deg = copy.deg - 1
-                        changeLinear(copy)
-
-                        const i = `linear-gradient(
-                          ${copy.deg}deg, ${copy.color_set[0].color}, ${copy.color_set[1].color})`
-
-                        update(i)
                       }}></span>
                       <input type="number"
                              min="0" max="360"
@@ -801,17 +824,7 @@ function Gradient() {
                           ${copy.deg}deg, ${copy.color_set[0].color}, ${copy.color_set[1].color})`
 
                         update(i)
-                      }}
-                      onTouchEnd={()=>{
-                      const copy = JSON.parse(JSON.stringify(linear))
-                      copy.deg = copy.deg + 1
-                      changeLinear(copy)
-
-                      const i = `linear-gradient(
-                        ${copy.deg}deg, ${copy.color_set[0].color}, ${copy.color_set[1].color})`
-
-                      update(i)
-                    }}></span>
+                      }}></span>
                     </div>
                     <div class="linear-gradient-handler" style={styles.linearGradientHandler}>
                     </div>
