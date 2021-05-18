@@ -540,9 +540,10 @@ class Artboard extends React.Component {
         value: this.state.dataCopy
       })
 
-      updateArtboard(newData)
-
-      recordHistory(canvas)
+      if (this.state.dataCopy !== canvas.svg_data) {
+        updateArtboard(newData)
+        recordHistory(canvas)
+      }
 
 
     }
@@ -1302,13 +1303,6 @@ class Artboard extends React.Component {
              onClick={ ()=> this.setState({ displayContextMenu: false }) }/>
         {menu}
       </div>
-      <p>{(()=>{
-        if (this.state.stateOrProps) {
-          return "true"
-        } else {
-          return "false"
-        }
-      })()} - {this.props.test}</p>
       {/*<div id="center" style={{
                                width:"5px",
                                height:"5px",
