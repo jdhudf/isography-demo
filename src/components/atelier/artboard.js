@@ -57,7 +57,7 @@ class Artboard extends React.Component {
     this.state = {
       isMouseDown : false,
       isMouseDownMobile : false,
-      propsOrState: false,
+      stateOrProps: false,
       initialTranslate: [0,0], // to change translate(x,y)
       initialScale: [1.00, 1.00], // attention!!! it's used for both of translating and scaling
       initial: [0,0], // to calculate a gap
@@ -80,6 +80,7 @@ class Artboard extends React.Component {
       colors: [],
       test: "no",
       item: null,
+      dataCopy: getCanvas({artboards:this.props.artboards,working:this.props.working}).svg_data,
     };
   }
 
@@ -92,7 +93,7 @@ class Artboard extends React.Component {
     el.addEventListener('gesturechange', this.gestureChange, { passive: false });
     el.addEventListener('gestureend', this.gestureEnd, { passive: false });
 
-    //el.addEventListener('onkeydown', this.keyPress , { passive: false });
+    el.addEventListener('onTouchEnd', this.onTouchEnd , { passive: false });
 
     window.addEventListener('resize', this.updateSelecter);
 
@@ -325,7 +326,7 @@ class Artboard extends React.Component {
 
     this.setState({
       isMouseDown: true,
-      propsOrState: true,
+      stateOrProps: true,
       initial:[ e.pageX, e.pageY ]
     })
 
@@ -386,7 +387,7 @@ class Artboard extends React.Component {
 
       this.setState({
         isMouseDown:false,
-        propsOrState:false
+        stateOrProps:false
       })
 
       if (this.state.data !== canvas.svg_data) {
@@ -442,10 +443,12 @@ class Artboard extends React.Component {
 
   onTouchStart = (e) => {
 
-    var touchObject = e.changedTouches[0] ;
+    console.log("start")
 
-    var x = touchObject.pageX ;
-	  var y = touchObject.pageY ;
+    const touchObject = e.changedTouches[0] ;
+
+    const x = touchObject.pageX ;
+    const y = touchObject.pageY ;
 
     this.getColors(touchObject , JSON.stringify(this.selectElement(touchObject)));
 
@@ -453,7 +456,7 @@ class Artboard extends React.Component {
 
     this.setState({
       isMouseDownMobile: true,
-      propsOrState: false,
+      stateOrProps: true,
       initial:[ x, y ]
     })
 
@@ -463,7 +466,7 @@ class Artboard extends React.Component {
 
     if ( this.state.data !== svg_data ) {
 
-      this.setState({ data: svg_data });
+      this.setState({ data: svg_data, dataCopy: svg_data });
 
     }
 
@@ -497,15 +500,15 @@ class Artboard extends React.Component {
         parseInt(this.state.initialTranslate[1]) + parseInt(gap[1])
       ];
 
+      this.setState({test: translate})
+
       if (g) {
 
         g.setAttribute("transform", `translate(`+ translate[0] +`,`+ translate[1] +`) scale(`+ this.state.initialScale[0] +`,`+ this.state.initialScale[1] +`)`);
 
-        this.setState({item: g.outerHTML})
-
         data_copy[selected] = g.outerHTML
 
-        this.setState({data: data_copy});
+        this.setState({dataCopy: data_copy});
 
       }
 
@@ -515,6 +518,10 @@ class Artboard extends React.Component {
 
   onTouchEnd = (e) => {
 
+    e.preventDefault();
+
+    console.log("end")
+
     if ( this.state.isMouseDownMobile ) {
 
       const { updateArtboard, working, artboards, recordHistory } = this.props
@@ -523,14 +530,14 @@ class Artboard extends React.Component {
 
       this.setState({
         isMouseDownMobile:false,
-        propsOrState:true,
+        stateOrProps: false,
       })
 
       const newData = updateArtboards({
         working: working,
         type: "svg_data",
         artboards: artboards,
-        value: this.state.data
+        value: this.state.dataCopy
       })
 
       updateArtboard(newData)
@@ -800,7 +807,7 @@ class Artboard extends React.Component {
 
     data_copy[selected] = selectedElement.outerHTML
 
-    this.setState({data: data_copy});
+    this.setState({data: data_copy, dataCopy: data_copy});
 
   }
 
@@ -860,7 +867,7 @@ class Artboard extends React.Component {
       selectedInitial: [ e.pageX , e.pageY ],
       selectedTranslate: translate,
       initialScale: [parseFloat(scale[0]), parseFloat(scale[1])],
-      propsOrState: true,
+      stateOrProps: true,
       center: [ center[0], center[1] ]
     })
 
@@ -881,7 +888,7 @@ class Artboard extends React.Component {
 
     this.setState({
       isScaleMouseDown:false,
-      propsOrState:false
+      stateOrProps:false
     })
 
     const { updateArtboard, working, artboards, recordHistory, selected } = this.props
@@ -912,7 +919,7 @@ class Artboard extends React.Component {
 
     this.setState({
       isScaleMouseDown:false,
-      propsOrState:false
+      stateOrProps:false
     })
 
     const { updateArtboard, working, artboards, recordHistory, selected } = this.props
@@ -996,7 +1003,7 @@ class Artboard extends React.Component {
       selectedInitial: [ touchObject.pageX , touchObject.pageY ],
       selectedTranslate: translate,
       initialScale: [parseFloat(scale[0]), parseFloat(scale[1])],
-      propsOrState: true,
+      stateOrProps: true,
       center: [ center[0], center[1] ]
     })
 
@@ -1024,7 +1031,7 @@ class Artboard extends React.Component {
 
     this.setState({
       isScaleMouseDown:false,
-      propsOrState:false
+      stateOrProps:false
     })
 
     const { updateArtboard, working, artboards, recordHistory, selected } = this.props
@@ -1043,7 +1050,7 @@ class Artboard extends React.Component {
       working: working,
       type: "svg_data",
       artboards: artboards,
-      value: this.state.data
+      value: this.state.dataCopy
     })
 
     updateArtboard(newData)
@@ -1270,6 +1277,9 @@ class Artboard extends React.Component {
            onMouseUp={() => {
              this.props.method()
            }}
+           onTouchEnd={(e)=>{
+             e.preventDefault()
+           }}
            >
       {selector}
       <div id="color-set"
@@ -1293,12 +1303,12 @@ class Artboard extends React.Component {
         {menu}
       </div>
       <p>{(()=>{
-        if (this.state.propsOrState) {
+        if (this.state.stateOrProps) {
           return "true"
         } else {
           return "false"
         }
-      })()}</p>
+      })()} - {this.props.test}</p>
       {/*<div id="center" style={{
                                width:"5px",
                                height:"5px",
@@ -1351,7 +1361,7 @@ class Artboard extends React.Component {
           height={artboardSize[1]}
           xmlns="http://www.w3.org/2000/svg"
           dangerouslySetInnerHTML={{__html: (() => {
-                if (!this.state.propsOrState) {
+                if (!this.state.stateOrProps) {
                   return getCanvas({artboards:artboards,working:working}).svg_data.join('')
                 } else {
                   return this.state.data.join('')

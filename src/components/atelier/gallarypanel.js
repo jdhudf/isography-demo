@@ -78,22 +78,24 @@ class GallaryPanel extends React.Component {
       svg = touchObject.target.parentNode.closest("svg")//.outerHTML
     }
 
-    const children = svg.children;
+    if (svg) {
+      const children = svg.children;
 
-    let gtag = document.createElement('g');
+      let gtag = document.createElement('g');
 
-    gtag.setAttribute('transform', 'translate(0,0) scale(1.00,1.00)');
-    gtag.setAttribute('data-type', 'el');
+      gtag.setAttribute('transform', 'translate(0,0) scale(1.00,1.00)');
+      gtag.setAttribute('data-type', 'el');
 
-    for (let i = 0; i< children.length; i++) {
-      gtag.appendChild(children[i].cloneNode(true));
+      for (let i = 0; i< children.length; i++) {
+        gtag.appendChild(children[i].cloneNode(true));
+      }
+
+      if (gtag.outerHTML.startsWith('<g transform="translate')) {
+
+        this.props.method(gtag.outerHTML)
+
+      }
     }
-
-    if (gtag.outerHTML.startsWith('<g transform="translate')) {
-
-      this.props.method(gtag.outerHTML)
-
-    } else {}
 
   }
 

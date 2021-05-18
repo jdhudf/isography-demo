@@ -48,6 +48,9 @@ class Atelier extends React.Component {
     el.addEventListener('gesturechange', this.gestureChange, { passive: false });
     el.addEventListener('gestureend', this.gestureEnd, { passive: false });*/
 
+    el.addEventListener('onTouchStart', this.onTouchStart , { passive: false });
+    //el.addEventListener('onTouchEnd', this.onTouchEnd , { passive: false });
+
     el.addEventListener('onkeydown', this.keyPress , { passive: false });
 
   }
@@ -256,26 +259,23 @@ class Atelier extends React.Component {
 
   onTouchEnd = (e) => {
 
+    //e.preventDefault();
+
     document.querySelector('.section-gallalypanel').style.cursor = 'default';
     document.querySelector('.section-artboard').style.cursor = 'default';
 
-    const elT = e.changedTouches[0]
     const x = e.changedTouches[0].pageX
     const y = e.changedTouches[0].pageY
 
     var elm = document.elementFromPoint(x, y);
-    console.log("el is " + elm.id)
 
     if (this.state.test && elm.id === "svg") {
+
       const { updateArtboard, working, artboards, recordHistory } = this.props,
             canvas = getCanvas({artboards: artboards,working:working}),
             data_copy = canvas.svg_data.slice();
 
-
-      console.log(e.changedTouches[0].target.outerHTML)
-
       data_copy.push(this.state.willAddElementOfSvg);
-      this.setState({data: data_copy});
 
       const newData = updateArtboards({
         working: working,
@@ -289,7 +289,7 @@ class Atelier extends React.Component {
       recordHistory(JSON.parse(JSON.stringify(canvas)))
 
       this.setState({
-        test:false,
+        test: false,
         willAddElementOfSvg:null
       })
       this.removeSVG()

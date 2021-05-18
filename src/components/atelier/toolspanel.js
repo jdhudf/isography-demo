@@ -34,6 +34,14 @@ const getDarkmode = state => state.json.darkmode
 
 class ToolsPanel extends React.Component {
 
+  getAttribute = (g) => {
+
+    const regExp = /-?\d+(\.\d+)?/g,
+          translate = g.match(regExp)
+
+    return translate;
+
+  }
 
   handleElement = (action) => {
 
@@ -54,7 +62,18 @@ class ToolsPanel extends React.Component {
     switch (action){
       case 'Duplicate':
         console.log('duplicate');
-        data_copy.push(el);
+        const { selected } =  this.props,
+              svg = document.getElementById('svg'),
+              g = svg.children[selected];
+
+        const translate = this.getAttribute(el)
+
+        const x = parseInt(translate[0]) + 20
+        const y = parseInt(translate[1]) + 20
+
+        g.setAttribute("transform", `translate(`+ x +`,`+ y +`) scale(`+ translate[2] +`,`+ translate[3] +`)`);
+
+        data_copy.push(g.outerHTML);
         break;
       case 'Delete':
         console.log('delete');
@@ -407,7 +426,11 @@ class ToolsPanel extends React.Component {
           if ( selected !== null ) {
 
             return (
-              <p onClick={this.removeElement} title="Remove Element"><FontAwesomeIcon icon={faTrashAlt} /></p>
+              <p
+                onClick={this.removeElement}
+                title="Remove Element">
+                <FontAwesomeIcon icon={faTrashAlt} />
+              </p>
             )
 
           } else {
@@ -494,7 +517,7 @@ function ToggleGrid() {
   return (
     <div className="grid" style={{marginBottom: "30px"}}>
       <p style={{marginBottom: "0px", color:darkmode ? "#9EA3B2":"gray"}}>Grid</p>
-      <div id="toggle" onClick={toggleGrid} className="toggle">
+      <div id="toggle" onClick={toggleGrid} onTouchEnd={toggleGrid} className="toggle">
         <div className="button"></div>
       </div>
       <div className="grid-customizer">
@@ -610,6 +633,9 @@ function Gradient() {
             onClick={
               () => switchLinear(i)
             }
+            onTouchEnd={
+              () => switchLinear(i)
+            }
             style={{
               background: linear.color_set[i].color,
               left: `${linear.color_set[i].percent}%`
@@ -633,6 +659,9 @@ function Gradient() {
                }
             })()}
             onClick={
+              () => switchRadial(i)
+            }
+            onTouchEnd={
               () => switchRadial(i)
             }
             style={{
@@ -661,7 +690,9 @@ function Gradient() {
     <div>
       <div className="color-picker">
 
-        <div style={ styles.swatch } onClick={ () => toggleModal(true) }>
+        <div style={ styles.swatch }
+             onClick={ () => toggleModal(true) }
+             onTouchEnd={ () => toggleModal(true) }>
           <div style={ styles.color } />
         </div>
         {/*
@@ -669,7 +700,9 @@ function Gradient() {
           */}
         { modal ?
           <div style={ styles.popover }>
-            <div style={ styles.cover } onClick={ () => toggleModal(false) }/>
+            <div style={ styles.cover }
+                 onClick={ () => toggleModal(false) }
+                 onTouchEnd={ () => toggleModal(false) }/>
             <select name=""
                     id="picker-selector"
                     onChange={(e)=>{
@@ -734,6 +767,16 @@ function Gradient() {
                           ${copy.deg}deg, ${copy.color_set[0].color}, ${copy.color_set[1].color})`
 
                         update(i)
+                      }}
+                      onTouchEnd={()=>{
+                        const copy = JSON.parse(JSON.stringify(linear))
+                        copy.deg = copy.deg - 1
+                        changeLinear(copy)
+
+                        const i = `linear-gradient(
+                          ${copy.deg}deg, ${copy.color_set[0].color}, ${copy.color_set[1].color})`
+
+                        update(i)
                       }}></span>
                       <input type="number"
                              min="0" max="360"
@@ -758,7 +801,17 @@ function Gradient() {
                           ${copy.deg}deg, ${copy.color_set[0].color}, ${copy.color_set[1].color})`
 
                         update(i)
-                      }}></span>
+                      }}
+                      onTouchEnd={()=>{
+                      const copy = JSON.parse(JSON.stringify(linear))
+                      copy.deg = copy.deg + 1
+                      changeLinear(copy)
+
+                      const i = `linear-gradient(
+                        ${copy.deg}deg, ${copy.color_set[0].color}, ${copy.color_set[1].color})`
+
+                      update(i)
+                    }}></span>
                     </div>
                     <div class="linear-gradient-handler" style={styles.linearGradientHandler}>
                     </div>

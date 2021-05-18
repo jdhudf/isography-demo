@@ -214,10 +214,10 @@ function ArtboardSetting (props) {
       <p>Artboard</p>
       <div className="artboardSettingWindow">
         <ul>
-          <li onClick={ratioSetting}>Ratio setting</li>
-          <li onClick={renameSetting}>Rename artboard</li>
-          <li onClick={duplicateSetting}>Duplicate artboard</li>
-          <li onClick={deleteSetting}>Delete artboard</li>
+          <li onClick={ratioSetting} onTouchEnd={ratioSetting}>Ratio setting</li>
+          <li onClick={renameSetting} onTouchEnd={renameSetting}>Rename artboard</li>
+          <li onClick={duplicateSetting} onTouchEnd={duplicateSetting}>Duplicate artboard</li>
+          <li onClick={deleteSetting} onTouchEnd={deleteSetting}>Delete artboard</li>
         </ul>
       </div>
 
@@ -294,8 +294,37 @@ function ArtboardSetting (props) {
                     changeStateRename(false)
                   },[500]
                 )
+            }} onTouchEnd={
+              (e)=>{
+
+                e.preventDefault()
+                document.getElementsByClassName("artboardSettingsBackground")[1].classList.remove("active");
+                window.setTimeout(
+                  function(){
+                    e.preventDefault()
+                    changeStateRename(false)
+                  },[500]
+                )
             }}>Cancel</button>
             <button onClick={(e)=>{
+
+              e.preventDefault()
+
+              const newData = updateArtboards(
+                {
+                  working: working,
+                  type: "artboard_name",
+                  artboards: artboards,
+                  value: artboardName
+                }
+              );
+
+              dispatch({type: 'update/artboard', payload: newData})
+
+              changeStateRename(false)
+
+            }}
+            onTouchEnd={(e)=>{
 
               e.preventDefault()
 
@@ -499,10 +528,10 @@ function ExportComponent (props) {
 
   return (
     <div>
-      <p onClick={openExportPanel}>Export</p>
+      <p onClick={openExportPanel} onTouchEnd={openExportPanel}>Export</p>
       { showExportPanel ?
         <div className="export-pannel" >
-          <div className="export-pannel-background" onClick={closeExportPanel}/>
+          <div className="export-pannel-background" onClick={closeExportPanel} onTouchEnd={closeExportPanel}/>
           <div className="export-pannel-content">
             <div>
               <h2 className="preview">Preview</h2>
@@ -631,8 +660,12 @@ function ExportComponent (props) {
                 </li>
               </ul>*/}
               <br/>
-              <button className="cancel" onClick={closeExportPanel}>Cancel</button>
+              <button className="cancel" onClick={closeExportPanel} onTouchEnd={{closeExportPanel}}>Cancel</button>
               <button className="download" onClick={()=>{
+                downloadImages({filename:artboardName, filesize: parseInt(radioSize)})
+                changeStateExportPanel(false)
+              }}
+              onTouchEnd={()=>{
                 downloadImages({filename:artboardName, filesize: parseInt(radioSize)})
                 changeStateExportPanel(false)
               }}>Download</button>
