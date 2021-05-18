@@ -75,6 +75,12 @@ import Img64 from '../../images/materials/simeji_2.inline.svg';
 import Img65 from '../../images/materials/shiitake_1.inline.svg';
 import Img66 from '../../images/materials/shiitake_2.inline.svg';
 
+import Img67 from '../../images/materials/duck_doll.inline.svg';
+import Img68 from '../../images/materials/tortoise_doll.inline.svg';
+
+import Img69 from '../../images/materials/chair1_1.inline.svg';
+import Img70 from '../../images/materials/chair1_2.inline.svg';
+
 
 
 class Myloop extends Component {
@@ -149,6 +155,10 @@ class Myloop extends Component {
         <div className="item"><Img64/></div>
         <div className="item"><Img65/></div>
         <div className="item"><Img66/></div>
+        <div className="item"><Img67/></div>
+        <div className="item"><Img68/></div>
+        <div className="item"><Img69/></div>
+        <div className="item"><Img70/></div>
 
       </>
     );
