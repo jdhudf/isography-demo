@@ -81,6 +81,44 @@ import Img68 from '../../images/materials/tortoise_doll.inline.svg';
 import Img69 from '../../images/materials/chair1_1.inline.svg';
 import Img70 from '../../images/materials/chair1_2.inline.svg';
 
+import Img71 from '../../images/materials/bench.inline.svg';
+import Img72 from '../../images/materials/working_chair.inline.svg';
+import Img73 from '../../images/materials/working_chair_2.inline.svg';
+
+import Img74 from '../../images/materials/paper_on_wall_1.inline.svg';
+import Img75 from '../../images/materials/paper_on_wall_2.inline.svg';
+import Img76 from '../../images/materials/paper_on_wall_3.inline.svg';
+
+import Img77 from '../../images/materials/small_note_1.inline.svg';
+import Img78 from '../../images/materials/small_note_2.inline.svg';
+
+import Img79 from '../../images/materials/bench_2.inline.svg';
+import Img80 from '../../images/materials/sofa_1_1.inline.svg';
+import Img81 from '../../images/materials/sofa_1_2.inline.svg';
+import Img82 from '../../images/materials/sofa_2_1.inline.svg';
+import Img83 from '../../images/materials/sofa_2_2.inline.svg';
+import Img84 from '../../images/materials/sofa_3_1.inline.svg';
+import Img85 from '../../images/materials/sofa_3_2.inline.svg';
+
+import Img86 from '../../images/materials/book_1_1.inline.svg';
+import Img87 from '../../images/materials/book_1_2.inline.svg';
+import Img88 from '../../images/materials/book_2_1.inline.svg';
+import Img89 from '../../images/materials/book_2_2.inline.svg';
+
+import Img90 from '../../images/materials/file_book_1.inline.svg';
+
+import Img91 from '../../images/materials/bar_chart_1.inline.svg';
+import Img92 from '../../images/materials/circle_chart_1.inline.svg';
+import Img93 from '../../images/materials/floor_1_1.inline.svg';
+import Img94 from '../../images/materials/floor_1_2.inline.svg';
+
+import Img95 from '../../images/materials/wall_clock_1.inline.svg';
+import Img96 from '../../images/materials/desk_1.inline.svg';
+import Img97 from '../../images/materials/aroma_diffuser_1.inline.svg';
+import Img98 from '../../images/materials/pillow_1_1.inline.svg';
+import Img99 from '../../images/materials/duck_foot_print.inline.svg';
+import Img100 from '../../images/materials/duck_doll_1.inline.svg';
+
 
 
 class Myloop extends Component {
@@ -159,6 +197,40 @@ class Myloop extends Component {
         <div className="item"><Img68/></div>
         <div className="item"><Img69/></div>
         <div className="item"><Img70/></div>
+        <div className="item"><Img71/></div>
+        <div className="item"><Img72/></div>
+        <div className="item"><Img73/></div>
+        <div className="item"><Img74/></div>
+        <div className="item"><Img75/></div>
+        <div className="item"><Img76/></div>
+        <div className="item"><Img77/></div>
+        <div className="item"><Img78/></div>
+        <div className="item"><Img79/></div>
+        <div className="item"><Img80/></div>
+        <div className="item"><Img81/></div>
+        <div className="item"><Img82/></div>
+        <div className="item"><Img83/></div>
+        <div className="item"><Img84/></div>
+        <div className="item"><Img85/></div>
+        <div className="item"><Img86/></div>
+        <div className="item"><Img87/></div>
+        <div className="item"><Img88/></div>
+        <div className="item"><Img89/></div>
+        <div className="item"><Img90/></div>
+        <div className="item"><Img91/></div>
+        <div className="item"><Img92/></div>
+        <div className="item"><Img93/></div>
+        <div className="item"><Img94/></div>
+        <div className="item"><Img95/></div>
+        <div className="item"><Img96/></div>
+        <div className="item"><Img97/></div>
+        <div className="item"><Img98/></div>
+        <div className="item"><Img99/></div>
+        <div className="item"><Img100/></div>
+
+
+
+
 
       </>
     );
