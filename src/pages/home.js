@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import ColorPicker from '../components/ColorPicker.js';
 
 import MenuBar from '../components/menubar.js';
+import AllItems from '../components/all_materials.js';
 
 import '../styles/home.scss';
 import img from '../images/hello-world.png';
@@ -174,6 +175,7 @@ const Dashboard = () => {
           </div>*/}
           <ul className="url">
             <li><a href="https://www.isography.app" target="_blank" rel="noreferrer">Official HP</a></li>
+            <li><AllItems /></li>
           </ul>
           <div className="sendFeedback">
             <a href="https://forms.gle/pNbptjqrGctWzJS77" target="_blank" rel="noreferrer">Send Bug report or Feedback<span>Powered by Google From</span></a>
