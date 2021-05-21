@@ -22,9 +22,7 @@ class IsoItems extends React.Component {
   };
 
   appendSVG = () => {
-    const contents = document.getElementsByClassName('allItems_contents')
     const items = document.getElementsByClassName('item')
-    const svg = document.getElementById('svg')
 
     let translateX = 0;
     let translateY = 0;

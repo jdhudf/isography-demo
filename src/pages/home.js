@@ -1,9 +1,8 @@
 import React, { useState }  from 'react';
 import { Link } from 'react-router-dom'
-import ColorPicker from '../components/ColorPicker.js';
 
 import MenuBar from '../components/menubar.js';
-import AllItems from '../components/all_materials.js';
+//import AllItems from '../components/all_materials.js';
 
 import '../styles/home.scss';
 import img from '../images/hello-world.png';
@@ -175,7 +174,7 @@ const Dashboard = () => {
           </div>*/}
           <ul className="url">
             <li><a href="https://www.isography.app" target="_blank" rel="noreferrer">Official HP</a></li>
-            <li><AllItems /></li>
+          {/*<li><AllItems /></li>*/}
           </ul>
           <div className="sendFeedback">
             <a href="https://forms.gle/pNbptjqrGctWzJS77" target="_blank" rel="noreferrer">Send Bug report or Feedback<span>Powered by Google From</span></a>
@@ -187,10 +186,6 @@ const Dashboard = () => {
 }
 
 const NewArtboard = () => {
-  const [mainColor, setMainColor] = useState("#B21313");
-  const [subColor, setSubColor] = useState("#C7B136");
-  const [accentColor, setAccentColor] = useState("#111184");
-  const [background, setBackground] = useState("#FFFFFF");
 
   const [showModal, toggleModal] = useState(false);
   const [value, updateValue] = useState("Artboard Name");
@@ -207,10 +202,10 @@ const NewArtboard = () => {
     const newData = addNewArtboard({
       artboards: json,
       artboard_name: value,
-      mainColor: mainColor,
-      subColor: subColor,
-      accentColor: accentColor,
-      background: background,
+      mainColor: "#ffffff",
+      subColor: "#ffffff",
+      accentColor: "#ffffff",
+      background: "#ffffff",
       width: width,
       height: height,
       svg: []
@@ -229,7 +224,7 @@ const NewArtboard = () => {
   const styles = {
     modalContent: {
       width: '90%',
-      maxWidth: '700px',
+      maxWidth: '400px',
       position: 'fixed',
       top: '50%',
       left: '50%',
@@ -259,27 +254,12 @@ const NewArtboard = () => {
     <div>
       <div className="modal-background" style={styles.modalBackground}>
         <div className="modal-content" style={styles.modalContent}>
-          <div className="preview">
-            <h2>Preview</h2>
-            <svg style={{background: background}} className="svg-item" viewBox="0 0 200 200" width="100%" height="240.411">
-               <g transform="translate(0,0) scale(1,1)">
-                 <path className="main" style={{fill:mainColor}} d="M168.68,59.078l-70.627,40.776l-0,81.553l70.627,-40.776l-0,-81.553Z"/>
-                 <path className="sub" style={{fill:subColor}} d="M98.043,18.295l-70.627,40.777l70.637,40.782l70.627,-40.777l-70.637,-40.782Z"/>
-                 <path className="accent" style={{fill:accentColor}} d="M98.053,99.854l-70.66,-40.795l0,81.548l70.66,40.796l-0,-81.549Z"/>
-               </g>
-            </svg>
-          </div>
           <div className="setting">
             <h2>Artboard Name</h2>
             <p><input type="text" value={value} onChange={(e) => updateInputValue(e)}/></p>
             <h2>Template <span>{ratioName}</span></h2>
             <label htmlFor="">Width : <input type="number" min="300" max="3000" value={width} onChange={(e)=>updateWidth(e.target.value)}/></label>
             <label htmlFor="">Height : <input type="number" min="300" max="3000" value={height} onChange={(e)=>updateHeight(e.target.value)}/></label>
-            <h2>Color Scheme</h2>
-            <ColorPicker color={mainColor} onChange={(e)=> setMainColor(e.color)}/>
-            <ColorPicker color={subColor} onChange={(e)=> setSubColor(e.color)}/>
-            <ColorPicker color={accentColor} onChange={(e)=> setAccentColor(e.color)}/>
-            <ColorPicker color={background} onChange={(e)=> setBackground(e.color)}/>
             <div className="flex">
               <button onClick={ ()=>toggleModal(false) }>Cancel</button>
               <button onClick={createNewArtboard}>Create!</button>

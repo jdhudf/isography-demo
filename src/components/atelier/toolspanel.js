@@ -62,8 +62,7 @@ class ToolsPanel extends React.Component {
     switch (action){
       case 'Duplicate':
         console.log('duplicate');
-        const { selected } =  this.props,
-              svg = document.getElementById('svg'),
+        const svg = document.getElementById('svg'),
               g = svg.children[selected];
 
         const translate = this.getAttribute(el)
@@ -145,6 +144,8 @@ class ToolsPanel extends React.Component {
         break;
       case 'bringForward':
         console.log('bringForward');
+
+        console.info(selected)
 
         data_copy.splice(selected,1);
         data_copy.splice(selected + 1 ,0,el);

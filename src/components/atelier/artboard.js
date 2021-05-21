@@ -155,8 +155,6 @@ class Artboard extends React.Component {
       return uniquedArray;
     };
 
-    console.log(uniq(array))
-
     changeColorSet(uniq(array))
 
   }
@@ -315,10 +313,8 @@ class Artboard extends React.Component {
   }
 
   onMouseDown = (e) => {
-    console.log(this.state.initialScale)
-
+    
     this.selectElement(e);
-    console.log(JSON.stringify(this.selectElement(e)))
 
     this.getColors(e, JSON.stringify(this.selectElement(e)));
 

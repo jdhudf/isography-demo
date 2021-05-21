@@ -33,7 +33,7 @@ function PcOrMobile() {
       return <Mobile />;
   } else if (ua.indexOf('iPad') > 0 || ua.indexOf('Android') > 0 || (/iPad|Macintosh/i.test(navigator.userAgent)
 && 'ontouchend' in document)){
-      return <App />;
+      return <Mobile />;
   }else{
       return <App />;
   }
