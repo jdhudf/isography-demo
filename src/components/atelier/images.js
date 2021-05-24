@@ -113,12 +113,42 @@ import Img93 from '../../images/materials/floor_1_1.inline.svg';
 import Img94 from '../../images/materials/floor_1_2.inline.svg';
 
 import Img95 from '../../images/materials/wall_clock_1.inline.svg';
+
 import Img96 from '../../images/materials/desk_1.inline.svg';
+import Img106 from '../../images/materials/desk_2.inline.svg';
+import Img107 from '../../images/materials/desk_3.inline.svg';
+import Img108 from '../../images/materials/desk_4.inline.svg';
+
 import Img97 from '../../images/materials/aroma_diffuser_1.inline.svg';
 import Img98 from '../../images/materials/pillow_1_1.inline.svg';
 import Img99 from '../../images/materials/duck_foot_print.inline.svg';
 import Img100 from '../../images/materials/duck_doll_1.inline.svg';
 
+import Img101 from '../../images/materials/wall_paper_1.inline.svg';
+import Img102 from '../../images/materials/wall_paper_2.inline.svg';
+import Img103 from '../../images/materials/wall_paper_3.inline.svg';
+import Img104 from '../../images/materials/wall_paper_4.inline.svg';
+import Img105 from '../../images/materials/wall_paper_5.inline.svg';
+
+import Img109 from '../../images/materials/lamp_1.inline.svg';
+import Img110 from '../../images/materials/lamp_2.inline.svg';
+
+import Img111 from '../../images/materials/wall_decoration_1.inline.svg';
+import Img112 from '../../images/materials/stump_1.inline.svg';
+import Img113 from '../../images/materials/bulb_1.inline.svg';
+import Img114 from '../../images/materials/lamp_2_1.inline.svg';
+import Img115 from '../../images/materials/lamp_2_2.inline.svg';
+
+import Img116 from '../../images/materials/painting_1.inline.svg';
+import Img117 from '../../images/materials/painting_2.inline.svg';
+import Img118 from '../../images/materials/painting_3.inline.svg';
+import Img119 from '../../images/materials/painting_4.inline.svg';
+import Img120 from '../../images/materials/painting_5.inline.svg';
+
+import Img121 from '../../images/materials/white_board_1.inline.svg';
+import Img122 from '../../images/materials/white_board_2.inline.svg';
+
+import Img123 from '../../images/materials/ornamental_plant_1.inline.svg';
 
 
 class Myloop extends Component {
@@ -223,10 +253,34 @@ class Myloop extends Component {
         <div className="item"><Img94/></div>
         <div className="item"><Img95/></div>
         <div className="item"><Img96/></div>
+        <div className="item"><Img106/></div>
+        <div className="item"><Img107/></div>
+        <div className="item"><Img108/></div>
         <div className="item"><Img97/></div>
         <div className="item"><Img98/></div>
         <div className="item"><Img99/></div>
         <div className="item"><Img100/></div>
+        <div className="item"><Img101/></div>
+        <div className="item"><Img102/></div>
+        <div className="item"><Img103/></div>
+        <div className="item"><Img104/></div>
+        <div className="item"><Img105/></div>
+        <div className="item"><Img109/></div>
+        <div className="item"><Img110/></div>
+        <div className="item"><Img111/></div>
+        <div className="item"><Img112/></div>
+        <div className="item"><Img113/></div>
+        <div className="item"><Img114/></div>
+        <div className="item"><Img115/></div>
+        <div className="item"><Img116/></div>
+        <div className="item"><Img117/></div>
+        <div className="item"><Img118/></div>
+        <div className="item"><Img119/></div>
+        <div className="item"><Img120/></div>
+        <div className="item"><Img121/></div>
+        <div className="item"><Img122/></div>
+        <div className="item"><Img123/></div>
+
 
 
 
