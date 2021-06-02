@@ -12,6 +12,13 @@ import Myloop from './images.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { /*faSearch,*/faChevronLeft,faChevronRight } from '@fortawesome/free-solid-svg-icons'
 
+import iot from '../../images/iot.svg';
+import flag from '../../images/flag.svg';
+import interior from '../../images/interior.svg';
+import people from '../../images/people.svg';
+import nature from '../../images/nature.svg';
+import logo from '../../images/logo.svg';
+
 //====================================
 //  We need below functions that
 //  -[ ] convert svg to component
@@ -47,7 +54,7 @@ class GallaryPanel extends React.Component {
 
     let gtag = document.createElement('g');
 
-    gtag.setAttribute('transform', 'translate(0,0) scale(1.00,1.00)');
+    gtag.setAttribute('transform', 'translate(0,0) scale(1.00,1.00) skewY(0) rotate(0)');
     gtag.setAttribute('data-type', 'el');
 
     for (let i = 0; i< children.length; i++) {
@@ -83,7 +90,7 @@ class GallaryPanel extends React.Component {
 
       let gtag = document.createElement('g');
 
-      gtag.setAttribute('transform', 'translate(0,0) scale(1.00,1.00)');
+      gtag.setAttribute('transform', 'translate(0,0) scale(1.00,1.00) skewY(0) rotate(0)');
       gtag.setAttribute('data-type', 'el');
 
       for (let i = 0; i< children.length; i++) {
@@ -97,6 +104,95 @@ class GallaryPanel extends React.Component {
       }
     }
 
+  }
+
+  filterItems = (e) => {
+
+    const div = document.getElementsByClassName('gallaryframe_category')[0]
+    const items =  div.children;
+
+    switch (e) {
+      case "all":
+        for (let i = 0; i < items.length; i++) {
+
+          items[i].style.display = "block"
+
+        }
+
+        break;
+      case "interior":
+
+        for (let i = 0; i < items.length; i++) {
+
+          if (items[i].dataset.tag === "interior") {
+            console.log(items[i])
+            items[i].style.display = "block"
+          } else {
+            items[i].style.display = "none"
+          }
+
+        }
+
+        break;
+      case "iot":
+
+        for (let i = 0; i < items.length; i++) {
+
+          if (items[i].dataset.tag === "iot") {
+            console.log(items[i])
+            items[i].style.display = "block"
+          } else {
+            items[i].style.display = "none"
+          }
+
+        }
+
+        break;
+      case "nature":
+
+        for (let i = 0; i < items.length; i++) {
+
+          if (items[i].dataset.tag === "nature") {
+            console.log(items[i])
+            items[i].style.display = "block"
+          } else {
+            items[i].style.display = "none"
+          }
+
+        }
+
+        break;
+      case "flag":
+
+        for (let i = 0; i < items.length; i++) {
+
+          if (items[i].dataset.tag === "flag") {
+            console.log(items[i])
+            items[i].style.display = "block"
+          } else {
+            items[i].style.display = "none"
+          }
+
+        }
+
+        break;
+      case "people":
+
+        for (let i = 0; i < items.length; i++) {
+
+          if (items[i].dataset.tag === "people") {
+            console.log(items[i])
+            items[i].style.display = "block"
+          } else {
+            items[i].style.display = "none"
+          }
+
+        }
+
+        break;
+      default:
+
+    }
   }
 
   render() {
@@ -117,50 +213,41 @@ class GallaryPanel extends React.Component {
            </p>
           </div>
           <div className="drawer-content">
-             <Tabs>
-               <TabList>
-                 <Tab>All</Tab>
-                 {/*<Tab>Categories</Tab>*/}
-                 {/*<Tab>Later</Tab>
-                 <Tab><FontAwesomeIcon icon={faSearch} /></Tab>*/}
-               </TabList>
-
-               <TabPanel>
-                 <div className="gallaryframe"
-                      onMouseDown={this.selectElementOfSVG}
-                      onMouseUp={() => this.props.me()}
-                      onTouchStart={this.selectElementOfSVGMobile}
-                      onTouchEnd={() => this.props.me()}>
-                   <Myloop />
-                 </div>
-               </TabPanel>
-               {/*<TabPanel>
-               <div>
-                 <ul className="gallary-category-list">
-                   <li>
-                     <span></span>
-                     <p>People</p>
-                   </li>
-                   <li>
-                     <span></span>
-                     <p>Plants</p>
-                   </li>
-                   <li>
-                     <span></span>
-                     <p>Buildings</p>
-                   </li>
-                   <li>
-                     <span></span>
-                     <p>Animals</p>
-                   </li>
-                 </ul>
-               </div>
-               </TabPanel>*/}
-
-               {/*<TabPanel>
-                  <div>test</div>
-               </TabPanel>*/}
-             </Tabs>
+          <div className="gallary-category-list">
+            <ul>
+              <li onClick={()=>this.filterItems("all")}>
+                <span><img src={logo} alt=""/></span>
+                <p>All</p>
+              </li>
+              <li onClick={()=>this.filterItems("people")}>
+                <span><img src={people} alt=""/></span>
+                <p>People</p>
+              </li>
+              <li onClick={()=>this.filterItems("iot")}>
+                <span><img src={iot} alt=""/></span>
+                <p>IoT / Web</p>
+              </li>
+              <li onClick={()=>this.filterItems("interior")}>
+                <span><img src={interior} alt=""/></span>
+                <p>Interior</p>
+              </li>
+              <li onClick={()=>this.filterItems("nature")}>
+                <span><img src={nature} alt=""/></span>
+                <p>Nature</p>
+              </li>
+              <li onClick={()=>this.filterItems("flag")}>
+                <span><img src={flag} alt=""/></span>
+                <p>Internatinal</p>
+              </li>
+            </ul>
+          </div>
+          <div className="gallaryframe gallaryframe_category"
+               onMouseDown={this.selectElementOfSVG}
+               onMouseUp={() => this.props.me()}
+               onTouchStart={this.selectElementOfSVGMobile}
+               onTouchEnd={() => this.props.me()}>
+            <Myloop />
+          </div>
           </div>
 
       </section>

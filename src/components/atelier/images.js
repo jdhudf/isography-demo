@@ -300,31 +300,31 @@ class Myloop extends Component {
     return (
       <>
         <div className="item"><Img1/></div>
-        <div className="item"><Img2/></div>
-        <div className="item" data-type="human"><Img3/></div>
-        <div className="item"><Img4/></div>
-        <div className="item"><Img33/></div>
+        <div className="item" data-tag="interior"><Img2/></div>
+        <div className="item" data-tag="people"><Img3/></div>
+        <div className="item" data-tag="people"><Img4/></div>
+        <div className="item" data-tag="people"><Img33/></div>
         <div className="item"><Img5/></div>
         <div className="item"><Img6/></div>
         <div className="item"><Img7/></div>
         <div className="item"><Img8/></div>
-        <div className="item"><Img9/></div>
-        <div className="item"><Img10/></div>
-        <div className="item"><Img11/></div>
-        <div className="item"><Img12/></div>
-        <div className="item"><Img13/></div>
-        <div className="item"><Img14/></div>
-        <div className="item"><Img15/></div>
-        <div className="item"><Img16/></div>
+        <div className="item" data-tag="iot"><Img9/></div>
+        <div className="item" data-tag="iot"><Img10/></div>
+        <div className="item" data-tag="iot"><Img11/></div>
+        <div className="item" data-tag="iot"><Img12/></div>
+        <div className="item" data-tag="iot"><Img13/></div>
+        <div className="item" data-tag="iot"><Img14/></div>
+        <div className="item" data-tag="iot"><Img15/></div>
+        <div className="item" data-tag="interior"><Img16/></div>
         <div className="item"><Img17/></div>
         <div className="item"><Img18/></div>
         <div className="item"><Img19/></div>
         <div className="item"><Img20/></div>
         <div className="item"><Img21/></div>
         <div className="item"><Img22/></div>
-        <div className="item"><Img23/></div>
-        <div className="item"><Img24/></div>
-        <div className="item"><Img25/></div>
+        <div className="item" data-tag="iot"><Img23/></div>
+        <div className="item" data-tag="iot"><Img24/></div>
+        <div className="item" data-tag="iot"><Img25/></div>
         <div className="item"><Img26/></div>
         <div className="item"><Img27/></div>
         <div className="item"><Img28/></div>
@@ -343,58 +343,58 @@ class Myloop extends Component {
         <div className="item"><Img42/></div>
         <div className="item"><Img43/></div>
         <div className="item"><Img44/></div>
-        <div className="item"><Img45/></div>
-        <div className="item"><Img46/></div>
-        <div className="item"><Img47/></div>
-        <div className="item"><Img48/></div>
-        <div className="item"><Img49/></div>
-        <div className="item"><Img50/></div>
-        <div className="item"><Img51/></div>
-        <div className="item"><Img52/></div>
-        <div className="item"><Img53/></div>
-        <div className="item"><Img54/></div>
-        <div className="item"><Img55/></div>
-        <div className="item"><Img56/></div>
-        <div className="item"><Img57/></div>
-        <div className="item"><Img58/></div>
-        <div className="item"><Img59/></div>
-        <div className="item"><Img60/></div>
-        <div className="item"><Img61/></div>
-        <div className="item"><Img62/></div>
-        <div className="item"><Img63/></div>
-        <div className="item"><Img64/></div>
-        <div className="item"><Img65/></div>
-        <div className="item"><Img66/></div>
+        <div className="item" data-tag="nature"><Img45/></div>
+        <div className="item" data-tag="nature"><Img46/></div>
+        <div className="item" data-tag="nature"><Img47/></div>
+        <div className="item" data-tag="nature"><Img48/></div>
+        <div className="item" data-tag="nature"><Img49/></div>
+        <div className="item" data-tag="nature"><Img50/></div>
+        <div className="item" data-tag="nature"><Img51/></div>
+        <div className="item" data-tag="nature"><Img52/></div>
+        <div className="item" data-tag="nature"><Img53/></div>
+        <div className="item" data-tag="nature"><Img54/></div>
+        <div className="item" data-tag="nature"><Img55/></div>
+        <div className="item" data-tag="nature"><Img56/></div>
+        <div className="item" data-tag="nature"><Img57/></div>
+        <div className="item" data-tag="nature"><Img58/></div>
+        <div className="item" data-tag="nature"><Img59/></div>
+        <div className="item" data-tag="nature"><Img60/></div>
+        <div className="item" data-tag="nature"><Img61/></div>
+        <div className="item" data-tag="nature"><Img62/></div>
+        <div className="item" data-tag="nature"><Img63/></div>
+        <div className="item" data-tag="nature"><Img64/></div>
+        <div className="item" data-tag="nature"><Img65/></div>
+        <div className="item" data-tag="nature"><Img66/></div>
         <div className="item"><Img67/></div>
         <div className="item"><Img68/></div>
-        <div className="item"><Img69/></div>
-        <div className="item"><Img70/></div>
-        <div className="item"><Img71/></div>
-        <div className="item"><Img72/></div>
-        <div className="item"><Img73/></div>
-        <div className="item"><Img74/></div>
-        <div className="item"><Img75/></div>
-        <div className="item"><Img76/></div>
-        <div className="item"><Img77/></div>
-        <div className="item"><Img78/></div>
-        <div className="item"><Img79/></div>
-        <div className="item"><Img80/></div>
-        <div className="item"><Img81/></div>
-        <div className="item"><Img82/></div>
-        <div className="item"><Img83/></div>
-        <div className="item"><Img84/></div>
-        <div className="item"><Img85/></div>
-        <div className="item"><Img86/></div>
-        <div className="item"><Img87/></div>
-        <div className="item"><Img88/></div>
-        <div className="item"><Img89/></div>
-        <div className="item"><Img90/></div>
+        <div className="item" data-tag="interior"><Img69/></div>
+        <div className="item" data-tag="interior"><Img70/></div>
+        <div className="item" data-tag="interior"><Img71/></div>
+        <div className="item" data-tag="interior"><Img72/></div>
+        <div className="item" data-tag="interior"><Img73/></div>
+        <div className="item" data-tag="interior"><Img74/></div>
+        <div className="item" data-tag="interior"><Img75/></div>
+        <div className="item" data-tag="interior"><Img76/></div>
+        <div className="item" data-tag="interior"><Img77/></div>
+        <div className="item" data-tag="interior"><Img78/></div>
+        <div className="item" data-tag="interior"><Img79/></div>
+        <div className="item" data-tag="interior"><Img80/></div>
+        <div className="item" data-tag="interior"><Img81/></div>
+        <div className="item" data-tag="interior"><Img82/></div>
+        <div className="item" data-tag="interior"><Img83/></div>
+        <div className="item" data-tag="interior"><Img84/></div>
+        <div className="item" data-tag="interior"><Img85/></div>
+        <div className="item" data-tag="interior"><Img86/></div>
+        <div className="item" data-tag="interior"><Img87/></div>
+        <div className="item" data-tag="interior"><Img88/></div>
+        <div className="item" data-tag="interior"><Img89/></div>
+        <div className="item" data-tag="interior"><Img90/></div>
         <div className="item"><Img91/></div>
         <div className="item"><Img92/></div>
-        <div className="item"><Img93/></div>
-        <div className="item"><Img94/></div>
-        <div className="item"><Img95/></div>
-        <div className="item"><Img96/></div>
+        <div className="item" data-tag="interior"><Img93/></div>
+        <div className="item" data-tag="interior"><Img94/></div>
+        <div className="item" data-tag="interior"><Img95/></div>
+        <div className="item" data-tag="interior"><Img96/></div>
         <div className="item"><Img106/></div>
         <div className="item"><Img107/></div>
         <div className="item"><Img108/></div>
@@ -410,7 +410,7 @@ class Myloop extends Component {
         <div className="item"><Img109/></div>
         <div className="item"><Img110/></div>
         <div className="item"><Img111/></div>
-        <div className="item"><Img112/></div>
+        <div className="item" data-tag="nature"><Img112/></div>
         <div className="item"><Img113/></div>
         <div className="item"><Img114/></div>
         <div className="item"><Img115/></div>
@@ -423,117 +423,117 @@ class Myloop extends Component {
         <div className="item"><Img122/></div>
         <div className="item"><Img123/></div>
 
-        <div className="item"><Img124/></div>
-        <div className="item"><Img125/></div>
-        <div className="item"><Img126/></div>
-        <div className="item"><Img127/></div>
-        <div className="item"><Img128/></div>
-        <div className="item"><Img129/></div>
-        <div className="item"><Img130/></div>
-        <div className="item"><Img131/></div>
-        <div className="item"><Img132/></div>
-        <div className="item"><Img133/></div>
-        <div className="item"><Img134/></div>
-        <div className="item"><Img135/></div>
-        <div className="item"><Img136/></div>
-        <div className="item"><Img137/></div>
-        <div className="item"><Img138/></div>
-        <div className="item"><Img139/></div>
-        <div className="item"><Img140/></div>
-        <div className="item"><Img141/></div>
-        <div className="item"><Img142/></div>
-        <div className="item"><Img143/></div>
-        <div className="item"><Img144/></div>
-        <div className="item"><Img145/></div>
-        <div className="item"><Img146/></div>
-        <div className="item"><Img147/></div>
-        <div className="item"><Img148/></div>
-        <div className="item"><Img149/></div>
-        <div className="item"><Img150/></div>
-        <div className="item"><Img151/></div>
-        <div className="item"><Img152/></div>
-        <div className="item"><Img153/></div>
-        <div className="item"><Img154/></div>
-        <div className="item"><Img155/></div>
-        <div className="item"><Img156/></div>
-        <div className="item"><Img157/></div>
-        <div className="item"><Img158/></div>
-        <div className="item"><Img159/></div>
-        <div className="item"><Img160/></div>
-        <div className="item"><Img161/></div>
-        <div className="item"><Img162/></div>
-        <div className="item"><Img163/></div>
-        <div className="item"><Img164/></div>
-        <div className="item"><Img165/></div>
-        <div className="item"><Img166/></div>
-        <div className="item"><Img167/></div>
-        <div className="item"><Img168/></div>
-        <div className="item"><Img169/></div>
-        <div className="item"><Img170/></div>
-        <div className="item"><Img171/></div>
-        <div className="item"><Img172/></div>
-        <div className="item"><Img173/></div>
-        <div className="item"><Img174/></div>
-        <div className="item"><Img175/></div>
-        <div className="item"><Img176/></div>
-        <div className="item"><Img177/></div>
-        <div className="item"><Img178/></div>
-        <div className="item"><Img179/></div>
-        <div className="item"><Img180/></div>
-        <div className="item"><Img181/></div>
-        <div className="item"><Img182/></div>
-        <div className="item"><Img183/></div>
-        <div className="item"><Img184/></div>
-        <div className="item"><Img185/></div>
-        <div className="item"><Img186/></div>
-        <div className="item"><Img187/></div>
-        <div className="item"><Img188/></div>
-        <div className="item"><Img189/></div>
-        <div className="item"><Img190/></div>
-        <div className="item"><Img191/></div>
-        <div className="item"><Img192/></div>
-        <div className="item"><Img193/></div>
-        <div className="item"><Img194/></div>
-        <div className="item"><Img195/></div>
-        <div className="item"><Img196/></div>
-        <div className="item"><Img197/></div>
-        <div className="item"><Img198/></div>
-        <div className="item"><Img199/></div>
-        <div className="item"><Img200/></div>
-        <div className="item"><Img201/></div>
-        <div className="item"><Img202/></div>
-        <div className="item"><Img203/></div>
-        <div className="item"><Img204/></div>
-        <div className="item"><Img205/></div>
-        <div className="item"><Img206/></div>
-        <div className="item"><Img207/></div>
-        <div className="item"><Img208/></div>
-        <div className="item"><Img209/></div>
-        <div className="item"><Img210/></div>
-        <div className="item"><Img211/></div>
-        <div className="item"><Img212/></div>
-        <div className="item"><Img213/></div>
-        <div className="item"><Img214/></div>
-        <div className="item"><Img215/></div>
-        <div className="item"><Img216/></div>
-        <div className="item"><Img217/></div>
-        <div className="item"><Img218/></div>
-        <div className="item"><Img219/></div>
-        <div className="item"><Img220/></div>
-        <div className="item"><Img221/></div>
-        <div className="item"><Img222/></div>
-        <div className="item"><Img223/></div>
-        <div className="item"><Img224/></div>
-        <div className="item"><Img225/></div>
-        <div className="item"><Img226/></div>
-        <div className="item"><Img227/></div>
-        <div className="item"><Img228/></div>
-        <div className="item"><Img229/></div>
-        <div className="item"><Img230/></div>
-        <div className="item"><Img231/></div>
-        <div className="item"><Img232/></div>
-        <div className="item"><Img233/></div>
-        <div className="item"><Img234/></div>
+        <div className="item" data-tag="flag"><Img124/></div>
+        <div className="item" data-tag="flag"><Img125/></div>
+        <div className="item" data-tag="flag"><Img126/></div>
+        <div className="item" data-tag="flag"><Img127/></div>
+        <div className="item" data-tag="flag"><Img128/></div>
+        <div className="item" data-tag="flag"><Img129/></div>
+        <div className="item" data-tag="flag"><Img130/></div>
+        <div className="item" data-tag="flag"><Img131/></div>
+        <div className="item" data-tag="flag"><Img132/></div>
+        <div className="item" data-tag="flag"><Img133/></div>
+        <div className="item" data-tag="flag"><Img134/></div>
+        <div className="item" data-tag="flag"><Img135/></div>
+        <div className="item" data-tag="flag"><Img136/></div>
+        <div className="item" data-tag="flag"><Img137/></div>
+        <div className="item" data-tag="flag"><Img138/></div>
+        <div className="item" data-tag="flag"><Img139/></div>
+        <div className="item" data-tag="flag"><Img140/></div>
+        <div className="item" data-tag="flag"><Img141/></div>
+        <div className="item" data-tag="flag"><Img142/></div>
+        <div className="item" data-tag="flag"><Img143/></div>
+        <div className="item" data-tag="flag"><Img144/></div>
+        <div className="item" data-tag="flag"><Img145/></div>
+        <div className="item" data-tag="flag"><Img146/></div>
+        <div className="item" data-tag="flag"><Img147/></div>
+        <div className="item" data-tag="flag"><Img148/></div>
+        <div className="item" data-tag="flag"><Img149/></div>
+        <div className="item" data-tag="flag"><Img150/></div>
+        <div className="item" data-tag="flag"><Img151/></div>
+        <div className="item" data-tag="flag"><Img152/></div>
+        <div className="item" data-tag="flag"><Img153/></div>
+        <div className="item" data-tag="flag"><Img154/></div>
+        <div className="item" data-tag="flag"><Img155/></div>
+        <div className="item" data-tag="flag"><Img156/></div>
+        <div className="item" data-tag="flag"><Img157/></div>
+        <div className="item" data-tag="flag"><Img158/></div>
+        <div className="item" data-tag="flag"><Img159/></div>
+        <div className="item" data-tag="flag"><Img160/></div>
+        <div className="item" data-tag="flag"><Img161/></div>
+        <div className="item" data-tag="flag"><Img162/></div>
+        <div className="item" data-tag="flag"><Img163/></div>
+        <div className="item" data-tag="flag"><Img164/></div>
+        <div className="item" data-tag="flag"><Img165/></div>
+        <div className="item" data-tag="flag"><Img166/></div>
+        <div className="item" data-tag="flag"><Img167/></div>
+        <div className="item" data-tag="flag"><Img168/></div>
+        <div className="item" data-tag="flag"><Img169/></div>
+        <div className="item" data-tag="flag"><Img170/></div>
+        <div className="item" data-tag="flag"><Img171/></div>
+        <div className="item" data-tag="flag"><Img172/></div>
+        <div className="item" data-tag="flag"><Img173/></div>
+        <div className="item" data-tag="flag"><Img174/></div>
+        <div className="item" data-tag="flag"><Img175/></div>
+        <div className="item" data-tag="flag"><Img176/></div>
+        <div className="item" data-tag="flag"><Img177/></div>
+        <div className="item" data-tag="flag"><Img178/></div>
+        <div className="item" data-tag="flag"><Img179/></div>
+        <div className="item" data-tag="flag"><Img180/></div>
+        <div className="item" data-tag="flag"><Img181/></div>
+        <div className="item" data-tag="flag"><Img182/></div>
+        <div className="item" data-tag="flag"><Img183/></div>
+        <div className="item" data-tag="flag"><Img184/></div>
+        <div className="item" data-tag="flag"><Img185/></div>
+        <div className="item" data-tag="flag"><Img186/></div>
+        <div className="item" data-tag="flag"><Img187/></div>
+        <div className="item" data-tag="flag"><Img188/></div>
+        <div className="item" data-tag="flag"><Img189/></div>
+        <div className="item" data-tag="flag"><Img190/></div>
+        <div className="item" data-tag="flag"><Img191/></div>
+        <div className="item" data-tag="flag"><Img192/></div>
+        <div className="item" data-tag="flag"><Img193/></div>
+        <div className="item" data-tag="flag"><Img194/></div>
+        <div className="item" data-tag="flag"><Img195/></div>
+        <div className="item" data-tag="flag"><Img196/></div>
+        <div className="item" data-tag="flag"><Img197/></div>
+        <div className="item" data-tag="flag"><Img198/></div>
+        <div className="item" data-tag="flag"><Img199/></div>
+        <div className="item" data-tag="flag"><Img200/></div>
+        <div className="item" data-tag="flag"><Img201/></div>
+        <div className="item" data-tag="flag"><Img202/></div>
+        <div className="item" data-tag="flag"><Img203/></div>
+        <div className="item" data-tag="flag"><Img204/></div>
+        <div className="item" data-tag="flag"><Img205/></div>
+        <div className="item" data-tag="flag"><Img206/></div>
+        <div className="item" data-tag="flag"><Img207/></div>
+        <div className="item" data-tag="flag"><Img208/></div>
+        <div className="item" data-tag="flag"><Img209/></div>
+        <div className="item" data-tag="flag"><Img210/></div>
+        <div className="item" data-tag="flag"><Img211/></div>
+        <div className="item" data-tag="flag"><Img212/></div>
+        <div className="item" data-tag="flag"><Img213/></div>
+        <div className="item" data-tag="flag"><Img214/></div>
+        <div className="item" data-tag="flag"><Img215/></div>
+        <div className="item" data-tag="flag"><Img216/></div>
+        <div className="item" data-tag="flag"><Img217/></div>
+        <div className="item" data-tag="flag"><Img218/></div>
+        <div className="item" data-tag="flag"><Img219/></div>
+        <div className="item" data-tag="flag"><Img220/></div>
+        <div className="item" data-tag="flag"><Img221/></div>
+        <div className="item" data-tag="flag"><Img222/></div>
+        <div className="item" data-tag="flag"><Img223/></div>
+        <div className="item" data-tag="flag"><Img224/></div>
+        <div className="item" data-tag="flag"><Img225/></div>
+        <div className="item" data-tag="flag"><Img226/></div>
+        <div className="item" data-tag="flag"><Img227/></div>
+        <div className="item" data-tag="flag"><Img228/></div>
+        <div className="item" data-tag="flag"><Img229/></div>
+        <div className="item" data-tag="flag"><Img230/></div>
+        <div className="item" data-tag="flag"><Img231/></div>
+        <div className="item" data-tag="flag"><Img232/></div>
+        <div className="item" data-tag="flag"><Img233/></div>
+        <div className="item" data-tag="flag"><Img234/></div>
         <div className="item"><Img235/></div>
         <div className="item"><Img236/></div>
         <div className="item"><Img237/></div>

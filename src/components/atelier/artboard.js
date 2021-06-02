@@ -804,7 +804,7 @@ class Artboard extends React.Component {
 
     selectedElement.setAttribute("transform",
     `translate(`+ translate[0] +`,`+ translate[1] +`)
-     scale(`+ scaling[0] +`,`+ scaling[1] +`)`);
+     scale(`+ scaling[0] +`,`+ scaling[1] +`) skewY(`+ this.state.initialSkew+`) rotate(`+this.state.initialRotate+`)`);
 
     data_copy[selected] = selectedElement.outerHTML
 
