@@ -138,7 +138,7 @@ class GallaryPanel extends React.Component {
 
         for (let i = 0; i < items.length; i++) {
 
-          if (items[i].dataset.tag === "iot") {
+          if (items[i].dataset.tag === "iot" || items[i].dataset.tag === "graph") {
             console.log(items[i])
             items[i].style.display = "block"
           } else {
@@ -166,8 +166,8 @@ class GallaryPanel extends React.Component {
 
         for (let i = 0; i < items.length; i++) {
 
-          if (items[i].dataset.tag === "flag") {
-            console.log(items[i])
+          if (items[i].dataset.tag === "flag" || items[i].dataset.tag === "map") {
+
             items[i].style.display = "block"
           } else {
             items[i].style.display = "none"

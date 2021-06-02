@@ -60,6 +60,18 @@
   }
 }
 
+#color-set {
+  display: flex;
+  position: absolute;
+}
+
+#dimention {
+  pointer-events: none;
+  path {
+    pointer-events: auto;
+  }
+}
+
 #grid {
   pointer-events: none;
 }

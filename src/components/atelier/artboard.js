@@ -176,6 +176,28 @@ class Artboard extends React.Component {
         this.setState({ selectedElement: array.indexOf(g) });
         switchSelected( array.indexOf(g) )
 
+        const el = e.target.closest("[data-type]");
+        const dimention = document.getElementById('dimention')
+
+        if (el.dataset.dimention === undefined || el.dataset.dimention === 'none') {
+
+          dimention.children[0].style = "fill:lightgray;border:solid 1px gray;"
+          dimention.children[1].style = "fill:lightgray;border:solid 1px gray;"
+          dimention.children[2].style = "fill:lightgray;border:solid 1px gray;"
+        } else if (el.dataset.dimention === 'top') {
+          dimention.children[0].style = "fill:deepskyblue;border:solid 1px gray;"
+          dimention.children[1].style = "fill:lightgray;border:solid 1px gray;"
+          dimention.children[2].style = "fill:lightgray;border:solid 1px gray;"
+        } else if (el.dataset.dimention === 'left') {
+          dimention.children[0].style = "fill:lightgray;border:solid 1px gray;"
+          dimention.children[1].style = "fill:deepskyblue;border:solid 1px gray;"
+          dimention.children[2].style = "fill:lightgray;border:solid 1px gray;"
+        } else if (el.dataset.dimention === 'right') {
+          dimention.children[0].style = "fill:lightgray;border:solid 1px gray;"
+          dimention.children[1].style = "fill:lightgray;border:solid 1px gray;"
+          dimention.children[2].style = "fill:deepskyblue;border:solid 1px gray;"
+        }
+
         return array.indexOf(g)
 
       } else {
@@ -200,7 +222,8 @@ class Artboard extends React.Component {
 
       const selectedElement = elements.children[selected],
             selector = document.getElementById('selector'),
-            colorset = document.getElementById('color-set');
+            colorset = document.getElementById('color-set'),
+            dimention = document.getElementById('dimention');
 
       if ( selectedElement ){
 
@@ -252,7 +275,10 @@ class Artboard extends React.Component {
 
         colorset.style.top = client_top + client_h + 'px';
         colorset.style.left = client_left + 'px';
-        colorset.style.zIndex = "10000"
+        colorset.style.zIndex = "1000"
+
+        dimention.style.top = - client_h + 'px';
+        dimention.style.left = client_w + 'px';
 
       } else {
 
@@ -381,7 +407,7 @@ class Artboard extends React.Component {
 
     if ( this.state.isMouseDown ) {
 
-      const { updateArtboard, working, artboards, recordHistory } = this.props
+      const { updateArtboard, working, artboards, recordHistory, selected } = this.props
 
       const canvas = getCanvas({ artboards: artboards, working: working })
 
@@ -403,6 +429,8 @@ class Artboard extends React.Component {
 
         recordHistory(canvas)
       }
+
+      this.getAttribute(e, JSON.stringify(selected));
 
 
     }
@@ -1059,6 +1087,126 @@ class Artboard extends React.Component {
 
   }
 
+  dimensions = (e) => {
+
+    const { selected,
+            updateArtboard,
+            working,
+            artboards,
+            recordHistory } =  this.props,
+          svg = document.getElementById('svg'),
+          g = svg.children[selected],
+          data_copy = this.state.data.slice(),
+          canvas = getCanvas({ artboards: artboards, working: working }),
+          dimention = document.getElementById('dimention'),
+          disactive = "fill:lightgray;border:solid 1px gray",
+          active = "fill:deepskyblue;border:solid 1px gray",
+          translate = this.state.initialTranslate,
+          test = g.getBoundingClientRect();
+
+
+    switch (e) {
+      case "top":
+
+        if (g.getAttribute('data-dimention') !== 'top') {
+
+          const x = translate[0] - test.width
+          const y = translate[1] + (test.height / 1)
+
+          g.setAttribute("transform", `translate(`+ x +`,`+ y +`) scale(`+ 1.00 * this.state.initialScale[0] +`,`+  0.580 * this.state.initialScale[0] +`) skewY(0) rotate(-45)`);
+          g.setAttribute('data-dimention', 'top');
+
+          dimention.children[0].style = active
+          dimention.children[1].style = disactive
+          dimention.children[2].style = disactive
+
+        } else {
+
+          const x = translate[0]
+          const y = translate[1]
+
+          g.setAttribute('data-dimention', 'none');
+          g.setAttribute("transform", `translate(`+ x +`,`+ y +`) scale(`+ 1.00 * this.state.initialScale[0] +`,`+  1.00 * this.state.initialScale[0] +`) skewY(0) rotate(0)`);
+
+          dimention.children[0].style = disactive
+          dimention.children[1].style = disactive
+          dimention.children[2].style = disactive
+
+        }
+
+        break;
+      case "left":
+
+        if (g.getAttribute('data-dimention') !== 'left') {
+
+          const x = translate[0]// - test.width
+          const y = translate[1]// + (test.height / 1)
+
+          g.setAttribute("transform", `translate(`+ x +`,`+ y +`) scale(`+ 0.7071 * this.state.initialScale[0] +`,`+ 0.865 * this.state.initialScale[0] +`) skewY(25) rotate(0)`);
+          g.setAttribute('data-dimention', 'left');
+
+          dimention.children[0].style = disactive
+          dimention.children[1].style = active
+          dimention.children[2].style = disactive
+
+        } else {
+
+          g.setAttribute('data-dimention', 'none');
+          g.setAttribute("transform", `translate(`+ translate[0] +`,`+ translate[1] +`) scale(`+ this.state.initialScale[0] +`,`+  this.state.initialScale[0] +`) skewY(0) rotate(0)`);
+
+          dimention.children[0].style = disactive
+          dimention.children[1].style = disactive
+          dimention.children[2].style = disactive
+
+        }
+
+        break;
+      case "right":
+
+        if (g.getAttribute('data-dimention') !== 'right') {
+
+          const x = translate[0]// + test.width
+          const y = translate[1] + (test.height * 1)
+
+          g.setAttribute("transform", `translate(`+ x +`,`+ y +`) scale(`+ 0.7071 * this.state.initialScale[0] +`,`+ 0.865 * this.state.initialScale[0] +`) skewY(-25) rotate(0)`);
+          g.setAttribute('data-dimention', 'right');
+
+          dimention.children[0].style = disactive
+          dimention.children[1].style = disactive
+          dimention.children[2].style = active
+
+        } else {
+
+          g.setAttribute('data-dimention', 'none');
+          g.setAttribute("transform", `translate(`+ this.state.initialTranslate[0] +`,`+ this.state.initialTranslate[1] +`) scale(`+ this.state.initialScale[0] +`,`+  this.state.initialScale[0] +`) skewY(0) rotate(0)`);
+
+          dimention.children[0].style = disactive
+          dimention.children[1].style = disactive
+          dimention.children[2].style = disactive
+
+        }
+
+        break;
+      default:
+
+    }
+
+    data_copy[selected] = g.outerHTML
+
+    this.setState({data: data_copy});
+
+    const newData = updateArtboards({
+      working: working,
+      type: "svg_data",
+      artboards: artboards,
+      value: data_copy
+    })
+
+    updateArtboard(newData)
+
+    recordHistory(canvas)
+  }
+
   render() {
 
     const {
@@ -1283,96 +1431,11 @@ class Artboard extends React.Component {
            }}
            >
       {selector}
-      <svg width="45" height="100%" viewBox="0 0 200 200" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M102.601,9.337c-2.181,-1.259 -5.485,-1.396 -7.373,-0.306l-72.178,41.672c-1.889,1.091 -1.652,2.998 0.529,4.257l71.119,41.061c2.181,1.259 5.485,1.396 7.373,0.306l72.178,-41.672c1.889,-1.091 1.652,-2.998 -0.529,-4.257l-71.119,-41.061Z" style={{fill:"deepskyblue"}} onClick={()=>{
-        const { selected } =  this.props,
-              svg = document.getElementById('svg'),
-              g = svg.children[selected],
-              data_copy = this.state.data.slice();
+      <div id="color-set">
 
-        //上面
-        g.setAttribute("transform", `translate(`+ 230 +`,`+ 200 +`) scale(`+ 1.00 +`,`+  0.580 +`) skewY(-0) rotate(-45)`);
-
-        const { updateArtboard, working, artboards, recordHistory } = this.props
-
-        const canvas = getCanvas({ artboards: artboards, working: working })
-
-        data_copy[selected] = g.outerHTML
-
-        this.setState({data: data_copy});
-
-        const newData = updateArtboards({
-          working: working,
-          type: "svg_data",
-          artboards: artboards,
-          value: data_copy
-        })
-
-        updateArtboard(newData)
-
-        recordHistory(canvas)
-
-      }}/><path d="M96.439,107.74c-0,-2.518 -1.533,-5.448 -3.422,-6.538l-72.178,-41.672c-1.888,-1.09 -3.422,0.069 -3.422,2.587l0,82.121c0,2.518 1.534,5.448 3.422,6.538l72.178,41.672c1.889,1.091 3.422,-0.068 3.422,-2.586l-0,-82.122Z" style={{fill:"gray"}} onClick={()=>{
-        const { selected } =  this.props,
-              svg = document.getElementById('svg'),
-              g = svg.children[selected],
-              data_copy = this.state.data.slice();
-
-        //左
-        g.setAttribute("transform", `translate(`+ 150 +`,`+ 150 +`) scale(`+ 0.7071 +`,`+ 0.865 +`) skewY(25) rotate(0)`);
-
-        const { updateArtboard, working, artboards, recordHistory } = this.props
-
-        const canvas = getCanvas({ artboards: artboards, working: working })
-
-        data_copy[selected] = g.outerHTML
-
-        this.setState({data: data_copy});
-
-        const newData = updateArtboards({
-          working: working,
-          type: "svg_data",
-          artboards: artboards,
-          value: data_copy
-        })
-
-        updateArtboard(newData)
-
-        recordHistory(canvas)
-
-      }}/><path d="M180.412,61.673c0,-2.518 -1.533,-3.678 -3.421,-2.587l-72.178,41.672c-1.889,1.09 -3.422,4.02 -3.422,6.538l-0,82.121c-0,2.518 1.533,3.677 3.422,2.587l72.178,-41.672c1.888,-1.09 3.421,-4.02 3.421,-6.538l0,-82.121Z" style={{fill:"gray"}} onClick={()=>{
-        const { selected } =  this.props,
-              svg = document.getElementById('svg'),
-              g = svg.children[selected],
-              data_copy = this.state.data.slice();
-
-        //右
-        g.setAttribute("transform", `translate(`+ 250 +`,`+ 250 +`) scale(`+ 0.7071 +`,`+ 0.865 +`) skewY(-25) rotate(0)`);
-
-        const { updateArtboard, working, artboards, recordHistory } = this.props
-
-        const canvas = getCanvas({ artboards: artboards, working: working })
-
-        data_copy[selected] = g.outerHTML
-
-        this.setState({data: data_copy});
-
-        const newData = updateArtboards({
-          working: working,
-          type: "svg_data",
-          artboards: artboards,
-          value: data_copy
-        })
-
-        updateArtboard(newData)
-
-        recordHistory(canvas)
-
-      }}/></svg>
-      <div id="color-set"
-           style={{
-             display: "flex",
-             position: "absolute"
-           }}>{colorsDiv}</div>
+        <svg id="dimention" style={{position: "absolute",zIndex: "10000"}} width="45" height="100%" viewBox="0 0 200 200" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M102.601,9.337c-2.181,-1.259 -5.485,-1.396 -7.373,-0.306l-72.178,41.672c-1.889,1.091 -1.652,2.998 0.529,4.257l71.119,41.061c2.181,1.259 5.485,1.396 7.373,0.306l72.178,-41.672c1.889,-1.091 1.652,-2.998 -0.529,-4.257l-71.119,-41.061Z" style={{fill:"lightgray",border:"solid 1px gray"}} onClick={()=>this.dimensions('top')}/><path d="M96.439,107.74c-0,-2.518 -1.533,-5.448 -3.422,-6.538l-72.178,-41.672c-1.888,-1.09 -3.422,0.069 -3.422,2.587l0,82.121c0,2.518 1.534,5.448 3.422,6.538l72.178,41.672c1.889,1.091 3.422,-0.068 3.422,-2.586l-0,-82.122Z" style={{fill:"lightgray",border:"solid 1px gray"}} onClick={()=>this.dimensions('left')}/><path d="M180.412,61.673c0,-2.518 -1.533,-3.678 -3.421,-2.587l-72.178,41.672c-1.889,1.09 -3.422,4.02 -3.422,6.538l-0,82.121c-0,2.518 1.533,3.677 3.422,2.587l72.178,-41.672c1.888,-1.09 3.421,-4.02 3.421,-6.538l0,-82.121Z" style={{fill:"lightgray",border:"solid 1px gray"}} onClick={()=>this.dimensions('right')}/></svg>
+           {colorsDiv}
+      </div>
 
       <div style={{
         border:"solid 1px blue",
