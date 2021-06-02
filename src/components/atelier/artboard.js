@@ -60,6 +60,8 @@ class Artboard extends React.Component {
       stateOrProps: false,
       initialTranslate: [0,0], // to change translate(x,y)
       initialScale: [1.00, 1.00], // attention!!! it's used for both of translating and scaling
+      initialRotate: 0,
+      initialSkew: 0,
       initial: [0,0], // to calculate a gap
       displayContextMenu: false,
       selectedElement: 0,
@@ -283,6 +285,8 @@ class Artboard extends React.Component {
           {
             initialTranslate:[ parseInt(translate[0]), parseInt(translate[1]) ],
             initialScale: [parseFloat(translate[2]), parseFloat(translate[3])],
+            initialSkew: translate[4],
+            initialRotate: translate[5],
           }
         );
       }
@@ -313,7 +317,7 @@ class Artboard extends React.Component {
   }
 
   onMouseDown = (e) => {
-    
+
     this.selectElement(e);
 
     this.getColors(e, JSON.stringify(this.selectElement(e)));
@@ -362,7 +366,7 @@ class Artboard extends React.Component {
         parseInt(this.state.initialTranslate[1]) + parseInt(gap[1])
       ];
 
-      g.setAttribute("transform", `translate(`+ translate[0] +`,`+ translate[1] +`) scale(`+ this.state.initialScale[0] +`,`+ this.state.initialScale[1] +`)`);
+      g.setAttribute("transform", `translate(`+ translate[0] +`,`+ translate[1] +`) scale(`+ this.state.initialScale[0] +`,`+ this.state.initialScale[1] +`) skewY(`+ this.state.initialSkew +`) rotate(`+ this.state.initialRotate +`)`);
 
       data_copy[selected] = g.outerHTML
 
@@ -1279,6 +1283,91 @@ class Artboard extends React.Component {
            }}
            >
       {selector}
+      <svg width="45" height="100%" viewBox="0 0 200 200" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M102.601,9.337c-2.181,-1.259 -5.485,-1.396 -7.373,-0.306l-72.178,41.672c-1.889,1.091 -1.652,2.998 0.529,4.257l71.119,41.061c2.181,1.259 5.485,1.396 7.373,0.306l72.178,-41.672c1.889,-1.091 1.652,-2.998 -0.529,-4.257l-71.119,-41.061Z" style={{fill:"deepskyblue"}} onClick={()=>{
+        const { selected } =  this.props,
+              svg = document.getElementById('svg'),
+              g = svg.children[selected],
+              data_copy = this.state.data.slice();
+
+        //上面
+        g.setAttribute("transform", `translate(`+ 230 +`,`+ 200 +`) scale(`+ 1.00 +`,`+  0.580 +`) skewY(-0) rotate(-45)`);
+
+        const { updateArtboard, working, artboards, recordHistory } = this.props
+
+        const canvas = getCanvas({ artboards: artboards, working: working })
+
+        data_copy[selected] = g.outerHTML
+
+        this.setState({data: data_copy});
+
+        const newData = updateArtboards({
+          working: working,
+          type: "svg_data",
+          artboards: artboards,
+          value: data_copy
+        })
+
+        updateArtboard(newData)
+
+        recordHistory(canvas)
+
+      }}/><path d="M96.439,107.74c-0,-2.518 -1.533,-5.448 -3.422,-6.538l-72.178,-41.672c-1.888,-1.09 -3.422,0.069 -3.422,2.587l0,82.121c0,2.518 1.534,5.448 3.422,6.538l72.178,41.672c1.889,1.091 3.422,-0.068 3.422,-2.586l-0,-82.122Z" style={{fill:"gray"}} onClick={()=>{
+        const { selected } =  this.props,
+              svg = document.getElementById('svg'),
+              g = svg.children[selected],
+              data_copy = this.state.data.slice();
+
+        //左
+        g.setAttribute("transform", `translate(`+ 150 +`,`+ 150 +`) scale(`+ 0.7071 +`,`+ 0.865 +`) skewY(25) rotate(0)`);
+
+        const { updateArtboard, working, artboards, recordHistory } = this.props
+
+        const canvas = getCanvas({ artboards: artboards, working: working })
+
+        data_copy[selected] = g.outerHTML
+
+        this.setState({data: data_copy});
+
+        const newData = updateArtboards({
+          working: working,
+          type: "svg_data",
+          artboards: artboards,
+          value: data_copy
+        })
+
+        updateArtboard(newData)
+
+        recordHistory(canvas)
+
+      }}/><path d="M180.412,61.673c0,-2.518 -1.533,-3.678 -3.421,-2.587l-72.178,41.672c-1.889,1.09 -3.422,4.02 -3.422,6.538l-0,82.121c-0,2.518 1.533,3.677 3.422,2.587l72.178,-41.672c1.888,-1.09 3.421,-4.02 3.421,-6.538l0,-82.121Z" style={{fill:"gray"}} onClick={()=>{
+        const { selected } =  this.props,
+              svg = document.getElementById('svg'),
+              g = svg.children[selected],
+              data_copy = this.state.data.slice();
+
+        //右
+        g.setAttribute("transform", `translate(`+ 250 +`,`+ 250 +`) scale(`+ 0.7071 +`,`+ 0.865 +`) skewY(-25) rotate(0)`);
+
+        const { updateArtboard, working, artboards, recordHistory } = this.props
+
+        const canvas = getCanvas({ artboards: artboards, working: working })
+
+        data_copy[selected] = g.outerHTML
+
+        this.setState({data: data_copy});
+
+        const newData = updateArtboards({
+          working: working,
+          type: "svg_data",
+          artboards: artboards,
+          value: data_copy
+        })
+
+        updateArtboard(newData)
+
+        recordHistory(canvas)
+
+      }}/></svg>
       <div id="color-set"
            style={{
              display: "flex",

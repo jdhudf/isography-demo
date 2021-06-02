@@ -301,7 +301,7 @@ class Myloop extends Component {
       <>
         <div className="item"><Img1/></div>
         <div className="item"><Img2/></div>
-        <div className="item"><Img3/></div>
+        <div className="item" data-type="human"><Img3/></div>
         <div className="item"><Img4/></div>
         <div className="item"><Img33/></div>
         <div className="item"><Img5/></div>
@@ -537,18 +537,18 @@ class Myloop extends Component {
         <div className="item"><Img235/></div>
         <div className="item"><Img236/></div>
         <div className="item"><Img237/></div>
-        <div className="item"><Img238/></div>
-        <div className="item"><Img239/></div>
-        <div className="item"><Img240/></div>
-        <div className="item"><Img241/></div>
-        <div className="item"><Img242/></div>
-        <div className="item"><Img243/></div>
-        <div className="item"><Img244/></div>
-        <div className="item"><Img245/></div>
-        <div className="item"><Img246/></div>
-        <div className="item"><Img247/></div>
-        <div className="item"><Img248/></div>
-        <div className="item"><Img249/></div>
+        <div className="item" data-type="plain"><Img238/></div>
+        <div className="item" data-type="plain"><Img239/></div>
+        <div className="item" data-type="plain"><Img240/></div>
+        <div className="item" data-type="plain"><Img241/></div>
+        <div className="item" data-type="plain"><Img242/></div>
+        <div className="item" data-type="plain"><Img243/></div>
+        <div className="item" data-type="plain"><Img244/></div>
+        <div className="item" data-type="plain"><Img245/></div>
+        <div className="item" data-type="plain"><Img246/></div>
+        <div className="item" data-type="plain"><Img247/></div>
+        <div className="item" data-type="plain"><Img248/></div>
+        <div className="item" data-type="plain"><Img249/></div>
         <div className="item"><Img250/></div>
 
 
