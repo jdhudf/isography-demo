@@ -66,9 +66,10 @@
 }
 
 #dimention {
-  pointer-events: none;
+  //pointer-events: none;
   path {
     pointer-events: auto;
+    z-index: 100000;
   }
 }
 

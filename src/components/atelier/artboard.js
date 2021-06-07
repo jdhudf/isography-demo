@@ -178,23 +178,24 @@ class Artboard extends React.Component {
 
         const el = e.target.closest("[data-type]");
         const dimention = document.getElementById('dimention')
+        const fill = "#fff"
 
         if (el.dataset.dimention === undefined || el.dataset.dimention === 'none') {
 
-          dimention.children[0].style = "fill:lightgray;border:solid 1px gray;"
-          dimention.children[1].style = "fill:lightgray;border:solid 1px gray;"
-          dimention.children[2].style = "fill:lightgray;border:solid 1px gray;"
+          dimention.children[0].style = "fill:"+fill +";border:solid 1px gray;"
+          dimention.children[1].style = "fill:"+fill +";border:solid 1px gray;"
+          dimention.children[2].style = "fill:"+fill +";border:solid 1px gray;"
         } else if (el.dataset.dimention === 'top') {
           dimention.children[0].style = "fill:deepskyblue;border:solid 1px gray;"
-          dimention.children[1].style = "fill:lightgray;border:solid 1px gray;"
-          dimention.children[2].style = "fill:lightgray;border:solid 1px gray;"
+          dimention.children[1].style = "fill:"+fill +";border:solid 1px gray;"
+          dimention.children[2].style = "fill:"+fill +";border:solid 1px gray;"
         } else if (el.dataset.dimention === 'left') {
-          dimention.children[0].style = "fill:lightgray;border:solid 1px gray;"
+          dimention.children[0].style = "fill:"+fill +";border:solid 1px gray;"
           dimention.children[1].style = "fill:deepskyblue;border:solid 1px gray;"
-          dimention.children[2].style = "fill:lightgray;border:solid 1px gray;"
+          dimention.children[2].style = "fill:"+fill +";border:solid 1px gray;"
         } else if (el.dataset.dimention === 'right') {
-          dimention.children[0].style = "fill:lightgray;border:solid 1px gray;"
-          dimention.children[1].style = "fill:lightgray;border:solid 1px gray;"
+          dimention.children[0].style = "fill:"+fill +";border:solid 1px gray;"
+          dimention.children[1].style = "fill:"+fill +";border:solid 1px gray;"
           dimention.children[2].style = "fill:deepskyblue;border:solid 1px gray;"
         }
 
@@ -273,12 +274,12 @@ class Artboard extends React.Component {
         corners[3].style.top = p + 'px';
         corners[3].style.cursor = 'nesw-resize';
 
-        colorset.style.top = client_top + client_h + 'px';
-        colorset.style.left = client_left + 'px';
+        colorset.style.top = client_top + client_h - 40 + 'px';
+        colorset.style.left = client_left - 55 + 'px';
         colorset.style.zIndex = "1000"
 
-        dimention.style.top = - client_h + 'px';
-        dimention.style.left = client_w + 'px';
+        //dimention.style.top = - client_h + 'px';
+      //  dimention.style.left = client_w + 'px';
 
       } else {
 
@@ -1099,7 +1100,7 @@ class Artboard extends React.Component {
           data_copy = this.state.data.slice(),
           canvas = getCanvas({ artboards: artboards, working: working }),
           dimention = document.getElementById('dimention'),
-          disactive = "fill:lightgray;border:solid 1px gray",
+          disactive = "fill:#fff;border:solid 1px gray",
           active = "fill:deepskyblue;border:solid 1px gray",
           translate = this.state.initialTranslate,
           test = g.getBoundingClientRect();
@@ -1429,11 +1430,12 @@ class Artboard extends React.Component {
            onTouchEnd={(e)=>{
              e.preventDefault()
            }}
+           style={{position:"relative"}}
            >
+
+      <svg id="dimention" style={{position: "absolute",zIndex: "10000", height: "50px", top: "0px", right: "20px", display: (this.props.selected !== null ) ? "block": "none"}} width="45" height="100%" viewBox="0 0 200 200" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M102.601,9.337c-2.181,-1.259 -5.485,-1.396 -7.373,-0.306l-72.178,41.672c-1.889,1.091 -1.652,2.998 0.529,4.257l71.119,41.061c2.181,1.259 5.485,1.396 7.373,0.306l72.178,-41.672c1.889,-1.091 1.652,-2.998 -0.529,-4.257l-71.119,-41.061Z" style={{fill:"#fff",border:"solid 1px gray"}} onClick={()=>this.dimensions('top')}/><path d="M96.439,107.74c-0,-2.518 -1.533,-5.448 -3.422,-6.538l-72.178,-41.672c-1.888,-1.09 -3.422,0.069 -3.422,2.587l0,82.121c0,2.518 1.534,5.448 3.422,6.538l72.178,41.672c1.889,1.091 3.422,-0.068 3.422,-2.586l-0,-82.122Z" style={{fill:"#fff",border:"solid 1px gray"}} onClick={()=>this.dimensions('left')}/><path d="M180.412,61.673c0,-2.518 -1.533,-3.678 -3.421,-2.587l-72.178,41.672c-1.889,1.09 -3.422,4.02 -3.422,6.538l-0,82.121c-0,2.518 1.533,3.677 3.422,2.587l72.178,-41.672c1.888,-1.09 3.421,-4.02 3.421,-6.538l0,-82.121Z" style={{fill:"#fff",border:"solid 1px gray"}} onClick={()=>this.dimensions('right')}/></svg>
       {selector}
       <div id="color-set">
-
-        <svg id="dimention" style={{position: "absolute",zIndex: "10000"}} width="45" height="100%" viewBox="0 0 200 200" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M102.601,9.337c-2.181,-1.259 -5.485,-1.396 -7.373,-0.306l-72.178,41.672c-1.889,1.091 -1.652,2.998 0.529,4.257l71.119,41.061c2.181,1.259 5.485,1.396 7.373,0.306l72.178,-41.672c1.889,-1.091 1.652,-2.998 -0.529,-4.257l-71.119,-41.061Z" style={{fill:"lightgray",border:"solid 1px gray"}} onClick={()=>this.dimensions('top')}/><path d="M96.439,107.74c-0,-2.518 -1.533,-5.448 -3.422,-6.538l-72.178,-41.672c-1.888,-1.09 -3.422,0.069 -3.422,2.587l0,82.121c0,2.518 1.534,5.448 3.422,6.538l72.178,41.672c1.889,1.091 3.422,-0.068 3.422,-2.586l-0,-82.122Z" style={{fill:"lightgray",border:"solid 1px gray"}} onClick={()=>this.dimensions('left')}/><path d="M180.412,61.673c0,-2.518 -1.533,-3.678 -3.421,-2.587l-72.178,41.672c-1.889,1.09 -3.422,4.02 -3.422,6.538l-0,82.121c-0,2.518 1.533,3.677 3.422,2.587l72.178,-41.672c1.888,-1.09 3.421,-4.02 3.421,-6.538l0,-82.121Z" style={{fill:"lightgray",border:"solid 1px gray"}} onClick={()=>this.dimensions('right')}/></svg>
            {colorsDiv}
       </div>
 

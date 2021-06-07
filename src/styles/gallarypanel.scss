@@ -130,11 +130,11 @@
   .drawer-button {
     position: relative;
     position: absolute;
-    top: 0;
+    top: 60px;
     left: -20px;
     box-sizing: border-box;
     width: 40px;
-    height: 100vh;
+    height: 80vh;
     z-index: 0;
     p {
       position: relative;
@@ -188,6 +188,7 @@
 }
 
 .drawer.hide {
+
   flex-shrink: 30px;
   flex-basis: 30px;
   .drawer-content {
