@@ -32,6 +32,39 @@ $device-mobile: 480px;
   }
 }
 
+@font-face {
+  font-family: 'Tuffy';
+  src: url('../font/tuffy/Tuffy.ttf') format('truetype'),
+       url('../font/tuffy/Tuffy.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Tuffy';
+  src: url('../font/tuffy/Tuffy_Bold.ttf') format('truetype'),
+       url('../font/tuffy/Tuffy_Bold.otf') format('opentype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Tuffy';
+  src: url('../font/tuffy/Tuffy_Bold_Italic.ttf') format('truetype'),
+       url('../font/tuffy/Tuffy_Bold_Italic.otf') format('opentype');
+  font-weight: bold;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Tuffy';
+  src: url('../font/tuffy/Tuffy_Italic.ttf') format('truetype'),
+       url('../font/tuffy/Tuffy_Italic.otf') format('opentype');
+  font-weight: normal;
+  font-style: italic;
+}
+
+
 ul,ol,li {
   list-style-type: none;
   margin: 0;

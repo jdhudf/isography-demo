@@ -5,6 +5,8 @@ import GallaryPanel from '../components/atelier/gallarypanel.js';
 import ToolsPanel from '../components/atelier/toolspanel.js';
 import Artboard from '../components/atelier/artboard.js';
 
+import TextEditor from '../components/atelier/textEditor.js';
+
 import {
   //getArtboardData,
   updateArtboards,
@@ -12,6 +14,7 @@ import {
 } from '../components/handleLocalstorage'
 
 import '../styles/atelier.scss';
+import '../styles/textEditor.scss';
 
 import { connect } from 'react-redux'
 import { actions } from '../redux/actions';
@@ -411,7 +414,7 @@ class Atelier extends React.Component {
 
   render() {
 
-    const { darkmode, working, artboards } = this.props
+    const { darkmode, working, artboards, textEditor } = this.props
 
     const canvas = getCanvas({artboards:artboards,working:working});
 
@@ -451,7 +454,7 @@ class Atelier extends React.Component {
               cursor: ${ (this.state.test && this.state.willAddElementOfSvg) ? "grabbing" : "grab"};
             }
             .section-atelier .board, .section-atelier .section-artboard, .section-atelier .section-gallalypanel, .drawer {
-              cursor: ${ (this.state.test && this.state.willAddElementOfSvg) ? "grabbing" : "default"};
+              cursor: ${ (this.state.test && this.state.willAddElementOfSvg) ? "grabbing" : textEditor ? "text":"default" };
             }
           `}</style>
           <TopBar
@@ -461,16 +464,9 @@ class Atelier extends React.Component {
                selectEl={this.state.selectEl}
           />
           <div className="section-artboard">
-          {/*<div className="textEditer">
-            <select>
-              <option value="solid">
-                      Solid</option>
-              <option value="linear">
-                      Linear</option>
-              <option value="radial">
-                      Radial</option>
-            </select></div>
-            */}
+
+          {textEditor ? <TextEditor/>: null}
+
           <Artboard
                mainColor={mainColor}
                subColor={subColor}
@@ -511,7 +507,6 @@ class Atelier extends React.Component {
   }
 }
 
-
 const mapStateToProps = state => ({
   darkmode: state.json.darkmode,
   working: state.json.working,
@@ -520,6 +515,7 @@ const mapStateToProps = state => ({
   past: state.history.past,
   future: state.history.future,
   present: state.history.present,
+  textEditor: state.json.textEditor
 })
 
 

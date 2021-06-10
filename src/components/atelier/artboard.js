@@ -83,6 +83,7 @@ class Artboard extends React.Component {
       test: "no",
       item: null,
       dataCopy: getCanvas({artboards:this.props.artboards,working:this.props.working}).svg_data,
+      editable: false,
     };
   }
 
@@ -107,6 +108,8 @@ class Artboard extends React.Component {
 
     updateArtboard(newData)
     resetHistory(canvas)
+
+    //this.getAttribute()
 
   }
 
@@ -163,7 +166,7 @@ class Artboard extends React.Component {
 
   selectElement = (e) => {
 
-    const { switchSelected, artboards, working } =  this.props
+    const { switchSelected, artboards, working,  switchTextEditor } =  this.props
     const canvas = getCanvas({ artboards: artboards, working: working })
     var array = canvas.svg_data;
 
@@ -199,6 +202,12 @@ class Artboard extends React.Component {
           dimention.children[2].style = "fill:deepskyblue;border:solid 1px gray;"
         }
 
+        if (e.target.closest("[data-type]").dataset.type ===  "text") {
+          switchTextEditor(true)
+        } else {
+          switchTextEditor(false)
+        }
+
         return array.indexOf(g)
 
       } else {
@@ -224,7 +233,7 @@ class Artboard extends React.Component {
       const selectedElement = elements.children[selected],
             selector = document.getElementById('selector'),
             colorset = document.getElementById('color-set'),
-            dimention = document.getElementById('dimention');
+            textCursor = document.getElementById('textCurcor');
 
       if ( selectedElement ){
 
@@ -278,13 +287,18 @@ class Artboard extends React.Component {
         colorset.style.left = client_left - 55 + 'px';
         colorset.style.zIndex = "1000"
 
-        //dimention.style.top = - client_h + 'px';
-      //  dimention.style.left = client_w + 'px';
+        textCursor.style.transform = `scale(${this.state.initialScale})`
+        textCursor.style.top = - client_h - client_h + 'px';
+        textCursor.style.left = client_w + 'px';
+
+
+        colorset.style.display = "flex"
 
       } else {
 
         if( selector !== null ) {
           selector.style.display = "none"
+          colorset.style.display = "none"
         }
 
       }
@@ -293,6 +307,33 @@ class Artboard extends React.Component {
   }
 
   //--- get initial translate of selected elements ---//
+
+  /*setInitialTransform = (e) => {
+
+    const { selected } = this.props,
+          svg = document.getElementById('svg'),
+          g = svg.children[selected].outerHTML;
+
+    const regExp = /-?\d+(\.\d+)?/g,
+          transform = g.match(regExp)
+
+    switch (e) {
+      case "translate":
+
+        return [transform[0],transform[1]]
+
+        break;
+
+      case "scale":
+
+        return [transform[2],transform[3]]
+
+        break;
+      default:
+        return [1,1]
+
+    }
+  }*/
 
   getAttribute = (e,s) => {
 
@@ -357,9 +398,22 @@ class Artboard extends React.Component {
       initial:[ e.pageX, e.pageY ]
     })
 
-    const { artboards, working } = this.props,
+    const { artboards, working, textEditor, updateArtboard } = this.props,
           canvas =  getCanvas({ artboards: artboards, working: working }),
-          svg_data = canvas.svg_data;
+          svg_data = canvas.svg_data.slice();
+
+    if ( textEditor ) {
+
+      svg_data.push('<g transform="translate(20,35) scale(2.00,2.00)" data-type="text"><text x="0" y="0" style="fill:#fff">Text</text></g>')
+      //console.log(svg_data)
+
+      const newData = updateArtboards({artboards: artboards, working: working, type: "svg_data", value: svg_data})
+
+      updateArtboard(newData)
+      //switchTextEditor()
+
+
+    }
 
     if ( this.state.data !== svg_data ) {
 
@@ -383,21 +437,23 @@ class Artboard extends React.Component {
             artboardScale =  this.state.artboardScale;
 
       const gap = [
-        ( parseInt(move[0]) - parseInt(this.state.initial[0]) ) / artboardScale,
-        ( parseInt(move[1]) - parseInt(this.state.initial[1]) ) / artboardScale
+        ( parseFloat(move[0]) - parseFloat(this.state.initial[0]) ) / artboardScale,
+        ( parseFloat(move[1]) - parseFloat(this.state.initial[1]) ) / artboardScale
       ];
 
       //---  Calculate a translate(x,y)  ---//
       const translate = [
-        parseInt(this.state.initialTranslate[0]) + parseInt(gap[0]),
-        parseInt(this.state.initialTranslate[1]) + parseInt(gap[1])
+        parseFloat(this.state.initialTranslate[0]) + parseFloat(gap[0]),
+        parseFloat(this.state.initialTranslate[1]) + parseFloat(gap[1])
       ];
 
       g.setAttribute("transform", `translate(`+ translate[0] +`,`+ translate[1] +`) scale(`+ this.state.initialScale[0] +`,`+ this.state.initialScale[1] +`) skewY(`+ this.state.initialSkew +`) rotate(`+ this.state.initialRotate +`)`);
 
       data_copy[selected] = g.outerHTML
 
-      this.setState({data: data_copy});
+      this.setState({
+        data: data_copy
+      });
 
     }
 
@@ -412,9 +468,30 @@ class Artboard extends React.Component {
 
       const canvas = getCanvas({ artboards: artboards, working: working })
 
+      const svg = document.getElementById('svg'),
+            g = svg.children[selected];
+
+
+
+      if (g) {
+        //console.log(g.outerHTML)
+        const transform = g.getAttribute("transform")
+
+        //console.log(transform)
+        const regExp = /-?\d+(\.\d+)?/g,
+              value = transform.match(regExp)
+
+        //console.log(value)
+
+        this.setState({
+          initialTranslate: [value[0],value[1]],
+          initialScale: [value[2],[value[3]]]
+        })
+
+      }
       this.setState({
         isMouseDown:false,
-        stateOrProps:false
+        stateOrProps:false,
       })
 
       if (this.state.data !== canvas.svg_data) {
@@ -930,6 +1007,7 @@ class Artboard extends React.Component {
           translate = g.match(regExp)
 
     this.setState({
+      //initialTranslate: [translate[0],translate[1]],
       initialScale: [translate[2],translate[3]]
     })
 
@@ -1103,6 +1181,7 @@ class Artboard extends React.Component {
           disactive = "fill:#fff;border:solid 1px gray",
           active = "fill:deepskyblue;border:solid 1px gray",
           translate = this.state.initialTranslate,
+          //scale = this.state.initialScale,
           test = g.getBoundingClientRect();
 
 
@@ -1111,8 +1190,14 @@ class Artboard extends React.Component {
 
         if (g.getAttribute('data-dimention') !== 'top') {
 
-          const x = translate[0] - test.width
-          const y = translate[1] + (test.height / 1)
+
+
+          const x = translate[0] - ( test.width * 0.2 )
+          const y = translate[1] + (test.height / 0.9 )
+
+          //console.log("translate : " + translate[0] + " : " + translate[1]);
+          //console.log("translate : " + x + " : " + y);
+          //console.log(x,y)
 
           g.setAttribute("transform", `translate(`+ x +`,`+ y +`) scale(`+ 1.00 * this.state.initialScale[0] +`,`+  0.580 * this.state.initialScale[0] +`) skewY(0) rotate(-45)`);
           g.setAttribute('data-dimention', 'top');
@@ -1166,10 +1251,11 @@ class Artboard extends React.Component {
 
         if (g.getAttribute('data-dimention') !== 'right') {
 
-          const x = translate[0]// + test.width
-          const y = translate[1] + (test.height * 1)
+          const x = translate[0] + (test.width * 0.2)
+          const y = translate[1] + (test.height / 1.3)
 
           g.setAttribute("transform", `translate(`+ x +`,`+ y +`) scale(`+ 0.7071 * this.state.initialScale[0] +`,`+ 0.865 * this.state.initialScale[0] +`) skewY(-25) rotate(0)`);
+
           g.setAttribute('data-dimention', 'right');
 
           dimention.children[0].style = disactive
@@ -1206,6 +1292,99 @@ class Artboard extends React.Component {
     updateArtboard(newData)
 
     recordHistory(canvas)
+  }
+
+  editable = (e) => {
+
+    const el = e.target.closest('g')
+
+    if (el) {
+      if (el.dataset.type === "text") {
+        //const content = el.children[0].textContent
+        //const text = document.createTextNode(content)
+
+        //const svg = document.getElementById('svg')
+
+        this.setState({editable: !this.state.editable})
+        //
+
+        /*const { updateArtboard, working, artboards, recordHistory } = this.props,
+              canvas = getCanvas({artboards: artboards,working:working}),
+              data_copy = canvas.svg_data.slice();
+
+        let gtag = document.createElement('g');
+
+        gtag.setAttribute('transform', 'translate(50,50) scale(1.00,1.00) skewY(0) rotate(0)');
+        gtag.setAttribute('data-type', 'el');
+
+        gtag.appendChild(editable)
+
+        data_copy.push(gtag.outerHTML);
+
+        const newData = updateArtboards({
+          working: working,
+          type: "svg_data",
+          artboards: artboards,
+          value: data_copy
+        })
+
+        updateArtboard(newData)
+
+        recordHistory(JSON.parse(JSON.stringify(canvas)))
+
+        */
+
+      }
+    }
+  }
+
+  onKeyDown = (e) => {
+
+    /*if (this.state.editable) {
+      const { selected } = this.props
+      const svg = document.getElementById('svg')
+      let el = svg.children[selected].cloneNode(true)
+
+      if (el.dataset.type === "text") {
+
+        let text = el.children[0].textContent
+
+        if (e.key === "Backspace" ) {
+          text = text.slice( 0, -1 ) ;
+        } else if( e.key === "Shift" ) {
+
+        } else {
+          text += e.key
+        }
+
+        console.log(text)
+
+        el.children[0].textContent = text
+
+        const { updateArtboard, working, artboards, recordHistory } = this.props,
+              canvas = getCanvas({artboards: artboards,working:working}),
+              data_copy = canvas.svg_data.slice();
+
+        console.log(el.children[0].outerHTML)
+        data_copy[selected] = el.outerHTML
+
+        const newData = updateArtboards({
+          working: working,
+          type: "svg_data",
+          artboards: artboards,
+          value: data_copy
+        })
+
+        updateArtboard(newData)
+
+        recordHistory(JSON.parse(JSON.stringify(canvas)))
+
+
+
+      }
+
+    }*/
+
   }
 
   render() {
@@ -1430,13 +1609,16 @@ class Artboard extends React.Component {
            onTouchEnd={(e)=>{
              e.preventDefault()
            }}
+           tabIndex="0"
            style={{position:"relative"}}
+           onKeyDown={this.onKeyDown}
            >
 
       <svg id="dimention" style={{position: "absolute",zIndex: "10000", height: "50px", top: "0px", right: "20px", display: (this.props.selected !== null ) ? "block": "none"}} width="45" height="100%" viewBox="0 0 200 200" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M102.601,9.337c-2.181,-1.259 -5.485,-1.396 -7.373,-0.306l-72.178,41.672c-1.889,1.091 -1.652,2.998 0.529,4.257l71.119,41.061c2.181,1.259 5.485,1.396 7.373,0.306l72.178,-41.672c1.889,-1.091 1.652,-2.998 -0.529,-4.257l-71.119,-41.061Z" style={{fill:"#fff",border:"solid 1px gray"}} onClick={()=>this.dimensions('top')}/><path d="M96.439,107.74c-0,-2.518 -1.533,-5.448 -3.422,-6.538l-72.178,-41.672c-1.888,-1.09 -3.422,0.069 -3.422,2.587l0,82.121c0,2.518 1.534,5.448 3.422,6.538l72.178,41.672c1.889,1.091 3.422,-0.068 3.422,-2.586l-0,-82.122Z" style={{fill:"#fff",border:"solid 1px gray"}} onClick={()=>this.dimensions('left')}/><path d="M180.412,61.673c0,-2.518 -1.533,-3.678 -3.421,-2.587l-72.178,41.672c-1.889,1.09 -3.422,4.02 -3.422,6.538l-0,82.121c-0,2.518 1.533,3.677 3.422,2.587l72.178,-41.672c1.888,-1.09 3.421,-4.02 3.421,-6.538l0,-82.121Z" style={{fill:"#fff",border:"solid 1px gray"}} onClick={()=>this.dimensions('right')}/></svg>
       {selector}
       <div id="color-set">
            {colorsDiv}
+           <p id="textCurcor" style={{position: "absolute", left: "50px", top: "50px",color: "deepskyblue", display: this.state.editable ? "block": "none"}}>|</p>
       </div>
 
       <div style={{
@@ -1525,9 +1707,9 @@ class Artboard extends React.Component {
           onTouchStart={this.onTouchStart}
           onTouchMove={this.onTouchMove}
           onTouchEnd={this.onTouchEnd}
+          onDoubleClick={this.editable}
       >
       </svg>
-      {/*<Svg background={this.props.background} data={this.props.data}/>*/}
 
       </section>
 
@@ -1551,6 +1733,8 @@ const mapStateToProps = state => ({
   colors: state.json.colors,
   artboard_scale: state.json.artboardScale,
   artboard_position: state.json.artboardPosition,
+  textEditor: state.json.textEditor,
+  editable: state.json.editable
 })
 
 export default connect(
@@ -1563,7 +1747,9 @@ export default connect(
     resetHistory: value => dispatch(actions.resetHistory(value)),
     changeColorSet: value => dispatch(actions.changeColorSet(value)),
     artboardScale: value => dispatch(actions.artboardScale(value)),
-    artboardPosition: value => dispatch(actions.artboardPosition(value))
+    artboardPosition: value => dispatch(actions.artboardPosition(value)),
+    switchTextEditor: value => dispatch(actions.switchTextEditor(value)),
+    switchEditable: value => dispatch(actions.switchEditable(value)),
   })
   //dispatch => ({ switchDarkmode: value => dispatch(switchDarkmode(value)) })
 )(Artboard)

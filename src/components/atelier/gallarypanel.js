@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+//import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import '../../styles/atelier.scss';
 import '../../styles/gallarypanel.scss';
 
@@ -50,22 +50,24 @@ class GallaryPanel extends React.Component {
       svg = e.target.parentNode.closest("svg")//.outerHTML
     }
 
-    const children = svg.children;
+    if (svg) {
+      const children = svg.children;
 
-    let gtag = document.createElement('g');
+      let gtag = document.createElement('g');
 
-    gtag.setAttribute('transform', 'translate(0,0) scale(1.00,1.00) skewY(0) rotate(0)');
-    gtag.setAttribute('data-type', 'el');
+      gtag.setAttribute('transform', 'translate(0,0) scale(1.00,1.00) skewY(0) rotate(0)');
+      gtag.setAttribute('data-type', 'el');
 
-    for (let i = 0; i< children.length; i++) {
-      gtag.appendChild(children[i].cloneNode(true));
+      for (let i = 0; i< children.length; i++) {
+        gtag.appendChild(children[i].cloneNode(true));
+      }
+
+      if (gtag.outerHTML.startsWith('<g transform="translate')) {
+
+        this.props.method(gtag.outerHTML)
+
+      } else {}
     }
-
-    if (gtag.outerHTML.startsWith('<g transform="translate')) {
-
-      this.props.method(gtag.outerHTML)
-
-    } else {}
 
   }
 

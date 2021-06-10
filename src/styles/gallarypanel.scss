@@ -130,12 +130,14 @@
   .drawer-button {
     position: relative;
     position: absolute;
-    top: 60px;
+    top: 100px;
     left: -20px;
     box-sizing: border-box;
     width: 40px;
-    height: 80vh;
+    height: 75vh;
     z-index: 0;
+    //opacity: 0.3;
+    //background: red;
     p {
       position: relative;
       top: 45%;

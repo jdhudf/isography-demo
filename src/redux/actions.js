@@ -5,6 +5,18 @@ export const actions = {
       payload: value
     }
   },
+  switchTextEditor(value) {
+    return {
+      type: 'switch/textEditor',
+      payload: value
+    }
+  },
+  switchEditable(value) {
+    return {
+      type: 'switch/editable',
+      payload: value
+    }
+  },
   switchGrid(value) {
     return {
       type: 'grid/switch',

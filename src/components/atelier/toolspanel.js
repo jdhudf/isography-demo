@@ -7,7 +7,7 @@ import {
   faSortAmountDown,
   faLongArrowAltRight,
   faLongArrowAltLeft ,
-  //faFont,
+  faFont,
   faTrashAlt,
 } from '@fortawesome/free-solid-svg-icons'
 
@@ -29,6 +29,7 @@ const getWorking = state => state.json.working
 const getArtboards = state => state.artboards.present.artboards
 const getGrid = state => state.json.grid
 const getDarkmode = state => state.json.darkmode
+const getTextEditor = state => state.json.textEditor
 
 
 
@@ -76,6 +77,7 @@ class ToolsPanel extends React.Component {
         break;
       case 'Delete':
         console.log('delete');
+
         data_copy.splice(selected,1);
         switchSelected(null)
         break;
@@ -193,7 +195,9 @@ class ToolsPanel extends React.Component {
           data_copy = canvas.svg_data.slice();
 
 
-    console.log(data_copy)
+    const color_set = document.getElementById('color-set');
+
+    color_set.style.display = "none";
 
     data_copy.splice(selected,1);
 
@@ -270,7 +274,7 @@ class ToolsPanel extends React.Component {
 
           }
         })()}
-        {/*<TextEditer />*/}
+        
         {(()=>{
           if ( svg_data.length > 0 ) {
             if( selected !== null ) {
@@ -497,25 +501,28 @@ class ToolsPanel extends React.Component {
 
   //const [ showBar, toggleBar] = useState(false)
 
-  const artboards = useSelector(getArtboards)
-  const working = useSelector(getWorking)
+  //const artboards = useSelector(getArtboards)
+  //const working = useSelector(getWorking)
+  const textEditor = useSelector(getTextEditor)
+
   const dispatch = useDispatch()
 
   const appendText = () => {
 
-    const canvas = getCanvas({artboards: artboards, working: working}),
-          svg_data = canvas.svg_data.slice()
+    //const canvas = getCanvas({artboards: artboards, working: working}),
+          //svg_data = canvas.svg_data.slice()
 
-    svg_data.push('<g transform="translate(20,35) scale(2.00,2.00)" data-type="el"><text x="0" y="0">Text</text></g>')
-    console.log(svg_data)
+    //svg_data.push('<g transform="translate(20,35) scale(2.00,2.00)" data-type="text"><text x="0" y="0" style="fill:#fff">Text</text></g>')
+    //console.log(svg_data)
 
-    const newData = updateArtboards({artboards: artboards, working: working, type: "svg_data", value: svg_data})
+    //const newData = updateArtboards({artboards: artboards, working: working, type: "svg_data", value: svg_data})
 
-    dispatch({type: 'update/artboard', payload: newData})
+    //dispatch({type: 'update/artboard', payload: newData})
+    dispatch({type: 'switch/textEditor', payload: !textEditor})
   }
 
   return (
-    <p onClick={appendText}><FontAwesomeIcon icon={faFont} /></p>
+    <p onClick={appendText} style={{color:textEditor ? "deepskyblue": "#000" }}><FontAwesomeIcon icon={faFont} /></p>
   )
 }*/
 
@@ -906,7 +913,9 @@ const mapStateToProps = state => ({
   future: state.history.future,
   present: state.history.present,
   selected: state.json.selected,
-  darkmode: state.json.darkmode
+  darkmode: state.json.darkmode,
+  textEditor: state.json.textEditor,
+  editable: state.json.editable
 })
 
 export default connect(
@@ -918,6 +927,7 @@ export default connect(
     undo:           value => dispatch(actions.undo(value)),//value => dispatch(actions.undo(value)),
     redo:           value => dispatch(actions.redo(value)),
     switchSelected: value => dispatch(actions.switchSelected(value)),
+    switchEditable: value => dispatch(actions.switchEditable(value)),
   })
   //dispatch => ({ switchDarkmode: value => dispatch(switchDarkmode(value)) })
 )(ToolsPanel)

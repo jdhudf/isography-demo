@@ -8,6 +8,8 @@ const initialState = {
   colors: [],
   artboardScale: 0.8,
   artboardPosition: [0, 0],
+  textEditor: false,
+  editable: false,
 }
 
 export default function jsonReducer(state = initialState, action) {
@@ -51,6 +53,16 @@ export default function jsonReducer(state = initialState, action) {
       return {
         ...state,
         artboardPosition: action.payload
+      }
+    case 'switch/textEditor':
+      return {
+        ...state,
+        textEditor: action.payload
+      }
+    case 'switch/editable':
+      return {
+        ...state,
+        textEditor: action.payload
       }
     default:
       return state
