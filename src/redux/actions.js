@@ -17,6 +17,12 @@ export const actions = {
       payload: value
     }
   },
+  switchAddText(value) {
+    return {
+      type: 'switch/addText',
+      payload: value
+    }
+  },
   switchGrid(value) {
     return {
       type: 'grid/switch',

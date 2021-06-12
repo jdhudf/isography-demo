@@ -73,7 +73,7 @@ class IsoItems extends React.Component {
     }
 
     return (
-      <div>
+      <div style={{display: "inline"}}>
         <div className="allItems" style={{display: `${this.state.displayItems?"block": "none"}`}}>
           <div
             className="allItems_background"

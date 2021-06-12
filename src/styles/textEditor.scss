@@ -8,6 +8,8 @@
   align-items: center;
   padding-top: 2px;
   z-index: 10000;
+  position: absolute;
+  width: 100%;
   select,input {
     border: solid 1px lightgray;
     border-radius: 2px;
@@ -81,7 +83,7 @@ div.font-family {
   position: relative;
   z-index: 10000;
   ul {
-    display: block;
+    display: none;
     position: absolute;
     top: 25px;
     left: 0;
@@ -182,5 +184,10 @@ div.font-family {
   }
   .font-preview.serif {
     font-family: serif;
+  }
+  &:hover {
+    ul {
+      display: block;
+    }
   }
 }

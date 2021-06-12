@@ -174,7 +174,7 @@ const Dashboard = () => {
           </div>*/}
           <ul className="url">
             <li><a href="https://www.isography.app" target="_blank" rel="noreferrer">Official HP</a></li>
-          {/*  <li><AllItems /></li>*/}
+            <li><AllItems /></li>
           </ul>
           <div className="sendFeedback">
             <a href="https://forms.gle/pNbptjqrGctWzJS77" target="_blank" rel="noreferrer">Send Bug report or Feedback<span>Powered by Google From</span></a>
@@ -345,7 +345,7 @@ const NewsFeed = () => {
   return (
     <div className="new-feed">
       <Slider {...settings}>
-      
+
       <div className="article">
         <a href="https://www.isography.app/hello-world">
           <div className="thumb"><img src={img} alt=""/></div>

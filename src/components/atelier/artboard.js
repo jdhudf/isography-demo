@@ -91,7 +91,7 @@ class Artboard extends React.Component {
   componentDidMount(e) {
 
     const el = document.querySelector('.section-artboard');
-    el.addEventListener('wheel', this.onWheel/*(e) => onWheel(e)*/  /*this.onWheel*/, { passive: false });
+    el.addEventListener('wheel', this.onWheel/*(e) => onWheel(e)*/, { passive: false });
     el.addEventListener('gesturestart', this.gestureStart, { passive: false });
     el.addEventListener('gesturechange', this.gestureChange, { passive: false });
     el.addEventListener('gestureend', this.gestureEnd, { passive: false });
@@ -166,7 +166,7 @@ class Artboard extends React.Component {
 
   selectElement = (e) => {
 
-    const { switchSelected, artboards, working,  switchTextEditor } =  this.props
+    const { switchSelected, artboards, working,  switchTextEditor, switchEditable } =  this.props
     const canvas = getCanvas({ artboards: artboards, working: working })
     var array = canvas.svg_data;
 
@@ -206,6 +206,7 @@ class Artboard extends React.Component {
           switchTextEditor(true)
         } else {
           switchTextEditor(false)
+          switchEditable(false)
         }
 
         return array.indexOf(g)
@@ -214,6 +215,9 @@ class Artboard extends React.Component {
 
         this.setState({ isMouseDown:false, isMouseDownMobile: false })
         switchSelected( null )
+        switchTextEditor(false)
+        switchEditable(false)
+
 
       }
 
@@ -223,7 +227,7 @@ class Artboard extends React.Component {
 
   updateSelecter = () => {
 
-    const { selected } = this.props
+    const { selected, switchEditable, editable } = this.props
 
     // Selector is lightblue line.
     const elements = document.getElementById("svg");
@@ -235,7 +239,7 @@ class Artboard extends React.Component {
             colorset = document.getElementById('color-set'),
             textCursor = document.getElementById('textCurcor');
 
-      if ( selectedElement ){
+      if ( selectedElement ) {
 
         const client_w = selectedElement.getBoundingClientRect().width,
               client_h = selectedElement.getBoundingClientRect().height,
@@ -286,13 +290,24 @@ class Artboard extends React.Component {
         colorset.style.top = client_top + client_h - 40 + 'px';
         colorset.style.left = client_left - 55 + 'px';
         colorset.style.zIndex = "1000"
-
-        textCursor.style.transform = `scale(${this.state.initialScale})`
-        textCursor.style.top = - client_h - client_h + 'px';
-        textCursor.style.left = client_w + 'px';
-
-
         colorset.style.display = "flex"
+
+
+        if (selectedElement.dataset.type === "text" && editable) {
+          const asf = selectedElement.getAttribute("transform")
+          textCursor.style.height = client_h + 'px';
+
+          const regExp = /-?\d+(\.\d+)?/g,
+                scale = asf.match(regExp);
+
+          textCursor.style.left = client_w + 'px';
+          //textCursor.style.top = - client_h / this.state.artboardScale/parseFloat(scale[2]) - client_h/parseFloat(scale[2])/this.state.artboardScale - client_h + 7 + 'px';
+          textCursor.style.top = - (client_h / this.state.artboardScale/parseFloat(scale[2]))*2 - client_h + 7 + 'px';
+          textCursor.style.zIndex = '10000';
+          textCursor.style.display= 'block';
+        } else {
+          textCursor.style.display= 'none';
+        }
 
       } else {
 
@@ -398,19 +413,26 @@ class Artboard extends React.Component {
       initial:[ e.pageX, e.pageY ]
     })
 
-    const { artboards, working, textEditor, updateArtboard } = this.props,
+    const { artboards, working, textEditor, updateArtboard, addText, switchAddText, artboard_scale } = this.props,
           canvas =  getCanvas({ artboards: artboards, working: working }),
           svg_data = canvas.svg_data.slice();
 
-    if ( textEditor ) {
+    if ( addText ) {
 
-      svg_data.push('<g transform="translate(20,35) scale(2.00,2.00)" data-type="text"><text x="0" y="0" style="fill:#fff">Text</text></g>')
+      const svg = document.getElementById('svg'),
+            el = svg.getBoundingClientRect(),
+            artboard_scale = this.state.artboardScale,
+            x = Math.round(e.clientX-el.left) / artboard_scale,
+            y = Math.round(e.clientY-el.top) / artboard_scale + 30;
+
+
+      svg_data.push(`<g transform="translate(${x},${y}) scale(2.00,2.00)" data-type="text"><text x="0" y="0" style="fill:#fff" fill="#fff" editable="simple">Text</text></g>`)
       //console.log(svg_data)
 
       const newData = updateArtboards({artboards: artboards, working: working, type: "svg_data", value: svg_data})
 
       updateArtboard(newData)
-      //switchTextEditor()
+      switchAddText(false)
 
 
     }
@@ -803,7 +825,7 @@ class Artboard extends React.Component {
 
   onWheel = (e) => {
     e.preventDefault();
-    //this.updateSelecter();
+
     if (e.ctrlKey) {
 
       if (0.5 < this.state.artboardScale < 1.5) {
@@ -1305,7 +1327,10 @@ class Artboard extends React.Component {
 
         //const svg = document.getElementById('svg')
 
-        this.setState({editable: !this.state.editable})
+        const { switchEditable, editable } =this.props
+
+        switchEditable(!editable)
+        console.log(editable)
         //
 
         /*const { updateArtboard, working, artboards, recordHistory } = this.props,
@@ -1340,7 +1365,10 @@ class Artboard extends React.Component {
 
   onKeyDown = (e) => {
 
-    /*if (this.state.editable) {
+    const { editable } = this.props
+
+    if (editable) {
+
       const { selected } = this.props
       const svg = document.getElementById('svg')
       let el = svg.children[selected].cloneNode(true)
@@ -1350,14 +1378,31 @@ class Artboard extends React.Component {
         let text = el.children[0].textContent
 
         if (e.key === "Backspace" ) {
-          text = text.slice( 0, -1 ) ;
-        } else if( e.key === "Shift" ) {
 
-        } else {
+          text = text.slice( 0, -1 ) ;
+
+        } else if ( e.key === "Shift" ) {
+
+          text += " "
+
+        } else if ( e.key === "a" || e.key === "b" || e.key === "c" || e.key === "d" || e.key === "e" || e.key === "f" || e.key === "g" || e.key === "h" || e.key === "i" || e.key === "j" || e.key === "k" || e.key === "l" || e.key === "m" || e.key === "n" || e.key === "o" || e.key === "p" || e.key === "q" || e.key === "r" || e.key === "s" || e.key === "t" || e.key === "u" || e.key === "v" || e.key === "w" || e.key === "x" || e.key === "y" || e.key === "z" || e.key === "0" || e.key === "1" || e.key === "2" || e.key === "3" || e.key === "4" || e.key === "5" || e.key === "6" || e.key === "7" || e.key === "8" || e.key === "9" || e.key === "A" || e.key === "B" || e.key === "9" || e.key === "9" || e.key === "C" || e.key === "F" || e.key === "E" || e.key === "F" || e.key === "G" || e.key === "H" || e.key === "I" || e.key === "J" || e.key === "K" || e.key === "L" || e.key === "M" || e.key === "N" || e.key === "O" || e.key === "P" || e.key === "Q" || e.key === "R" || e.key === "S" || e.key === "T" || e.key === "U" || e.key === "V" || e.key === "W" || e.key === "X" || e.key === "Y" || e.key === "Z") {
           text += e.key
+        } else if (e.key === " ") {
+
+          text += " "
+        } else if (e.key === "Enter") {
+
+          var tbreak = document.createElementNS('http://www.w3.org/2000/svg', 'tbreak');
+
+          console.log(el.children[0].cloneNode(true))
+
+          el.children[0].appendChild(tbreak);
+
+          text += "\n"
+
         }
 
-        console.log(text)
+        console.log(e.keycode,e.key)
 
         el.children[0].textContent = text
 
@@ -1365,7 +1410,6 @@ class Artboard extends React.Component {
               canvas = getCanvas({artboards: artboards,working:working}),
               data_copy = canvas.svg_data.slice();
 
-        console.log(el.children[0].outerHTML)
         data_copy[selected] = el.outerHTML
 
         const newData = updateArtboards({
@@ -1379,11 +1423,9 @@ class Artboard extends React.Component {
 
         recordHistory(JSON.parse(JSON.stringify(canvas)))
 
-
-
       }
 
-    }*/
+    }
 
   }
 
@@ -1395,7 +1437,8 @@ class Artboard extends React.Component {
        working, grid, selected,
        //recordHistory,
        changeColorSet,
-       updateArtboard
+       updateArtboard, textEditor,
+       editable
      } = this.props
     const canvas = getCanvas({ artboards: artboards, working: working});
           //svg_data = canvas.svg_data.slice()
@@ -1614,11 +1657,12 @@ class Artboard extends React.Component {
            onKeyDown={this.onKeyDown}
            >
 
-      <svg id="dimention" style={{position: "absolute",zIndex: "10000", height: "50px", top: "0px", right: "20px", display: (this.props.selected !== null ) ? "block": "none"}} width="45" height="100%" viewBox="0 0 200 200" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M102.601,9.337c-2.181,-1.259 -5.485,-1.396 -7.373,-0.306l-72.178,41.672c-1.889,1.091 -1.652,2.998 0.529,4.257l71.119,41.061c2.181,1.259 5.485,1.396 7.373,0.306l72.178,-41.672c1.889,-1.091 1.652,-2.998 -0.529,-4.257l-71.119,-41.061Z" style={{fill:"#fff",border:"solid 1px gray"}} onClick={()=>this.dimensions('top')}/><path d="M96.439,107.74c-0,-2.518 -1.533,-5.448 -3.422,-6.538l-72.178,-41.672c-1.888,-1.09 -3.422,0.069 -3.422,2.587l0,82.121c0,2.518 1.534,5.448 3.422,6.538l72.178,41.672c1.889,1.091 3.422,-0.068 3.422,-2.586l-0,-82.122Z" style={{fill:"#fff",border:"solid 1px gray"}} onClick={()=>this.dimensions('left')}/><path d="M180.412,61.673c0,-2.518 -1.533,-3.678 -3.421,-2.587l-72.178,41.672c-1.889,1.09 -3.422,4.02 -3.422,6.538l-0,82.121c-0,2.518 1.533,3.677 3.422,2.587l72.178,-41.672c1.888,-1.09 3.421,-4.02 3.421,-6.538l0,-82.121Z" style={{fill:"#fff",border:"solid 1px gray"}} onClick={()=>this.dimensions('right')}/></svg>
+      <svg id="dimention" style={{position: "absolute",zIndex: "10000", height: "50px", top: textEditor ? "50px": "0px", right: "20px", display: (this.props.selected !== null ) ? "block": "none"}} width="45" height="100%" viewBox="0 0 200 200" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M102.601,9.337c-2.181,-1.259 -5.485,-1.396 -7.373,-0.306l-72.178,41.672c-1.889,1.091 -1.652,2.998 0.529,4.257l71.119,41.061c2.181,1.259 5.485,1.396 7.373,0.306l72.178,-41.672c1.889,-1.091 1.652,-2.998 -0.529,-4.257l-71.119,-41.061Z" style={{fill:"#fff",border:"solid 1px gray"}} onClick={()=>this.dimensions('top')}/><path d="M96.439,107.74c-0,-2.518 -1.533,-5.448 -3.422,-6.538l-72.178,-41.672c-1.888,-1.09 -3.422,0.069 -3.422,2.587l0,82.121c0,2.518 1.534,5.448 3.422,6.538l72.178,41.672c1.889,1.091 3.422,-0.068 3.422,-2.586l-0,-82.122Z" style={{fill:"#fff",border:"solid 1px gray"}} onClick={()=>this.dimensions('left')}/><path d="M180.412,61.673c0,-2.518 -1.533,-3.678 -3.421,-2.587l-72.178,41.672c-1.889,1.09 -3.422,4.02 -3.422,6.538l-0,82.121c-0,2.518 1.533,3.677 3.422,2.587l72.178,-41.672c1.888,-1.09 3.421,-4.02 3.421,-6.538l0,-82.121Z" style={{fill:"#fff",border:"solid 1px gray"}} onClick={()=>this.dimensions('right')}/></svg>
       {selector}
       <div id="color-set">
            {colorsDiv}
-           <p id="textCurcor" style={{position: "absolute", left: "50px", top: "50px",color: "deepskyblue", display: this.state.editable ? "block": "none"}}>|</p>
+           <p id="textCurcor" style={{position: "absolute", left: "50px", top: "50px",fontSize: "20px",color: "deepskyblue", display: editable ? "block": "none"}}>
+           </p>
       </div>
 
       <div style={{
@@ -1734,7 +1778,8 @@ const mapStateToProps = state => ({
   artboard_scale: state.json.artboardScale,
   artboard_position: state.json.artboardPosition,
   textEditor: state.json.textEditor,
-  editable: state.json.editable
+  editable: state.json.editable,
+  addText: state.json.addText
 })
 
 export default connect(
@@ -1750,6 +1795,8 @@ export default connect(
     artboardPosition: value => dispatch(actions.artboardPosition(value)),
     switchTextEditor: value => dispatch(actions.switchTextEditor(value)),
     switchEditable: value => dispatch(actions.switchEditable(value)),
+    switchAddText: value => dispatch(actions.switchAddText(value)),
+
   })
   //dispatch => ({ switchDarkmode: value => dispatch(switchDarkmode(value)) })
 )(Artboard)

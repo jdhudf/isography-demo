@@ -13,25 +13,20 @@ import {
   getCanvas,
 } from '../components/handleLocalstorage'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
+import {
+  faFont,
+} from '@fortawesome/free-solid-svg-icons'
+
 import '../styles/atelier.scss';
 import '../styles/textEditor.scss';
 
 import { connect } from 'react-redux'
 import { actions } from '../redux/actions';
 
-
-//====================================
-//  We manage data such as
-//  * mainColor's Hex
-//  * subCoolor's Hex
-//  * accentColor's Hex
-//  in this file as state of this component.
-//
-//  Each SVG items' colors are effected
-//  from style jsx in this file.
-//  If those state are changed,
-//  lower component's props are effected.
-//====================================
+import cursor from '../images/addtextcursor.svg'
+import cursorpng from '../images/cursor_resize.png'
 
 class Atelier extends React.Component {
   constructor(props) {
@@ -224,18 +219,46 @@ class Atelier extends React.Component {
   onMouseMove = (e) => {
     e.preventDefault();
 
+    const {addText} = this.props
+
     if (this.state.test) {
       this.moveSVG(e)
     }
 
+    if (addText) {
+
+      const font = document.getElementById('font')
+      const x = e.pageX + 3 + "px",
+            y = e.pageY - 13 + "px"
+      font.style.display = "block"
+      font.style.position = "absolute"
+      font.style.color = "deepskyblue"
+      font.style.top = y
+      font.style.left = x
+      font.style.zIndex = "10000"
+
+    }
+
   }
-
-
 
   onMouseUp = (e) => {
     //console.log('mouseUp: ' + e.target.parentNode.outerHTML)
     document.querySelector('.section-gallalypanel').style.cursor = 'default';
     document.querySelector('.section-artboard').style.cursor = 'default';
+
+    const {addText} = this.props
+
+    if (addText) {
+      const font = document.getElementById('font')
+      const x = e.pageX + 3 + "px",
+            y = e.pageY - 13 + "px"
+      font.style.display = "block"
+      font.style.color = "#fff"
+      font.style.position = "absolute"
+      font.style.top = y
+      font.style.left = x
+    }
+
   }
 
   onMouseLeave = (e) => {
@@ -414,9 +437,10 @@ class Atelier extends React.Component {
 
   render() {
 
-    const { darkmode, working, artboards, textEditor } = this.props
+    const { darkmode, working, artboards, textEditor, editable, addText } = this.props
 
     const canvas = getCanvas({artboards:artboards,working:working});
+
 
     const mainColor = canvas.color_scheme["mainColor"],
           subColor = canvas.color_scheme["subColor"],
@@ -424,6 +448,7 @@ class Atelier extends React.Component {
           background = canvas.color_scheme["background"];
 
 
+    
     return (
       <section
           className={ darkmode ? "section-atelier dark-mode": "section-atelier" }
@@ -438,6 +463,7 @@ class Atelier extends React.Component {
           //onKeyDown={this.keyPress}
           //onKeyUp= {this.keyUp}}
           tabIndex="0"
+          style={{position: "relative"}}
           >
 
           <style jsx>{`
@@ -454,7 +480,7 @@ class Atelier extends React.Component {
               cursor: ${ (this.state.test && this.state.willAddElementOfSvg) ? "grabbing" : "grab"};
             }
             .section-atelier .board, .section-atelier .section-artboard, .section-atelier .section-gallalypanel, .drawer {
-              cursor: ${ (this.state.test && this.state.willAddElementOfSvg) ? "grabbing" : textEditor ? "text":"default" };
+              cursor: ${ (this.state.test && this.state.willAddElementOfSvg) ? "grabbing" : addText ? "crosshair": editable ? "text" : "default" }
             }
           `}</style>
           <TopBar
@@ -501,6 +527,7 @@ class Atelier extends React.Component {
                  this.removeSVG()
                }}
           />
+          <p style={{display: addText ? "block" : "none",position: "absolute", color: "#fff", fontSize: "15px", zIndex: "10000"}} id="font"><FontAwesomeIcon icon={faFont} /></p>
       </section>
     );
 
@@ -515,7 +542,9 @@ const mapStateToProps = state => ({
   past: state.history.past,
   future: state.history.future,
   present: state.history.present,
-  textEditor: state.json.textEditor
+  textEditor: state.json.textEditor,
+  editable: state.json.editable,
+  addText: state.json.addText
 })
 
 

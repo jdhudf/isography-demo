@@ -45,8 +45,19 @@
   }
 }
 
+#textCurcor {
+  background: deepskyblue;
+  width: 3px;
+  height: 20px;
+  display: block;
+}
 #board:focus {
   outline: none;
+}
+
+#board, #svg {
+  background: none;
+  z-index: -1;
 }
 
 #selector {

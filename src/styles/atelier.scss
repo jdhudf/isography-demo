@@ -43,6 +43,7 @@
   display: flex;
   flex-wrap: wrap;
   user-select: none;
+  position: relative;
   .section-menubar {
     flex-basis: 100vw;
     z-index: 10000;
@@ -56,7 +57,7 @@
     background: #FFF;
     color: #000;
     border-right: solid 1px #E4E4E4;
-    z-index: 1000;
+    z-index: 10000;
     ul  {
       margin-top: 10px;
       li {
@@ -102,6 +103,11 @@
       height: 33vh;
     }
   }
+}
+
+#font {
+  -webkit-text-stroke-width: 2px;
+  -webkit-text-stroke-color: #000;
 }
 
 .dark-mode {

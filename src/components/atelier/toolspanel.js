@@ -30,6 +30,7 @@ const getArtboards = state => state.artboards.present.artboards
 const getGrid = state => state.json.grid
 const getDarkmode = state => state.json.darkmode
 const getTextEditor = state => state.json.textEditor
+const getAddText = state => state.json.addText
 
 
 
@@ -274,7 +275,9 @@ class ToolsPanel extends React.Component {
 
           }
         })()}
-        
+
+        <TextEditer />
+
         {(()=>{
           if ( svg_data.length > 0 ) {
             if( selected !== null ) {
@@ -336,43 +339,6 @@ class ToolsPanel extends React.Component {
             )
           }
         })()}
-        {/*<div className="color-scheme">
-          <ColorPicker
-             color={mainColor}
-             method={(e) => {
-
-               if (artboards !== undefined &&  working !== undefined ) {
-                 changeHex({artboards: artboards, id: working, hex: e, type: "mainColor"})
-               }
-
-               recordHistory(JSON.parse(JSON.stringify(canvas)))
-
-             }}
-          />
-          <ColorPicker
-             color={subColor}
-             method={(e) => {
-
-               if (artboards !== undefined &&  working !== undefined ) {
-                 changeHex({artboards: artboards, id: working, hex: e, type: "subColor"})
-               }
-
-               recordHistory(JSON.parse(JSON.stringify(canvas)))
-
-             }}
-          />
-          <ColorPicker
-            color={accentColor}
-            method={(e) => {
-              if (artboards !== undefined &&  working !== undefined ) {
-                changeHex({artboards: artboards, id: working, hex: e, type: "accentColor"})
-              }
-
-              recordHistory(JSON.parse(JSON.stringify(canvas)))
-
-            }}
-          />
-        </div>*/}
         {(()=>{
           if (past.length === 0) {
             return (
@@ -413,16 +379,6 @@ class ToolsPanel extends React.Component {
         })()}
 
         <p style={{margin: "0",color:darkmode ? "#9EA3B2":"gray"}}>BG</p>
-        {/*<ColorPicker
-          color={background}
-          method={(e) => {
-            if (artboards !== undefined &&  working !== undefined ) {
-              changeHex({artboards: artboards, id: working, hex: e, type: "background"})
-            }
-
-            recordHistory(JSON.parse(JSON.stringify(canvas)))
-          }}
-        />*/}
         <Gradient />
 
         <ToggleGrid/>
@@ -497,34 +453,30 @@ class ToolsPanel extends React.Component {
 }
 
 
-/*function TextEditer() {
+function TextEditer() {
 
-  //const [ showBar, toggleBar] = useState(false)
-
-  //const artboards = useSelector(getArtboards)
-  //const working = useSelector(getWorking)
-  const textEditor = useSelector(getTextEditor)
-
-  const dispatch = useDispatch()
+  const textEditor = useSelector(getTextEditor),
+        addText = useSelector(getAddText),
+        dispatch = useDispatch();
 
   const appendText = () => {
 
-    //const canvas = getCanvas({artboards: artboards, working: working}),
-          //svg_data = canvas.svg_data.slice()
+    if (addText) {
+      dispatch({type: 'switch/textEditor', payload: !textEditor})
 
-    //svg_data.push('<g transform="translate(20,35) scale(2.00,2.00)" data-type="text"><text x="0" y="0" style="fill:#fff">Text</text></g>')
-    //console.log(svg_data)
+      dispatch({type: 'switch/textEditor', payload: false})
+      dispatch({type: 'switch/addText', payload: false})
+    } else {
+      dispatch({type: 'switch/textEditor', payload: true})
+      dispatch({type: 'switch/addText', payload: true})
+    }
 
-    //const newData = updateArtboards({artboards: artboards, working: working, type: "svg_data", value: svg_data})
-
-    //dispatch({type: 'update/artboard', payload: newData})
-    dispatch({type: 'switch/textEditor', payload: !textEditor})
   }
 
   return (
-    <p onClick={appendText} style={{color:textEditor ? "deepskyblue": "#000" }}><FontAwesomeIcon icon={faFont} /></p>
+    <p onClick={appendText} style={{color:addText ? "deepskyblue": "#000" }}><FontAwesomeIcon icon={faFont} /></p>
   )
-}*/
+}
 
 function ToggleGrid() {
 

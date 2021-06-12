@@ -1,5 +1,9 @@
 @import "_setup.scss";
 
+
+#toolspanel {
+  z-index: 1000;
+}
 .toggle {
   background: lightgray;
   width: 38px;
