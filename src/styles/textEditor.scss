@@ -85,12 +85,12 @@ div.font-family {
   ul {
     display: none;
     position: absolute;
-    top: 25px;
+    top: 20px;
     left: 0;
     background: #fff;
     border: solid 1px lightgray;
     border-radius: 2px;
-    width: 300px;
+    width: 400px;
     font-size: 1.6rem;
     li {
       padding: 0;
@@ -147,20 +147,10 @@ div.font-family {
       }
     }
     .italic {
-      font-weight: normal!important;
-      font-style: italic!important;
+      font-style: italic;
     }
-    .bold {
-      font-weight: bold!important;
-      font-style: normal!important;
-    }
-    .italic-bold {
-      font-style: italic!important;
-      font-weight: bold!important;
-    }
-    .regular {
-      font-weight: normal!important;
-      font-weight: normal!important;
+    .normal {
+      font-style: normal;
     }
     .italic.active,.normal.active,.bold.active,.italic-bold.active {
       .font-family-flex {
@@ -182,8 +172,26 @@ div.font-family {
   .font-preview.tuffy {
     font-family: "Tuffy";
   }
-  .font-preview.serif {
-    font-family: serif;
+  .font-preview.lato {
+    font-family: "Lato";
+  }
+  .font-preview.josefin_sans {
+    font-family: "Josefin Sans";
+  }
+  .font-preview.josefin_slab {
+    font-family: "Josefin Slab";
+  }
+  .font-preview.oswald {
+    font-family: "Oswald";
+  }
+  .font-preview.quicksand {
+    font-family: "Quicksand";
+  }
+  .font-preview.playfair_display {
+    font-family: "Playfair_Display";
+  }
+  .font-preview.eb_garamond {
+    font-family: "EB_Garamond";
   }
   &:hover {
     ul {

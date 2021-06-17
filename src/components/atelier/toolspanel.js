@@ -45,18 +45,43 @@ class ToolsPanel extends React.Component {
 
   }
 
-  handleElement = (action) => {
+  recordArtboard = (data) => {
 
     const {
       working,
       updateArtboard,
       artboards,
-      selected,
-      switchSelected,
       recordHistory
     } = this.props
 
     const canvas = getCanvas({ working: working, artboards:artboards });
+
+    const newData = updateArtboards({
+      working: working,
+      type: "svg_data",
+      artboards: artboards,
+      value: data
+    })
+
+    updateArtboard(newData)
+    recordHistory(JSON.parse(JSON.stringify(canvas)))
+
+  }
+
+  handleElement = (action) => {
+
+    const {
+      working,
+      artboards,
+      selected,
+      switchSelected,
+    } = this.props
+
+    const canvas = getCanvas({ working: working, artboards:artboards });
+
+    for (let i = 0; i < selected.length; i++) {
+
+    }
 
     let el = canvas.svg_data[selected],
         data_copy = canvas.svg_data.slice();
@@ -72,7 +97,7 @@ class ToolsPanel extends React.Component {
         const x = parseInt(translate[0]) + 20
         const y = parseInt(translate[1]) + 20
 
-        g.setAttribute("transform", `translate(`+ x +`,`+ y +`) scale(`+ translate[2] +`,`+ translate[3] +`)`);
+        g.setAttribute("transform", `translate(`+ x +`,`+ y +`) scale(`+ translate[2] +`,`+ translate[3] +`) skewY(0) rotate(0)`);
 
         data_copy.push(g.outerHTML);
         break;
@@ -176,21 +201,17 @@ class ToolsPanel extends React.Component {
         break;
     }
 
-    const newData = updateArtboards({
-      working: working,
-      type: "svg_data",
-      artboards: artboards,
-      value: data_copy
-    })
-
-    updateArtboard(newData)
-    recordHistory(JSON.parse(JSON.stringify(canvas)))
+    this.recordArtboard(data_copy)
 
   }
 
   removeElement = (props) => {
 
-    const { working, updateArtboard, selected,artboards,recordHistory } = this.props
+    const {
+      working,
+      selected,
+      artboards,
+    } = this.props
 
     const canvas = getCanvas({working:working,artboards:artboards}),
           data_copy = canvas.svg_data.slice();
@@ -202,15 +223,7 @@ class ToolsPanel extends React.Component {
 
     data_copy.splice(selected,1);
 
-    const newData = updateArtboards({
-      working: working,
-      type: "svg_data",
-      artboards: artboards,
-      value: data_copy
-    })
-
-    updateArtboard(newData)
-    recordHistory(canvas)
+    this.recordArtboard(data_copy)
 
   }
 
@@ -404,47 +417,6 @@ class ToolsPanel extends React.Component {
 
           }
         })()}
-
-        {/*<p>{(()=>{
-
-          const filesize = 1;
-          const text = "test"
-
-          const svgElement = document.getElementById('svg');
-
-          var c = document.createElement('canvas'),
-              ctx = c.getContext('2d'),
-              image = new Image();
-          var imageURL = c.toDataURL();
-
-          c.style.display = "none";
-          document.body.appendChild(c);
-
-          if (svgElement){
-            c.width = svgElement.width.baseVal.value * filesize;//svgElement.dataset.width;//svgElement.width.baseVal.value;
-            c.height = svgElement.height.baseVal.value * filesize;//svgElement.dataset.height;//svgElement.height.baseVal.value;
-
-            var svgData = new XMLSerializer().serializeToString(svgElement);
-            image.src = 'data:image/svg+xml;charset=utf-8;base64,' + btoa(svgData);
-
-            image.width = svgElement.width.baseVal.value * filesize;
-            image.height =  svgElement.height.baseVal.value * filesize;
-          }
-
-          const image_url = "http://forallcreators.com/wp-content/uploads/header-autumn-2.png"
-
-
-          return (
-                  <div class="sns_icon  twitter_back">
-                    <a class="twitter" href={`http://twitter.com/intent/tweet?text=${text} ${image_url}&url=https://www.isography.app&via=OTQStudio&related=OTQStudio&hashtags=ハッシュタグ1,ハッシュタグ2`} rel="nofollow" target="_blank" title="Twitterで共有">
-                      Share
-                    </a>
-                    <p style={{width: "30px"}}>
-                    <a href={image.src}>test</a></p>
-                   </div>
-                 )//<a href="https://twitter.com/intent/tweet?url=myUrl&text=myTitle" target="_blank"><img src="path_to_my_image"/></a><a href={`https\://twitter.com/intent/tweet?text=${text}%20${url}%20pic.twitter.com/uG1tsc2XOb%20@OTQstudio`} target="_blank">Share</a>
-
-        })()}</p>*/}
 
       </section>
     );

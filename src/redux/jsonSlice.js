@@ -3,7 +3,7 @@ const initialState = {
   darkmode: false,
   working: 1,
   grid: false,
-  selected: null,
+  selected: [],
   drawer: true,
   colors: [],
   artboardScale: 0.8,
