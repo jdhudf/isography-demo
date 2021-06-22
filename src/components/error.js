@@ -14,8 +14,8 @@ class ErrorBoundary extends React.Component {
   }
 
   logErrorToMyService = (error, info) => {
-    console.log("error is ... " + error)
-    console.log("info is ... " + info)
+    console.log("error is ... ",error)
+    console.log("info is ... ",info)
   }
 
   render() {

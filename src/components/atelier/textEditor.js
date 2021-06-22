@@ -21,7 +21,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faAlignLeft,
   faAlignCenter,
-  faAlignRight
+  faAlignRight,
+  faItalic,
+  faBold
 } from '@fortawesome/free-solid-svg-icons'
 
 
@@ -31,27 +33,10 @@ class TextEditor extends React.Component  {
     super(props);
     this.state = {
       showBar: true,
-      fontStyle: "normal",
       fontSize: 14,
       textAlign: "left",
-      currentFont: "Tuffy"
     };
   }
-
-  appendText = () => {
-
-    /*const { artboards, working  } = this.props
-
-    const canvas = getCanvas({artboards: artboards, working: working}),
-          svg_data = canvas.svg_data.slice()
-
-    svg_data.push('<g transform="translate(20,35) scale(2.00,2.00)" data-type="el"><text x="0" y="0">Text</text></g>')
-
-    const newData = updateArtboards({artboards: artboards, working: working, type: "svg_data", value: svg_data})*/
-
-  }
-
-
 
   toggle = (e) => {
     const li = e.target.closest("li")
@@ -71,20 +56,31 @@ class TextEditor extends React.Component  {
 
   selectFont = (e) => {
 
-    const { selected } = this.props
+    const { selected, font, changeFont } = this.props
     const fontSelected = document.getElementsByClassName('font-family-selected')[0]
     const li = e.target.closest("li.font-family-li")
 
-    this.setState({currentFont: li.dataset.font})
 
     fontSelected.classList.remove("font-family-selected");
 
-    if (e.target.dataset.weight) {
-      this.setState({fontStyle: e.target.dataset.weight})
+    if ( li.dataset.font ) {
+
+      changeFont({
+        name: li.dataset.font,
+        weight: font.weight,
+        style: font.style
+      })
+
     }
 
-    if (e.target.dataset.font) {
-      this.setState({currentFont: e.target.dataset.font})
+    if (e.target.dataset.weight && e.target.dataset.font ) {
+
+      changeFont({
+        name: e.target.dataset.font,
+        weight: e.target.dataset.weight,
+        style: font.style
+      })
+
     }
 
     if (!li.classList.contains("font-family-selected")) {
@@ -102,12 +98,81 @@ class TextEditor extends React.Component  {
                 `
     }
 
-    const { updateArtboard, working, artboards, recordHistory } = this.props
-    const canvas = getCanvas({artboards: artboards,working:working})
+    this.changeFont({
+      name: e.target.dataset.font,
+      weight: e.target.dataset.weight,
+      style: e.target.dataset.style
+    })
 
-    console.log(canvas.svg_data[selected], g.outerHTML)
+  }
 
-    canvas.svg_data[selected] = g.outerHTML
+  toggleStyle = (e) => {
+
+    const value = e.target.value
+
+    const { font } = this.props
+
+    this.changeFont({
+      name: font.name,
+      weight: font.weight,
+      style: value
+    })
+
+  }
+
+  toggleWeight = (e) => {
+
+    const value = e.target.value
+    const { font } = this.props
+
+    this.changeFont({
+      name: font.name,
+      weight: value,
+      style: font.style
+    })
+
+  }
+
+  radioTextAlign = (e) => {
+    const value = e.target.value
+    console.log(value)
+  }
+
+  changeFont = ({ name, weight, style }) => {
+
+    const {
+      updateArtboard,
+      working,
+      artboards,
+      recordHistory,
+      selected,
+      font,
+      changeFont
+    } = this.props
+
+    const canvas = getCanvas({artboards: artboards, working:working})
+
+    const svg = document.getElementById('svg'),
+          g = svg.children[selected[0]].cloneNode(true);
+
+    if (g.dataset.type==="text") {
+      g.style = `
+                font-family:${ name };
+                font-weight:${ weight };
+                font-style:${ style };
+                `
+      g.dataset.name = name
+      g.dataset.weight = weight
+      g.dataset.style = style
+    }
+
+    changeFont({
+      name: name,
+      weight: weight,
+      style: style
+    })
+
+    canvas.svg_data[selected[0]] = g.outerHTML
 
     const newData = updateArtboards({
       working: working,
@@ -119,23 +184,13 @@ class TextEditor extends React.Component  {
     updateArtboard(newData)
     recordHistory(canvas)
 
-
-  }
-
-  toggleStyle = (e) => {
-    const value = e.target.value
-    console.log(value)
-    this.setState({fontStyle: value})
-  }
-
-  radioTextAlign = (e) => {
-    const value = e.target.value
-    console.log(value)
   }
 
 
 
   render () {
+
+    const { font } = this.props
 
     const fontList = [
       {
@@ -289,76 +344,90 @@ class TextEditor extends React.Component  {
       }
     }
 
+    const weightList = []
+    const styleList = []
+
+    for (let i = 0; i < fontList.length; i++) {
+
+      if ( fontList[i].fontName === font.name ) {
+
+        const fontWeight =  fontList[i].fontWeight
+        const fontStyle =  fontList[i].fontStyle
+
+        for (let j = 0; j < fontWeight.length; j++) {
+
+          let weightName;
+
+          if ( fontWeight[j] === 100 ) {
+            weightName = "Thin"
+          } else if ( fontWeight[j] === 200 ) {
+            weightName = "Extra-Light"
+          } else if ( fontWeight[j] === 300 ) {
+            weightName = "Light"
+          } else if ( fontWeight[j] === 400 ) {
+            weightName = "Regular"
+          } else if ( fontWeight[j] === 500 ) {
+            weightName = "Meduim"
+          } else if ( fontWeight[j] === 600 ) {
+            weightName = "Semi-Bold"
+          } else if ( fontWeight[j] === 700 ) {
+            weightName = "Bold"
+          } else if ( fontWeight[j] === 800 ) {
+            weightName = "Extra-Bold"
+          } else if ( fontWeight[j] === 900 ) {
+            weightName = "Black"
+          }
+
+          weightList.push(
+            <option value={fontWeight[j]}
+                    selected={parseInt(font.weight)===fontWeight[j]}>
+              {weightName}
+            </option>
+          )
+        }
+
+        for (let j = 0; j < fontStyle.length; j++) {
+
+          styleList.push(
+            <option value={fontStyle[j]}
+                    selected={font.style===fontStyle[j]}>
+              {fontStyle[j]}
+            </option>
+          )
+        }
+
+      }
+
+    }
+
+
+
+
     return (
       <div className="textEditor">
         <div className="font-family">
-          <div className="current-font">{this.state.currentFont}</div>
+          <div className="current-font">{font.name}</div>
           <div className="font-family-list">
             <ul>
               {fontListDiv}
-              {/*<li className="font-family-li font-family-selected" data-font="Tuffy" onClick={this.selectFont}>
-                <span className="btn" onClick={this.toggle}>+</span>
-                <div className="font-family-flex">
-                 <div className="font-name" data-font="Tuffy">
-                   Tuffy
-                 </div>
-                 <div className="font-preview tuffy">
-                   Tuffy
-                 </div>
-                </div>
-                <ul className="show">
-                  <li className={(this.state.fontWeight==="italic" && this.state.currentFont === "Tuffy")?"italic active":"italic"}>
-                    <div className="font-family-flex">
-                      <div className="font-name" data-weight="italic" data-font="Tuffy">
-                        italic
-                      </div>
-                      <div className="font-preview tuffy italic">
-                        Tuffy
-                      </div>
-                    </div>
-                  </li>
-                  <li className={(this.state.fontWeight==="normal" && this.state.currentFont === "Tuffy")?"normal active":"normal"}>
-                    <div className="font-family-flex">
-                      <div className="font-name" data-weight="normal" data-font="Tuffy">
-                        normal
-                      </div>
-                      <div className="font-preview tuffy normal">
-                        Tuffy
-                      </div>
-                    </div>
-                  </li>
-                  <li className={(this.state.fontWeight==="bold" && this.state.currentFont === "Tuffy")?"bold active":"bold"}>
-                    <div className="font-family-flex">
-                      <div className="font-name" data-weight="bold" data-font="Tuffy">
-                        bold
-                      </div>
-                      <div className="font-preview tuffy bold">
-                        Tuffy
-                      </div>
-                    </div>
-                  </li>
-                  <li className={(this.state.fontWeight==="italic bold" && this.state.currentFont === "Tuffy")?"italic-bold active":"italic-bold"}>
-                    <div className="font-family-flex">
-                      <div className="font-name" data-weight="italic bold" data-font="Tuffy">
-                        italic bold
-                      </div>
-                      <div className="font-preview tuffy italic-bold">
-                        Tuffy
-                      </div>
-                    </div>
-                  </li>
-                </ul>
-              </li>*/}
             </ul>
           </div>
         </div>
-        <select className="font-style" onChange={this.toggleStyle}>
-          <option value="normal" selected={this.state.fontStyle==="normal"}>
-                  Normal</option>
-          <option value="italic" selected={this.state.fontStyle==="italic"}>
-                  Italic</option>
-        </select>
-        <input type="number" value="14" />
+
+        <div className="font-weight">
+          <FontAwesomeIcon icon={faBold} size="xs"/>
+          <select onChange={this.toggleWeight}>
+            {weightList}
+          </select>
+        </div>
+
+        <div className="font-style">
+          <FontAwesomeIcon icon={faItalic} size="xs"/>
+          <select onChange={this.toggleStyle}>
+            {styleList}
+          </select>
+        </div>
+        {/*<input type="number" value="14" />
         <datalist id="defaultNumbers">
           <option value="10045678" />
           <option value="103421" />
@@ -374,6 +443,7 @@ class TextEditor extends React.Component  {
           <li><input name="textAlign" type="radio" value="right"/>
           <label for="textAlign"><FontAwesomeIcon icon={faAlignRight} /></label></li>
         </ul>
+        */}
       </div>
     )
   }
@@ -386,18 +456,17 @@ const mapStateToProps = state => ({
   future: state.history.future,
   present: state.history.present,
   selected: state.json.selected,
-  darkmode: state.json.darkmode
+  darkmode: state.json.darkmode,
+  font: state.json.font,
 })
 
 export default connect(
   mapStateToProps,
   dispatch => ({
-    changeHex:    value => dispatch(actions.changeHex(value)),
     updateArtboard: value => dispatch(actions.updateArtboard(value)),
     recordHistory:  value => dispatch(actions.recordHistory(value)),
-    undo:           value => dispatch(actions.undo(value)),//value => dispatch(actions.undo(value)),
-    redo:           value => dispatch(actions.redo(value)),
     switchSelected: value => dispatch(actions.switchSelected(value)),
+    changeFont: value => dispatch(actions.changeFont(value)),
   })
   //dispatch => ({ switchDarkmode: value => dispatch(switchDarkmode(value)) })
 )(TextEditor)

@@ -25,8 +25,6 @@ import '../styles/textEditor.scss';
 import { connect } from 'react-redux'
 import { actions } from '../redux/actions';
 
-import cursor from '../images/addtextcursor.svg'
-import cursorpng from '../images/cursor_resize.png'
 
 class Atelier extends React.Component {
   constructor(props) {
@@ -448,7 +446,7 @@ class Atelier extends React.Component {
           background = canvas.color_scheme["background"];
 
 
-    
+
     return (
       <section
           className={ darkmode ? "section-atelier dark-mode": "section-atelier" }

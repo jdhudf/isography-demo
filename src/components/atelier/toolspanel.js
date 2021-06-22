@@ -77,129 +77,137 @@ class ToolsPanel extends React.Component {
       switchSelected,
     } = this.props
 
-    const canvas = getCanvas({ working: working, artboards:artboards });
+    const canvas = getCanvas({ working: working, artboards:artboards }),
+          data_copy = canvas.svg_data.slice();
 
     for (let i = 0; i < selected.length; i++) {
 
+      let el = canvas.svg_data[ selected[i] ];
+
+      switch (action){
+        case 'Duplicate':
+          console.log('duplicate');
+          const svg = document.getElementById('svg'),
+                g = svg.children[ selected[i] ];
+
+          const translate = this.getAttribute(el)
+
+          const x = parseInt(translate[0]) + 20
+          const y = parseInt(translate[1]) + 20
+
+          g.setAttribute("transform", `translate(`+ x +`,`+ y +`) scale(`+ translate[2] +`,`+ translate[3] +`) skewY(0) rotate(0)`);
+
+          data_copy.push(g.outerHTML);
+          break;
+        case 'Delete':
+
+          console.log('delete');
+
+          data_copy.splice( selected[i] ,1);
+
+          console.log(data_copy)
+
+          switchSelected(null)
+
+
+          break;
+        case 'Reflect':
+          const regExp = /-?\d+/g;
+          const scale = el.match(regExp)
+
+          let n = 3;
+
+          const result = el.replace(regExp,
+            function(match) {
+              if(n === 3) {
+                n--;
+                return scale[0];
+              } else if (n === 2) {
+                n--;
+                return scale[1];
+              } else if (n === 1) {
+                n--;
+                return -scale[2];
+              } else if (n === 0) {
+                n--;
+                return scale[3];
+              } else {
+                return match;
+              };
+            }
+          );
+
+          data_copy.splice( selected[i] ,1);
+          data_copy.push(result);
+          break;
+        case 'Reflect Vertical':
+          const regExp2 = /-?\d+/g;
+          const scale2 = el.match(regExp2)
+
+          let nn = 3;
+
+          const result2 = el.replace(regExp2,
+            function(match) {
+              if(nn === 3) {
+                nn--;
+                return scale2[0];
+              } else if (nn === 2) {
+                nn--;
+                return scale2[1];
+              } else if (nn === 1) {
+                nn--;
+                return scale2[2];
+              } else if (nn === 0) {
+                nn--;
+                return -scale2[3];
+              } else {
+                return match;
+              };
+            }
+          );
+
+          data_copy.splice( selected[i] ,1);
+          data_copy.push(result2);
+          break;
+        case 'bringToFront':
+          console.log('bringToFront');
+          data_copy.splice( selected[i] ,1);
+          data_copy.push(el);
+          break;
+        case 'bringForward':
+          console.log('bringForward');
+
+          console.info( selected[i] )
+
+          data_copy.splice( selected[i] ,1);
+          data_copy.splice( selected[i]  + 1 ,0,el);
+
+          if (data_copy.length !== selected) {
+            switchSelected( selected[i]  + 1)
+          }
+
+          break;
+        case 'sendBackward':
+          console.log('sendBackward');
+          data_copy.splice( selected[i] ,1);
+          data_copy.splice( selected[i]  - 1 ,0,el);
+
+          if (data_copy.length !==  selected[i] ) {
+            switchSelected( selected[i]  - 1)
+          }
+          break;
+        case 'sendToBack':
+          console.log('sendToBack');
+          data_copy.splice( selected[i] ,1);
+          data_copy.unshift(el);
+          break;
+        default:
+          break;
+      }
+
     }
 
-    let el = canvas.svg_data[selected],
-        data_copy = canvas.svg_data.slice();
 
-    switch (action){
-      case 'Duplicate':
-        console.log('duplicate');
-        const svg = document.getElementById('svg'),
-              g = svg.children[selected];
-
-        const translate = this.getAttribute(el)
-
-        const x = parseInt(translate[0]) + 20
-        const y = parseInt(translate[1]) + 20
-
-        g.setAttribute("transform", `translate(`+ x +`,`+ y +`) scale(`+ translate[2] +`,`+ translate[3] +`) skewY(0) rotate(0)`);
-
-        data_copy.push(g.outerHTML);
-        break;
-      case 'Delete':
-        console.log('delete');
-
-        data_copy.splice(selected,1);
-        switchSelected(null)
-        break;
-      case 'Reflect':
-        const regExp = /-?\d+/g;
-        const scale = el.match(regExp)
-
-        var n = 3;
-
-        const result = el.replace(regExp,
-          function(match) {
-            if(n === 3) {
-              n--;
-              return scale[0];
-            } else if (n === 2) {
-              n--;
-              return scale[1];
-            } else if (n === 1) {
-              n--;
-              return -scale[2];
-            } else if (n === 0) {
-              n--;
-              return scale[3];
-            } else {
-              return match;
-            };
-          }
-        );
-
-        data_copy.splice(selected,1);
-        data_copy.push(result);
-        break;
-      case 'Reflect Vertical':
-        const regExp2 = /-?\d+/g;
-        const scale2 = el.match(regExp2)
-
-        var nn = 3;
-
-        const result2 = el.replace(regExp2,
-          function(match) {
-            if(nn === 3) {
-              nn--;
-              return scale2[0];
-            } else if (nn === 2) {
-              nn--;
-              return scale2[1];
-            } else if (nn === 1) {
-              nn--;
-              return scale2[2];
-            } else if (nn === 0) {
-              nn--;
-              return -scale2[3];
-            } else {
-              return match;
-            };
-          }
-        );
-
-        data_copy.splice(selected,1);
-        data_copy.push(result2);
-        break;
-      case 'bringToFront':
-        console.log('bringToFront');
-        data_copy.splice(selected,1);
-        data_copy.push(el);
-        break;
-      case 'bringForward':
-        console.log('bringForward');
-
-        console.info(selected)
-
-        data_copy.splice(selected,1);
-        data_copy.splice(selected + 1 ,0,el);
-
-        if (data_copy.length !== selected) {
-          switchSelected(selected + 1)
-        }
-
-        break;
-      case 'sendBackward':
-        console.log('sendBackward');
-        data_copy.splice(selected,1);
-        data_copy.splice(selected - 1 ,0,el);
-
-        if (data_copy.length !== selected) {
-          switchSelected(selected - 1)
-        }
-        break;
-      case 'sendToBack':
-        console.log('sendToBack');
-        data_copy.splice(selected,1);
-        data_copy.unshift(el);
-        break;
-      default:
-        break;
-    }
 
     this.recordArtboard(data_copy)
 
@@ -222,6 +230,79 @@ class ToolsPanel extends React.Component {
     color_set.style.display = "none";
 
     data_copy.splice(selected,1);
+
+    this.recordArtboard(data_copy)
+
+  }
+
+  group = () => {
+
+    const {
+      selected,
+      switchSelected,
+      artboards,
+      working
+    } = this.props
+
+    const canvas = getCanvas({ artboards: artboards, working: working })
+
+    let data_copy = canvas.svg_data;
+
+    let selectedArray = [];
+
+    for (let i = 0; i<selected.length;i++) {
+
+      selectedArray.push( data_copy[ selected[i] ] )
+
+    }
+    data_copy = data_copy.filter(function(v){
+      return ! selectedArray.includes(v);
+    });
+
+    selectedArray.unshift(`<g transform="translate(0,0) scale(1.00,1.00) skewY(0) rotate(0)" data-type="group">`)
+    selectedArray.push(`</g>`)
+    const group = selectedArray.join('')
+
+    data_copy.push(group)
+
+
+    switchSelected([])
+    this.recordArtboard(data_copy)
+
+  }
+
+  ungroup = () => {
+
+    const {
+      selected,
+      switchSelected,
+      artboards,
+      working
+    } = this.props
+
+    const canvas = getCanvas({ artboards: artboards, working: working })
+
+    const data_copy = canvas.svg_data;
+
+
+    const svg = document.getElementById('svg')
+
+
+    for (let i = 0; i < selected.length; i++) {
+
+        const group = svg.children[ selected[i] ]
+
+        console.log(group)
+
+        data_copy.shift(selected[i], 1)
+
+        for (let j = 0; j < group.children.length; j++) {
+
+          data_copy.push(group.children[j].outerHTML)
+          
+        }
+
+    }
 
     this.recordArtboard(data_copy)
 
@@ -352,6 +433,32 @@ class ToolsPanel extends React.Component {
             )
           }
         })()}
+
+        {(()=> {
+          const { selected } = this.props
+          const svg = document.getElementById('svg')
+
+          if ( selected.length === 1 ) {
+            const g = svg.children[selected]
+
+            if (g.dataset.type === "group") {
+              console.log("group", g.dataset.type)
+              return (
+                <p onClick={this.ungroup} style={{transform: "scale(0.8, 1)", fontWeight: 600}}>Ungroup</p>
+              )
+            }
+
+          }
+
+          if ( selected.length > 1) {
+            return (
+              <p onClick={this.group} style={{transform: "scale(0.8, 1)", fontWeight: 600}}>Group</p>
+            )
+          }
+          return <p style={{transform: "scale(0.8, 1)", fontWeight: 600, color: "lightgray"}}>Group</p>
+
+        })()}
+
         {(()=>{
           if (past.length === 0) {
             return (

@@ -11,6 +11,11 @@ const initialState = {
   textEditor: false, // show text edotor or not
   editable: false, // edit text elemtnt or not
   addText: false, // add a new text or not
+  font: {
+    name: "Lato",
+    weight: 400,
+    style: "normal"
+  }
 }
 
 export default function jsonReducer(state = initialState, action) {
@@ -69,6 +74,11 @@ export default function jsonReducer(state = initialState, action) {
       return {
         ...state,
         addText: action.payload
+      }
+    case 'update/font':
+      return {
+        ...state,
+        font: action.payload
       }
     default:
       return state

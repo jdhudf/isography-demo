@@ -69,6 +69,8 @@
     }
   }
   .section-artboard {
+    touch-action: none;
+    passive : false;
     flex: 1;
     background: #E4E4E4;
     z-index: 0;
