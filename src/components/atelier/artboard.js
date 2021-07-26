@@ -1672,6 +1672,7 @@ class Artboard extends React.Component {
                       ${this.state.artboardPosition[1]}px
                     )
                     scale(${this.state.artboardScale})`,
+        zIndex: "01",
       },
       style: {
         background: this.props.background,
@@ -1679,7 +1680,6 @@ class Artboard extends React.Component {
         top: "50%",
         left: "50%",
         transform: "translate(-50%,-50%)",
-        zIndex: "-1",
       },
       box: {
         //position: "absolute",
@@ -1924,7 +1924,6 @@ class Artboard extends React.Component {
                              }}></div>*/}
 
       <section style={styles.artboard}
-               className="section-artboard section-bottom"
                gestureStart={this.gestureStart}
                gestureChange={this.gestureChange}
                gestureEnd={this.gestureEnd}

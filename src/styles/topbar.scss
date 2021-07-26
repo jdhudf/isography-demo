@@ -14,7 +14,7 @@
     &:nth-child(1) {
       flex-basis: 55px;
       a {
-        color: gray;
+        color: $main;
       }
     }
     &:nth-child(2) {
@@ -22,7 +22,7 @@
       display: flex;
       justify-content: space-around;
       align-items: center;
-      color: gray;
+      color: $main;
       &>div:nth-child(1){
         flex-basis: 55%;
         &>div {
@@ -42,7 +42,7 @@
               transition: all ease .3s;
               border-radius: 5px;
               &:hover {
-                background: deepskyblue;
+                background: $main;
                 transition: all ease .3s;
               }
             }
@@ -69,7 +69,7 @@
         height: 3px;
         width: 0%;
         margin-top: -3px;
-        background: $gray;
+        background: $main;
         transition: ease all .2s;
       }
       &>div:hover:after {
@@ -77,7 +77,7 @@
         display:block;
         height: 3px;
         width: 100%;
-        background: $gray;
+        background: $main;
         transition: ease all .2s;
       }
     }
@@ -88,8 +88,8 @@
     &:nth-child(4) {
       flex-basis: 200px;
       p {
-        border: solid 1.5px deepskyblue;
-        color: deepskyblue;
+        border: solid 1.5px $main;
+        color: $main;
         font-weight: 500;
         padding: 5px 0;
         width: 100px;
@@ -192,9 +192,9 @@
       font-weight: 500;
       background: #fff;
       &:last-child {
-        background: deepskyblue;
+        background: $main;
         color: #fff;
-        border-color: deepskyblue;
+        border-color: $main;
         margin-top: 10px;
       }
     }
@@ -370,9 +370,9 @@
         color: $c3;
         background: $c1;
         &:last-child {
-          background: deepskyblue;
+          background: $main;
           color: #fff;
-          border-color: deepskyblue;
+          border-color: $main;
         }
       }
     }

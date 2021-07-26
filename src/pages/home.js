@@ -175,7 +175,7 @@ const Dashboard = () => {
           <ul className="url">
             <li><a href="https://www.isography.app" target="_blank" rel="noreferrer">Official HP</a></li>
             <li><a href="#">Use of terms & Licenses</a></li>
-            <li><AllItems /></li>
+            {/*<li><AllItems /></li>*/}
           </ul>
           <div className="sendFeedback">
             <a href="https://forms.gle/pNbptjqrGctWzJS77" target="_blank" rel="noreferrer">Send Bug report or Feedback<span>Powered by Google From</span></a>

@@ -44,7 +44,7 @@
   flex-wrap: wrap;
   user-select: none;
   position: relative;
-  .section-menubar {
+  .section-topbar {
     flex-basis: 100vw;
     z-index: 10000;
   }
@@ -74,6 +74,10 @@
     flex: 1;
     background: #E4E4E4;
     z-index: 0;
+    position: relative;
+    #svg {
+      z-index: 0;
+    }
   }
   @include max-screen($device-mobile) {
     display: flex;
@@ -94,7 +98,7 @@
     .section-artboard {
       height: 53vh;
       flex-basis: 100%;
-      //z-index: -1!important;
+      z-index: -1!important;
       //overflow: hidden;
       svg#svg {
         z-index: -1!important;

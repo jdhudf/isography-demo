@@ -36,11 +36,14 @@ aside {
   width: 100%;
   .sendFeedback {
     text-align: center;
+    background: $main;
     margin-top: 40px;
+    box-shadow: 1px 2px 4px rgba(0,0,0,0.2);
+    border-radius: 1000px;
     a {
       display: block;
-      color: $gray;
-      border: solid 1px $gray;
+      color: #fff;
+      //border: solid 1px $gray;
       border-radius: 1000px;
       font-weight: 600;
       padding: 5px 0;
@@ -64,7 +67,7 @@ aside {
       list-style-type: disc;
       list-style-position: inside;
       a {
-        color: deepskyblue;
+        color: $main;
       }
       a:visited{
         color: slateblue;
@@ -541,12 +544,15 @@ aside {
       border-radius: 5px 5px 0 0;
     }
     &:before {
-      content:"News";
+      content:"NEWS";
       display: block;
       position: absolute;
-      width: 55px;
+      width: 60px;
+      font-weight: 600;
       text-align: center;
-      background: darkred;
+      background: $main;
+      letter-spacing: 0.05rem;
+      font-size: 1.3rem;
       border-radius: 5px 0 0 0;
       color: #fff;
       padding: 5px 0;

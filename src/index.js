@@ -9,7 +9,7 @@ import store from './redux/store';
 import background from './images/isometric.png';
 import icon from './images/icon_2.svg';
 
-import logo from './images/isography_logo.svg';
+import logo from './images/splash_logo.svg';
 
 const Mobile = () => {
 
@@ -56,7 +56,10 @@ window.addEventListener('DOMContentLoaded', function () {
   div.style.left = "0"
   div.style.right = "0"
   div.style.bottom = "0"
-  img.style.width = "100px"
+  div.style.zIndex = "999999"
+
+  img.style.width = "100%"
+  img.style.maxWidth="350px"
   img.style.position = "absolute"
   img.style.top = "50%"
   img.style.left = "50%"
@@ -73,6 +76,7 @@ window.onload=function () {
     }, 1000);
     window.setTimeout(function(){
       div.style.display = "none"
+      div.remove()
     }, 1500);
 };
 
