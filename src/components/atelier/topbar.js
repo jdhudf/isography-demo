@@ -82,9 +82,9 @@ class TopBar extends React.Component {
           background = canvas.color_scheme['background']
 
     return (
-      <section className="section-menubar">
+      <section className="section-topbar">
         <div>
-          <Link to="/home" aria-label="Home" title="Home"><FontAwesomeIcon icon={faHome}/></Link>
+          <Link to="/" aria-label="Home" title="Home"><FontAwesomeIcon icon={faHome}/></Link>
         </div>
         <div>
           <ArtboardSetting />

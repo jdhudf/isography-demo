@@ -636,14 +636,22 @@ class Artboard extends React.Component {
             data_copy = this.state.data.slice(),
             move = [e.pageX, e.pageY],
             artboardScale =  this.state.artboardScale;
-      let g;
-
-      //this.selectElement(e)
-
+      let g; // <- this variable is <g> tag
 
       for (let i = 0; i < selected.length; i++) {
 
         g = svg.children[ selected[i] ]
+
+        if (g.dataset.type ===  "group") {
+          const els = g.children
+
+          for (var j = 0; j < els.length; j++) {
+
+            if ( els[j].dataset.type === "el" || els[j].dataset.type === "text") {
+              console.log(els[j].getAttribute("transform"))
+            }
+          }
+        }
 
         const gap = [
           ( parseFloat(move[0]) - parseFloat(this.state.initial[0]) ) / artboardScale,
@@ -669,6 +677,7 @@ class Artboard extends React.Component {
           data_copy[ selected[i] ] = g.outerHTML
 
         }
+
       }
 
       this.setState({

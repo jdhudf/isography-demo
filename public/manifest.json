@@ -1,6 +1,6 @@
 {
   "short_name": "Isography",
-  "name": "Create Isometric Drawing App",
+  "name": "Isography",
   "icons": [
     {
       "src": "favicon.ico",
@@ -17,6 +17,21 @@
       "src": "logo512.png",
       "type": "image/png",
       "sizes": "512x512"
+    },
+    {
+      "src": "logo180.png",
+      "type": "image/png",
+      "sizes": "180x180"
+    },
+    {
+      "src": "logo32.png",
+      "type": "image/png",
+      "sizes": "32x32"
+    },
+    {
+      "src": "logo16.png",
+      "type": "image/png",
+      "sizes": "16x16"
     }
   ],
   "start_url": "/?utm_source=pwa",
@@ -24,3 +39,7 @@
   "theme_color": "#000000",
   "background_color": "#ffffff"
 }
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">

@@ -8,6 +8,7 @@ const initialState = {
   colors: [],
   artboardScale: 0.8,
   artboardPosition: [0, 0],
+  ///   Font   ///
   textEditor: false, // show text edotor or not
   editable: false, // edit text elemtnt or not
   addText: false, // add a new text or not

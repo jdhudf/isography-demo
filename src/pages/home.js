@@ -116,7 +116,7 @@ const Dashboard = () => {
 
               return arranged.map(item => (
                 <li>
-                  <Link onClick={clicked} to="/" data-id={item.artboard_id}>
+                  <Link onClick={clicked} to="/atelier" data-id={item.artboard_id}>
                     <div className="thumb" style={styles.test}>
                     {/* x=y*item.artboard_size[0]/item.artboard_size[1] */}
                     {/* y=x*item.artboard_size[1]/item.artboard_size[0] */}
@@ -174,6 +174,7 @@ const Dashboard = () => {
           </div>*/}
           <ul className="url">
             <li><a href="https://www.isography.app" target="_blank" rel="noreferrer">Official HP</a></li>
+            <li><a href="#">Use of terms & Licenses</a></li>
             <li><AllItems /></li>
           </ul>
           <div className="sendFeedback">

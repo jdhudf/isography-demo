@@ -9,13 +9,14 @@ import ErrorBoundary from './components/error.js';
 
 
 function App() {
+
   return (
     <div className="App">
       <ErrorBoundary>
       <HashRouter>
           <Switch>
-            <Route path="/home" exact component={Home} />
-            <Route path="/" exact component={Atelier} />
+            <Route path="/" exact component={Home} />
+            <Route path="/atelier" exact component={Atelier} />
           </Switch>
       </HashRouter>
       </ErrorBoundary>

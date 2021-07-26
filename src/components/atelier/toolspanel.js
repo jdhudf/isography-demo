@@ -299,7 +299,7 @@ class ToolsPanel extends React.Component {
         for (let j = 0; j < group.children.length; j++) {
 
           data_copy.push(group.children[j].outerHTML)
-          
+
         }
 
     }
@@ -442,7 +442,6 @@ class ToolsPanel extends React.Component {
             const g = svg.children[selected]
 
             if (g.dataset.type === "group") {
-              console.log("group", g.dataset.type)
               return (
                 <p onClick={this.ungroup} style={{transform: "scale(0.8, 1)", fontWeight: 600}}>Ungroup</p>
               )

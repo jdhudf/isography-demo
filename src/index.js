@@ -9,6 +9,8 @@ import store from './redux/store';
 import background from './images/isometric.png';
 import icon from './images/icon_2.svg';
 
+import logo from './images/isography_logo.svg';
+
 const Mobile = () => {
 
   return (
@@ -38,6 +40,42 @@ function PcOrMobile() {
       return <App />;
   }
 }
+
+window.addEventListener('DOMContentLoaded', function () {
+  const div = document.createElement("div")
+  const img = document.createElement('img');
+  img.src = logo;
+  img.alt = '風景の画像です。';
+
+  div.id = "splash"
+  div.style.width = "100vw"
+  div.style.height = "100vh"
+  div.style.background = "#fff"
+  div.style.position = "absolute"
+  div.style.top = "0"
+  div.style.left = "0"
+  div.style.right = "0"
+  div.style.bottom = "0"
+  img.style.width = "100px"
+  img.style.position = "absolute"
+  img.style.top = "50%"
+  img.style.left = "50%"
+  img.style.transform = "translate(-50%,-50%)"
+  div.appendChild(img);
+  document.body.appendChild(div);
+});
+
+window.onload=function () {
+    const div = document.getElementById('splash');
+    window.setTimeout(function(){
+      div.style.transition = "all ease .5s"
+      div.style.opacity = "0"
+    }, 1000);
+    window.setTimeout(function(){
+      div.style.display = "none"
+    }, 1500);
+};
+
 
 ReactDOM.render(
   <React.StrictMode>

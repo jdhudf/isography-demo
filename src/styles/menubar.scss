@@ -6,34 +6,41 @@
   }
 }
 
-.dashboard {
-  a svg  {
-    margin-left: 20px;
-  }
-}
 
 .section-menubar {
   flex-basis: 100%;
-  width: 100%;
   background: #FFF;
+  width: 100%;
   border-bottom: solid 1px #E4E4E4;
-  display: flex;
-  justify-content: space-between;
   height: 7vh;
-  align-items: center;
-  a svg {
-    fill: darkgray;
+  .wrapper {
+    max-width: 1100px;
+    height: 7vh;
+    width: 95%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 auto;
+    padding: 0;
   }
-  a svg#logo  {
-    margin-left: 20px;
+  .menubar_right {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    flex-basis: 150px;
   }
-  .icon {
-    border-radius: 50%;
+  .icon, img {
+    border-radius: 10px;
     width: 35px;
     height: 35px;
     font-size: 0;
     margin-top: 4px;
-    margin-left: 10px;
+  }
+  .avater {
+    margin: 0;
+    padding: 0;
   }
   .mode-change {
     padding: 5px 0;
@@ -41,13 +48,18 @@
     border-radius: 5px;
     font-size: 1.4rem;
     font-weight: bolder;
-    margin-right: 20px;
     text-align: center;
   }
-  div:nth-child(3) {
-    div p {
-      background: #F0F0F0;
-    }
+  .plan {
+    background: $main;
+    color: #fff;
+    width: 100px;
+    padding: 5px 0;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 600;
+    border-radius: 1000px;
+    font-size: 1.3rem;
   }
 }
 
