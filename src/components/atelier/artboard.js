@@ -1667,12 +1667,13 @@ class Artboard extends React.Component {
     const styles = {
       artboard: {
         position: "relative",
+        top: "50%",
         transform: `translate(
                       ${this.state.artboardPosition[0]}px,
                       ${this.state.artboardPosition[1]}px
                     )
                     scale(${this.state.artboardScale})`,
-        zIndex: "01",
+        zIndex: "0",
       },
       style: {
         background: this.props.background,

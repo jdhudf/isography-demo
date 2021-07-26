@@ -326,6 +326,7 @@ aside {
     }
   }
   .edit-templates {
+    display: none;
     text-align: right;
     margin-right: 10px;
     color: $gray;
@@ -651,6 +652,7 @@ aside {
       margin-top: 10px;
       button {
         border: solid 2px darkgray;
+        background: darkgray;
         border-radius: 1000px;
         margin-top: 10px;
         width: 45%;
@@ -658,11 +660,10 @@ aside {
         font-size: 1.4rem;
         padding: 5px 0;
         font-weight: bold;
-        color: darkgray;
-        background: #fff;
+        color: #fff;
         &:last-child {
-          background: deepskyblue;
-          border: solid 2px deepskyblue;
+          background: $main;
+          border: solid 2px $main;
           color: #fff;
         }
       }

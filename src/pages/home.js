@@ -1,5 +1,5 @@
 import React, { useState }  from 'react';
-import { Link } from 'react-router-dom'
+import { Link, Redirect} from 'react-router-dom'
 
 import MenuBar from '../components/menubar.js';
 import AllItems from '../components/all_materials.js';
@@ -194,7 +194,10 @@ const NewArtboard = () => {
   const [height, updateHeight] = useState("600");
   const [ratioName, updateRatioName] = useState("");
 
+  const [redirect, updateRedirect] = useState(false);
+
   const json = useSelector(selectArtboards)
+  const artboards =  useSelector(selectArtboards)
 
   const dispatch = useDispatch()
 
@@ -214,7 +217,15 @@ const NewArtboard = () => {
 
     dispatch({type: 'add/artboard', payload: newData})
 
+    const working = artboards.length + 1
+
+    dispatch({type: 'working/switch', payload: working})
+    dispatch({type: 'update/artboardScale', payload: 0.8})
+    dispatch({type: 'update/artboardPosition', payload: [0,0]})
+
     toggleModal(false)
+
+    updateRedirect(true)
 
   }
 
@@ -327,6 +338,7 @@ const NewArtboard = () => {
           <NewsFeed />
         </div>
       </div>
+      {redirect ? <Redirect to="/atelier" /> : null}
     </div>
   )
 }
