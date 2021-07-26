@@ -68,7 +68,7 @@ window.addEventListener('DOMContentLoaded', function () {
   document.body.appendChild(div);
 });
 
-window.onload=function () {
+window.onload = function () {
     const div = document.getElementById('splash');
     window.setTimeout(function(){
       div.style.transition = "all ease .5s"

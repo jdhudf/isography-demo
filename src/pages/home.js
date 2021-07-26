@@ -5,7 +5,9 @@ import MenuBar from '../components/menubar.js';
 import AllItems from '../components/all_materials.js';
 
 import '../styles/home.scss';
-import img from '../images/hello-world.png';
+import img_1 from '../images/newsfeed/img_1.png';
+import img_2 from '../images/newsfeed/img_2.png';
+import img_3 from '../images/newsfeed/img_3.png';
 
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -167,11 +169,12 @@ const Dashboard = () => {
         </main>
         <aside>
           <NewsFeed/>
-          {/*<div className="message">
+          <div className="message">
             <h2>Some Tip!</h2>
             <p>You can install Isography your desktop and tablet!</p>
-            <button>Install App</button>
-          </div>*/}
+            <button id="PWAInstallBtn" style={{display:"none"}}
+            >Install App</button>
+          </div>
           <ul className="url">
             <li><a href="https://www.isography.app" target="_blank" rel="noreferrer">Official HP</a></li>
             <li><a href="#">Use of terms & Licenses</a></li>
@@ -360,8 +363,20 @@ const NewsFeed = () => {
       <Slider {...settings}>
 
       <div className="article">
+        <a href="https://www.isography.app/achieved-100-items/">
+          <div className="thumb"><img src={img_1} alt=""/></div>
+          <h3>Achieved 100 isometric illustrations items🌟</h3>
+        </a>
+      </div>
+      <div className="article">
+        <a href="https://www.isography.app/achieved-250-items/">
+          <div className="thumb"><img src={img_2} alt=""/></div>
+          <h3>New materials and new features have been added to Isography!🌟</h3>
+        </a>
+      </div>
+      <div className="article">
         <a href="https://www.isography.app/hello-world">
-          <div className="thumb"><img src={img} alt=""/></div>
+          <div className="thumb"><img src={img_3} alt=""/></div>
           <h3>Isography's demo version is released experimentally.</h3>
         </a>
       </div>
