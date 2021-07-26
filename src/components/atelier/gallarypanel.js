@@ -34,6 +34,21 @@ class GallaryPanel extends React.Component {
     };
   }
 
+  toggleHighlight = (e) => {
+    const button = document.getElementsByClassName('category_button')
+    const active = document.getElementsByClassName('category_button_active')
+
+    for (let i = 0; i<button.length;i++) {
+      if (button[i].classList.contains('category_button_active') === true) {
+        button[i].classList.remove('category_button_active')
+      }
+
+      if (button[i].classList.contains(e) === true) {
+        button[i].classList.add('category_button_active')
+      }
+    }
+  }
+
   selectElementOfSVG = (e) => {
 
     let svg;
@@ -112,6 +127,8 @@ class GallaryPanel extends React.Component {
 
     const div = document.getElementsByClassName('gallaryframe_category')[0]
     const items =  div.children;
+
+    this.toggleHighlight(e)
 
     switch (e) {
       case "all":
@@ -217,27 +234,27 @@ class GallaryPanel extends React.Component {
           <div className="drawer-content">
           <div className="gallary-category-list">
             <ul>
-              <li onClick={()=>this.filterItems("all")}>
+              <li className="category_button category_button_active all" onClick={()=>this.filterItems("all")}>
                 <span><img src={logo} alt=""/></span>
                 <p>All</p>
               </li>
-              <li onClick={()=>this.filterItems("people")}>
+              <li className="category_button people" onClick={()=>this.filterItems("people")}>
                 <span><img src={people} alt=""/></span>
                 <p>People</p>
               </li>
-              <li onClick={()=>this.filterItems("iot")}>
+              <li className="category_button iot" onClick={()=>this.filterItems("iot")}>
                 <span><img src={iot} alt=""/></span>
                 <p>IoT / Web</p>
               </li>
-              <li onClick={()=>this.filterItems("interior")}>
+              <li className="category_button interior" onClick={()=>this.filterItems("interior")}>
                 <span><img src={interior} alt=""/></span>
                 <p>Interior</p>
               </li>
-              <li onClick={()=>this.filterItems("nature")}>
+              <li className="category_button nature" onClick={()=>this.filterItems("nature")}>
                 <span><img src={nature} alt=""/></span>
                 <p>Nature</p>
               </li>
-              <li onClick={()=>this.filterItems("flag")}>
+              <li className="category_button flag" onClick={()=>this.filterItems("flag")}>
                 <span><img src={flag} alt=""/></span>
                 <p>Internatinal</p>
               </li>

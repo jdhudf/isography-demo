@@ -124,6 +124,12 @@
   }
 }
 
+.category_button_active {
+  span {
+    border: solid 1px $main!important;
+  }
+}
+
 .drawer {
   margin-left: -20px;
   position: relative;
