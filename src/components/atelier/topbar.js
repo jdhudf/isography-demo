@@ -92,13 +92,7 @@ class TopBar extends React.Component {
         </div>
         <div>
 
-          <div><p style={{
-            fontWeight: "600",
-            padding: "3px 15px",
-            borderRadius: "3px",
-            display: "inline-block",
-            fontSize: "12px"
-          }}>{(()=>{
+          <div className="topbar__artboardName"><p>{(()=>{
             const e = getArtboardData({
                                    artboards:artboards,
                                    working:working,
