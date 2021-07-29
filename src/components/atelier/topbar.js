@@ -413,6 +413,7 @@ function ExportComponent (props) {
 
   const [showExportPanel, changeStateExportPanel] = useState(false);
   const [artboardName, changeStateArtboardName] = useState(artboard_name);
+  const [checked_terms, checkedTerms] = useState(false);
 
   //const [radioFormat, changeStateRadioFormat] = useState("png");
   const [radioSize, changeStateRadioSize] = useState("2");
@@ -625,10 +626,35 @@ function ExportComponent (props) {
                 </li>
               </ul>*/}
               <br/>
+
+              <label htmlFor="check_terms-of-service">
+              <input
+                 name="check_terms-of-service"
+                 id="check_terms-of-service"
+                 type="checkbox"
+                 checked={checked_terms}
+                 onChange={() => { checkedTerms(!checked_terms) }}
+                 /> Agree with <a href="https://www.isography.app/terms-of-service">our Terms of Service</a>
+              </label>
               <button className="cancel" onClick={closeExportPanel}>Cancel</button>
-              <button className="download" onClick={()=>{
-                downloadImages({filename:artboardName, filesize: parseInt(radioSize)})
-                changeStateExportPanel(false)
+              <button
+                  className="download"
+                  style={{
+                    background: checked_terms ? "deepskyblue" : "lightgray",
+                    border: checked_terms ? "solid 1px deepskyblue" : "solid 1px lightgray",
+                  }}
+                  onClick={()=>{
+
+                if ( checked_terms ) {
+
+                  downloadImages({filename:artboardName, filesize: parseInt(radioSize)})
+                  changeStateExportPanel(false)
+
+                } else {
+
+
+                }
+
               }}>Download</button>
             </div>
           </div>
