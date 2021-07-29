@@ -177,11 +177,14 @@ const Dashboard = () => {
           </div>
           <ul className="url">
             <li><a href="https://www.isography.app" target="_blank" rel="noreferrer">Official HP</a></li>
-            <li><a href="#">Use of terms & Licenses</a></li>
+            <li><a href="https://www.isography.app/terns-of-use" target="_blank" rel="noreferrer">Use of terms & Licenses</a></li>
             {/*<li><AllItems /></li>*/}
           </ul>
           <div className="sendFeedback">
-            <a href="https://forms.gle/pNbptjqrGctWzJS77" target="_blank" rel="noreferrer">Send Bug report or Feedback<span>Powered by Google From</span></a>
+            <a target="_blank" rel="noreferrer" onClick={(e)=>{
+              e.preventDefault();
+              window.open("https://forms.gle/pNbptjqrGctWzJS77","Isography's Feedback","width=700,height=700,left=0,top=0,scrollbars=true")
+            }}>Send Bug report or Feedback<span>Powered by Google From</span></a>
           </div>
         </aside>
       </div>
