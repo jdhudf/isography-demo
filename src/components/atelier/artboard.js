@@ -110,7 +110,7 @@ class Artboard extends React.Component {
 
     const canvas = getCanvas({artboards: artboards,working:working});
 
-    const newData = updateArtboards({working:working, type:"last_modified", artboards: artboards,value: new Date()})
+    const newData = updateArtboards({working:working, type:"last_modified", artboards: artboards, value: new Date()})
 
     updateArtboard(newData)
     resetHistory(canvas)
@@ -123,21 +123,17 @@ class Artboard extends React.Component {
     this.updateSelecter()
   }
 
-  //--- Choose which element we should edit &  send it to parent component ---//
+  //
+  //  Get items' color hex & display Hex Input
+  //
+
   getColors = (e,s) => {
 
-    //const { artboards, working } =  this.props
-    //const canvas = getCanvas({ artboards: artboards, working: working })
-    //const g = canvas.svg_data[e]
-
     const {
-            //selected,
             changeColorSet,
-            //colors
           } = this.props,
           svg = document.getElementById('svg'),
           g = svg.children[s];
-          //data_copy = this.state.data.slice();
 
     const array = []
 
@@ -169,6 +165,10 @@ class Artboard extends React.Component {
     changeColorSet(uniq(array))
 
   }
+
+  //
+  //  depending on the type, different action are needed.
+  //
 
   selectElement = (e) => {
 
@@ -299,6 +299,10 @@ class Artboard extends React.Component {
 
   }
 
+  //
+  //  selector is a deepskyblue frame
+  //
+
   updateSelecter = () => {
 
     const {
@@ -373,9 +377,10 @@ class Artboard extends React.Component {
               textCursor.style.position = "absolute"
 
             } else {
+
               textCursor.style.display= 'none';
+
             }
-            ////
 
           }
 
@@ -444,8 +449,19 @@ class Artboard extends React.Component {
 
   }
 
+  //
+  //  selector is a deepskyblue frame
+  //
+
   updateArtboard = (data) => {
-    const { updateArtboard, working, artboards, recordHistory, selected } = this.props
+
+    const {
+      updateArtboard,
+      working,
+      artboards,
+      recordHistory,
+      selected
+    } = this.props
 
     const canvas = getCanvas({ artboards: artboards, working: working })
 
@@ -457,8 +473,8 @@ class Artboard extends React.Component {
     })
 
     updateArtboard(newData)
-
     recordHistory(canvas)
+
   }
 
   group = () => {
@@ -1025,9 +1041,13 @@ class Artboard extends React.Component {
 
   }
 
-  //--- Below is code about handling artboard position and scale ---//
+  //
+  //  functions for Pinch gesture wheel
+  //  Handling artboard position and scale
+  //
 
   onWheel = (e) => {
+
     e.preventDefault();
 
     if (e.ctrlKey) {
@@ -1037,8 +1057,6 @@ class Artboard extends React.Component {
         let scale = this.state.artboardScale;
         scale -= e.deltaY * 0.01;
         this.setState({ artboardScale: scale })
-
-        localStorage.setItem('artboardScale', scale);
 
       }
 
@@ -1050,8 +1068,7 @@ class Artboard extends React.Component {
       posY -= e.deltaY * 1;
 
       this.setState({ artboardPosition: [ posX ,posY] })
-      localStorage.setItem('artboardPosition', JSON.stringify([ posX ,posY]));
-      //console.log(e.deltaX +','+e.deltaY);
+
     }
 
   }
@@ -1070,17 +1087,16 @@ class Artboard extends React.Component {
     this.setState({gestureStartScale:this.state.artboardScale});
 
   }
+
   gestureChange = (e) => {
     e.preventDefault();
     //this.updateSelecter();
     this.setState({artboardScale: this.state.gestureStartScale * e.scale})
 
-    localStorage.setItem('artboardScale', this.state.gestureStartScale * e.scale);
-
     this.setState({artboardPosition:[e.pageX - this.state.startCoordinate[0],e.pageY - this.state.startCoordinate[1]]})
 
-    localStorage.setItem('artboardPosition', JSON.stringify([e.pageX - this.state.startCoordinate[0],e.pageY - this.state.startCoordinate[1]]));
   }
+
   gestureEnd = (e) => {
     e.preventDefault();
   }
@@ -1392,6 +1408,10 @@ class Artboard extends React.Component {
 
   }
 
+  //
+  //  a button to transform a plain to 3D like view
+  //
+
   dimensions = (e) => {
 
     const { selected,
@@ -1519,6 +1539,10 @@ class Artboard extends React.Component {
 
     recordHistory(canvas)
   }
+
+  //
+  //  functions for font editor
+  //
 
   editable = (e) => {
 
@@ -1777,39 +1801,6 @@ class Artboard extends React.Component {
 
         if (colors[i]!== null) {
           colorsDiv.push(
-            /*<GradientPicker
-              color={colors[i]}
-              method={
-
-                (e) => {
-                const newColors = colors.slice()
-                newColors[i] = e;
-
-                const newCanvas = JSON.parse(JSON.stringify(canvas))
-                const str = newCanvas.svg_data[selected]
-                const reg =  colors[i]
-
-                var result = str.replace(new RegExp(reg,'g'), e);
-                console.log(result,e)
-
-                newCanvas.svg_data[selected] = result
-
-                const newData = updateArtboards({
-                  working: working,
-                  type: "svg_data",
-                  artboards: artboards,
-                  value: newCanvas.svg_data
-                })
-                updateArtboard(newData)
-
-
-                //updateArtboard(newData)
-                changeColorSet(newColors)
-
-
-                //recordHistory(JSON.parse(JSON.stringify(canvas)))
-
-              }}/>*/
             <ColorPicker
                color={colors[i]}
                method={(e) => {
@@ -1831,14 +1822,11 @@ class Artboard extends React.Component {
                    artboards: artboards,
                    value: newCanvas.svg_data
                  })
-                 updateArtboard(newData)
 
+                 this.updateArtboard(newCanvas.svg_data)
 
                  //updateArtboard(newData)
                  changeColorSet(newColors)
-
-
-                 //recordHistory(JSON.parse(JSON.stringify(canvas)))
 
                }}
             />
