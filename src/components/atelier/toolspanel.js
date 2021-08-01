@@ -262,13 +262,14 @@ class ToolsPanel extends React.Component {
 
     const data_copy = canvas.svg_data;
 
-
     const svg = document.getElementById('svg')
 
 
     for (let i = 0; i < selected.length; i++) {
 
         const group = svg.children[ selected[i] ]
+
+        console.log(selected)
 
         console.log(group)
 
