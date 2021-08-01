@@ -254,7 +254,6 @@ class ToolsPanel extends React.Component {
 
     const {
       selected,
-      switchSelected,
       artboards,
       working
     } = this.props
@@ -421,23 +420,27 @@ class ToolsPanel extends React.Component {
 
           if ( selected ) {
 
-            if ( svg.children !== null ) {
+            if ( svg ) {
 
-              if ( selected.length === 1 ) {
-                const g = svg.children[selected]
+              if ( svg.children !== null ) {
 
-                if (g.dataset.type === "group") {
+                if ( selected.length === 1 ) {
+                  const g = svg.children[selected]
+
+                  if (g.dataset.type === "group") {
+                    return (
+                      <p onClick={this.ungroup} style={{transform: "scale(0.8, 1)", fontWeight: 600}}>Ungroup</p>
+                    )
+                  }
+
+                }
+
+                if ( selected.length > 1) {
                   return (
-                    <p onClick={this.ungroup} style={{transform: "scale(0.8, 1)", fontWeight: 600}}>Ungroup</p>
+                    <p onClick={this.group} style={{transform: "scale(0.8, 1)", fontWeight: 600}}>Group</p>
                   )
                 }
 
-              }
-
-              if ( selected.length > 1) {
-                return (
-                  <p onClick={this.group} style={{transform: "scale(0.8, 1)", fontWeight: 600}}>Group</p>
-                )
               }
 
             }

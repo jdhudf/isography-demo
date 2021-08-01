@@ -483,23 +483,16 @@ class Artboard extends React.Component {
       selected,
       switchSelected,
     } = this.props
-    //const svg = document.getElementById('svg').cloneNode(true)
-    //const children = svg.children
 
     let data_copy = this.state.data.slice()
     let selectedArray = [];
 
     for (let i = 0; i<selected.length;i++) {
 
-      //data_copy.splice( i, 1 );
-
       selectedArray.push( this.state.data[ selected[i] ] )
 
-
-      //`<g transform="translate(0,0) scale(1.00,1.00) skewY(0) rotate(0)" data-type="group">`
-      //`</g>`
-
     }
+
     data_copy = data_copy.filter(function(v){
       return ! selectedArray.includes(v);
     });
@@ -510,10 +503,7 @@ class Artboard extends React.Component {
 
     data_copy.push(group)
 
-    //console.log(group)
-    console.log(data_copy)
     this.setState({data: data_copy})
-
 
     switchSelected([])
     this.updateArtboard(data_copy)
@@ -552,29 +542,52 @@ class Artboard extends React.Component {
     if (s) {
 
       const { artboards, working } =  this.props
-      const canvas = getCanvas({ artboards: artboards, working: working })
+      const svg = document.getElementById('svg')
+      //const canvas = getCanvas({ artboards: artboards, working: working })
 
 
       let transforms = [];
 
       for (let i = 0; i < s.length; i++) {
 
-        const g = canvas.svg_data[parseInt(s[i])]
+        const g = svg.children[ parseInt(s[i]) ],
+              regExp = /-?\d+(\.\d+)?/g;
 
         if (g) {
 
-          const regExp = /-?\d+(\.\d+)?/g,
-                translate = g.match(regExp)
+          if ( g.dataset.type === "group" ) {
 
-          const arr = {
-            number: parseInt(s[i]),
-            translate: [ parseInt(translate[0]), parseInt(translate[1]) ],
-            scale: [parseFloat(translate[2]), parseFloat(translate[3])],
-            skew: translate[4],
-            rotate: translate[5]
+            for ( let i = 0; i < g.children.length ; i++ ) {
+
+              const translate = g.children[i].outerHTML.match(regExp)
+
+              const arr = {
+                number: parseInt(s[i]),
+                translate: [ parseInt(translate[0]), parseInt(translate[1]) ],
+                scale: [parseFloat(translate[2]), parseFloat(translate[3])],
+                skew: translate[4],
+                rotate: translate[5]
+              }
+
+              transforms.push(arr)
+
+            }
+
+          } else {
+
+            const translate = g.outerHTML.match(regExp)
+
+            const arr = {
+              number: parseInt(s[i]),
+              translate: [ parseInt(translate[0]), parseInt(translate[1]) ],
+              scale: [parseFloat(translate[2]), parseFloat(translate[3])],
+              skew: translate[4],
+              rotate: translate[5]
+            }
+
+            transforms.push(arr)
+
           }
-
-          transforms.push(arr)
 
 
         }
@@ -652,45 +665,82 @@ class Artboard extends React.Component {
             data_copy = this.state.data.slice(),
             move = [e.pageX, e.pageY],
             artboardScale =  this.state.artboardScale;
+
       let g; // <- this variable is <g> tag
 
-      for (let i = 0; i < selected.length; i++) {
+      for ( let i = 0; i < selected.length; i++ ) {
 
         g = svg.children[ selected[i] ]
 
         if (g.dataset.type ===  "group") {
+
           const els = g.children
 
           for (var j = 0; j < els.length; j++) {
 
             if ( els[j].dataset.type === "el" || els[j].dataset.type === "text") {
               console.log(els[j].getAttribute("transform"))
+
+              //////
+
+              const gap = [
+                ( parseFloat(move[0]) - parseFloat(this.state.initial[0]) ) / artboardScale,
+                ( parseFloat(move[1]) - parseFloat(this.state.initial[1]) ) / artboardScale
+              ];
+
+              //---  Calculate a translate(x,y)  ---//
+
+              const i_translate = this.state.initialTransform[ j ].translate,
+                    i_scale = this.state.initialTransform[ j ].scale,
+                    i_skew = this.state.initialTransform[ j ].skew,
+                    i_rotate = this.state.initialTransform[ j ].rotate;
+
+              const translate = [
+                parseFloat(i_translate[0]) + parseFloat(gap[0]),
+                parseFloat(i_translate[1]) + parseFloat(gap[1])
+              ];
+
+              if (els) {
+
+                els[j].setAttribute("transform", `translate(`+ translate[0] +`,`+ translate[1] +`) scale(`+ i_scale[0] +`,`+ i_scale[1] +`) skewY(`+ i_skew +`) rotate(`+ i_rotate +`)`);
+
+                //data_copy[ selected[i] ] = els.outerHTML
+
+              }
+
+
+              //////
             }
+            data_copy[ selected[i] ] = g.outerHTML
+
           }
-        }
 
-        const gap = [
-          ( parseFloat(move[0]) - parseFloat(this.state.initial[0]) ) / artboardScale,
-          ( parseFloat(move[1]) - parseFloat(this.state.initial[1]) ) / artboardScale
-        ];
+        } else {
 
-        //---  Calculate a translate(x,y)  ---//
+          const gap = [
+            ( parseFloat(move[0]) - parseFloat(this.state.initial[0]) ) / artboardScale,
+            ( parseFloat(move[1]) - parseFloat(this.state.initial[1]) ) / artboardScale
+          ];
 
-        const i_translate = this.state.initialTransform[ i ].translate,
-              i_scale = this.state.initialTransform[ i ].scale,
-              i_skew = this.state.initialTransform[ i ].skew,
-              i_rotate = this.state.initialTransform[ i ].rotate;
+          //---  Calculate a translate(x,y)  ---//
 
-        const translate = [
-          parseFloat(i_translate[0]) + parseFloat(gap[0]),
-          parseFloat(i_translate[1]) + parseFloat(gap[1])
-        ];
+          const i_translate = this.state.initialTransform[ i ].translate,
+                i_scale = this.state.initialTransform[ i ].scale,
+                i_skew = this.state.initialTransform[ i ].skew,
+                i_rotate = this.state.initialTransform[ i ].rotate;
 
-        if (g) {
+          const translate = [
+            parseFloat(i_translate[0]) + parseFloat(gap[0]),
+            parseFloat(i_translate[1]) + parseFloat(gap[1])
+          ];
 
-          g.setAttribute("transform", `translate(`+ translate[0] +`,`+ translate[1] +`) scale(`+ i_scale[0] +`,`+ i_scale[1] +`) skewY(`+ i_skew +`) rotate(`+ i_rotate +`)`);
+          if (g) {
 
-          data_copy[ selected[i] ] = g.outerHTML
+            g.setAttribute("transform", `translate(`+ translate[0] +`,`+ translate[1] +`) scale(`+ i_scale[0] +`,`+ i_scale[1] +`) skewY(`+ i_skew +`) rotate(`+ i_rotate +`)`);
+
+            data_copy[ selected[i] ] = g.outerHTML
+
+          }
 
         }
 
@@ -1764,6 +1814,7 @@ class Artboard extends React.Component {
           <li onClick={()=>this.handleElement("Reflect")}>Reflect <span>⌘R</span></li>
 
           {(()=>{
+
             const { selected } = this.props
             const svg = document.getElementById('svg')
 
