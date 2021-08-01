@@ -1427,7 +1427,6 @@ class Artboard extends React.Component {
           disactive = "fill:#fff;border:solid 1px gray",
           active = "fill:deepskyblue;border:solid 1px gray",
           translate = this.state.initialTranslate,
-          //scale = this.state.initialScale,
           test = g.getBoundingClientRect();
 
 
@@ -1763,22 +1762,27 @@ class Artboard extends React.Component {
           <li onClick={()=>this.handleElement("Duplicate")}>Duplicate <span>⌘V</span></li>
           <li onClick={()=>this.handleElement("Delete")}>Delete <span>⌘D</span></li>
           <li onClick={()=>this.handleElement("Reflect")}>Reflect <span>⌘R</span></li>
+
           {(()=>{
             const { selected } = this.props
             const svg = document.getElementById('svg')
 
-            if (selected.length === 1) {
-              const g = svg.children[selected[0]]
-              if (g.dataset.type === "group") {
+            if ( selected ) {
+
+              if (selected.length === 1 && svg.children !== null) {
+                const g = svg.children[selected[0]]
+                if (g.dataset.type === "group") {
+                  return (
+                    <li onClick={this.ungroup}>Ungroup <span>⌘G</span></li>
+                  )
+                }
+              }
+              if (selected.length > 1) {
                 return (
-                  <li onClick={this.ungroup}>Ungroup <span>⌘G</span></li>
+                  <li onClick={this.group}>Group <span>⌘G</span></li>
                 )
               }
-            }
-            if (selected.length > 1) {
-              return (
-                <li onClick={this.group}>Group <span>⌘G</span></li>
-              )
+
             }
           })()}
           <li>

@@ -70,6 +70,7 @@ class ToolsPanel extends React.Component {
 
   handleElement = (action) => {
 
+
     const {
       working,
       artboards,
@@ -77,8 +78,10 @@ class ToolsPanel extends React.Component {
       switchSelected,
     } = this.props
 
+
     const canvas = getCanvas({ working: working, artboards:artboards }),
           data_copy = canvas.svg_data.slice();
+
 
     for (let i = 0; i < selected.length; i++) {
 
@@ -103,7 +106,7 @@ class ToolsPanel extends React.Component {
 
           console.log('delete');
 
-          data_copy.splice( selected[i] ,1);
+          data_copy.splice( selected[i] , 1);
 
           console.log(data_copy)
 
@@ -206,30 +209,6 @@ class ToolsPanel extends React.Component {
       }
 
     }
-
-
-
-    this.recordArtboard(data_copy)
-
-  }
-
-  removeElement = (props) => {
-
-    const {
-      working,
-      selected,
-      artboards,
-    } = this.props
-
-    const canvas = getCanvas({working:working,artboards:artboards}),
-          data_copy = canvas.svg_data.slice();
-
-
-    const color_set = document.getElementById('color-set');
-
-    color_set.style.display = "none";
-
-    data_copy.splice(selected,1);
 
     this.recordArtboard(data_copy)
 
@@ -435,25 +414,36 @@ class ToolsPanel extends React.Component {
         })()}
 
         {(()=> {
+
           const { selected } = this.props
+
           const svg = document.getElementById('svg')
 
-          if ( selected.length === 1 ) {
-            const g = svg.children[selected]
+          if ( selected ) {
 
-            if (g.dataset.type === "group") {
-              return (
-                <p onClick={this.ungroup} style={{transform: "scale(0.8, 1)", fontWeight: 600}}>Ungroup</p>
-              )
+            if ( svg.children !== null ) {
+
+              if ( selected.length === 1 ) {
+                const g = svg.children[selected]
+
+                if (g.dataset.type === "group") {
+                  return (
+                    <p onClick={this.ungroup} style={{transform: "scale(0.8, 1)", fontWeight: 600}}>Ungroup</p>
+                  )
+                }
+
+              }
+
+              if ( selected.length > 1) {
+                return (
+                  <p onClick={this.group} style={{transform: "scale(0.8, 1)", fontWeight: 600}}>Group</p>
+                )
+              }
+
             }
 
           }
 
-          if ( selected.length > 1) {
-            return (
-              <p onClick={this.group} style={{transform: "scale(0.8, 1)", fontWeight: 600}}>Group</p>
-            )
-          }
           return <p style={{transform: "scale(0.8, 1)", fontWeight: 600, color: "lightgray"}}>Group</p>
 
         })()}
@@ -507,7 +497,7 @@ class ToolsPanel extends React.Component {
 
             return (
               <p
-                onClick={this.removeElement}
+                onClick={() => this.handleElement('Delete')}
                 title="Remove Element">
                 <FontAwesomeIcon icon={faTrashAlt} />
               </p>
