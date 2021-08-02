@@ -8,18 +8,18 @@
       "type": "image/x-icon"
     },
     {
-      "src": "logo192.png",
+      "src": "logo_round_192.png",
       "type": "image/png",
       "sizes": "192x192",
       "purpose": "any maskable"
     },
     {
-      "src": "logo512.png",
+      "src": "logo_round_512.png",
       "type": "image/png",
       "sizes": "512x512"
     },
     {
-      "src": "logo180.png",
+      "src": "logo_round_180.png",
       "type": "image/png",
       "sizes": "180x180"
     },
