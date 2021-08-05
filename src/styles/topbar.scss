@@ -352,6 +352,14 @@
         margin-top: 10px;
       }
     }
+    label {
+      display: block;
+    }
+    a {
+      font-weight: normal;
+      border-bottom: 1px solid $main;
+      color: $main;
+    }
     input[type="text"] {
       border: none;
       border-bottom: solid 1.5px lightblue;
