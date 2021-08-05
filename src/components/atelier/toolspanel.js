@@ -115,7 +115,7 @@ class ToolsPanel extends React.Component {
 
           break;
         case 'Reflect':
-          const regExp = /-?\d+/g;
+          const regExp = /-?\d+(\.\d+)?/g;///-?\d+/g;
           const scale = el.match(regExp)
 
           let n = 3;
@@ -144,7 +144,7 @@ class ToolsPanel extends React.Component {
           data_copy.push(result);
           break;
         case 'Reflect Vertical':
-          const regExp2 = /-?\d+/g;
+          const regExp2 = /-?\d+(\.\d+)?/g;// /-?\d+/g;
           const scale2 = el.match(regExp2)
 
           let nn = 3;

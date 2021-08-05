@@ -130,8 +130,6 @@ class Artboard extends React.Component {
 
   getColors = (e,s) => {
 
-    console.log("colors!")
-
     const {
             changeColorSet,
           } = this.props,
@@ -151,8 +149,6 @@ class Artboard extends React.Component {
 
       }
 
-    } else {
-      console.log("colors error!")
     }
 
     function uniq(array) {
@@ -441,7 +437,7 @@ class Artboard extends React.Component {
           corners[3].style.left  = client_left + client_w - ajast + 'px';
           corners[3].style.top  = client_top + client_h - ajast + 'px';
 
-          
+
 
           if ( selected.length === 1 ) {
 
@@ -1055,7 +1051,8 @@ class Artboard extends React.Component {
           switchSelected([])
           break;
         case 'Reflect':
-          const regExp = /-?\d+/g;
+
+          const regExp = /-?\d+(\.\d+)?/g;
           const scale = el.match(regExp)
 
           let n = 3;
