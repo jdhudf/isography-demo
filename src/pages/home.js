@@ -38,6 +38,12 @@ class Home extends React.Component {
     }
   }
 
+  componentDidMount(e) {
+    const { switchSelected } = this.props;
+
+    switchSelected([])
+  }
+
   render() {
 
     const { json } = this.props
@@ -177,7 +183,7 @@ const Dashboard = () => {
           </div>
           <ul className="url">
             <li><a href="https://www.isography.app" target="_blank" rel="noreferrer">Official HP</a></li>
-            <li><a href="https://www.isography.app/terns-of-use" target="_blank" rel="noreferrer">Use of terms & Licenses</a></li>
+            <li><a href="https://www.isography.app/license" target="_blank" rel="noreferrer">Terms of Service & Licenses</a></li>
             {/*<li><AllItems /></li>*/}
           </ul>
           <div className="sendFeedback">
@@ -398,5 +404,6 @@ export default connect(
   mapStateToProps,
   dispatch => ({
     swicthWorking: value => dispatch(actions.swicthWorking(value)),
+    switchSelected: value => dispatch(actions.switchSelected(value)),
    })
 )(Home)
