@@ -77,6 +77,7 @@ class Artboard extends React.Component {
       isScaleMouseDown: false,
       selectedTranslate: [0,0],
       initialForScale: [0,0],
+      initialPositions: [0,0],
       selectedInitial: [0,0],
       center: [0,0],
       // -- below is svg data
@@ -129,6 +130,8 @@ class Artboard extends React.Component {
 
   getColors = (e,s) => {
 
+    console.log("colors!")
+
     const {
             changeColorSet,
           } = this.props,
@@ -148,6 +151,8 @@ class Artboard extends React.Component {
 
       }
 
+    } else {
+      console.log("colors error!")
     }
 
     function uniq(array) {
@@ -436,6 +441,22 @@ class Artboard extends React.Component {
           corners[3].style.left  = client_left + client_w - ajast + 'px';
           corners[3].style.top  = client_top + client_h - ajast + 'px';
 
+          
+
+          if ( selected.length === 1 ) {
+
+            colorset.style.display = "flex"
+            colorset.style.position = "absolute"
+            colorset.style.top = client_h + 'px'
+            colorset.style.left = 0 + 'px'
+            colorset.style.zIndex = '8888888'
+
+          } else {
+            colorset.style.display = "none"
+          }
+
+
+
         } else {
 
           selector.style.display = "none";
@@ -521,6 +542,13 @@ class Artboard extends React.Component {
 
         const group = svg.children[ selected[i] ]
         data_copy.shift( selected[i], 1 )
+
+
+        if ( group.dataset.type ===  "group") {
+
+          console.log( group.getAttribute('transform') )
+
+        }
 
         for (let j = 0; j < group.children.length; j++) {
 
@@ -653,6 +681,17 @@ class Artboard extends React.Component {
 
     }
 
+
+    if (typeof this.selectElement(e) === "object") {
+
+      if (this.selectElement(e).length === 1) {
+
+        this.getColors(e , this.selectElement(e)[0] );
+
+      }
+
+    }
+
   }
 
   onMouseMove = (e) => {
@@ -679,7 +718,7 @@ class Artboard extends React.Component {
           for (var j = 0; j < els.length; j++) {
 
             if ( els[j].dataset.type === "el" || els[j].dataset.type === "text") {
-              console.log(els[j].getAttribute("transform"))
+              //console.log(els[j].getAttribute("transform"))
 
               //////
 
@@ -1013,7 +1052,7 @@ class Artboard extends React.Component {
         case 'Delete':
           console.log('delete');
           data_copy.splice(selected[i],1);
-          switchSelected(null)
+          switchSelected([])
           break;
         case 'Reflect':
           const regExp = /-?\d+/g;
@@ -1050,7 +1089,7 @@ class Artboard extends React.Component {
           data_copy.push(el);
 
           if (data_copy.length !== selected) {
-            switchSelected(data_copy.length - 1)
+            switchSelected([])
           }
 
           break;
@@ -1059,7 +1098,8 @@ class Artboard extends React.Component {
           data_copy.splice(selected[i],1);
           data_copy.splice(selected[i] + 1 ,0,el);
           if (data_copy.length !== selected[i]) {
-            switchSelected(selected[i] + 1)
+            //switchSelected( [selected[i] + 1])
+            switchSelected([])
           }
           break;
         case 'sendBackward':
@@ -1067,7 +1107,8 @@ class Artboard extends React.Component {
           data_copy.splice(selected[i],1);
           data_copy.splice(selected[i] - 1 ,0,el);
           if (data_copy.length !== selected[i]) {
-            switchSelected(selected[i] - 1)
+            //switchSelected(selected[i] - 1)
+            switchSelected([])
           }
           break;
         case 'sendToBack':
@@ -1075,7 +1116,7 @@ class Artboard extends React.Component {
           data_copy.splice(selected[i],1);
           data_copy.unshift(el);
           if (data_copy.length !== selected[i]) {
-            switchSelected(0)
+            switchSelected([])
           }
           break;
         default:
@@ -1158,20 +1199,20 @@ class Artboard extends React.Component {
     const { selected } = this.props,
           svg = document.getElementById("svg"),
           artboardScale =  this.state.artboardScale,
+          g = svg.children,
           data_copy = this.state.data.slice();
     let selectedElement;
 
     //--  Return Scale() of Selected Elements  --//
 
-
-    const x = this.state.center[0] - e.pageX,//client_right - e.pageX,
-          y = this.state.center[1] - e.pageY,//client_bottom - e.pageY,
+    const x = this.state.center[0] - e.pageX,
+          y = this.state.center[1] - e.pageY,
           z = Math.sqrt ( Math.pow(x, 2) + Math.pow(y, 2) );
 
     const initialAxis = this.state.selectedInitial;
 
-    const init_x = this.state.center[0] - initialAxis[0],//client_right - initialAxis[0],
-          init_y = this.state.center[1] - initialAxis[1],//client_bottom - initialAxis[1],
+    const init_x = this.state.center[0] - initialAxis[0],
+          init_y = this.state.center[1] - initialAxis[1],
           init_z = Math.sqrt ( Math.pow(init_x, 2) + Math.pow(init_y, 2) );
 
     //--  Return Translate() of Selected Elements  --//
@@ -1184,30 +1225,49 @@ class Artboard extends React.Component {
 
     //--  Change Transform() of Selected Element  --//
 
-    console.log( selected  )
-
     for (let i = 0; i < selected.length; i++) {
-
-      console.log(this.state.initialTransformScaling)
 
       const transforms = this.state.initialTransformScaling
 
+      const client = g[ selected[i] ].getBoundingClientRect(),
+            width = client.width,
+            height = client.height,
+            x = client.x,
+            y = client.y,
+            bottom = client.bottom,
+            right = client.right,
+            left = client.left,
+            top = client.top;
+
+      //console.log(width, height, x, y, bottom, right, left, top)
+      //console.log(x, y, left, top)
+
       for (var j = 0; j < transforms.length; j++) {
+
         if ( selected[i] === transforms[j].number ) {
 
           const transform = transforms[j]
-
-          const translate = [
-            parseFloat(transform.translate[0]) + parseFloat(gap[0]),
-            parseFloat(transform.translate[1]) + parseFloat(gap[1])
-          ];
 
           const scaling = [
                             transform.scale[0] * z / init_z,
                             transform.scale[1] * z / init_z,
           ];
 
+          /*const translate = [
+            parseFloat(transform.translate[0]) + parseFloat(gap[0]),
+            parseFloat(transform.translate[1]) + parseFloat(gap[1])
+          ];*/
+
+          console.log(width, height)
+
+          const translate = [
+            parseFloat(transform.translate[0]),
+            parseFloat(transform.translate[1])
+          ];
+
           selectedElement = svg.children[selected[i]]
+
+          //console.log(translate[0],translate[1])
 
           selectedElement.setAttribute("transform",
           `translate(`+ translate[0] +`,`+ translate[1] +`)
@@ -1242,10 +1302,10 @@ class Artboard extends React.Component {
         cur.style.cursor = "nesw-resize"
         break;
       case "topRight":
-        cur.style.cursor = "nwse-resize"
+        cur.style.cursor = "nesw-resize"
         break;
       case "bottomLeft":
-        cur.style.cursor = "nesw-resize"
+        cur.style.cursor = "nwse-resize"
         break;
       default:
 
@@ -1265,6 +1325,17 @@ class Artboard extends React.Component {
           sel_h = selector.getBoundingClientRect().height;
 
     center = [ sel_left +  sel_w / 2, sel_top + sel_h / 2]
+
+    /*const div = document.createElement('div')
+    const body = document.body
+    div.style.width = "5px"
+    div.style.height = "5px"
+    div.style.background = "red"
+    div.style.position = "absolute"
+    div.style.top = center[1] + 'px'
+    div.style.left =  center[0] + 'px'
+    body.appendChild(div)*/
+
 
     ////////////////////////////////////
 
@@ -1303,12 +1374,24 @@ class Artboard extends React.Component {
     ////////////////////////////////////
 
 
+    /*const svg = document.getElementById('svg')
+    const g = svg.children[selected]
+
+    console.log(
+      g.getBoundingClientRect().width,
+      g.getBoundingClientRect().height,
+      g.getBoundingClientRect().x,
+      g.getBoundingClientRect().y
+    )*/
+
+
     this.setState({
       isScaleMouseDown: true,
       selectedInitial: [ e.pageX , e.pageY ],
       //initialScale: [parseFloat(scale[0]), parseFloat(scale[1])],
       stateOrProps: true,
-      center: [ center[0], center[1] ]
+      center: [ center[0], center[1] ],
+      //initialPositions: [g.getBoundingClientRect().bottom, g.getBoundingClientRect().right]
     })
 
   }
@@ -1577,16 +1660,8 @@ class Artboard extends React.Component {
 
     this.setState({data: data_copy});
 
-    const newData = updateArtboards({
-      working: working,
-      type: "svg_data",
-      artboards: artboards,
-      value: data_copy
-    })
+    this.updateArtboard(data_copy)
 
-    updateArtboard(newData)
-
-    recordHistory(canvas)
   }
 
   //
@@ -1754,6 +1829,7 @@ class Artboard extends React.Component {
         top: "50%",
         left: "50%",
         transform: "translate(-50%,-50%)",
+        zIndex: "0",
       },
       box: {
         //position: "absolute",
@@ -1820,18 +1896,23 @@ class Artboard extends React.Component {
 
             if ( selected ) {
 
-              if (selected.length === 1 && svg.children !== null) {
-                const g = svg.children[selected[0]]
-                if (g.dataset.type === "group") {
+              if (svg) {
+
+                if (selected.length === 1 ) {
+                  const g = svg.children[selected[0]]
+                  if (g.dataset.type === "group") {
+                    return (
+                      <li onClick={this.ungroup}>Ungroup <span>⌘G</span></li>
+                    )
+                  }
+                }
+
+                if (selected.length > 1) {
                   return (
-                    <li onClick={this.ungroup}>Ungroup <span>⌘G</span></li>
+                    <li onClick={this.group}>Group <span>⌘G</span></li>
                   )
                 }
-              }
-              if (selected.length > 1) {
-                return (
-                  <li onClick={this.group}>Group <span>⌘G</span></li>
-                )
+
               }
 
             }
@@ -1920,12 +2001,17 @@ class Artboard extends React.Component {
             )
             return cornersDiv
           })()}
+          <div id="color-set">
+               {colorsDiv}
+               <p id="textCursor" style={{position: "absolute", left: "50px", top: "50px",fontSize: "20px",color: "deepskyblue", display: editable ? "block": "none"}}>
+               </p>
+          </div>
         </div>
       </div>
     )
 
     return (
-      <div id="board" //style={{position: "relative"}}
+      <div id="board"
            onMouseUp={() => {
              this.props.method()
            }}
@@ -1937,14 +2023,8 @@ class Artboard extends React.Component {
            onKeyDown={this.onKeyDown}
            onKeyUp={this.onKeyUp}
            >
-
       <svg id="dimention" style={{position: "absolute",zIndex: "10000", height: "50px", top: textEditor ? "50px": "0px", right: "20px", display: (this.props.selected !== null ) ? "block": "none"}} width="45" height="100%" viewBox="0 0 200 200" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M102.601,9.337c-2.181,-1.259 -5.485,-1.396 -7.373,-0.306l-72.178,41.672c-1.889,1.091 -1.652,2.998 0.529,4.257l71.119,41.061c2.181,1.259 5.485,1.396 7.373,0.306l72.178,-41.672c1.889,-1.091 1.652,-2.998 -0.529,-4.257l-71.119,-41.061Z" style={{fill:"#fff",border:"solid 1px gray"}} onClick={()=>this.dimensions('top')}/><path d="M96.439,107.74c-0,-2.518 -1.533,-5.448 -3.422,-6.538l-72.178,-41.672c-1.888,-1.09 -3.422,0.069 -3.422,2.587l0,82.121c0,2.518 1.534,5.448 3.422,6.538l72.178,41.672c1.889,1.091 3.422,-0.068 3.422,-2.586l-0,-82.122Z" style={{fill:"#fff",border:"solid 1px gray"}} onClick={()=>this.dimensions('left')}/><path d="M180.412,61.673c0,-2.518 -1.533,-3.678 -3.421,-2.587l-72.178,41.672c-1.889,1.09 -3.422,4.02 -3.422,6.538l-0,82.121c-0,2.518 1.533,3.677 3.422,2.587l72.178,-41.672c1.888,-1.09 3.421,-4.02 3.421,-6.538l0,-82.121Z" style={{fill:"#fff",border:"solid 1px gray"}} onClick={()=>this.dimensions('right')}/></svg>
       {selector}
-      <div id="color-set">
-           {colorsDiv}
-           <p id="textCursor" style={{position: "absolute", left: "50px", top: "50px",fontSize: "20px",color: "deepskyblue", display: editable ? "block": "none"}}>
-           </p>
-      </div>
 
       <div style={{
         border:"solid 1px blue",

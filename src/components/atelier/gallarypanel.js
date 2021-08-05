@@ -36,7 +36,7 @@ class GallaryPanel extends React.Component {
 
   toggleHighlight = (e) => {
     const button = document.getElementsByClassName('category_button')
-    const active = document.getElementsByClassName('category_button_active')
+    //const active = document.getElementsByClassName('category_button_active')
 
     for (let i = 0; i<button.length;i++) {
       if (button[i].classList.contains('category_button_active') === true) {

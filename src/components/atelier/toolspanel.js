@@ -110,7 +110,7 @@ class ToolsPanel extends React.Component {
 
           console.log(data_copy)
 
-          switchSelected(null)
+          switchSelected([])
 
 
           break;
@@ -176,6 +176,7 @@ class ToolsPanel extends React.Component {
           console.log('bringToFront');
           data_copy.splice( selected[i] ,1);
           data_copy.push(el);
+          switchSelected([])
           break;
         case 'bringForward':
           console.log('bringForward');
@@ -186,7 +187,8 @@ class ToolsPanel extends React.Component {
           data_copy.splice( selected[i]  + 1 ,0,el);
 
           if (data_copy.length !== selected) {
-            switchSelected( selected[i]  + 1)
+            //switchSelected( selected[i]  + 1)
+            switchSelected([])
           }
 
           break;
@@ -196,7 +198,8 @@ class ToolsPanel extends React.Component {
           data_copy.splice( selected[i]  - 1 ,0,el);
 
           if (data_copy.length !==  selected[i] ) {
-            switchSelected( selected[i]  - 1)
+            //switchSelected( selected[i]  - 1)
+            switchSelected([])
           }
           break;
         case 'sendToBack':
@@ -269,9 +272,9 @@ class ToolsPanel extends React.Component {
 
         const group = svg.children[ selected[i] ]
 
-        console.log(selected)
+        //console.log(selected)
 
-        console.log(group)
+        console.log(group.getAttribute('transform'))
 
         data_copy.shift(selected[i], 1)
 
@@ -349,7 +352,7 @@ class ToolsPanel extends React.Component {
           }
         })()}
 
-        <TextEditer />
+        {/*<TextEditer />*/}
 
         {(()=>{
           if ( svg_data.length > 0 ) {

@@ -59,6 +59,11 @@
   background: none;
   z-index: -1;
   height: 100%;
+  position: relative;
+}
+
+#svg {
+  z-index: 0;
 }
 #selector {
   border: solid 1px deepskyblue;
@@ -72,6 +77,9 @@
     border: solid 1px deepskyblue;
     position: fixed;
     pointer-events: auto;
+  }
+  #color-set, #color-set div {
+    pointer-events: auto!important;
   }
 }
 
@@ -99,8 +107,8 @@
   right: 0;
   bottom: 0;
   //background: red;
-  //opacity: 0.3;
-  z-index: 10000;
+  opacity: 0;
+  z-index: 999999;
 }
 
 .textEditer {

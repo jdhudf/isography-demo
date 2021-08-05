@@ -36,8 +36,8 @@ class MenuBar extends React.Component {
           </Link>
           <div className="menubar_right">
             <p className="plan">{this.state.plan}</p>
-            <Darkmode/>
-            <img style={{display: "none"}} src={avater} className="avater"/>
+            {/*<Darkmode/>*/}
+            <img alt="avater" style={{display: "none"}} src={avater} className="avater"/>
           </div>
         </div>
       </section>
