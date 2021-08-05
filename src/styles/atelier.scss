@@ -46,7 +46,7 @@
   position: relative;
   .section-topbar {
     flex-basis: 100vw;
-    z-index: 10000;
+    z-index: 2000;
   }
   .section-toolspanel,.section-artboard,.section-gallalypanel{
     height: 93vh;
@@ -57,7 +57,7 @@
     background: #FFF;
     color: #000;
     border-right: solid 1px #E4E4E4;
-    z-index: 10000;
+    z-index: 2000;
     ul  {
       margin-top: 10px;
       li {
@@ -69,6 +69,7 @@
     }
   }
   .section-artboard {
+    z-index: -1;
     touch-action: none;
     passive : false;
     flex: 1;
@@ -76,7 +77,7 @@
     z-index: 0;
     position: relative;
     #svg {
-      z-index: 0;
+      z-index: -1;
     }
   }
   @include max-screen($device-mobile) {

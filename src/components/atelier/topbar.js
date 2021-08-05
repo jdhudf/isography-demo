@@ -151,6 +151,10 @@ function ArtboardSetting (props) {
 
   const ratioSetting = (e) => {
     changeStateRatio(true)
+
+    const t = document.getElementsByClassName('section-toolspanel')[0];
+    t.style.zIndex = "100";
+
     window.setTimeout(
       function(){
         document.getElementsByClassName("artboardSettingsBackground")[0].classList.add("active");
@@ -160,6 +164,9 @@ function ArtboardSetting (props) {
 
   const renameSetting = (e) => {
     changeStateRename(true)
+
+    const t = document.getElementsByClassName('section-toolspanel')[0];
+    t.style.zIndex = "100";
 
     window.setTimeout(
       function(){
@@ -171,6 +178,9 @@ function ArtboardSetting (props) {
   const duplicateSetting = (e) => {
     changeStateDuplicate(true)
 
+    const t = document.getElementsByClassName('section-toolspanel')[0];
+    t.style.zIndex = "100";
+
     window.setTimeout(
       function(){
         document.getElementsByClassName("artboardSettingsBackground")[2].classList.add("active");
@@ -180,6 +190,9 @@ function ArtboardSetting (props) {
 
   const deleteSetting = (e) => {
     changeStateDelete(true)
+
+    const t = document.getElementsByClassName('section-toolspanel')[0];
+    t.style.zIndex = "100";
 
     window.setTimeout(
       function(){
@@ -238,6 +251,9 @@ function ArtboardSetting (props) {
                   function(){
                     e.preventDefault()
                     changeStateRatio(false)
+
+                    const t = document.getElementsByClassName('section-toolspanel')[0];
+                    t.style.zIndex = "2000";
                   },[500]
                 )
             }}>Cancel</button>
@@ -286,6 +302,9 @@ function ArtboardSetting (props) {
                   function(){
                     e.preventDefault()
                     changeStateRename(false)
+
+                    const t = document.getElementsByClassName('section-toolspanel')[0];
+                    t.style.zIndex = "2000";
                   },[500]
                 )
             }}>Cancel</button>
@@ -329,6 +348,9 @@ function ArtboardSetting (props) {
                   function(){
                     e.preventDefault()
                     changeStateDuplicate(false)
+
+                    const t = document.getElementsByClassName('section-toolspanel')[0];
+                    t.style.zIndex = "2000";
                   },[500]
                 )
             }}>Cancel</button>
@@ -375,6 +397,9 @@ function ArtboardSetting (props) {
                   function(){
                     e.preventDefault()
                     changeStateDelete(false)
+
+                    const t = document.getElementsByClassName('section-toolspanel')[0];
+                    t.style.zIndex = "2000";
                   },[500]
                 )
             }}>Cancel</button>
@@ -421,10 +446,17 @@ function ExportComponent (props) {
 
   const openExportPanel = () => {
     changeStateExportPanel(true)
+
+    // when panel's opened, toolspanel's zindex is too high.
+    // I can't handle this only css, so I handle this JavaScript
+    const t = document.getElementsByClassName('section-toolspanel')[0];
+    t.style.zIndex = "100";
   }
 
   const closeExportPanel = () => {
     changeStateExportPanel(false)
+    const t = document.getElementsByClassName('section-toolspanel')[0];
+    t.style.zIndex = "2000";
   }
 
   /*const handleRadioFormat = (e) => {
