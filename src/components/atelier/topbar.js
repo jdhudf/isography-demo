@@ -634,7 +634,7 @@ function ExportComponent (props) {
                  type="checkbox"
                  checked={checked_terms}
                  onChange={() => { checkedTerms(!checked_terms) }}
-                 /> Agree with <a href="https://www.isography.app/terms-of-service">our Terms of Service</a>
+                 /> Agree with <a href="https://www.isography.app/license">our Terms of Service</a>
               </label>
               <button className="cancel" onClick={closeExportPanel}>Cancel</button>
               <button
