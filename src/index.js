@@ -45,7 +45,7 @@ window.addEventListener('DOMContentLoaded', function () {
   const div = document.createElement("div")
   const img = document.createElement('img');
   img.src = logo;
-  img.alt = '風景の画像です。';
+  img.alt = '';
 
   div.id = "splash"
   div.style.width = "100vw"
