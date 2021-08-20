@@ -1,7 +1,7 @@
 {
   "name": "Isography DEMO",
   "homepage": "./",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.32",

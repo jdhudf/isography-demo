@@ -291,6 +291,28 @@ import Img249 from '../../images/materials/map_finland.inline.svg';
 
 import Img250 from '../../images/materials/earth.inline.svg';
 
+import Img251 from '../../images/materials/cardboard_box_1.inline.svg';
+import Img252 from '../../images/materials/cardboard_box_2.inline.svg';
+import Img253 from '../../images/materials/cardboard_box_3.inline.svg';
+import Img254 from '../../images/materials/cardboard_box_4.inline.svg';
+import Img255 from '../../images/materials/cardboard_box_5.inline.svg';
+import Img256 from '../../images/materials/cardboard_box_6.inline.svg';
+import Img257 from '../../images/materials/cardboard_box_7.inline.svg';
+import Img258 from '../../images/materials/cardboard_box_8.inline.svg';
+import Img259 from '../../images/materials/cardboard_box_9.inline.svg';
+import Img260 from '../../images/materials/cardboard_box_10.inline.svg';
+import Img261 from '../../images/materials/cardboard_box_11.inline.svg';
+import Img262 from '../../images/materials/cardboard_box_12.inline.svg';
+import Img263 from '../../images/materials/cardboard_box_13.inline.svg';
+import Img264 from '../../images/materials/cardboard_box_14.inline.svg';
+import Img265 from '../../images/materials/cardboard_box_15.inline.svg';
+import Img266 from '../../images/materials/cardboard_box_16.inline.svg';
+import Img267 from '../../images/materials/cardboard_box_17.inline.svg';
+import Img268 from '../../images/materials/cardboard_box_18.inline.svg';
+import Img269 from '../../images/materials/cardboard_box_19.inline.svg';
+import Img270 from '../../images/materials/cardboard_box_20.inline.svg';
+
+
 
 
 class Myloop extends Component {
@@ -550,6 +572,29 @@ class Myloop extends Component {
         <div className="item" data-tag="map"><Img248/></div>
         <div className="item" data-tag="map"><Img249/></div>
         <div className="item" data-tag="nature"><Img250/></div>
+
+        <div className="item" data-tag="interior"><Img251/></div>
+        <div className="item" data-tag="interior"><Img252/></div>
+        <div className="item" data-tag="interior"><Img253/></div>
+        <div className="item" data-tag="interior"><Img254/></div>
+        <div className="item" data-tag="interior"><Img255/></div>
+        <div className="item" data-tag="interior"><Img256/></div>
+        <div className="item" data-tag="interior"><Img257/></div>
+        <div className="item" data-tag="interior"><Img258/></div>
+        <div className="item" data-tag="interior"><Img259/></div>
+        <div className="item" data-tag="interior"><Img260/></div>
+        <div className="item" data-tag="interior"><Img261/></div>
+        <div className="item" data-tag="interior"><Img262/></div>
+        <div className="item" data-tag="interior"><Img263/></div>
+        <div className="item" data-tag="interior"><Img264/></div>
+        <div className="item" data-tag="interior"><Img265/></div>
+        <div className="item" data-tag="interior"><Img266/></div>
+        <div className="item" data-tag="interior"><Img267/></div>
+        <div className="item" data-tag="interior"><Img268/></div>
+        <div className="item" data-tag="interior"><Img269/></div>
+        <div className="item" data-tag="interior"><Img270/></div>
+
+
 
 
 
