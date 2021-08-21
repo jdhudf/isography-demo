@@ -184,7 +184,7 @@ const Dashboard = () => {
           <ul className="url">
             <li><a href="https://www.isography.app" target="_blank" rel="noreferrer">Official HP</a></li>
             <li><a href="https://www.isography.app/license" target="_blank" rel="noreferrer">Terms of Service & Licenses</a></li>
-            {/*<li><AllItems /></li>*/}
+            <li><AllItems /></li>
           </ul>
           <div className="sendFeedback">
             <a target="_blank" rel="noreferrer" onClick={(e)=>{

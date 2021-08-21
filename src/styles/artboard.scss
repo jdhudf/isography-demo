@@ -64,6 +64,10 @@
 
 #svg {
   z-index: 0;
+  fill-rule:evenodd;
+  clip-rule:evenodd;
+  stroke-linejoin:round;
+  stroke-miterlimit:2;
 }
 #selector {
   border: solid 1px deepskyblue;

@@ -17,6 +17,7 @@ import flag from '../../images/flag.svg';
 import interior from '../../images/interior.svg';
 import people from '../../images/people.svg';
 import nature from '../../images/nature.svg';
+import ec from '../../images/ec.svg';
 import logo from '../../images/logo.svg';
 
 //====================================
@@ -209,6 +210,20 @@ class GallaryPanel extends React.Component {
         }
 
         break;
+      case "ec":
+
+        for (let i = 0; i < items.length; i++) {
+
+          if (items[i].dataset.tag === "ec") {
+            console.log(items[i])
+            items[i].style.display = "block"
+          } else {
+            items[i].style.display = "none"
+          }
+
+        }
+
+        break;
       default:
 
     }
@@ -253,6 +268,10 @@ class GallaryPanel extends React.Component {
               <li className="category_button nature" onClick={()=>this.filterItems("nature")}>
                 <span><img src={nature} alt=""/></span>
                 <p>Nature</p>
+              </li>
+              <li className="category_button ec" onClick={()=>this.filterItems("ec")}>
+                <span><img src={ec} alt=""/></span>
+                <p>EC</p>
               </li>
               <li className="category_button flag" onClick={()=>this.filterItems("flag")}>
                 <span><img src={flag} alt=""/></span>
