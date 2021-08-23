@@ -184,7 +184,7 @@ const Dashboard = () => {
           <ul className="url">
             <li><a href="https://www.isography.app" target="_blank" rel="noreferrer">Official HP</a></li>
             <li><a href="https://www.isography.app/license" target="_blank" rel="noreferrer">Terms of Service & Licenses</a></li>
-            <li><AllItems /></li>
+            {/*<li><AllItems /></li>*/}
           </ul>
           <div className="sendFeedback">
             <a target="_blank" rel="noreferrer" onClick={(e)=>{
@@ -370,7 +370,12 @@ const NewsFeed = () => {
   return (
     <div className="new-feed">
       <Slider {...settings}>
-
+      <div className="article">
+        <a href="https://www.isography.app/isography-laws-20210802/">
+          <div className="thumb"><img src={img_3} alt=""/></div>
+          <h3>Published Our Privacy Policy and The Terms of Service🌟</h3>
+        </a>
+      </div>
       <div className="article">
         <a href="https://www.isography.app/achieved-100-items/">
           <div className="thumb"><img src={img_1} alt=""/></div>
@@ -381,12 +386,6 @@ const NewsFeed = () => {
         <a href="https://www.isography.app/achieved-250-items/">
           <div className="thumb"><img src={img_2} alt=""/></div>
           <h3>New materials and new features have been added to Isography!🌟</h3>
-        </a>
-      </div>
-      <div className="article">
-        <a href="https://www.isography.app/hello-world">
-          <div className="thumb"><img src={img_3} alt=""/></div>
-          <h3>Isography's demo version is released experimentally.</h3>
         </a>
       </div>
       </Slider>

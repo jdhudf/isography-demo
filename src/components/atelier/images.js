@@ -402,7 +402,7 @@ class Myloop extends Component {
         <div className="item" data-tag="iot"><Img12/></div>
         <div className="item" data-tag="iot"><Img13/></div>
         <div className="item" data-tag="iot"><Img14/></div>
-        <div className="item" data-tag="iot"><Img15/></div>
+        <div className="item" data-tag="interior"><Img15/></div>
         <div className="item" data-tag="interior"><Img16/></div>
         <div className="item"><Img17/></div>
         <div className="item"><Img18/></div>
