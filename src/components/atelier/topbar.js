@@ -487,7 +487,11 @@ function ExportComponent (props) {
       transition: 'ease all 1s',
     },
     svg: {
-      background: `${props.background}`
+      background: `${props.background}`,
+      fillRule: 'evenodd',
+      clipRule: 'evenodd',
+      strokeLinejoin: 'round',
+      strokeMiterlimit: '2'
     }
   };
 

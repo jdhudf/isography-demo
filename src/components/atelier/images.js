@@ -375,6 +375,34 @@ import Img324 from '../../images/materials/iot_decoration_7.inline.svg';
 
 import Img325 from '../../images/materials/circuit_board_1.inline.svg';
 
+/* People */
+
+import Img326 from '../../images/materials/people_1.inline.svg';
+import Img327 from '../../images/materials/people_2.inline.svg';
+import Img328 from '../../images/materials/people_3.inline.svg';
+import Img329 from '../../images/materials/people_4.inline.svg';
+import Img330 from '../../images/materials/people_5.inline.svg';
+import Img331 from '../../images/materials/people_6.inline.svg';
+import Img332 from '../../images/materials/people_7.inline.svg';
+import Img333 from '../../images/materials/people_8.inline.svg';
+import Img334 from '../../images/materials/people_9.inline.svg';
+import Img335 from '../../images/materials/people_10.inline.svg';
+import Img336 from '../../images/materials/people_11.inline.svg';
+import Img337 from '../../images/materials/people_12.inline.svg';
+
+import Img338 from '../../images/materials/map_japan_2.inline.svg';
+
+import Img339 from '../../images/materials/cat_1.inline.svg';
+import Img340 from '../../images/materials/cat_2.inline.svg';
+import Img341 from '../../images/materials/cat_3.inline.svg';
+import Img342 from '../../images/materials/cat_4.inline.svg';
+import Img343 from '../../images/materials/cat_5.inline.svg';
+import Img344 from '../../images/materials/cat_6.inline.svg';
+import Img345 from '../../images/materials/cat_7.inline.svg';
+import Img346 from '../../images/materials/cat_8.inline.svg';
+import Img347 from '../../images/materials/cat_9.inline.svg';
+import Img348 from '../../images/materials/cat_10.inline.svg';
+
 
 
 
@@ -736,6 +764,39 @@ class Myloop extends Component {
         <div className="item" data-tag="iot"><Img324/></div>
 
         <div className="item" data-tag="iot"><Img325/></div>
+
+        {/* prople */}
+
+        <div className="item" data-tag="people"><Img326/></div>
+        <div className="item" data-tag="people"><Img327/></div>
+        <div className="item" data-tag="people"><Img328/></div>
+        <div className="item" data-tag="people"><Img329/></div>
+        <div className="item" data-tag="people"><Img330/></div>
+        <div className="item" data-tag="people"><Img331/></div>
+        <div className="item" data-tag="people"><Img332/></div>
+        <div className="item" data-tag="people"><Img333/></div>
+        <div className="item" data-tag="people"><Img334/></div>
+        <div className="item" data-tag="people"><Img335/></div>
+        <div className="item" data-tag="people"><Img336/></div>
+        <div className="item" data-tag="people"><Img337/></div>
+
+
+        <div className="item" data-tag="animal"><Img338/></div>
+
+        <div className="item" data-tag="animal"><Img339/></div>
+        <div className="item" data-tag="animal"><Img340/></div>
+        <div className="item" data-tag="animal"><Img341/></div>
+        <div className="item" data-tag="animal"><Img342/></div>
+        <div className="item" data-tag="animal"><Img343/></div>
+        <div className="item" data-tag="animal"><Img344/></div>
+        <div className="item" data-tag="animal"><Img345/></div>
+        <div className="item" data-tag="animal"><Img346/></div>
+        <div className="item" data-tag="animal"><Img347/></div>
+        <div className="item" data-tag="animal"><Img348/></div>
+
+
+
+
 
 
 

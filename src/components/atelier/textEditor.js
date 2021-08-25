@@ -194,12 +194,6 @@ class TextEditor extends React.Component  {
 
     const fontList = [
       {
-        fontName: "Tuffy",
-        fontClass: "tuffy",
-        fontStyle: ["normal", "italic"],
-        fontWeight: [400, 600]
-      },
-      {
         fontName: "Lato",
         fontClass: "lato",
         fontStyle: ["normal", "italic"],
@@ -212,16 +206,22 @@ class TextEditor extends React.Component  {
         fontWeight: [ 100, 200, 300, 400, 500, 600, 700]
       },
       {
-        fontName: "Josefin Slab",
+        fontName: "Quicksand",
+        fontClass: "quicksand",
+        fontStyle: ["normal"],
+        fontWeight: [ 300, 400, 500, 600, 700]
+      },/*
+      {
+        fontName: 'Josefin Slab',
         fontClass: "josefin_slab",
         fontStyle: ["normal", "italic"],
         fontWeight: [ 100, 200, 300, 400, 500, 600, 700]
       },
       {
-        fontName: "Quicksand",
-        fontClass: "quicksand",
-        fontStyle: ["normal"],
-        fontWeight: [ 300, 400, 500, 600, 700]
+        fontName: "Tuffy",
+        fontClass: "tuffy",
+        fontStyle: ["normal", "italic"],
+        fontWeight: [400, 600]
       },
       {
         fontName: "Oswald",
@@ -240,7 +240,7 @@ class TextEditor extends React.Component  {
         fontClass: "playfair_display",
         fontStyle: ["normal", "italic"],
         fontWeight: [ 400, 500, 600, 700, 800, 900]
-      }
+      }*/
     ]
 
     const fontListDiv = []
