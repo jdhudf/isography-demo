@@ -403,8 +403,110 @@ import Img346 from '../../images/materials/cat_8.inline.svg';
 import Img347 from '../../images/materials/cat_9.inline.svg';
 import Img348 from '../../images/materials/cat_10.inline.svg';
 
+// Laboratory
 
+import Img349 from '../../images/materials/graduated_cylinder_1.inline.svg';
+import Img350 from '../../images/materials/graduated_cylinder_2.inline.svg';
+import Img351 from '../../images/materials/graduated_cylinder_3.inline.svg';
+import Img352 from '../../images/materials/graduated_cylinder_4.inline.svg';
+import Img353 from '../../images/materials/test_tube_1.inline.svg';
+import Img354 from '../../images/materials/test_tube_2.inline.svg';
+import Img355 from '../../images/materials/test_tube_3.inline.svg';
+import Img356 from '../../images/materials/test_tube_4.inline.svg';
 
+import Img357 from '../../images/materials/erlenmeyer_flask_1.inline.svg';
+import Img358 from '../../images/materials/erlenmeyer_flask_2.inline.svg';
+import Img359 from '../../images/materials/erlenmeyer_flask_3.inline.svg';
+import Img360 from '../../images/materials/erlenmeyer_flask_4.inline.svg';
+
+import Img361 from '../../images/materials/round_bottom_flask_1.inline.svg';
+import Img362 from '../../images/materials/round_bottom_flask_2.inline.svg';
+import Img363 from '../../images/materials/round_bottom_flask_3.inline.svg';
+import Img364 from '../../images/materials/round_bottom_flask_4.inline.svg';
+
+import Img365 from '../../images/materials/beaker_1.inline.svg';
+import Img366 from '../../images/materials/beaker_2.inline.svg';
+import Img367 from '../../images/materials/beaker_3.inline.svg';
+import Img368 from '../../images/materials/beaker_4.inline.svg';
+
+import Img369 from '../../images/materials/labo_cap_1.inline.svg';
+import Img370 from '../../images/materials/beakers_1.inline.svg';
+import Img371 from '../../images/materials/beakers_2.inline.svg';
+import Img372 from '../../images/materials/labo_net_1.inline.svg';
+import Img373 from '../../images/materials/labo_stand_1.inline.svg';
+import Img374 from '../../images/materials/labo_stand_2.inline.svg';
+
+import Img375 from '../../images/materials/alcohol_lamp_1.inline.svg';
+import Img376 from '../../images/materials/alcohol_lamp_2.inline.svg';
+import Img377 from '../../images/materials/alcohol_lamp_cap_1.inline.svg';
+import Img378 from '../../images/materials/labo_stand_3.inline.svg';
+import Img379 from '../../images/materials/labo_stand_4.inline.svg';
+import Img380 from '../../images/materials/labo_stand_5.inline.svg';
+
+import Img381 from '../../images/materials/circle_graph_1.inline.svg';
+import Img382 from '../../images/materials/circle_graph_2.inline.svg';
+import Img383 from '../../images/materials/circle_graph_3.inline.svg';
+import Img384 from '../../images/materials/circle_graph_4.inline.svg';
+import Img385 from '../../images/materials/circle_graph_5.inline.svg';
+import Img386 from '../../images/materials/circle_graph_6.inline.svg';
+
+import Img387 from '../../images/materials/bar_graph_1.inline.svg';
+import Img388 from '../../images/materials/bar_graph_2.inline.svg';
+import Img389 from '../../images/materials/bar_graph_3.inline.svg';
+import Img390 from '../../images/materials/bar_graph_4.inline.svg';
+import Img391 from '../../images/materials/bar_graph_5.inline.svg';
+import Img392 from '../../images/materials/bar_graph_6.inline.svg';
+import Img435 from '../../images/materials/bar_graph_7.inline.svg';
+import Img437 from '../../images/materials/bar_graph_8.inline.svg';
+
+import Img393 from '../../images/materials/line_graph_1.inline.svg';
+import Img394 from '../../images/materials/line_graph_2.inline.svg';
+import Img436 from '../../images/materials/line_graph_3.inline.svg';
+
+import Img395 from '../../images/materials/area_graph_1.inline.svg';
+import Img396 from '../../images/materials/area_graph_2.inline.svg';
+
+import Img397 from '../../images/materials/keyboard_2.inline.svg';
+import Img398 from '../../images/materials/scale_1.inline.svg';
+
+import Img399 from '../../images/materials/seo_1.inline.svg';
+import Img400 from '../../images/materials/seo_2.inline.svg';
+import Img401 from '../../images/materials/seo_3.inline.svg';
+import Img402 from '../../images/materials/seo_4.inline.svg';
+
+import Img403 from '../../images/materials/crown_1.inline.svg';
+
+import Img404 from '../../images/materials/keyboard_a.inline.svg';
+import Img405 from '../../images/materials/keyboard_b.inline.svg';
+import Img406 from '../../images/materials/keyboard_c.inline.svg';
+import Img407 from '../../images/materials/keyboard_d.inline.svg';
+import Img408 from '../../images/materials/keyboard_e.inline.svg';
+import Img409 from '../../images/materials/keyboard_f.inline.svg';
+import Img410 from '../../images/materials/keyboard_g.inline.svg';
+import Img411 from '../../images/materials/keyboard_h.inline.svg';
+import Img412 from '../../images/materials/keyboard_i.inline.svg';
+import Img413 from '../../images/materials/keyboard_j.inline.svg';
+import Img414 from '../../images/materials/keyboard_k.inline.svg';
+import Img415 from '../../images/materials/keyboard_l.inline.svg';
+import Img416 from '../../images/materials/keyboard_m.inline.svg';
+import Img417 from '../../images/materials/keyboard_n.inline.svg';
+import Img418 from '../../images/materials/keyboard_o.inline.svg';
+import Img419 from '../../images/materials/keyboard_p.inline.svg';
+import Img420 from '../../images/materials/keyboard_q.inline.svg';
+import Img421 from '../../images/materials/keyboard_r.inline.svg';
+import Img422 from '../../images/materials/keyboard_s.inline.svg';
+import Img423 from '../../images/materials/keyboard_t.inline.svg';
+import Img424 from '../../images/materials/keyboard_u.inline.svg';
+import Img425 from '../../images/materials/keyboard_v.inline.svg';
+import Img426 from '../../images/materials/keyboard_w.inline.svg';
+import Img427 from '../../images/materials/keyboard_x.inline.svg';
+import Img428 from '../../images/materials/keyboard_y.inline.svg';
+import Img429 from '../../images/materials/keyboard_z.inline.svg';
+import Img430 from '../../images/materials/keyboard_exclamation.inline.svg';
+import Img431 from '../../images/materials/keyboard_question.inline.svg';
+import Img432 from '../../images/materials/keyboard_at.inline.svg';
+import Img433 from '../../images/materials/keyboard_enter.inline.svg';
+import Img434 from '../../images/materials/keyboard_delete.inline.svg';
 
 
 
@@ -794,17 +896,108 @@ class Myloop extends Component {
         <div className="item" data-tag="animal"><Img347/></div>
         <div className="item" data-tag="animal"><Img348/></div>
 
+        <div className="item" data-tag="science"><Img349/></div>
+        <div className="item" data-tag="science"><Img350/></div>
+        <div className="item" data-tag="science"><Img351/></div>
+        <div className="item" data-tag="science"><Img352/></div>
+
+        <div className="item" data-tag="science"><Img353/></div>
+        <div className="item" data-tag="science"><Img354/></div>
+        <div className="item" data-tag="science"><Img355/></div>
+        <div className="item" data-tag="science"><Img356/></div>
+
+        <div className="item" data-tag="science"><Img357/></div>
+        <div className="item" data-tag="science"><Img358/></div>
+        <div className="item" data-tag="science"><Img359/></div>
+        <div className="item" data-tag="science"><Img360/></div>
+
+        <div className="item" data-tag="science"><Img361/></div>
+        <div className="item" data-tag="science"><Img362/></div>
+        <div className="item" data-tag="science"><Img363/></div>
+        <div className="item" data-tag="science"><Img364/></div>
+
+        <div className="item" data-tag="science"><Img365/></div>
+        <div className="item" data-tag="science"><Img366/></div>
+        <div className="item" data-tag="science"><Img367/></div>
+        <div className="item" data-tag="science"><Img368/></div>
+
+        <div className="item" data-tag="science"><Img369/></div>
+        <div className="item" data-tag="science"><Img370/></div>
+        <div className="item" data-tag="science"><Img371/></div>
+        <div className="item" data-tag="science"><Img372/></div>
+
+        <div className="item" data-tag="science"><Img373/></div>
+        <div className="item" data-tag="science"><Img374/></div>
+        <div className="item" data-tag="science"><Img375/></div>
+        <div className="item" data-tag="science"><Img376/></div>
+        <div className="item" data-tag="science"><Img377/></div>
+        <div className="item" data-tag="science"><Img378/></div>
+        <div className="item" data-tag="science"><Img379/></div>
+        <div className="item" data-tag="science"><Img380/></div>
+
+        <div className="item" data-tag="data"><Img381/></div>
+        <div className="item" data-tag="data"><Img382/></div>
+        <div className="item" data-tag="data"><Img383/></div>
+        <div className="item" data-tag="data"><Img384/></div>
+        <div className="item" data-tag="data"><Img385/></div>
+        <div className="item" data-tag="data"><Img386/></div>
+        <div className="item" data-tag="data"><Img387/></div>
+        <div className="item" data-tag="data"><Img388/></div>
+        <div className="item" data-tag="data"><Img389/></div>
+        <div className="item" data-tag="data"><Img390/></div>
+        <div className="item" data-tag="data"><Img391/></div>
+        <div className="item" data-tag="data"><Img392/></div>
+        <div className="item" data-tag="data"><Img393/></div>
+        <div className="item" data-tag="data"><Img394/></div>
+        <div className="item" data-tag="data"><Img395/></div>
+        <div className="item" data-tag="data"><Img396/></div>
+        <div className="item" data-tag="data"><Img435/></div>
+        <div className="item" data-tag="data"><Img436/></div>
+        <div className="item" data-tag="data"><Img437/></div>
+
+        <div className="item" data-tag="iot"><Img397/></div>
+        <div className="item" data-tag="interior"><Img398/></div>
+        <div className="item" data-tag="iot"><Img399/></div>
+        <div className="item" data-tag="iot"><Img400/></div>
+        <div className="item" data-tag="iot"><Img401/></div>
+        <div className="item" data-tag="iot"><Img402/></div>
+
+        <div className="item" data-tag="interior"><Img403/></div>
+
+        <div className="item" data-tag="iot"><Img404/></div>
+        <div className="item" data-tag="iot"><Img405/></div>
+        <div className="item" data-tag="iot"><Img406/></div>
+        <div className="item" data-tag="iot"><Img407/></div>
+        <div className="item" data-tag="iot"><Img408/></div>
+        <div className="item" data-tag="iot"><Img409/></div>
+        <div className="item" data-tag="iot"><Img410/></div>
+        <div className="item" data-tag="iot"><Img411/></div>
+        <div className="item" data-tag="iot"><Img412/></div>
+        <div className="item" data-tag="iot"><Img413/></div>
+        <div className="item" data-tag="iot"><Img414/></div>
+        <div className="item" data-tag="iot"><Img415/></div>
+        <div className="item" data-tag="iot"><Img416/></div>
+        <div className="item" data-tag="iot"><Img417/></div>
+        <div className="item" data-tag="iot"><Img418/></div>
+        <div className="item" data-tag="iot"><Img419/></div>
+        <div className="item" data-tag="iot"><Img420/></div>
+        <div className="item" data-tag="iot"><Img421/></div>
+        <div className="item" data-tag="iot"><Img422/></div>
+        <div className="item" data-tag="iot"><Img423/></div>
+        <div className="item" data-tag="iot"><Img424/></div>
+        <div className="item" data-tag="iot"><Img425/></div>
+        <div className="item" data-tag="iot"><Img426/></div>
+        <div className="item" data-tag="iot"><Img427/></div>
+        <div className="item" data-tag="iot"><Img428/></div>
+        <div className="item" data-tag="iot"><Img429/></div>
+        <div className="item" data-tag="iot"><Img430/></div>
+        <div className="item" data-tag="iot"><Img431/></div>
+        <div className="item" data-tag="iot"><Img432/></div>
+        <div className="item" data-tag="iot"><Img433/></div>
+        <div className="item" data-tag="iot"><Img434/></div>
 
 
-
-
-
-
-
-
-
-
-
+        {/*next is 438*/}
 
 
 
