@@ -76,16 +76,19 @@ class ToolsPanel extends React.Component {
       artboards,
       selected,
       switchSelected,
+      artboard_scale
     } = this.props
 
 
     const canvas = getCanvas({ working: working, artboards:artboards }),
           data_copy = canvas.svg_data.slice();
 
-
     for (let i = 0; i < selected.length; i++) {
 
       let el = canvas.svg_data[ selected[i] ];
+      const svg_d = document.getElementById('svg'),
+            targeted_el = svg_d.children[ selected[i] ];
+      let ajustment;
 
       switch (action){
         case 'Duplicate':
@@ -116,15 +119,28 @@ class ToolsPanel extends React.Component {
           break;
         case 'Reflect':
           const regExp = /-?\d+(\.\d+)?/g;///-?\d+/g;
-          const scale = el.match(regExp)
+          const scale = el.match(regExp);
+
+          if ( targeted_el.dataset.reflect ===  "false" || targeted_el.dataset.reflect === undefined ) {
+
+            ajustment =  parseInt(scale[0]) + 200 * Math.abs( scale[3] )
+            targeted_el.dataset.reflect = "true"
+
+          } else {
+
+            ajustment =  parseInt(scale[0]) - 200 * Math.abs( scale[3])
+            targeted_el.dataset.reflect = "false"
+
+          }
 
           let n = 3;
 
-          const result = el.replace(regExp,
+          const result = targeted_el.outerHTML.replace(regExp,
             function(match) {
               if(n === 3) {
                 n--;
-                return scale[0];
+                return ajustment;
+
               } else if (n === 2) {
                 n--;
                 return scale[1];
@@ -142,21 +158,36 @@ class ToolsPanel extends React.Component {
 
           data_copy.splice( selected[i] ,1);
           data_copy.push(result);
+
           break;
         case 'Reflect Vertical':
           const regExp2 = /-?\d+(\.\d+)?/g;// /-?\d+/g;
           const scale2 = el.match(regExp2)
 
+          console.log(targeted_el)
+
+          if ( targeted_el.dataset.vertical ===  "false" || targeted_el.dataset.vertical === undefined ) {
+
+            ajustment =  parseInt(scale2[1]) + 200 * Math.abs( scale2[3] )
+            targeted_el.dataset.vertical = "true"
+
+          } else {
+
+            ajustment =  parseInt(scale2[1]) - 200 * Math.abs( scale2[3] )
+            targeted_el.dataset.vertical = "false"
+
+          }
+
           let nn = 3;
 
-          const result2 = el.replace(regExp2,
+          const result2 = targeted_el.outerHTML.replace(regExp2,
             function(match) {
               if(nn === 3) {
                 nn--;
                 return scale2[0];
               } else if (nn === 2) {
                 nn--;
-                return scale2[1];
+                return ajustment;//scale2[1];
               } else if (nn === 1) {
                 nn--;
                 return scale2[2];
@@ -982,7 +1013,8 @@ const mapStateToProps = state => ({
   selected: state.json.selected,
   darkmode: state.json.darkmode,
   textEditor: state.json.textEditor,
-  editable: state.json.editable
+  editable: state.json.editable,
+  artboard_scale: state.json.artboardScale,
 })
 
 export default connect(

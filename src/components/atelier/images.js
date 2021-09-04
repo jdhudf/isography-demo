@@ -508,6 +508,8 @@ import Img432 from '../../images/materials/keyboard_at.inline.svg';
 import Img433 from '../../images/materials/keyboard_enter.inline.svg';
 import Img434 from '../../images/materials/keyboard_delete.inline.svg';
 
+import Test from '../../images/materials/test.inline.svg';
+
 
 
 
@@ -519,7 +521,7 @@ class Myloop extends Component {
 
     return (
       <>
-
+        <div className="item"><Test/></div>
         <div className="item"><Img1/></div>
         <div className="item" data-tag="interior"><Img2/></div>
         <div className="item" data-tag="people"><Img3/></div>
