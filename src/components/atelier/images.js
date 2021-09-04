@@ -511,12 +511,15 @@ import Img434 from '../../images/materials/keyboard_delete.inline.svg';
 
 
 
+
+
 class Myloop extends Component {
 
   render() {
 
     return (
       <>
+
         <div className="item"><Img1/></div>
         <div className="item" data-tag="interior"><Img2/></div>
         <div className="item" data-tag="people"><Img3/></div>
@@ -600,8 +603,8 @@ class Myloop extends Component {
         <div className="item" data-tag="nature"><Img64/></div>
         <div className="item" data-tag="nature"><Img65/></div>
         <div className="item" data-tag="nature"><Img66/></div>
-        <div className="item" data-tag="interior"><Img67/></div>
-        <div className="item" data-tag="interior"><Img68/></div>
+        <div className="item" data-tag="animal"><Img67/></div>
+        <div className="item" data-tag="animal"><Img68/></div>
         <div className="item" data-tag="interior"><Img69/></div>
         <div className="item" data-tag="interior"><Img70/></div>
         <div className="item" data-tag="interior"><Img71/></div>
@@ -659,7 +662,7 @@ class Myloop extends Component {
         <div className="item" data-tag="interior"><Img97/></div>
         <div className="item" data-tag="interior"><Img98/></div>
         <div className="item" data-tag="interior"><Img99/></div>
-        <div className="item" data-tag="interior"><Img100/></div>
+        <div className="item" data-tag="animal"><Img100/></div>
         <div className="item" data-tag="interior"><Img101/></div>
         <div className="item" data-tag="interior"><Img102/></div>
         <div className="item" data-tag="interior"><Img103/></div>
@@ -883,7 +886,7 @@ class Myloop extends Component {
         <div className="item" data-tag="people"><Img337/></div>
 
 
-        <div className="item" data-tag="animal"><Img338/></div>
+        <div className="item" data-tag="map"><Img338/></div>
 
         <div className="item" data-tag="animal"><Img339/></div>
         <div className="item" data-tag="animal"><Img340/></div>
@@ -935,25 +938,25 @@ class Myloop extends Component {
         <div className="item" data-tag="science"><Img379/></div>
         <div className="item" data-tag="science"><Img380/></div>
 
-        <div className="item" data-tag="data"><Img381/></div>
-        <div className="item" data-tag="data"><Img382/></div>
-        <div className="item" data-tag="data"><Img383/></div>
-        <div className="item" data-tag="data"><Img384/></div>
-        <div className="item" data-tag="data"><Img385/></div>
-        <div className="item" data-tag="data"><Img386/></div>
-        <div className="item" data-tag="data"><Img387/></div>
-        <div className="item" data-tag="data"><Img388/></div>
-        <div className="item" data-tag="data"><Img389/></div>
-        <div className="item" data-tag="data"><Img390/></div>
-        <div className="item" data-tag="data"><Img391/></div>
-        <div className="item" data-tag="data"><Img392/></div>
-        <div className="item" data-tag="data"><Img393/></div>
-        <div className="item" data-tag="data"><Img394/></div>
-        <div className="item" data-tag="data"><Img395/></div>
-        <div className="item" data-tag="data"><Img396/></div>
-        <div className="item" data-tag="data"><Img435/></div>
-        <div className="item" data-tag="data"><Img436/></div>
-        <div className="item" data-tag="data"><Img437/></div>
+        <div className="item" data-tag="graph"><Img381/></div>
+        <div className="item" data-tag="graph"><Img382/></div>
+        <div className="item" data-tag="graph"><Img383/></div>
+        <div className="item" data-tag="graph"><Img384/></div>
+        <div className="item" data-tag="graph"><Img385/></div>
+        <div className="item" data-tag="graph"><Img386/></div>
+        <div className="item" data-tag="graph"><Img387/></div>
+        <div className="item" data-tag="graph"><Img388/></div>
+        <div className="item" data-tag="graph"><Img389/></div>
+        <div className="item" data-tag="graph"><Img390/></div>
+        <div className="item" data-tag="graph"><Img391/></div>
+        <div className="item" data-tag="graph"><Img392/></div>
+        <div className="item" data-tag="graph"><Img393/></div>
+        <div className="item" data-tag="graph"><Img394/></div>
+        <div className="item" data-tag="graph"><Img395/></div>
+        <div className="item" data-tag="graph"><Img396/></div>
+        <div className="item" data-tag="graph"><Img435/></div>
+        <div className="item" data-tag="graph"><Img436/></div>
+        <div className="item" data-tag="graph"><Img437/></div>
 
         <div className="item" data-tag="iot"><Img397/></div>
         <div className="item" data-tag="interior"><Img398/></div>

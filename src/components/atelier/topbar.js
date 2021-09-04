@@ -25,6 +25,43 @@ import {
 import {
   downloadImages
 } from './download'
+/*
+import {
+  lato_Regular, lato_Regular_Italic,
+  lato_Bold, lato_Bold_Italic,
+  lato_Black, lato_Black_Italic,
+  lato_Light, lato_Light_Italic,
+  lato_Thin, lato_Thin_Italic,
+  oswald_Regular, oswald_Bold, oswald_Semibold,
+  oswald_Medium, oswald_Light, oswald_Extralight,
+  quicksand_Regular, quicksand_Bold, quicksand_Semibold,
+  quicksand_Medium, quicksand_Light,
+  josefinSans_Regular, josefinSans_Regular_Italic,
+  josefinSans_Bold, josefinSans_Bold_Italic,
+  josefinSans_Semibold, josefinSans_Semibold_Italic,
+  josefinSans_Medium, josefinSans_Medium_Italic,
+  josefinSans_Light, josefinSans_Light_Italic,
+  josefinSans_Extralight_Italic, josefinSans_Extralight,
+  josefinSans_Thin_Italic, josefinSans_Thin,
+  josefinSlab_Regular, josefinSlab_Regular_Italic,
+  josefinSlab_Bold, josefinSlab_Bold_Italic,
+  josefinSlab_Semibold, josefinSlab_Semibold_Italic,
+  josefinSlab_Medium, josefinSlab_Medium_Italic,
+  josefinSlab_Light, josefinSlab_Light_Italic,
+  josefinSlab_Extralight_Italic, josefinSlab_Extralight,
+  josefinSlab_Thin_Italic, josefinSlab_Thin,
+  playfairDisplay_Regular, playfairDisplay_Regular_Italic,
+  playfairDisplay_Black, playfairDisplay_Black_Italic,
+  playfairDisplay_Extrabold, playfairDisplay_Extrabold_Italic,
+  playfairDisplay_Bold, playfairDisplay_Bold_Italic,
+  playfairDisplay_Semibold, playfairDisplay_Semibold_Italic,
+  playfairDisplay_Medium, playfairDisplay_Medium_Italic,
+  ebGaramond_Regular, ebGaramond_Regular_Italic,
+  ebGaramond_Extrabold, ebGaramond_Extrabold_Italic,
+  ebGaramond_Bold, ebGaramond_Bold_Italic,
+  ebGaramond_Semibold, ebGaramond_Semibold_Italic,
+  ebGaramond_Medium, ebGaramond_Medium_Italic,
+} from "./fontFace.js"*/
 
 import { useSelector, useDispatch } from 'react-redux'
 
@@ -495,6 +532,237 @@ function ExportComponent (props) {
     }
   };
 
+  /*const font_json =  [
+    {
+      font_name: "Quicksand",
+      font_weight: "700",
+      font_style: "normal"
+    },
+    {
+      font_name: "Oswald",
+      font_weight: "700",
+      font_style: "normal"
+    },
+    {
+      font_name: "JosefinSlab",
+      font_weight: "700",
+      font_style: "normal"
+    },
+    {
+      font_name: "JosefinSans",
+      font_weight: "700",
+      font_style: "normal"
+    },
+  ]
+
+  const createFontface = ({ font_json }) => {
+
+    let fontlist;
+
+    for (var i = 0; i < font_json.length; i++) {
+
+      switch (font_json[i].font_style) {
+
+        case "normal":
+
+          switch (font_json[i].font_name) {
+
+            case "Lato":
+
+              switch (font_json[i].font_weight) {
+                case "100":
+                  fontlist += lato_Thin
+                  break;
+                case "300":
+                  fontlist += lato_Light
+                  break;
+                case "400":
+                  fontlist += lato_Regular
+                  break;
+                case "700":
+                  fontlist += lato_Bold
+                  break;
+                case "900":
+                  fontlist += lato_Black
+                  break;
+                default:
+
+              }
+
+              break;
+            case "Oswald":
+
+              switch (font_json[i].font_weight) {
+                case "200":
+                  fontlist += oswald_Extralight
+                  break;
+                case "300":
+                  fontlist += oswald_Light
+                  break;
+                case "400":
+                  fontlist += oswald_Regular
+                  break;
+                case "500":
+                  fontlist += oswald_Medium
+                  break;
+                case "600":
+                  fontlist += oswald_Semibold
+                  break;
+                case "700":
+                  fontlist += oswald_Bold
+                  break;
+                default:
+
+              }
+              break;
+            case "Quicksand":
+
+              switch (font_json[i].font_weight) {
+                case "300":
+                  fontlist += quicksand_Light
+                  break;
+                case "400":
+                  fontlist += quicksand_Regular
+                  break;
+                case "500":
+                  fontlist += quicksand_Medium
+                  break;
+                case "600":
+                  fontlist += quicksand_Semibold
+                  break;
+                case "700":
+                  fontlist += quicksand_Bold
+                  break;
+                default:
+
+              }
+              break;
+            case "JosefinSans":
+
+              switch (font_json[i].font_weight) {
+                case "100":
+                  fontlist += josefinSans_Thin
+                  break;
+                case "200":
+                  fontlist += josefinSans_Extralight
+                  break;
+                case "300":
+                  fontlist += josefinSans_Light
+                  break;
+                case "400":
+                  fontlist += josefinSans_Regular
+                  break;
+                case "500":
+                  fontlist += josefinSans_Medium
+                  break;
+                case "600":
+                  fontlist += josefinSans_Semibold
+                  break;
+                case "700":
+                  fontlist += josefinSans_Bold
+                  break;
+                default:
+
+              }
+              break;
+            case "JosefinSlab":
+
+              switch (font_json[i].font_weight) {
+                case "100":
+                  fontlist += josefinSlab_Thin
+                  break;
+                case "200":
+                  fontlist += josefinSlab_Extralight
+                  break;
+                case "300":
+                  fontlist += josefinSlab_Light
+                  break;
+                case "400":
+                  fontlist += josefinSlab_Regular
+                  break;
+                case "500":
+                  fontlist += josefinSlab_Medium
+                  break;
+                case "600":
+                  fontlist += josefinSlab_Semibold
+                  break;
+                case "700":
+                  fontlist += josefinSlab_Bold
+                  break;
+                default:
+
+              }
+              break;
+            case "EBGaramond":
+
+              switch (font_json[i].font_weight) {
+                case "400":
+                  fontlist += ebGaramond_Regular
+                  break;
+                case "500":
+                  fontlist += ebGaramond_Medium
+                  break;
+                case "600":
+                  fontlist += ebGaramond_Semibold
+                  break;
+                case "700":
+                  fontlist += ebGaramond_Bold
+                  break;
+                case "800":
+                  fontlist += ebGaramond_Extrabold
+                  break;
+
+                default:
+
+              }
+              break;
+            case "PlayfairDisplay":
+
+              switch (font_json[i].font_weight) {
+                case "400":
+                  fontlist += playfairDisplay_Regular
+                  break;
+                case "500":
+                  fontlist += playfairDisplay_Medium
+                  break;
+                case "600":
+                  fontlist += playfairDisplay_Semibold
+                  break;
+                case "700":
+                  fontlist += playfairDisplay_Bold
+                  break;
+                case "800":
+                  fontlist += playfairDisplay_Extrabold
+                  break;
+                case "900":
+                  fontlist += playfairDisplay_Black
+                  break;
+
+                default:
+
+              }
+              break;
+
+            default:
+
+          }
+
+
+
+          break;
+        case "italic":
+
+          break;
+        default:
+
+      }
+
+    }
+
+    return fontlist
+
+  }*/
+
   const regaxedData = () => {
 
     const main = color_scheme["mainColor"],
@@ -502,9 +770,64 @@ function ExportComponent (props) {
           accent =color_scheme["accentColor"]
     ;
 
+    /*
+
+    ${josefinSlab_Thin}
+    ${josefinSlab_Light}
+    ${josefinSlab_Extralight}
+    ${josefinSlab_Regular}
+    ${josefinSlab_Semibold}
+    ${josefinSlab_Bold}
+
+    ${josefinSlab_Thin_Italic}
+    ${josefinSlab_Light_Italic}
+    ${josefinSlab_Extralight_Italic}
+    ${josefinSlab_Regular_Italic}
+    ${josefinSlab_Semibold_Italic}
+    ${josefinSlab_Bold_Italic}
+
+    ${quicksand_Light}
+    ${quicksand_Regular}
+    ${quicksand_Medium}
+    ${quicksand_Semibold}
+    ${quicksand_Bold}
+
+    */
+
+    /*const fontface = `
+        <style>
+          ${quicksand_Bold}
+          ${createFontface({ font_json: font_json })}
+        </style>
+    `*/
+
+
+
+    /*const fontface = `
+        <style>
+        @font-face {
+          font-family: 'JosefinSlab';
+          src: url(${josefinSlab_svg});
+          font-weight: 700;
+          font-style: normal;
+        }
+        @font-face {
+          font-family: 'Oswald';
+          src: url(${oswald_svg});
+          font-weight: 700;
+          font-style: normal;
+        }
+       </style>
+    `*/
+
+    //let te = `<defs>` + lato_Regular + lato_Black + lato_Bold + oswald_regular + oswald_bold + quicksand_bold + josefinSlab_Bold +`</defs>`
+
     let str = props.data.join('')
 
-    let result = str.replace( 'class="main"', `fill="${main}"` );
+    //str = fontface + te + str
+    //str = fontface + str
+
+    /*let result = str.replace( 'class="main"', `fill="${main}"` );
 
     while(result !== str) {
       str = str.replace('class="main"', `fill="${main}"`);
@@ -525,7 +848,9 @@ function ExportComponent (props) {
       result = result.replace('class="accent"', `fill="${accent}"`);
     }
 
-    return result
+    return result*/
+
+    return str
   }
 
   return (

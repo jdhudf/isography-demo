@@ -60,8 +60,13 @@ export function svg2imageData(svgElement, successCallback, errorCallback, filesi
   canvas.width = svgElement.width.baseVal.value * filesize;//svgElement.dataset.width;//svgElement.width.baseVal.value;
   canvas.height = svgElement.height.baseVal.value * filesize;//svgElement.dataset.height;//svgElement.height.baseVal.value;
 
+
+
   var svgData = new XMLSerializer().serializeToString(svgElement);
-  image.src = 'data:image/svg+xml;charset=utf-8;base64,' + btoa(svgData);
+
+  console.log(svgElement)
+
+  image.src = 'data:image/svg+xml;charset=utf-8;base64,' + btoa(unescape(encodeURIComponent(svgData)));
 
   image.width = svgElement.width.baseVal.value * filesize;
   image.height =  svgElement.height.baseVal.value * filesize;

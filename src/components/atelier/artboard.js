@@ -574,7 +574,7 @@ class Artboard extends React.Component {
 
       for (let i = 0; i < s.length; i++) {
 
-        const g = svg.children[ parseInt(s[i]) ],
+        const g = svg.children[ s[i] ],
               regExp = /-?\d+(\.\d+)?/g;
 
         if (g) {
@@ -628,7 +628,7 @@ class Artboard extends React.Component {
 
     this.selectElement(e);
 
-    this.getAttribute(e, JSON.stringify(this.selectElement(e)));
+    this.getAttribute( e, this.selectElement(e) );
 
     this.setState({
       isMouseDown: true,

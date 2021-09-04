@@ -19,6 +19,9 @@ import people from '../../images/people.svg';
 import nature from '../../images/nature.svg';
 import ec from '../../images/ec.svg';
 import logo from '../../images/logo.svg';
+import graph from '../../images/graph.svg';
+import animal from '../../images/animal.svg';
+import science from '../../images/science.svg';
 
 //====================================
 //  We need below functions that
@@ -224,6 +227,48 @@ class GallaryPanel extends React.Component {
         }
 
         break;
+      case "animal":
+
+        for (let i = 0; i < items.length; i++) {
+
+          if (items[i].dataset.tag === "animal") {
+            console.log(items[i])
+            items[i].style.display = "block"
+          } else {
+            items[i].style.display = "none"
+          }
+
+        }
+
+        break;
+      case "graph":
+
+        for (let i = 0; i < items.length; i++) {
+
+          if (items[i].dataset.tag === "graph") {
+            console.log(items[i])
+            items[i].style.display = "block"
+          } else {
+            items[i].style.display = "none"
+          }
+
+        }
+
+        break;
+      case "science":
+
+        for (let i = 0; i < items.length; i++) {
+
+          if (items[i].dataset.tag === "science") {
+            console.log(items[i])
+            items[i].style.display = "block"
+          } else {
+            items[i].style.display = "none"
+          }
+
+        }
+
+        break;
       default:
 
     }
@@ -268,6 +313,18 @@ class GallaryPanel extends React.Component {
               <li className="category_button nature" onClick={()=>this.filterItems("nature")}>
                 <span><img src={nature} alt=""/></span>
                 <p>Nature</p>
+              </li>
+              <li className="category_button graph" onClick={()=>this.filterItems("graph")}>
+                <span><img src={graph} alt=""/></span>
+                <p>Graph</p>
+              </li>
+              <li className="category_button science" onClick={()=>this.filterItems("science")}>
+                <span><img src={science} alt=""/></span>
+                <p>Science</p>
+              </li>
+              <li className="category_button animal" onClick={()=>this.filterItems("animal")}>
+                <span><img src={animal} alt=""/></span>
+                <p>Animal</p>
               </li>
               <li className="category_button ec" onClick={()=>this.filterItems("ec")}>
                 <span><img src={ec} alt=""/></span>
