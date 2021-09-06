@@ -88,6 +88,7 @@ class Artboard extends React.Component {
       dataCopy: getCanvas({artboards:this.props.artboards,working:this.props.working}).svg_data,
       hasSpace: false,
       Shift: false,
+      command: false
     };
   }
 
@@ -104,6 +105,8 @@ class Artboard extends React.Component {
     el.addEventListener('onTouchEnd', this.onTouchEnd , { passive: false });
     el.addEventListener('onTouchStart', this.onTouchStart , { passive: false });
     el.addEventListener('onTouchMove', this.onTouchMove , { passive: false });
+
+    el.addEventListener('onKeyDown', this.onKeyDown , { passive: false });
 
     window.addEventListener('resize', this.updateSelecter);
 
@@ -208,7 +211,7 @@ class Artboard extends React.Component {
 
         const { changeFont, font } = this.props
 
-        console.log("switch font : " +  font.name)
+        //console.log("switch font : " +  font.name)
 
         const newfont = {
           name: text.dataset.name,
@@ -542,7 +545,7 @@ class Artboard extends React.Component {
 
         if ( group.dataset.type ===  "group") {
 
-          console.log( group.getAttribute('transform') )
+         //console.log( group.getAttribute('transform') )
 
         }
 
@@ -874,7 +877,7 @@ class Artboard extends React.Component {
 
   onTouchStart = (e) => {
 
-    console.log("start")
+   //console.log("start")
 
     const touchObject = e.changedTouches[0] ;
 
@@ -951,7 +954,7 @@ class Artboard extends React.Component {
 
     e.preventDefault();
 
-    console.log("end")
+   //console.log("end")
 
     if ( this.state.isMouseDownMobile ) {
 
@@ -1034,34 +1037,54 @@ class Artboard extends React.Component {
       switchSelected
     } = this.props
 
-    const data_copy = this.state.data.slice();
+    const canvas = getCanvas({ working: working, artboards:artboards }),
+          data_copy = this.state.data.slice();
+
 
     for (var i = 0; i < selected.length; i++) {
 
       const el = this.state.data[ selected[i] ];
+      const svg_d = document.getElementById('svg'),
+            targeted_el = svg_d.children[ selected[i] ];
+      let ajustment;
 
       switch (action){
         case 'Duplicate':
-          console.log('duplicate');
+         //console.log('duplicate');
           data_copy.push(el);
           break;
         case 'Delete':
-          console.log('delete');
+         //console.log('delete');
           data_copy.splice(selected[i],1);
           switchSelected([])
           break;
         case 'Reflect':
 
-          const regExp = /-?\d+(\.\d+)?/g;
-          const scale = el.match(regExp)
+          const regExp = /-?\d+(\.\d+)?/g;///-?\d+/g;
+          const scale = el.match(regExp);
+
+         //console.log(targeted_el)
+
+          if ( targeted_el.dataset.reflect ===  "false" || targeted_el.dataset.reflect === undefined ) {
+
+            ajustment =  parseInt(scale[0]) + 200 * Math.abs( scale[3] )
+            targeted_el.dataset.reflect = "true"
+
+          } else {
+
+            ajustment =  parseInt(scale[0]) - 200 * Math.abs( scale[3])
+            targeted_el.dataset.reflect = "false"
+
+          }
 
           let n = 3;
 
-          const result = el.replace(regExp,
+          const result = targeted_el.outerHTML.replace(regExp,
             function(match) {
               if(n === 3) {
                 n--;
-                return scale[0];
+                return ajustment;
+
               } else if (n === 2) {
                 n--;
                 return scale[1];
@@ -1077,11 +1100,11 @@ class Artboard extends React.Component {
             }
           );
 
-          data_copy.splice(selected[i],1);
-          data_copy.push(result);
+
+          data_copy.splice( selected[i], 1, result );
           break;
         case 'bringToFront':
-          console.log('bringToFront');
+         //console.log('bringToFront');
           data_copy.splice(selected[i],1);
           data_copy.push(el);
 
@@ -1091,25 +1114,25 @@ class Artboard extends React.Component {
 
           break;
         case 'bringForward':
-          console.log('bringForward');
+         //console.log('bringForward');
           data_copy.splice(selected[i],1);
           data_copy.splice(selected[i] + 1 ,0,el);
           if (data_copy.length !== selected[i]) {
             //switchSelected( [selected[i] + 1])
-            switchSelected([])
+            switchSelected([ selected[i]  + 1 ])
           }
           break;
         case 'sendBackward':
-          console.log('sendBackward');
+         //console.log('sendBackward');
           data_copy.splice(selected[i],1);
           data_copy.splice(selected[i] - 1 ,0,el);
           if (data_copy.length !== selected[i]) {
             //switchSelected(selected[i] - 1)
-            switchSelected([])
+            switchSelected([ selected[i]  - 1 ])
           }
           break;
         case 'sendToBack':
-          console.log('sendToBack');
+         //console.log('sendToBack');
           data_copy.splice(selected[i],1);
           data_copy.unshift(el);
           if (data_copy.length !== selected[i]) {
@@ -1246,21 +1269,33 @@ class Artboard extends React.Component {
           const transform = transforms[j]
 
           const scaling = [
-                            transform.scale[0] * z / init_z,
-                            transform.scale[1] * z / init_z,
+              transform.scale[0] * z / init_z,
+              transform.scale[1] * z / init_z,
           ];
+
+          const original_size = {
+            width: 101 * Math.abs(transform.scale[0]),
+            height: 155 * Math.abs(transform.scale[1])
+          }
+
+          const ajustment = [
+            original_size.width * artboardScale
+               - original_size.width * scaling[0] * artboardScale,
+            original_size.height * artboardScale
+               - original_size.height * scaling[1] * artboardScale,
+          ]
 
           /*const translate = [
             parseFloat(transform.translate[0]) + parseFloat(gap[0]),
             parseFloat(transform.translate[1]) + parseFloat(gap[1])
           ];*/
 
-          console.log(width, height)
-
           const translate = [
-            parseFloat(transform.translate[0]),
-            parseFloat(transform.translate[1])
+            parseFloat(transform.translate[0]),// + parseFloat(ajustment[0]),
+            parseFloat(transform.translate[1])// + parseFloat(ajustment[1])
           ];
+
+          //console.log(transform.translate, ajustment, artboardScale, scaling)
 
           selectedElement = svg.children[selected[i]]
 
@@ -1429,7 +1464,7 @@ class Artboard extends React.Component {
 
   onTouchScaleStart = (e, corner) => {
 
-    console.log("Touch Scale");
+    //console.log("Touch Scale");
 
     const cur = document.getElementById('scale-cover');
 
@@ -1679,7 +1714,7 @@ class Artboard extends React.Component {
         const { switchEditable, editable } =this.props
 
         switchEditable(!editable)
-        console.log(editable)
+        //console.log(editable)
         //
 
         /*const { updateArtboard, working, artboards, recordHistory } = this.props,
@@ -1713,8 +1748,14 @@ class Artboard extends React.Component {
   }
 
   onKeyDown = (e) => {
+    e.preventDefault()
 
-    const { editable } = this.props
+    const {
+      editable,
+      selected
+    } = this.props
+
+    const svg_data =  this.state.data.slice()
 
     if (editable) {
 
@@ -1728,7 +1769,7 @@ class Artboard extends React.Component {
 
         let text = el.children[0].textContent
 
-        console.log(e.key)
+        //console.log(e.key)
 
         if (e.key === "Backspace" ) {
 
@@ -1747,7 +1788,7 @@ class Artboard extends React.Component {
 
           var tbreak = document.createElementNS('http://www.w3.org/2000/svg', 'tbreak');
 
-          console.log(el.children[0].cloneNode(true))
+          //console.log(el.children[0].cloneNode(true))
 
           el.children[0].appendChild(tbreak);
 
@@ -1755,7 +1796,7 @@ class Artboard extends React.Component {
 
         }
 
-        console.log(e.keycode,e.key)
+        //console.log(e.keycode,e.key)
 
         el.children[0].textContent = text
 
@@ -1780,8 +1821,110 @@ class Artboard extends React.Component {
 
     }
 
+
+
+    if (this.state.command === true) {
+
+      if ( selected.length === 1) {
+       //console.info(e.key)
+
+      }
+
+    }
+
+    if ( this.state.Shift === true && this.state.command === true ) {
+      //console.log("覚醒", e.key)
+
+    }
+
+    if ( selected.length > 0) {
+
+      if (e.key === "Backspace") {
+
+        this.handleElement("Delete")
+
+      } else if (this.state.command === true && e.key === "d") {
+
+        this.handleElement("Duplicate")
+
+      } else if (this.state.command === true && e.key === "r") {
+
+        this.handleElement("Reflect")
+
+      } else if ( this.state.command === false && e.key === "ArrowUp") {
+
+        if ( svg_data.length > 1 ) {
+
+          if ( selected.length === 0 || selected.length > 1 ) {
+
+          } else {
+
+            if( selected[0] === 0 ){
+
+              this.handleElement("bringForward")
+
+            } else if (selected[0] === (svg_data.length - 1) ) {
+
+            } else if ( selected === null ) {
+
+            } else {
+              this.handleElement("bringForward")
+            }
+
+          }
+        }
+
+      } else if ( this.state.command === false && e.key === "ArrowDown") {
+
+        if ( svg_data.length > 1 ) {
+          if ( selected.length === 0 || selected.length > 1 ) {
+
+          } else {
+
+            if( selected[0] === 0 ){
+
+            } else if (selected[0] === (svg_data.length - 1)) {
+
+              this.handleElement("sendBackward")
+
+            } else if ( selected === null ) {
+
+            } else {
+              this.handleElement("sendBackward")
+            }
+          }
+        }
+
+      } else if ( this.state.command === true && e.key === "ArrowUp" ) {
+
+        if ( svg_data.length > 1 ) {
+          if ( selected.length === 0 || selected.length > 1 ) {
+
+          } else {
+
+            if( selected[0] !== svg_data.length - 1 ){
+              this.handleElement("bringToFront")
+            }
+
+          }
+        }
+
+      } else if ( this.state.command === true && e.key === "ArrowDown" ) {
+
+        if( selected[0] !== 0 ){
+          this.handleElement("sendToBack")
+        }
+
+      }
+
+    }
+
     if (e.key === "Shift") {
       this.setState({ Shift: true })
+    } else if (e.key === "Meta") {
+      this.setState({ command: true})
+    } else {
+
     }
 
   }
@@ -1790,6 +1933,8 @@ class Artboard extends React.Component {
 
     if (e.key === "Shift") {
       this.setState({ Shift: false})
+    } else if (e.key === "Meta") {
+      this.setState({ command: false})
     }
 
   }
@@ -1885,11 +2030,11 @@ class Artboard extends React.Component {
            id="onContextMenu"
            className="onContextMenu">
         <ul>
-          <li onClick={()=>this.handleElement("Duplicate")}>Duplicate <span>⌘V</span></li>
-          <li onClick={()=>this.handleElement("Delete")}>Delete <span>⌘D</span></li>
+          <li onClick={()=>this.handleElement("Duplicate")}>Duplicate <span>⌘D</span></li>
+          <li onClick={()=>this.handleElement("Delete")}>Delete <span>Delete</span></li>
           <li onClick={()=>this.handleElement("Reflect")}>Reflect <span>⌘R</span></li>
 
-          {(()=>{
+          {/*(()=>{
 
             const { selected } = this.props
             const svg = document.getElementById('svg')
@@ -1899,12 +2044,14 @@ class Artboard extends React.Component {
               if (svg) {
 
                 if (selected.length === 1 ) {
-                  const g = svg.children[selected[0]]
+                  const g = svg.children[ selected[0] ]
+
                   if (g.dataset.type === "group") {
                     return (
                       <li onClick={this.ungroup}>Ungroup <span>⌘G</span></li>
                     )
                   }
+
                 }
 
                 if (selected.length > 1) {
@@ -1916,14 +2063,15 @@ class Artboard extends React.Component {
               }
 
             }
-          })()}
+          })()*/}
+
           <li>
             Arrange
             <ul>
-              <li onClick={()=>this.handleElement("bringToFront")}>Bring to Front <span>⇧⌘]</span></li>
-              <li onClick={()=>this.handleElement("bringForward")}>Bring Forward <span>⌘]</span></li>
-              <li onClick={()=>this.handleElement("sendBackward")}>Send Backward <span>⌘[</span></li>
-              <li onClick={()=>this.handleElement("sendToBack")}>Send to Back <span>⇧⌘[</span></li>
+              <li onClick={()=>this.handleElement("bringToFront")}>Bring to Front <span>⌘↑</span></li>
+              <li onClick={()=>this.handleElement("bringForward")}>Bring Forward <span>↑</span></li>
+              <li onClick={()=>this.handleElement("sendBackward")}>Send Backward <span>↓</span></li>
+              <li onClick={()=>this.handleElement("sendToBack")}>Send to Back <span>⌘↓</span></li>
             </ul>
           </li>
         </ul>
@@ -1948,7 +2096,7 @@ class Artboard extends React.Component {
                  const reg =  colors[i]
 
                  var result = str.replace(new RegExp(reg,'g'), e);
-                 console.log(result,e)
+                 //console.log(result,e)
 
                  newCanvas.svg_data[selected] = result
 

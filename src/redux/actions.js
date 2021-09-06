@@ -1,4 +1,10 @@
 export const actions = {
+  DeleteItem(value) {
+    return {
+      type: 'delete/item',
+      payload: value
+    }
+  },
   switchDarkmode(value) {
     return {
       type: 'darkmode/switch',

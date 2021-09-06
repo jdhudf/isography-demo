@@ -22,6 +22,8 @@ export function downloadImages ({ filename, filesize }) {
 
     svg2imageData(document.getElementById('svg_preview'), function(data) {
 
+
+
         //document.getElementById('converted-image').src = data;
         // Create an invisible A element
         const a = document.createElement("a");
@@ -61,10 +63,10 @@ export function svg2imageData(svgElement, successCallback, errorCallback, filesi
   canvas.height = svgElement.height.baseVal.value * filesize;//svgElement.dataset.height;//svgElement.height.baseVal.value;
 
 
+  svgElement.setAttribute("width", svgElement.width.baseVal.value)
+  svgElement.setAttribute("height", svgElement.height.baseVal.value)
 
   var svgData = new XMLSerializer().serializeToString(svgElement);
-
-  console.log(svgElement)
 
   image.src = 'data:image/svg+xml;charset=utf-8;base64,' + btoa(unescape(encodeURIComponent(svgData)));
 
@@ -154,6 +156,7 @@ export function svg2imageData(svgElement, successCallback, errorCallback, filesi
       };
       image.onerror = function(e){
         errorCallback(e);
+        console.log(e)
       };
 
     }

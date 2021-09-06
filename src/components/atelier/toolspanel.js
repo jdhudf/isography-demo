@@ -91,27 +91,24 @@ class ToolsPanel extends React.Component {
       let ajustment;
 
       switch (action){
+
         case 'Duplicate':
-          console.log('duplicate');
+
           const svg = document.getElementById('svg'),
                 g = svg.children[ selected[i] ];
-
           const translate = this.getAttribute(el)
-
           const x = parseInt(translate[0]) + 20
           const y = parseInt(translate[1]) + 20
-
           g.setAttribute("transform", `translate(`+ x +`,`+ y +`) scale(`+ translate[2] +`,`+ translate[3] +`) skewY(0) rotate(0)`);
-
           data_copy.push(g.outerHTML);
+          switchSelected([])
+
           break;
         case 'Delete':
 
           console.log('delete');
 
           data_copy.splice( selected[i] , 1);
-
-          console.log(data_copy)
 
           switchSelected([])
 
@@ -156,15 +153,13 @@ class ToolsPanel extends React.Component {
             }
           );
 
-          data_copy.splice( selected[i] ,1);
-          data_copy.push(result);
+
+          data_copy.splice( selected[i], 1, result );
 
           break;
         case 'Reflect Vertical':
           const regExp2 = /-?\d+(\.\d+)?/g;// /-?\d+/g;
           const scale2 = el.match(regExp2)
-
-          console.log(targeted_el)
 
           if ( targeted_el.dataset.vertical ===  "false" || targeted_el.dataset.vertical === undefined ) {
 
@@ -200,8 +195,8 @@ class ToolsPanel extends React.Component {
             }
           );
 
-          data_copy.splice( selected[i] ,1);
-          data_copy.push(result2);
+          data_copy.splice( selected[i], 1, result2 );
+
           break;
         case 'bringToFront':
           console.log('bringToFront');
@@ -212,14 +207,11 @@ class ToolsPanel extends React.Component {
         case 'bringForward':
           console.log('bringForward');
 
-          console.info( selected[i] )
-
           data_copy.splice( selected[i] ,1);
           data_copy.splice( selected[i]  + 1 ,0,el);
 
           if (data_copy.length !== selected) {
-            //switchSelected( selected[i]  + 1)
-            switchSelected([])
+            switchSelected([ selected[i]  + 1 ])
           }
 
           break;
@@ -229,14 +221,15 @@ class ToolsPanel extends React.Component {
           data_copy.splice( selected[i]  - 1 ,0,el);
 
           if (data_copy.length !==  selected[i] ) {
-            //switchSelected( selected[i]  - 1)
-            switchSelected([])
+            switchSelected([ selected[i]  - 1 ])
           }
+
           break;
         case 'sendToBack':
           console.log('sendToBack');
           data_copy.splice( selected[i] ,1);
           data_copy.unshift(el);
+          switchSelected([])
           break;
         default:
           break;
@@ -331,54 +324,75 @@ class ToolsPanel extends React.Component {
       updateArtboard,
       artboards,
       selected,
-      darkmode } = this.props
+      darkmode,
+      DeleteItem
+    } = this.props
 
     const canvas = getCanvas({artboards: artboards, working: working})
-    const svg_data = canvas.svg_data;
+    const svg_data = canvas.svg_data.slice();
 
     return (
       <section className="section-toolspanel section-bottom">
         {(()=>{
-          if ( svg_data.length > 1 ) {
-            if( selected === 0 ){
-              return (
-                <span>
-                  <p title="Bring Forward" onClick={()=>this.handleElement("bringForward")}><FontAwesomeIcon icon={faSortAmountUp} /></p>
-                  <p title="Send Backward" style={{color: darkmode ? "#444855":"lightgray"}}><FontAwesomeIcon icon={faSortAmountDown} /></p>
-                </span>
-              )
-            } else if (selected === (svg_data.length - 1)) {
-              return (
-                <span>
-                  <p title="Bring Forward" style={{color: darkmode ? "#444855":"lightgray"}}><FontAwesomeIcon icon={faSortAmountUp} /></p>
-                  <p title="Send Backward" onClick={()=>this.handleElement("sendBackward")}><FontAwesomeIcon icon={faSortAmountDown} /></p>
-                </span>
-              )
-            } else if ( selected === null ) {
 
-              return (
-                <span>
-                  <p title="Bring Forward" style={{color: darkmode ? "#444855":"lightgray"}}><FontAwesomeIcon icon={faSortAmountUp} /></p>
-                  <p title="Send Backward" style={{color: darkmode ? "#444855":"lightgray"}}><FontAwesomeIcon icon={faSortAmountDown} /></p>
-                </span>
-              )
+          const onlyForward = (
+            <span>
+              <p title="Bring Forward" onClick={()=>this.handleElement("bringForward")}><FontAwesomeIcon icon={faSortAmountUp} /></p>
+              <p title="Send Backward" style={{color: darkmode ? "#444855":"lightgray"}}><FontAwesomeIcon icon={faSortAmountDown} /></p>
+            </span>
+          )
+
+          const onlyBackward = (
+            <span>
+              <p title="Bring Forward" style={{color: darkmode ? "#444855":"lightgray"}}><FontAwesomeIcon icon={faSortAmountUp} /></p>
+              <p title="Send Backward" onClick={()=>this.handleElement("sendBackward")}><FontAwesomeIcon icon={faSortAmountDown} /></p>
+            </span>
+          )
+
+          const unavailable = (
+            <span>
+              <p title="Bring Forward" style={{color: darkmode ? "#444855":"lightgray"}}><FontAwesomeIcon icon={faSortAmountUp} /></p>
+              <p title="Send Backward" style={{color: darkmode ? "#444855":"lightgray"}}><FontAwesomeIcon icon={faSortAmountDown} /></p>
+            </span>
+          )
+
+          const available = (
+            <span>
+              <p title="Bring Forward" onClick={()=>this.handleElement("bringForward")}><FontAwesomeIcon icon={faSortAmountUp} /></p>
+              <p title="Send Backward" onClick={()=>this.handleElement("sendBackward")}><FontAwesomeIcon icon={faSortAmountDown} /></p>
+            </span>
+          )
+
+          if ( svg_data.length > 1 ) { // when no svg_data
+
+            if ( selected.length === 0 || selected.length > 1 ) {
+              // when no selected or when mulch selected
+
+              return unavailable
 
             } else {
-              return (
-                <span>
-                  <p title="Bring Forward" onClick={()=>this.handleElement("bringForward")}><FontAwesomeIcon icon={faSortAmountUp} /></p>
-                  <p title="Send Backward" onClick={()=>this.handleElement("sendBackward")}><FontAwesomeIcon icon={faSortAmountDown} /></p>
-                </span>
-              )
+              // when selected
+
+              if( selected[0] === 0 ){
+
+                return onlyForward
+
+              } else if (selected[0] === (svg_data.length - 1)) {
+
+                return onlyBackward
+
+              } else if ( selected === null ) {
+
+                return unavailable
+
+              } else {
+                return available
+              }
             }
+
           } else {
 
-            return (
-              <span>
-                <p title="Bring Forward" style={{color: darkmode ? "#444855":"lightgray"}}><FontAwesomeIcon icon={faSortAmountUp} /></p>
-                <p title="Send Backward" style={{color: darkmode ? "#444855":"lightgray"}}><FontAwesomeIcon icon={faSortAmountDown} /></p>
-              </span>
-            )
+            return unavailable
 
           }
         })()}
@@ -1020,6 +1034,7 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   dispatch => ({
+    //DeleteItem:    value => dispatch(actions.DeleteItem(value)),
     changeHex:    value => dispatch(actions.changeHex(value)),
     updateArtboard: value => dispatch(actions.updateArtboard(value)),
     recordHistory:  value => dispatch(actions.recordHistory(value)),

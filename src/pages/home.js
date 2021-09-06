@@ -135,6 +135,8 @@ const Dashboard = () => {
                         style={{
                           background:item.canvas.color_scheme['background'],
                           width: "90%",
+                          fillRule:"evenodd",
+                          clipRule:"evenodd",
                           //height: `calc(${item.artboard_size[0]} / ${item.artboard_size[1]} * 90%)`
                         }}
                         dangerouslySetInnerHTML={
@@ -175,13 +177,13 @@ const Dashboard = () => {
         </main>
         <aside>
           <NewsFeed/>
-          <div className="message">
+          {/*<div className="message">
             <h2>Some Tip!</h2>
             <p>You can install Isography your desktop and tablet!</p>
             <button id="PWAInstallBtn" style={{display:"none"}}
             >Install App</button>
-          </div>
-          <ul className="url">
+          </div>*/}
+          <ul className="url" style={{marginTop: "50px"}}>
             <li><a href="https://www.isography.app" target="_blank" rel="noreferrer">Official HP</a></li>
             <li><a href="https://www.isography.app/license" target="_blank" rel="noreferrer">Terms of Service & Licenses</a></li>
             {/*<li><AllItems /></li>*/}

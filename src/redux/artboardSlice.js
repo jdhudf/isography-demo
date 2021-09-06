@@ -72,9 +72,39 @@ const initialState = {
   ]
 }
 
-
 export default function artboardReducer(state = initialState, action) {
   switch (action.type) {
+    case 'delete/item':
+
+      console.log(
+        "delete dayo ~~!",
+        action.payload
+      )
+
+      const { svg_data, selected, working } = action.payload
+
+      for (var i = 0; i < selected.length; i++) {
+
+        svg_data.splice( selected[i] , 1);
+
+      }
+
+      let copy;
+
+      for (var i = 0; i < state.artboards.length; i++) {
+
+        if (state.artboards[i].artboard_id === working) {
+          copy = JSON.parse(JSON.stringify(state.artboards[i]))
+
+          copy.canvas.svg_data = svg_data
+
+        }
+      }
+
+      return {
+        ...state,
+        artboards: state.artboards.map( el => el.artboard_id === action.payload.working ?  el : el )
+      }
     case 'hex/update':
       return {
         ...state,

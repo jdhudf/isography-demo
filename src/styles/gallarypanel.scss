@@ -50,7 +50,7 @@
     width: 97%;
     margin: 0 auto;
     margin-top: 15px;
-    height: 455px;
+    height: 400px;
     overflow: scroll;
     display: flex;
     flex-wrap: wrap;
@@ -72,16 +72,25 @@
       border-bottom: solid 4px #ffffff;
       box-sizing: border-box;
       background: #F0F0F0;
+      //
+      background: linear-gradient(45deg, #F0F0F0 25%, transparent 25%, transparent 75%, #F0F0F0 75%),
+              linear-gradient(45deg, #F0F0F0 25%, transparent 25%, transparent 75%, #F0F0F0 75%);
+      background-color: #EAEAEA;
+      background-size: 16px 16px;
+      background-position: 0 0, 8px 8px;
+      //
       flex-basis: 33.3333%;
       padding-bottom:33.3333%;
-      height: 0;
       border-radius: 5px;
       font-size: 0;
+      overflow: hidden;
+      height: 105px;
       svg {
+        height: 106px;
         display: block;
         margin: 0 auto;
-        height: auto;
         font-size: 0;
+        object-fit: contain;
       }
     }
   }

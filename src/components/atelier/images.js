@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 
 import Img1 from '../../images/materials/box.inline.svg';
 import Img2 from '../../images/materials/monstera.inline.svg';
-import Img3 from '../../images/materials/standing_man.inline.svg';
-import Img4 from '../../images/materials/standing_woman.inline.svg';
+/*import Img3 from '../../images/materials/standing_man.inline.svg';
+import Img4 from '../../images/materials/standing_woman.inline.svg';*/
 import Img5 from '../../images/materials/moon.inline.svg';
 import Img6 from '../../images/materials/man_on_screen.inline.svg';
 import Img7 from '../../images/materials/antena.inline.svg';
@@ -33,7 +33,7 @@ import Img29 from '../../images/materials/magnifier_3.inline.svg';
 import Img30 from '../../images/materials/wheel.inline.svg';
 import Img31 from '../../images/materials/wheel_2.inline.svg';
 import Img32 from '../../images/materials/ladder.inline.svg';
-import Img33 from '../../images/materials/standing_man_2.inline.svg';
+/*import Img33 from '../../images/materials/standing_man_2.inline.svg';*/
 import Img34 from '../../images/materials/paper_1.inline.svg';
 import Img35 from '../../images/materials/paper_2.inline.svg';
 
@@ -521,12 +521,11 @@ class Myloop extends Component {
 
     return (
       <>
-        <div className="item"><Test/></div>
         <div className="item"><Img1/></div>
         <div className="item" data-tag="interior"><Img2/></div>
-        <div className="item" data-tag="people"><Img3/></div>
+        {/*<div className="item" data-tag="people"><Img3/></div>
         <div className="item" data-tag="people"><Img4/></div>
-        <div className="item" data-tag="people"><Img33/></div>
+        <div className="item" data-tag="people"><Img33/></div>*/}
         <div className="item" data-tag="nature"><Img5/></div>
         <div className="item" data-tag="iot"><Img6/></div>
         <div className="item" data-tag="iot"><Img7/></div>

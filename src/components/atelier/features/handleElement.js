@@ -6,7 +6,7 @@ export const handleElement = ({ action, svg_data, selected}) => {
 
       const el = data_copy[ selected[i] ];
 
-      switch (action){
+      switch (action) {
         case 'Duplicate':
           console.log('duplicate');
           data_copy.push(el);
@@ -41,7 +41,7 @@ export const handleElement = ({ action, svg_data, selected}) => {
               };
             }
           );
-          
+
 
           data_copy.splice(selected[i],1);
           data_copy.push(result);

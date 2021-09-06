@@ -525,10 +525,10 @@ function ExportComponent (props) {
     },
     svg: {
       background: `${props.background}`,
-      fillRule: 'evenodd',
-      clipRule: 'evenodd',
-      strokeLinejoin: 'round',
-      strokeMiterlimit: '2'
+      //fillRule: 'evenodd',
+      //clipRule: 'evenodd',
+      //strokeLinejoin: 'round',
+      //strokeMiterlimit: '2'
     }
   };
 

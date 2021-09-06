@@ -86,33 +86,67 @@ class Atelier extends React.Component {
       future, past//, present
     } = this.props
 
-    const canvas = getCanvas({ artboards: artboards, working: working }),
-          el = canvas.svg_data[selected];
+    const canvas = getCanvas({ artboards: artboards, working: working });
     let data_copy = canvas.svg_data.slice();
 
-    console.log(selected, el, data_copy)
+    const svg = document.getElementById('svg');
 
-    switch (action){
-      case 'Duplicate':
-        console.log('duplicate');
-        data_copy.push(el);
-        break;
-      case 'Delete':
-        console.log('delete');
-        data_copy.splice(selected,1);
-        switchSelected(null)
-        break;
-      case 'Reflect':
-        const regExp = /-?\d+/g;
-        const scale = el.match(regExp)
+    console.log(selected, data_copy)
 
-        var n = 3;
+    for (let i = 0; i < selected.length; i++) {
 
-        const result = el.replace(regExp,
+      const el = canvas.svg_data[ selected[i] ],
+            g = svg.children[ selected[i] ];
+      let ajustment;
+
+      switch (action){
+        case 'Duplicate':
+
+          console.log('duplicate');
+
+          const translate = this.getAttribute(el)
+
+          const x = parseInt(translate[0]) + 20
+          const y = parseInt(translate[1]) + 20
+
+          g.setAttribute("transform", `translate(`+ x +`,`+ y +`) scale(`+ translate[2] +`,`+ translate[3] +`) skewY(0) rotate(0)`);
+
+          data_copy.push(g.outerHTML);
+
+          switchSelected([])
+
+          break;
+        case 'Delete':
+          console.log('delete');
+          data_copy.splice( selected[i] , 1);
+
+          switchSelected([])
+
+          break;
+        case 'Reflect':
+        const regExp = /-?\d+(\.\d+)?/g;///-?\d+/g;
+        const scale = el.match(regExp);
+
+        if ( g.dataset.reflect ===  "false" || g.dataset.reflect === undefined ) {
+
+          ajustment =  parseInt(scale[0]) + 200 * Math.abs( scale[3] )
+          g.dataset.reflect = "true"
+
+        } else {
+
+          ajustment =  parseInt(scale[0]) - 200 * Math.abs( scale[3])
+          g.dataset.reflect = "false"
+
+        }
+
+        let n = 3;
+
+        const result = g.outerHTML.replace(regExp,
           function(match) {
             if(n === 3) {
               n--;
-              return scale[0];
+              return ajustment;
+
             } else if (n === 2) {
               n--;
               return scale[1];
@@ -128,68 +162,68 @@ class Atelier extends React.Component {
           }
         );
 
-        data_copy.splice(selected,1);
-        data_copy.push(result);
-        break;
-      case 'bringToFront':
-        if ( data_copy.length > 1 ) {
-          console.log('bringToFront');
-          data_copy.splice(selected,1);
-          data_copy.push(el);
 
-          if (data_copy.length !== selected) {
-            switchSelected(data_copy.length - 1)
+        data_copy.splice( selected[i], 1, result );
+          break;
+        case 'bringToFront':
+
+          if ( data_copy.length > 1 ) {
+            console.log('bringToFront');
+            data_copy.splice( selected[i] ,1);
+            data_copy.push(el);
+            switchSelected([])
           }
-        }
 
-        break;
+          break;
 
-      case 'bringForward':
+        case 'bringForward':
 
-        if ( data_copy.length > 1 ) {
-          console.log('bringForward');
-          data_copy.splice(selected,1);
-          data_copy.splice(selected + 1 ,0,el);
-          if (data_copy.length !== selected) {
-            switchSelected(selected + 1)
-          }
-        }
+          if ( data_copy.length > 1 ) {
+            console.log('bringForward');
 
-        break;
-      case 'sendBackward':
-        if ( data_copy.length > 1 ) {
-          if (selected === (data_copy.length - 1)) {
-            console.log('sendBackward');
-            data_copy.splice(selected,1);
-            data_copy.splice(selected - 1 ,0,el);
+            data_copy.splice( selected[i] ,1);
+            data_copy.splice( selected[i]  + 1 ,0,el);
+
             if (data_copy.length !== selected) {
-              switchSelected(selected - 1)
+              switchSelected([ selected[i]  + 1 ])
             }
           }
-        }
-        break;
-      case 'sendToBack':
-        console.log('sendToBack');
-        data_copy.splice(selected,1);
-        data_copy.unshift(el);
-        if (data_copy.length !== selected) {
-          switchSelected(0)
-        }
-        break;
-      case 'Redo':
-        if (future.length !== 0) {
-          redo()
-          data_copy = future[0].svg_data.slice();
-        }
-        break;
-      case 'Undo':
-        if (past.length !== 0) {
-          undo(canvas)
-          data_copy = past[past.length-1].svg_data.slice();
-        }
-        break;
-      default:
-        break;
+
+          break;
+        case 'sendBackward':
+          if ( data_copy.length > 1 ) {
+            if (selected === (data_copy.length - 1)) {
+              console.log('sendBackward');
+              data_copy.splice( selected[i] ,1);
+              data_copy.splice( selected[i]  - 1 ,0,el);
+              if (data_copy.length !== selected) {
+                switchSelected([ selected[i]  - 1 ])
+              }
+            }
+          }
+          break;
+        case 'sendToBack':
+          console.log('sendToBack');
+          data_copy.splice( selected[i] ,1);
+          data_copy.unshift(el);
+          switchSelected([])
+          break;
+        case 'Redo':
+          if (future.length !== 0) {
+            redo()
+            data_copy = future[0].svg_data.slice();
+          }
+          break;
+        case 'Undo':
+          if (past.length !== 0) {
+            undo(canvas)
+            data_copy = past[past.length-1].svg_data.slice();
+          }
+          break;
+        default:
+          break;
+      }
+
     }
 
     // update artboard with redux
