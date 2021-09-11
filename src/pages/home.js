@@ -1,5 +1,5 @@
 import React, { useState }  from 'react';
-import { Link, Redirect} from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 
 import MenuBar from '../components/menubar.js';
 import AllItems from '../components/all_materials.js';

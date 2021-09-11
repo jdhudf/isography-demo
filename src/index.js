@@ -44,6 +44,7 @@ function PcOrMobile() {
 window.addEventListener('DOMContentLoaded', function () {
   const div = document.createElement("div")
   const img = document.createElement('img');
+
   img.src = logo;
   img.alt = '';
 
@@ -64,6 +65,7 @@ window.addEventListener('DOMContentLoaded', function () {
   img.style.top = "50%"
   img.style.left = "50%"
   img.style.transform = "translate(-50%,-50%)"
+
   div.appendChild(img);
   document.body.appendChild(div);
 });
