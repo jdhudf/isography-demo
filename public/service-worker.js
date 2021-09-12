@@ -1,14 +1,28 @@
+var CACHE_STATIC_VERSION = 'static-v1';
 
-self.addEventListener('install', function(e) {
+
+self.addEventListener('install', function(event) {
   console.log('[ServiceWorker] Install');
+
+  event.waitUntil(
+    caches.open(CACHE_STATIC_VERSION)
+      .then(function(cache) {
+        console.log('[Service Worker] Precaching App...');
+        // 何でもキャッシュできる。cssとかの中で更にリクエストが発生する場合は、動的にキャッシュする必要がある（後述）
+        cache.addAll();
+      })
+  );
+
 });
 
-self.addEventListener('activate', function(e) {
+self.addEventListener('activate', function(event) {
   console.log('[ServiceWorker] Activate');
+
 });
 
 // サービスワーカー有効化に必須
-self.addEventListener('fetch', function(event) {});
+self.addEventListener('fetch', function(event) {
+});
 
 
 
@@ -35,6 +49,7 @@ const registerInstallAppEvent = (elem) => {
     }
   }//end installApp
   //ダイアログ表示を行うイベントを追加
+
   elem.addEventListener("click", installApp);
 
 }

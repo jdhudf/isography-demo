@@ -510,6 +510,29 @@ import Img434 from '../../images/materials/keyboard_delete.inline.svg';
 
 import Test from '../../images/materials/test.inline.svg';
 
+import Img438 from '../../images/materials/file_html.inline.svg';
+import Img439 from '../../images/materials/file_css.inline.svg';
+import Img440 from '../../images/materials/file_js.inline.svg';
+import Img441 from '../../images/materials/file_react.inline.svg';
+import Img442 from '../../images/materials/file_angular.inline.svg';
+import Img443 from '../../images/materials/file_vue.inline.svg';
+import Img444 from '../../images/materials/file_php.inline.svg';
+import Img445 from '../../images/materials/file_python.inline.svg';
+import Img446 from '../../images/materials/file_node.inline.svg';
+import Img447 from '../../images/materials/file_ruby.inline.svg';
+import Img448 from '../../images/materials/file_swift.inline.svg';
+import Img449 from '../../images/materials/file_java.inline.svg';
+import Img450 from '../../images/materials/file_c_plus_plus.inline.svg';
+import Img451 from '../../images/materials/file_c_sharp.inline.svg';
+import Img452 from '../../images/materials/file_go.inline.svg';
+import Img453 from '../../images/materials/file_kotlin.inline.svg';
+import Img454 from '../../images/materials/file_perl.inline.svg';
+import Img455 from '../../images/materials/file_r.inline.svg';
+import Img456 from '../../images/materials/file_scala.inline.svg';
+import Img457 from '../../images/materials/file_sql.inline.svg';
+import Img458 from '../../images/materials/file_typescript.inline.svg';
+
+
 
 
 
@@ -1001,7 +1024,27 @@ class Myloop extends Component {
         <div className="item" data-tag="iot"><Img434/></div>
 
 
-        {/*next is 438*/}
+        <div className="item" data-tag="iot"><Img438/></div>
+        <div className="item" data-tag="iot"><Img439/></div>
+        <div className="item" data-tag="iot"><Img440/></div>
+        <div className="item" data-tag="iot"><Img441/></div>
+        <div className="item" data-tag="iot"><Img442/></div>
+        <div className="item" data-tag="iot"><Img443/></div>
+        <div className="item" data-tag="iot"><Img444/></div>
+        <div className="item" data-tag="iot"><Img445/></div>
+        <div className="item" data-tag="iot"><Img446/></div>
+        <div className="item" data-tag="iot"><Img447/></div>
+        <div className="item" data-tag="iot"><Img448/></div>
+        <div className="item" data-tag="iot"><Img449/></div>
+        <div className="item" data-tag="iot"><Img450/></div>
+        <div className="item" data-tag="iot"><Img451/></div>
+        <div className="item" data-tag="iot"><Img452/></div>
+        <div className="item" data-tag="iot"><Img453/></div>
+        <div className="item" data-tag="iot"><Img454/></div>
+        <div className="item" data-tag="iot"><Img455/></div>
+        <div className="item" data-tag="iot"><Img456/></div>
+        <div className="item" data-tag="iot"><Img457/></div>
+        <div className="item" data-tag="iot"><Img458/></div>
 
 
 
